@@ -1,0 +1,3 @@
+<div>
+	Sistema Inicializado!
+</div>

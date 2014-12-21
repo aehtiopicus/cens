@@ -1,0 +1,19 @@
+Buenos días,<br/>
+<br/>
+El presente mail es para informar el siguiente ingreso:<br/>
+<br/> 
+<ul>
+	<li><span style="color:red;">Cliente:</span> ${cliente} </li> 
+	<li><span style="color:red;">Apellido y Nombre:</span> ${empleado} </li>
+	<li><span style="color:red;">Fecha de ingreso:</span> ${fechaIngresoNovatium} </li> 
+	<li><span style="color:red;">Preocupacional:</span> ${preocupacional} </li> 
+	<li><span style="color:red;">Puesto:</span> ${puesto} </li> 
+	<li><span style="color:red;">Salario bruto:</span> ${salarioBruto} </li> 
+	<li><span style="color:red;">Adicionales:</span> ${adicionales} </li> 
+	<li><span style="color:red;">Chomba:</span> ${chomba} </li> 
+	<li><span style="color:red;">Obra Social:</span> ${obraSocial} </li> 
+	<li><span style="color:red;">Gerente/Jefe Operativo:</span> ${gerente}/${jefe} </li> 
+</ul>
+<br/> 
+<br/> 
+<span style="font-weight: bold; color:#004499;">NOVATIUM - Sistema de Gestión</span>

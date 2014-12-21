@@ -1,0 +1,122 @@
+package com.aehtiopicus.cens.domain.entities;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Asignatura implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4996938615477212893L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	private int yearDictado;
+
+	private String nombre;
+
+	private String modalidad;
+	
+	@Column(length=1000)
+	private String horarios;
+
+	@OneToMany(mappedBy = "asignatura")
+	private List<MaterialDidactico> materialesDidacticos;
+	
+	@OneToMany(mappedBy = "asignaturas")
+	private List<Alumno> alumnos;
+
+	@OneToOne
+	private Curso curso;
+
+	@OneToOne
+	private Profesor profesor;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public int getYearDictado() {
+		return yearDictado;
+	}
+
+	public void setYearDictado(int yearDictado) {
+		this.yearDictado = yearDictado;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getModalidad() {
+		return modalidad;
+	}
+
+	public void setModalidad(String modalidad) {
+		this.modalidad = modalidad;
+	}
+
+	public List<MaterialDidactico> getMaterialesDidacticos() {
+		return materialesDidacticos;
+	}
+
+	public void setMaterialesDidacticos(List<MaterialDidactico> materialesDidacticos) {
+		this.materialesDidacticos = materialesDidacticos;
+	}
+
+	public List<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+
+	public String getHorarios() {
+		return horarios;
+	}
+
+	public void setHorarios(String horarios) {
+		this.horarios = horarios;
+	}
+	
+	
+	
+
+}

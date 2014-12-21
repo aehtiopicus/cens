@@ -1,0 +1,609 @@
+@CHARSET "ISO-8859-1";
+
+/* -------------------   estilos para el nuevo layout ----------------------- */
+html,body{
+	height:100%;	
+	/*overflow-x: hidden;*/
+}
+html,body,table{
+	font-size: 12px;
+	font-family: "arial", sans-serif;
+}
+
+.sinPermisos{
+	font-weight: bold;
+	color: #AA0000;
+	margin-left: 10px;
+}
+
+#topNavigation{
+	background-color: #004499;
+	height: 10px;
+	padding: 0 30px;
+	background: #003366;
+	background: -moz-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #003366), color-stop(99%, #004499));
+	background: -webkit-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -o-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -ms-linear-gradient(top, #003366 0%, #004499 99%);
+	background: linear-gradient(to bottom, #003366 0%, #004499 99%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#003366', endColorstr='#004499', GradientType=0);
+	-webkit-box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+}
+
+.footerPanel{
+	background-color: #004499;
+	height: 35px;
+	padding: 0 30px;
+	background: #003366;
+	background: -moz-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #003366), color-stop(99%, #004499));
+	background: -webkit-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -o-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -ms-linear-gradient(top, #003366 0%, #004499 99%);
+	background: linear-gradient(to bottom, #003366 0%, #004499 99%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#003366', endColorstr='#004499', GradientType=0);
+	-webkit-box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+
+.footerPanel div{
+	color: #EEE;
+	text-decoration: none;
+	text-align: center;
+	padding-top: 7px;
+}
+
+#topNavigation td a{
+	color: #FFF;
+	text-decoration: none;
+	display: inline-block;
+	float:right;
+}
+
+#topNavigation td{
+	color: #EEE;
+	text-decoration: none;
+	padding-top: 7px;
+}
+
+.dashboardPanelPosition{
+	float: right;
+	margin: 3px;
+}
+
+.mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; min-width:910px; width: 100%; height: 100%;}
+
+.headerPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  height: 67px;}
+.contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:35px; margin-top:10px;}
+/* .leftPanel{padding: 0px 3px 0px 0px;  outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 20%;    float: left; border-right: 1px solid #004499; } */
+/* .rightPanel{padding: 0px 15px 0px 0px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:auto;  width: 77%;   float: right; } */
+/* .treePanel{padding: 3px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 100%;  height: 60%; margin-left: -2px; margin-top: 2px; border-bottom: 1px solid #004499;} */
+/* .dashboardPanel{padding: 0px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:auto;  width: 100%;  height: 23%; margin-left: 1px; margin-top: 2px;} */
+/*
+.footerPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 100%;  height: 20px; position:fixed; bottom:0;}
+*/
+.contentStyle * {font-family: "arial", sans-serif;}
+.menuPanel{
+	font-family: "arial", sans-serif;
+	font-size: 11px;
+}
+/* -------------------- fin estilos para nuevo layout ---------------------- */
+
+
+/* ------------------------- menu ------------------------------------------ */
+  .ui-menu { 
+  	overflow: hidden; 
+  	z-index: 100; 
+  	border-radius: 0px!important;
+  }
+  .ui-menu .ui-menu { overflow: visible !important; border-radius: 0px!important;}
+  .ui-menu > li { float: left; display: block; width: auto !important; border-radius: 0px!important;}
+  
+  .ui-menu ul li {display:block;float:none;}
+  .ui-menu ul li ul {left:120px !important;width:100%;}
+  .ui-menu ul li ul li {width:auto;}
+  .ui-menu ul li ul li a {float:left;}
+
+  .ui-menu > li { margin: 0px 4px !important; padding: 0 0 !important; border-radius: 0px!important;}
+  .ui-menu > li > a { /*float: left; display: block;*/ clear: both; overflow: hidden; border-radius: 0px!important;}
+  .ui-menu .ui-menu-icon { margin-top: 1px !important; }
+  .ui-menu .ui-menu .ui-menu li { float: left; display: block; border-radius: 0px!important;}
+  
+/* --------------------fin - menu ------------------------------------------ */
+
+/* ----------------- estilos para filtros ---------------------------------- */
+.filtrosDiv{
+	height: 35px;
+	background-color: #eeeeee;
+	padding-top: 5px;
+	border: 1px solid #cccccc;
+	margin-left: 1px;
+	margin-right: 1px;
+	margin-top: 10px;
+}
+
+.filtrosDiv .searchButton{
+	display: inline-block;
+	float: right;
+	margin-right: 5px;
+	margin-top: 1px;
+}
+
+.filtrosDiv select {
+    display: inline-block;
+    border: 1px solid #CCCCCC;
+    height: 24px; 
+/*    padding: 4px; */
+    min-width: 160px; 
+}
+
+.filtrosDiv input {
+    display: inline-block;
+    border: 1px solid #CCCCCC;
+    height: 20px; 
+    min-width: 150px; 
+}
+
+.filtrosDiv label{
+	margin-left: 10px;
+	display: inline-block;
+	min-width: 10px;
+}
+
+.filtrosDiv h3{
+	display: inline-block; 
+	margin: 0px;
+	margin-right: 30px; 
+	margin-left: 5px;
+	color: #004499;
+	font-size: 12px;
+	margin-top: 8px;
+}
+
+.filtrosDiv input:focus, 
+.filtrosDiv select:focus, 
+.filtrosDiv textarea:focus {
+    outline: none !important;
+    border:1px solid blue;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+/* ----------------- fin estilos para filtros ------------------------------ */
+
+/* ----------------- --- estilos grilla excel ------------------------------ */
+.excelGridContainer{
+	background-color: #eeeeee;
+	border-bottom: 1px solid #cccccc;	
+}
+
+.accionesGrillaExcel{
+	float: right;	
+	padding-top: 15px;
+}
+
+
+#projectTable td a{
+	text-decoration: none;
+}
+#projectTable td a:hover{
+   	color: #FFFFFF;
+   	font-weight: bold;
+}
+
+.htCore a{
+	text-decoration: none;
+	color: #004499;
+	font-weight: bold;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
+.htCore a:hover{
+   	color: #FFFFFF;
+   	font-weight: bold;
+   	background-color: #004499;
+}
+
+.consolidado-search{
+    float: right;
+    display: inline-block;
+    margin-right: 10px;
+	
+}
+
+/* ----------------- --- estilos para grillas ------------------------------ */
+div.heading{
+    height:30px;
+    background-color:#47474A;
+    color:white;
+    font-size:20px;
+    padding:5px 30px;
+}
+div.centreDiv{
+    width:100%;
+    margin-left: 10px;
+}
+div.floatLeftDiv{
+    float:left;
+}
+div.borderRight{
+    border-right:solid 1px #d3d3d3;
+}
+div.borderBottom{
+    border-bottom:solid 1px #d3d3d3;
+    margin:3px 0px;
+}
+div.padding{
+    padding:3px;
+}
+
+.messageDiv{
+	text-align: right;
+	font-weight: bold;
+	height: 5px;
+	margin-top: 7px;
+}
+.msgSuccess{
+	color: #00520D;
+}
+.msgError{
+	color: #AA0000;
+}
+
+.accionesRight{
+	float: right;
+	margin-right: 18px;
+	margin-top: 5px;
+}
+/* ----------------- fin estilos para grillas ------------------------------ */
+
+/* ----------------- estilos para formularios ------------------------------ */
+fieldset{
+  border: 1px solid white;
+  width: 650px;
+  margin:auto;
+
+}
+
+fieldset div {
+    vertical-align: middle;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family:Helvetica Narrow, sans-serif;
+}
+
+fieldset div label {
+    display: inline-block;
+    *display: inline;
+    zoom:1;
+  /*  float: left;*/
+    font-size: 14px;
+    height: 24px;
+    margin: 0 10px 0 0;
+    padding: 3px 7px;
+    width: 160px;
+    margin-top:5px;
+}
+
+fieldset div input {
+    border: 1px solid #CCCCCC;
+    
+    height: 16px;
+    padding: 7px;
+    width: 440px;
+}
+
+fieldset div input[type=checkbox] {
+    border: 1px solid #CCCCCC;
+    height: 16px;
+    padding: 7px;
+    width: 50px;
+}
+
+fieldset div textarea {
+    border: 1px solid #CCCCCC; 
+    width: 450px;
+    font-family: arial, verdana, ms sans serif;
+}
+
+fieldset div select {
+    border: 1px solid #CCCCCC;
+    height: 32px;
+    padding: 4px;
+    width: 456px;
+}
+
+fieldset div .ui-state-error{
+	margin-left: 188px;
+	display: inline-block;
+}
+
+fieldset div .ui-state-hint{
+	margin-left: 188px;
+	display: inline-block;
+}
+
+fieldset div input:focus, 
+fieldset div select:focus, 
+fieldset div textarea:focus{
+    outline: none !important;
+    border:1px solid blue;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+.footerForm{
+    margin-top: 30px;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.tituloForm,h3 {
+	font-size: 15px;
+	color: #005577;
+	margin-left: 3px;
+}
+
+.tituloForm,h2 {
+	color: #005577;
+}
+
+.ui-state-hint {
+	border: 1px none #ff002d;
+	background: #ffffff url(images/ui-bg_flat_55_ffffff_40x100.png) 50% 50% repeat-x;
+	color: gray;
+	font-size: 11px;
+}
+
+/* -------------fin  estilos para formularios ------------------------------ */
+
+/* ----------------   estilos para el apartado resumen --------------------- */
+.title{font-size: 13px; color: #005577; font-weight: bolder;}
+.div_title{padding: 2px;}
+.summary{ padding-left: 2px;}
+
+.indicador{font-style: italic; font-weight: bold;}
+.value{font-weight: bold; color: #488ACB; font-style: italic;}
+
+
+.link{
+	font-family: Tahoma, Geneva, sans-serif;
+	/*font-size: 14px;*/
+	font-weight: 900;
+	text-decoration: none;
+	color: #333333;
+	/*border: 1px solid #FFFFFF*/;	
+}
+.link:hover {
+	font-family: Tahoma, Geneva, sans-serif;
+	/*font-size: 14px;*/
+	font-weight: 900;
+	background-color: #222222;
+	text-decoration: none;
+	color: #66ccff;
+	border: 1px solid #444444;
+}
+
+.tdlink{
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: 900;
+	text-decoration: none;
+	color: #333333;
+}
+.tdlink:hover {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: 900;
+	background-color: #004499!important;
+	text-decoration: none;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+/* ------------------ fin estilos para apartado resumen -------------------- */
+
+.errorSimple {
+	color: red;
+}
+
+.celdasImparesCSS {
+	background-color: Silver;
+}
+
+.celdasParesCSS {
+	background-color: Gainsboro;
+}
+
+.sobreCSS {
+	color: #170682;
+}
+
+td.accion {
+	cursor: pointer;
+}
+
+td div.botonVerMas {
+	cursor: pointer;
+	width: 16px;
+	display: inline-block;
+	float: right;
+}
+
+.detalleProcActAsocDialog {
+	background: #cccccc url(jquery_ui_images/ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat!important; color: #FFFFFF!important;
+}
+
+.detalleProcActAsocDialog .ui-dialog-title {
+	font-size: 1.2em!important;
+}
+
+table.detalleProcActAsocTable {
+	font-size: 1em!important;
+}
+
+.error {
+	background-image: url('images/error_15x15.png');
+	background-repeat: no-repeat;
+	background-position-y: 4px;
+	display: block;
+	float: none;
+	height: 18px;
+	line-height: 16px;
+	overflow: hidden;
+	padding-left: 17px;
+	width: 100%;
+	top: 0px;
+	font-size: 0.8em;
+	color: red;
+}
+
+.informacion {
+	float: none;
+	top: 0px;
+	font-style: italic;
+	color: graytext;
+}
+
+.button_link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+	margin: 3px; .
+	top: 5px;
+}
+
+.button_link_disabled {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+	margin: 3px; .
+	top: 5px;
+}
+
+.button_link span.ui-icon {
+	margin: 5px 5px 0 0;
+	position: absolute;
+	left: .2em; .
+	top: 0.5%;
+	/*top: 50%;*/
+	/*margin-top: 5px; -8px;*/
+	margin-bottom: 5px;
+	border-bottom-width: 0px;
+	bottom: 0px;
+}
+
+.button_link_disabled span.ui-icon {
+	margin: 5px 5px 0 0;
+	position: absolute;
+	left: .2em; .
+	top: 0.5%;
+	/*top: 50%;*/
+	margin-bottom: 5px;
+	border-bottom-width: 0px;
+	bottom: 0px;
+}
+
+/*<!-[if IE]>
+.button_link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 0%;
+	margin-top: 5px;
+}
+
+.button_link_disabled span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 0%;
+	margin-top: 5px;
+}
+<![EndIf]->*/
+#botomContainer { /*margin-left:40%;*/
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 60px;
+	margin-top: 20px;
+}
+
+#botomContainer a {
+	float: left;
+}
+
+
+fieldset div input[type=file]{
+    padding: .4em 1em;
+    border: none;
+	height: 25px;
+}
+
+::-webkit-file-upload-button {
+ padding: .4em 1em;
+ font-weight: bold;
+ color: #004499;
+ border: 1px solid #ccc;
+ background: linear-gradient(to bottom, #FFF 0%, #EEE 99%);
+}
+::-webkit-file-upload-button:hover {
+ background-color: #004499;
+ color: #FFFFFF;
+ border: 1px solid #003366;
+ background: linear-gradient(to bottom, #004499 0%, #003366 99%);
+}
+
+#spiner{
+	background-color: #eee;
+	display: none;
+	position: absolute;
+	opacity: 0.7;
+	width: 100%;
+	height: 100%;	
+	z-index: 1000;
+	top: 0px;
+}
+.spiner_image{
+    background-image: url("ajax-loader.gif");
+    height: 19PX;
+	width: 220PX;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -10px;
+	margin-left: -110px;
+}
+
+.spiner_text{
+	top: 50%;
+	position: absolute;
+	margin-top: 9px;
+	font-weight: bold;
+	margin-left: -68px;
+	left: 50%;
+}
+.spiner_text2{
+	top: 50%;
+	position: absolute;
+	margin-top: 9px;
+	font-weight: bold;
+	margin-left: -132px;
+	display: none;
+}
+.spiner_text_informe{
+	top: 50%;
+	position: absolute;
+	margin-top: 9px;
+	font-weight: bold;
+	margin-left: -55px;
+	left: 50%;
+}
+
+.handsontable .currentRow {
+  background-color: #E6ECF5; /*#E7E8EF;*/
+}
+/* .handsontable .current { */
+/*   background-color: #E7E8EF; */
+/* } */
