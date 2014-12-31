@@ -86,15 +86,15 @@
     			<security:authorize ifAllGranted="ROLE_ADMINISTRADOR">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
 				</security:authorize>
-    			<security:authorize ifAllGranted="ROLE_RRHH">
-	    			<jsp:include page="includes/menu_rrhh.jsp"></jsp:include>
-				</security:authorize>
-    			<security:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION">
-	    			<jsp:include page="includes/menu_gte_operacion.jsp"></jsp:include>
-				</security:authorize>
-    			<security:authorize ifAllGranted="ROLE_ADMINISTRACION">
-	    			<jsp:include page="includes/menu_administracion.jsp"></jsp:include>
-				</security:authorize>
+<%--     			<security:authorize ifAllGranted="ROLE_RRHH"> --%>
+<%-- 	    			<jsp:include page="includes/menu_rrhh.jsp"></jsp:include> --%>
+<%-- 				</security:authorize> --%>
+<%--     			<security:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION"> --%>
+<%-- 	    			<jsp:include page="includes/menu_gte_operacion.jsp"></jsp:include> --%>
+<%-- 				</security:authorize> --%>
+<%--     			<security:authorize ifAllGranted="ROLE_ADMINISTRACION"> --%>
+<%-- 	    			<jsp:include page="includes/menu_administracion.jsp"></jsp:include> --%>
+<%-- 				</security:authorize> --%>
 				
     		</div>
     	

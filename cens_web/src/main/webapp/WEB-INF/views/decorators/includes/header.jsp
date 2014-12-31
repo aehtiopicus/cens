@@ -6,33 +6,22 @@
 
 
 <div id="encabezado">
-	<table width="100%">
-		<tr>
-			
-			<td align="left" width="15%">
-				<img src="css/midasUI-theme/images/logo_cens.png"  style="margin-left: 5px;">
-			</td>
-			<td  align="center" style="font-style:italic;">
-				<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>	
-			</td>
-			<td align="right"  width="15%" >
-	<table width="100%">
-		<tr>
-			<td align="center" style="text-align: center;">
-					<security:authentication property="name"></security:authentication> 					
-
-			</td>
-		</tr>
-				<tr>
-			<td align="center" style="text-align: center;">
-		<a class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
-		</td>
-		</tr>
-	</table>
 	
-			</td>
-		</tr>
-	</table>
+		<div class="logo">
+			<img src="css/midasUI-theme/images/logo_cens.png"  >
+		</div>
+		<div class="center">
+			<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>
+		</div>
+		<div >
+			<div>
+				<span><security:authentication property="name"></security:authentication></span>
+				<a class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
+			</div>
+			
+		</div>
+	
+	
 </div>
 <div id="topNavigation">
 </div>

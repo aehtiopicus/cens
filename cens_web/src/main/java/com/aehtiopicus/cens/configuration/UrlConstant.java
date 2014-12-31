@@ -129,7 +129,10 @@ public class UrlConstant {
 	public final static String MOTIVOS_BAJA_GRILLA_URL = "/motivosbajagrilla";
 	public final static String MOTIVO_BAJA_DELETE_URL = "/removemotivobaja";
 	
-	
+	/****/
 	public static final String ASESOR_LIST_URL = "/asesoresList";
+	/*Perfil*/
+	public static final String ROL ="/rol";
+	
 
 }

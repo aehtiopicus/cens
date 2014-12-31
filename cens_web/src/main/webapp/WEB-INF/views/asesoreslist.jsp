@@ -23,11 +23,11 @@
 		<div class="filtrosDiv">
 			<h3>Filtros</h3>
 			
-			<label for="perfil">Perfil:</label>
-			<select id="perfil">
+			<label for="rol">Rol:</label>
+			<select id="rol">
 			   <option value=""/> 
-		         <c:forEach items="${perfilesDto}" var="perfil">
-		           <option value="${perfil.id}"> ${perfil.value} </option>
+		         <c:forEach items="${rolDtoList}" var="rol">
+		           <option value="${rol.nombre}"> ${rol.nombre} </option>
 		        </c:forEach>
 	        </select>
 	        

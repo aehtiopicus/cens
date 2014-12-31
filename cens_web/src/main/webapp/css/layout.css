@@ -76,10 +76,10 @@ html,body,table{
 	margin: 3px;
 }
 
-.mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; min-width:910px; width: 100%; height: 100%;}
+.mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; min-width:650px; width: 100%; height: 100%; }
 
 .headerPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  height: 67px;}
-.contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:35px; margin-top:10px;}
+.contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:25px; margin-top:10px;}
 /* .leftPanel{padding: 0px 3px 0px 0px;  outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 20%;    float: left; border-right: 1px solid #004499; } */
 /* .rightPanel{padding: 0px 15px 0px 0px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:auto;  width: 77%;   float: right; } */
 /* .treePanel{padding: 3px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 100%;  height: 60%; margin-left: -2px; margin-top: 2px; border-bottom: 1px solid #004499;} */
@@ -603,6 +603,22 @@ fieldset div input[type=file]{
 
 .handsontable .currentRow {
   background-color: #E6ECF5; /*#E7E8EF;*/
+}
+
+
+#encabezado{
+	display: inline-flex;
+	width: 100%;
+}
+#encabezado .center{
+	width: 100%;
+	text-align: center;
+	color: #005577;
+	font-style:italic;
+}
+
+#encabezado .logo{
+	margin: 5px 0px 5px 11px;
 }
 /* .handsontable .current { */
 /*   background-color: #E7E8EF; */

@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.service;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +22,12 @@ public class PerfilServiceImpl implements PerfilService {
 	@Override
 	public Perfil getPerfileByPerfil(String name){
 		return perfilRepository.findByPerfil(name);				
+	}
+
+	@Override
+	public List<Perfil> listPerfil() {
+		logger.debug("Listando perfiles");
+		return perfilRepository.findAll();
+		
 	}
 }
