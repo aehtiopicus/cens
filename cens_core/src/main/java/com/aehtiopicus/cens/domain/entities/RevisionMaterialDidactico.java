@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table( name = "REVISION_MATERIAL_DIDACTICO")
+@Table( name = "CENS_REVISION_MATERIAL_DIDACTICO")
 public class RevisionMaterialDidactico implements Serializable{
 	/**
 	 * 

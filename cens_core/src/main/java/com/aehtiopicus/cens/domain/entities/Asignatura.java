@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ASIGNATURA")
+@Table(name = "CENS_ASIGNATURA")
 public class Asignatura implements Serializable {
 
 	/**

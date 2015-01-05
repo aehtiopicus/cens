@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table( name = "PRECEPTOR")
+@Table( name = "CENS_PRECEPTOR")
 public class Preceptor  implements Serializable{
 
 	/**

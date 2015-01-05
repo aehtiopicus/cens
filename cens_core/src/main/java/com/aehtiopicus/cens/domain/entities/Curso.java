@@ -17,7 +17,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "CURSO")
+@Table(name = "CENS_CURSO")
 public class Curso implements Serializable {
 
 	/**

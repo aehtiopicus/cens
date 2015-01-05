@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.aehtiopicus.cens.enumeration.ContactoType;
 
 @Entity
-@Table( name = "CONTACTO_REVISION")
+@Table( name = "CENS_CONTACTO_REVISION")
 public class ContactoRevision implements Serializable{
 
 	/**

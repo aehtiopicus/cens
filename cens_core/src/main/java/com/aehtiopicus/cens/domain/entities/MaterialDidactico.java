@@ -16,7 +16,7 @@ import com.aehtiopicus.cens.enumeration.FormatoType;
 import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
 
 @Entity
-@Table(name = "MATERIAL_DIDACTICO")
+@Table(name = "CENS_MATERIAL_DIDACTICO")
 public class MaterialDidactico implements Serializable{
 
 	/**

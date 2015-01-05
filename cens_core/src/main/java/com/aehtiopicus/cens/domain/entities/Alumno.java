@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import com.aehtiopicus.cens.enumeration.AlumnoType;
 
 @Entity
-@Table(name = "ALUMNO")
+@Table(name = "CENS_ALUMNO")
 public class Alumno implements Serializable{
 
 	/**

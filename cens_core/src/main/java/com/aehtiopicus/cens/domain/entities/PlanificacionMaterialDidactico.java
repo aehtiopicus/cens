@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PLANIFICACION_MATERIAL_DIDACTICO")
+@Table(name = "CENS_PLANIFICACION_MATERIAL_DIDACTICO")
 public class PlanificacionMaterialDidactico implements Serializable{
 
 	/**

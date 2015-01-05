@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 
 @Entity
-@Table(name="PERFIL_USUARIO_CENS")
+@Table(name="CENS_PERFIL_USUARIO_CENS")
 public class Perfil implements Serializable{
 
 	/**
