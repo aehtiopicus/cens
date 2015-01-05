@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.aehtiopicus.cens.enumeration.EstadoRevisionType;
 
 @Entity
+@Table(name = "REVISION_MATERIAL_DIDACTICO_DETALLE")
 public class RevisionMaterialDidacticoDetalle implements Serializable {
 
 	/**

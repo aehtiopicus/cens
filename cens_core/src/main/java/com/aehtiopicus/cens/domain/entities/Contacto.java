@@ -9,10 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.aehtiopicus.cens.enumeration.ContactoType;
 
 @Entity
+@Table(name = "CONTACTO")
 public class Contacto implements Serializable{
 	
 	/**
@@ -28,6 +30,31 @@ public class Contacto implements Serializable{
 	private ContactoType tipoContacto;
 	
 	@OneToOne
-	private Profesor profesor;
+	private MiembroCens miembroCens;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ContactoType getTipoContacto() {
+		return tipoContacto;
+	}
+
+	public void setTipoContacto(ContactoType tipoContacto) {
+		this.tipoContacto = tipoContacto;
+	}
+
+	public MiembroCens getMiembroCens() {
+		return miembroCens;
+	}
+
+	public void setMiembroCens(MiembroCens miembroCens) {
+		this.miembroCens = miembroCens;
+	}
+
+	
 }

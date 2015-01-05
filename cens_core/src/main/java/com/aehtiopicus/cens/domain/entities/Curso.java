@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Agrupacion logica de alumnos. Los cursos en un semi presencial no son exactamente como en otros lados
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@Table(name = "CURSO")
 public class Curso implements Serializable {
 
 	/**

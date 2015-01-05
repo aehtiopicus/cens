@@ -2,17 +2,22 @@ package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@MappedSuperclass
-public abstract class TrabajadorCens implements Serializable {
+@Entity
+@Table(name="MIEMBROS_CENS")
+public abstract class MiembroCens implements Serializable {
 
 	/**
 	 * 
@@ -26,10 +31,14 @@ public abstract class TrabajadorCens implements Serializable {
 	private String apellido;
 	@Temporal(TemporalType.DATE)
 	private Date fechaNac;
+	private String dni;
 
 	private Boolean baja;
 	@OneToOne
 	private Usuarios ususario;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens")
+	private List<Contacto> contactos;
 
 	public Long getId() {
 		return id;
@@ -78,5 +87,23 @@ public abstract class TrabajadorCens implements Serializable {
 	public void setUsusario(Usuarios ususario) {
 		this.ususario = ususario;
 	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public List<Contacto> getContactos() {
+		return contactos;
+	}
+
+	public void setContactos(List<Contacto> contactos) {
+		this.contactos = contactos;
+	}
+	
+	
 
 }

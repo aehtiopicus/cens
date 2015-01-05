@@ -10,11 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.aehtiopicus.cens.enumeration.FormatoType;
 import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
 
 @Entity
+@Table(name = "MATERIAL_DIDACTICO")
 public class MaterialDidactico implements Serializable{
 
 	/**

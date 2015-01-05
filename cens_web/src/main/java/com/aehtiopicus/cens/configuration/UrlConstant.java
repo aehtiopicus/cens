@@ -131,6 +131,8 @@ public class UrlConstant {
 	
 	/****/
 	public static final String ASESOR_LIST_URL = "/asesoresList";
+	
+	public static final String USUARIO_LIST_URL = "/usuariocens"; 
 	/*Perfil*/
 	public static final String ROL ="/rol";
 	

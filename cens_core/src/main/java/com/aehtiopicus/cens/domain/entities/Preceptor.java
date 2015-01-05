@@ -3,13 +3,46 @@ package com.aehtiopicus.cens.domain.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 
 @Entity
-public class Preceptor extends TrabajadorCens implements Serializable{
+@Table( name = "PRECEPTOR")
+public class Preceptor  implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@OneToOne(optional = false)
+	private MiembroCens miembroCens;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public MiembroCens getMiembroCens() {
+		return miembroCens;
+	}
+
+	public void setMiembroCens(MiembroCens miembroCens) {
+		this.miembroCens = miembroCens;
+	}	
+	
+	
+	
+	
 }

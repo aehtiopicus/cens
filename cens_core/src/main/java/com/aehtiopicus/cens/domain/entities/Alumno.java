@@ -10,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.aehtiopicus.cens.enumeration.AlumnoType;
 
 @Entity
+@Table(name = "ALUMNO")
 public class Alumno implements Serializable{
 
 	/**
@@ -28,13 +31,14 @@ public class Alumno implements Serializable{
 	@OneToMany
 	private List<Asignatura> asignaturas;
 	
-	private String nombre;
-	private String apellido;
 	private long dni;
 	private String nroLegajo;
 	
 	@Enumerated(EnumType.STRING)
 	private AlumnoType alumnoType;
+	
+	@OneToOne(optional = false)
+	private MiembroCens miembroCens;
 
 	public Long getId() {
 		return id;
@@ -51,23 +55,6 @@ public class Alumno implements Serializable{
 	public void setAsignaturas(List<Asignatura> asignaturas) {
 		this.asignaturas = asignaturas;
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
 	public long getDni() {
 		return dni;
 	}
@@ -91,6 +78,15 @@ public class Alumno implements Serializable{
 	public void setAlumnoType(AlumnoType alumnoType) {
 		this.alumnoType = alumnoType;
 	}
+
+	public MiembroCens getMiembroCens() {
+		return miembroCens;
+	}
+
+	public void setMiembroCens(MiembroCens miembroCens) {
+		this.miembroCens = miembroCens;
+	}
+	
 	
 	
 	
