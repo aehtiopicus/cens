@@ -82,7 +82,7 @@ public class PersistenceJPAConfigDev {
 		return dataSource;
 	}
 
-	@Bean(name="txManager")
+	@Bean
 	public PlatformTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactoryBean()

@@ -41,6 +41,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 		return perfil;
 	}
 	
+	@Override
 	public List<Perfil> listPerfilFromUsuario(Usuarios usuario){
 		List<Perfil> perfilList = new ArrayList<Perfil>();
 		if(usuario!=null){

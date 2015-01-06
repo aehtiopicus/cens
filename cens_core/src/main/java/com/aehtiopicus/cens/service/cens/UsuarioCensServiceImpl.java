@@ -10,7 +10,7 @@ import com.aehtiopicus.cens.utils.CensException;
 @Service
 public class UsuarioCensServiceImpl implements UsuarioCensService{
 	
-//	@Autowired
+	@Autowired
 	private UsuariosCensRepository usuariosCensRepository;
 	
 	@Override

@@ -9,7 +9,10 @@ import com.aehtiopicus.cens.configuration.PersistenceJPAConfigDev;
 
 @Configuration
 @Import(value={PersistenceJPAConfigDev.class,MailConfigDev.class})
-@ImportResource({"file:src/main/webapp/WEB-INF/spring/config/servlet-context.xml"})
-public class ContextConfig {
-
+@ImportResource({"classpath:/servlet-context.xml"})
+public class TestContextConfig {
+	static{
+		System.setProperty("spring.profiles.active", "development");
+		System.out.println(System.getProperty("spring.profiles.active"));
+	}
 }
