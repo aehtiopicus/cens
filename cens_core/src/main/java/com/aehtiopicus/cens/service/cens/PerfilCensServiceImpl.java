@@ -49,4 +49,17 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 		}
 		return perfilList;
 	}
+
+	@Override
+	public List<Perfil> addPerfilesToUsuarios(
+			List<PerfilTrabajadorCensType> perfilTypeList, Usuarios usuario) throws CensException {
+		List<Perfil> perfilList = null;
+		if(CollectionUtils.isNotEmpty(perfilTypeList)){
+			perfilList = new ArrayList<Perfil>();
+			for(PerfilTrabajadorCensType ptct : perfilTypeList){
+				perfilList.add(addPerfilToUser( usuario,ptct));
+			}
+		}
+		return perfilList;		
+	}
 }

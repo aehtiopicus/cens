@@ -18,7 +18,7 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 		try{
 		if(usuarios==null){
 			throw new CensException("No se puede guardar el usuario");
-		}
+		}		
 		return usuariosCensRepository.save(usuarios);
 		}catch(CensException e){
 			throw e;

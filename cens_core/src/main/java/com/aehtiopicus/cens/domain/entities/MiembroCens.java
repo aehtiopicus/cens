@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="CENS_MIEMBROS_CENS")
-public abstract class MiembroCens implements Serializable {
+public class MiembroCens implements Serializable {
 
 	/**
 	 * 

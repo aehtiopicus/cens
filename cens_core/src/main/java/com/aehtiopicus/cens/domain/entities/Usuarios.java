@@ -18,7 +18,7 @@ public class Usuarios implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected long id;
+	protected Long id;
 
 	protected String username;
 	protected String password;
@@ -27,11 +27,11 @@ public class Usuarios implements Serializable {
 	@OneToMany(mappedBy="usuario")
 	private List<Perfil> perfil;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
