@@ -1,7 +1,16 @@
 package com.aehtiopicus.cens;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,5 +79,36 @@ public class PerfilCensServiceImplTest {
 		List<Perfil> perfiles =service.listPerfilFromUsuario(usuario);
 		Assert.assertNotNull(perfiles);
 		Assert.assertEquals(PerfilTrabajadorCensType.values().length, perfiles.size());
+	}
+	
+	public static void main(String[] args) {
+		try {
+			FileInputStream fileInputStream = new FileInputStream("c:\\expor_dt.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+			XSSFSheet worksheet = workbook.getSheet("Export Worksheet");
+			Date d = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String date = sdf.format(d);
+			StringBuilder sb = new StringBuilder("INSERT INTO DIM_DOC_TYPE (DOC_TYPE,DOC_SUB_TYPE,DOC_VERSION,CREATED_BY,UPDATED_BY,CREATED_DATE,UPDATED_DATE) VALUES ");
+			for(int i = 1; i<worksheet.getPhysicalNumberOfRows();i++){
+				XSSFRow row1 = worksheet.getRow(i);
+				XSSFCell cellA1 = row1.getCell( 0);
+				String a = cellA1.getStringCellValue();
+				XSSFCell cellB1 = row1.getCell(1);
+				String b = cellB1.getStringCellValue();
+				XSSFCell cellC1 = row1.getCell( 2);
+				String c = cellC1.getStringCellValue();
+				c = (c==null || c.isEmpty()) ? null : "'"+c+"'";
+				sb.append( "('"+a+"','"+b+"',"+c+",-1,-1,'"+date+"','"+date+"'),");
+			}
+			String finaldata = sb.toString();
+
+System.out.println(finaldata.substring(0, finaldata.length()-1)+";");
+	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

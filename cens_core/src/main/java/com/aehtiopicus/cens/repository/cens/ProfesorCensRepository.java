@@ -6,16 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
+import com.aehtiopicus.cens.domain.entities.Profesor;
 
 @Repository
-public interface AsesorCensRepository extends JpaRepository<Asesor, Long>{
+public interface ProfesorCensRepository extends JpaRepository<Profesor,Long>{
 
-	public Asesor findOneByMiembroCens(MiembroCens usuario);
-
+	public Profesor findOneByMiembroCens(MiembroCens usuario);
+	
 	@Modifying
-	@Query("UPDATE Asesor a SET a.baja = true WHERE a.miembroCens = : miembroCens")
+	@Query("UPDATE Profesor p SET p.baja = true WHERE p.miembroCens = : miembroCens")
 	public void markAsesorAsDisable(@Param("miembroCens")MiembroCens miembroCens);
-
 }

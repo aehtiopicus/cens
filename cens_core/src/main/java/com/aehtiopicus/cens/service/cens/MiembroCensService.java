@@ -12,5 +12,6 @@ public interface MiembroCensService {
 			Usuarios usuario, List<PerfilTrabajadorCensType> perfilTypeList)
 			throws CensException;
 
-	void assignRolToMiembro(MiembroCens miembroCens)throws CensException;
+
+	public MiembroCens searchMiembroCensByUsuario(Usuarios usuario);
 }

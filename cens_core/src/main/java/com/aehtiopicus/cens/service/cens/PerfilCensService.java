@@ -9,11 +9,13 @@ import com.aehtiopicus.cens.utils.CensException;
 
 public interface PerfilCensService {
 
-	public Perfil addPerfilToUser(Usuarios usuario, PerfilTrabajadorCensType perfilType)
-			throws CensException;
+	public Perfil addPerfilToUser(Usuarios usuario, PerfilTrabajadorCensType perfilType);
 	
 	public List<Perfil> listPerfilFromUsuario(Usuarios usuario);
 
 	public List<Perfil> addPerfilesToUsuarios(List<PerfilTrabajadorCensType> perfilTypeList, Usuarios usuario) throws CensException;
+
+	public void removePerfiles(List<PerfilTrabajadorCensType> perfilTypeList,
+			Usuarios usuario);
 
 }

@@ -1,13 +1,10 @@
 package com.aehtiopicus.cens.service.cens;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
-import com.aehtiopicus.cens.domain.entities.Perfil;
-import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.AsesorCensRepository;
 import com.aehtiopicus.cens.utils.CensException;
@@ -47,6 +44,12 @@ public class AsesorCensServiceImpl implements AsesorCensService{
 			return asesorCensRepository.findOneByMiembroCens(usuario);
 		}
 		return a;
+	}
+
+	@Override
+	public void deleteAsesor(MiembroCens miembroCens) {
+		asesorCensRepository.markAsesorAsDisable(miembroCens);
+		
 	}
 	
 	

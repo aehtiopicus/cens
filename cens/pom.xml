@@ -41,7 +41,7 @@
 		<hibernate-validator-version>4.1.0.Final</hibernate-validator-version>
 		<jasypt-version>1.9.1</jasypt-version>
 
-<!-- 		<poi-version>3.7</poi-version> -->
+		<poi-version>3.7</poi-version>
 		<javax-servlet-api>2.5</javax-servlet-api>
 <!-- 		<posgresql-version>9.1-901.jdbc4</posgresql-version> -->
 	</properties>

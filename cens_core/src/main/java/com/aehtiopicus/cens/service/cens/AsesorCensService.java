@@ -6,8 +6,10 @@ import com.aehtiopicus.cens.utils.CensException;
 
 public interface AsesorCensService {
 
-	Asesor saveAsesor(MiembroCens miembroCens) throws CensException;
+	public Asesor saveAsesor(MiembroCens miembroCens) throws CensException;
 
-	Asesor getAsesor(MiembroCens usuario);
+	public Asesor getAsesor(MiembroCens usuario);
+
+	public void deleteAsesor(MiembroCens miembroCens);
 
 }

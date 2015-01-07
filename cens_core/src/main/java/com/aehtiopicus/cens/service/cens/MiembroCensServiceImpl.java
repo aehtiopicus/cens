@@ -2,13 +2,11 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
-import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.MiembroCensRepository;
@@ -22,12 +20,14 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 
 	@Autowired
 	private PerfilCensService perfilCensService;
+	
+	@Autowired
+	private RolCensService rolCensService;
 
 	@Autowired
 	private MiembroCensRepository miembroCensRepository;
 
-	@Autowired
-	private AsesorCensService asesorCensService;
+	
 
 	@Transactional
 	@Override
@@ -36,35 +36,26 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 			throws CensException {
 		if (miembroCens != null) {
 			usuario = usuarioCensService.saveUsuario(usuario);
-			usuario.setPerfil(perfilCensService.addPerfilesToUsuarios(
-					perfilTypeList, usuario));
+			perfilCensService.addPerfilesToUsuarios(perfilTypeList, usuario);
+			usuario.setPerfil(perfilCensService.listPerfilFromUsuario(usuario));
 			miembroCens.setUsusario(usuario);
-			miembroCens = miembroCensRepository.save(miembroCens);
-			assignRolToMiembro(miembroCens);
+			miembroCens = miembroCensRepository.save(miembroCens);	
+			rolCensService.assignRolToMiembro(miembroCens);
 			return miembroCens;
 		} else {
 			throw new CensException("El usuario miembro no puede ser nulo");
 		}
 	}
 
+	
+	
 	@Override
-	@Transactional
-	public void assignRolToMiembro(MiembroCens miembroCens)throws CensException {
-
-		if (CollectionUtils.isNotEmpty(miembroCens.getUsusario().getPerfil())) {
-			for (Perfil p : miembroCens.getUsusario().getPerfil()) {
-				switch (p.getPerfilType()) {
-				case ASESOR:
-					asesorCensService.saveAsesor(miembroCens);
-					break;
-				case PRECEPTOR:
-					throw new CensException("preceptor no implementado");					
-				case PROFESOR:
-					throw new CensException("profesor no implementado");					
-				default:
-					break;
-				}
-			}
+	public MiembroCens searchMiembroCensByUsuario(Usuarios usuario){
+		MiembroCens miembroCens = null;
+		if(usuario != null){
+			miembroCens = miembroCensRepository.findOneByUsuario(usuario);
 		}
+		return miembroCens;
 	}
+	
 }

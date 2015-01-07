@@ -1,7 +1,6 @@
 package com.aehtiopicus.cens;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,24 +14,30 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
+import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.service.cens.AsesorCensService;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
+import com.aehtiopicus.cens.utils.CensException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestContextConfig.class)
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 @ActiveProfiles("development")
-public class MiembroCensServiceImplTest {
+public class AsesorCensServiceImplTest {
 
+	@Autowired
+	private AsesorCensService asesorCensService;
+	
 	@Autowired
 	private MiembroCensService miembroCensService;
 	
 	private MiembroCens miembroCens;
 	private Usuarios usuario;
-	private List<PerfilTrabajadorCensType> ptctList;
 	
 	@Before
 	public void setUp(){
@@ -45,25 +50,28 @@ public class MiembroCensServiceImplTest {
 		usuario = new Usuarios();
 		usuario.setPassword(Mockito.anyString());
 		usuario.setUsername(Mockito.anyString());
-		
-		ptctList =Arrays.asList(new PerfilTrabajadorCensType[]{PerfilTrabajadorCensType.ADMINISTRADOR,PerfilTrabajadorCensType.ASESOR});
-	}
-	@Test
-	public void testSave() throws Exception{
-		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, ptctList);
-		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsusario());
-		Assert.assertTrue(mc.getUsusario().getId()!=null);
-		Assert.assertNotNull(mc.getUsusario().getPerfil());
-		Assert.assertTrue(!mc.getUsusario().getPerfil().isEmpty());
 	}
 	
 	@Test
-	public void testSaveMiembroWithoutPerfil() throws Exception{
-		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
-		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsusario());
-		Assert.assertTrue(mc.getUsusario().getId()!=null);
-		Assert.assertNull(mc.getUsusario().getPerfil());
+	public void testSave() throws Exception{
+		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
+		Perfil perfil = new Perfil();
+		perfil.setPerfilType(PerfilTrabajadorCensType.ASESOR);
+		miembroCens.getUsusario().setPerfil(Arrays.asList(perfil));
+		Asesor a =asesorCensService.saveAsesor(miembroCens);
+		Assert.assertNotNull(a);
+		Assert.assertTrue(a.getMiembroCens().getId().equals(miembroCens.getId()));
 	}
+	
+	@Test(expected = CensException.class)
+	public void testSaveWithoutAsesor() throws Exception{
+		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
+		Perfil perfil = new Perfil();
+		perfil.setPerfilType(PerfilTrabajadorCensType.PRECEPTOR);
+		miembroCens.getUsusario().setPerfil(Arrays.asList(perfil));
+		Asesor a =asesorCensService.saveAsesor(miembroCens);
+		Assert.assertNotNull(a);
+		Assert.assertTrue(a.getMiembroCens().getId().equals(miembroCens.getId()));
+	}
+	
 }
