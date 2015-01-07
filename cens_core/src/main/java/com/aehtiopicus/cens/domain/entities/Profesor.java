@@ -29,6 +29,8 @@ public class Profesor implements Serializable{
 	
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
+	
+	private Boolean baja;
 
 	public List<Asignatura> getAsignatura() {
 		return asignatura;
@@ -53,6 +55,14 @@ public class Profesor implements Serializable{
 
 	public void setMiembroCens(MiembroCens miembroCens) {
 		this.miembroCens = miembroCens;
+	}
+
+	public Boolean getBaja() {
+		return baja;
+	}
+
+	public void setBaja(Boolean baja) {
+		this.baja = baja;
 	}
 	
 	

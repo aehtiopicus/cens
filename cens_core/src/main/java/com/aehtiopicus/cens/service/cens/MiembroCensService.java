@@ -11,4 +11,6 @@ public interface MiembroCensService {
 	public MiembroCens saveMiembroSens(MiembroCens miembroCens,
 			Usuarios usuario, List<PerfilTrabajadorCensType> perfilTypeList)
 			throws CensException;
+
+	void assignRolToMiembro(MiembroCens miembroCens)throws CensException;
 }

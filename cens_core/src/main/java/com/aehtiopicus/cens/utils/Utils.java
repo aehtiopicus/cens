@@ -2,6 +2,12 @@ package com.aehtiopicus.cens.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import com.aehtiopicus.cens.domain.entities.Perfil;
+import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 
 public class Utils {
 
@@ -13,5 +19,17 @@ public class Utils {
 		BigDecimal bigDecimalRedondeado = bigDecimal.setScale(2, RoundingMode.HALF_UP); 
 		
 		return bigDecimalRedondeado.doubleValue();
+	}
+	
+	public static boolean checkIsCensMiembro(List<Perfil> perfil, PerfilTrabajadorCensType perfilType){
+		if(CollectionUtils.isEmpty(perfil)){
+			return false;
+		}
+		for(Perfil p : perfil){
+			if(p.getPerfilType().equals(perfilType)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

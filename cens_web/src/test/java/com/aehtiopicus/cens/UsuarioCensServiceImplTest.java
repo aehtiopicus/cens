@@ -2,8 +2,6 @@ package com.aehtiopicus.cens;
 
 
 
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 import com.aehtiopicus.cens.utils.CensException;
 

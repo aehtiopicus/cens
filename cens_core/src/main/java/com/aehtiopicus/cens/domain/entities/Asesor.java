@@ -29,6 +29,8 @@ public class Asesor implements Serializable{
 	
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
+	
+	private Boolean baja = false;
 
 	public Profesor getProfesor() {
 		return profesor;
@@ -52,6 +54,14 @@ public class Asesor implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Boolean getBaja() {
+		return baja;
+	}
+
+	public void setBaja(Boolean baja) {
+		this.baja = baja;
 	}
 	
 	
