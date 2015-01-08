@@ -150,7 +150,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 			sb.append(", ");
 		}
 		String perfilesIncompatibles = sb.toString();
-		perfilesIncompatibles.substring(0, perfilesIncompatibles.length()-2);
-		return "El perf&iacute "+perfilError.getNombre().replace("ROLE_", "") +" no se puede asignarse con : "+perfilesIncompatibles;
+		perfilesIncompatibles =perfilesIncompatibles.substring(0, perfilesIncompatibles.length()-2);
+		return "El rol "+perfilError.getNombre().replace("ROLE_", "") +" no se puede asignarse con : "+perfilesIncompatibles;
 	}
 }

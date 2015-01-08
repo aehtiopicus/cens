@@ -30,7 +30,7 @@ public class Profesor implements Serializable{
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
 	
-	private Boolean baja;
+	private Boolean baja = false;
 
 	public List<Asignatura> getAsignatura() {
 		return asignatura;

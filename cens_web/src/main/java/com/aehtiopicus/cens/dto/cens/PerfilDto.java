@@ -13,6 +13,8 @@ public class PerfilDto {
 	public void setPerfilType(PerfilTrabajadorCensType perfilType) {
 		this.perfilType = perfilType;
 	}
+
+	
 	
 	
 }

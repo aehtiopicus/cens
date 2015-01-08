@@ -33,7 +33,8 @@ public class MiembroCens implements Serializable {
 	private Date fechaNac;
 	private String dni;
 
-	private Boolean baja;
+	private Boolean baja = false;
+	
 	@OneToOne
 	private Usuarios usuario;
 	

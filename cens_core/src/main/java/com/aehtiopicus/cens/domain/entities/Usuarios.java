@@ -22,7 +22,7 @@ public class Usuarios implements Serializable {
 
 	protected String username;
 	protected String password;
-	protected Boolean enabled;
+	protected Boolean enabled = true;
 	
 	@OneToMany(mappedBy="usuario")
 	private List<Perfil> perfil;

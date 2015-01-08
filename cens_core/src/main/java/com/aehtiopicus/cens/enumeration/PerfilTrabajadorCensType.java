@@ -1,5 +1,8 @@
 package com.aehtiopicus.cens.enumeration;
 
+import org.codehaus.jackson.annotate.JsonValue;
+
+
 public enum PerfilTrabajadorCensType {
 	ADMINISTRADOR("ROLE_ADMINISTADOR"),
 	ASESOR("ROLE_ASESOR"),
@@ -9,6 +12,7 @@ public enum PerfilTrabajadorCensType {
 	
 	protected final String nombre;
 
+	
 	public String getNombre() {
 		return nombre;
 	}	

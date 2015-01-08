@@ -26,7 +26,7 @@ public class Preceptor  implements Serializable{
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
 	
-	private Boolean baja;
+	private Boolean baja = false;
 
 	public Long getId() {
 		return id;
