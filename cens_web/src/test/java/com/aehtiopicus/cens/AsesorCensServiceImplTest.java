@@ -57,7 +57,7 @@ public class AsesorCensServiceImplTest {
 		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
 		Perfil perfil = new Perfil();
 		perfil.setPerfilType(PerfilTrabajadorCensType.ASESOR);
-		miembroCens.getUsusario().setPerfil(Arrays.asList(perfil));
+		miembroCens.getUsuario().setPerfil(Arrays.asList(perfil));
 		Asesor a =asesorCensService.saveAsesor(miembroCens);
 		Assert.assertNotNull(a);
 		Assert.assertTrue(a.getMiembroCens().getId().equals(miembroCens.getId()));
@@ -68,7 +68,7 @@ public class AsesorCensServiceImplTest {
 		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
 		Perfil perfil = new Perfil();
 		perfil.setPerfilType(PerfilTrabajadorCensType.PRECEPTOR);
-		miembroCens.getUsusario().setPerfil(Arrays.asList(perfil));
+		miembroCens.getUsuario().setPerfil(Arrays.asList(perfil));
 		Asesor a =asesorCensService.saveAsesor(miembroCens);
 		Assert.assertNotNull(a);
 		Assert.assertTrue(a.getMiembroCens().getId().equals(miembroCens.getId()));

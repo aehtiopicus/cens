@@ -15,6 +15,6 @@ public interface AlumnoCensRepository extends JpaRepository<Alumno,Long>{
 	public Alumno findOneByMiembroCens(MiembroCens usuario);
 	
 	@Modifying
-	@Query("UPDATE Alumno a SET a.baja = true WHERE a.miembroCens = : miembroCens")
-	public void markAsesorAsDisable(@Param("miembroCens")MiembroCens miembroCens);
+	@Query("UPDATE Alumno a SET a.baja = true WHERE a.miembroCens = :miembroCens")
+	public int markAsesorAsDisable(@Param("miembroCens")MiembroCens miembroCens);
 }

@@ -34,8 +34,8 @@ public class RolCensServiceImpl implements RolCensService {
 	public void assignRolToMiembro(MiembroCens miembroCens)
 			throws CensException {
 
-		if (CollectionUtils.isNotEmpty(miembroCens.getUsusario().getPerfil())) {
-			for (Perfil p : miembroCens.getUsusario().getPerfil()) {
+		if (CollectionUtils.isNotEmpty(miembroCens.getUsuario().getPerfil())) {
+			for (Perfil p : miembroCens.getUsuario().getPerfil()) {
 				switch (p.getPerfilType()) {
 				case ASESOR:
 					asesorCensService.saveAsesor(miembroCens);

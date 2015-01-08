@@ -60,8 +60,8 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 	}
 
 	@Override
-	public List<Perfil> addPerfilesToUsuarios(
-			List<PerfilTrabajadorCensType> perfilTypeList, Usuarios usuario) throws CensException {
+	public List<Perfil> addPerfilesToUsuarios(Usuarios usuario) throws CensException {
+		List<PerfilTrabajadorCensType> perfilTypeList = assembleListFromEntity(usuario);
 		List<Perfil> perfilList = null;
 		if(CollectionUtils.isNotEmpty(perfilTypeList)){
 			checkPerfilTypeIncompatibility(perfilTypeList);
@@ -72,6 +72,17 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 			}
 		}
 		return perfilList;		
+	}
+	
+	private List<PerfilTrabajadorCensType> assembleListFromEntity(Usuarios usuario){
+		List<PerfilTrabajadorCensType> ptctList = null;
+		if(usuario != null && CollectionUtils.isNotEmpty(usuario.getPerfil())){
+			ptctList = new ArrayList<PerfilTrabajadorCensType>();
+			for(Perfil perfil : usuario.getPerfil()){
+				ptctList.add(perfil.getPerfilType());
+			}
+		}
+		return ptctList;
 	}
 	
 	@Override

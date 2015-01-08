@@ -35,7 +35,7 @@ public class MiembroCens implements Serializable {
 
 	private Boolean baja;
 	@OneToOne
-	private Usuarios ususario;
+	private Usuarios usuario;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens")
 	private List<Contacto> contactos;
@@ -80,12 +80,13 @@ public class MiembroCens implements Serializable {
 		this.baja = baja;
 	}
 
-	public Usuarios getUsusario() {
-		return ususario;
+	
+	public Usuarios getUsuario() {
+		return usuario;
 	}
 
-	public void setUsusario(Usuarios ususario) {
-		this.ususario = ususario;
+	public void setUsuario(Usuarios usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getDni() {

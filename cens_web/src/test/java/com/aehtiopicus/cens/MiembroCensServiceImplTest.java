@@ -52,18 +52,18 @@ public class MiembroCensServiceImplTest {
 	public void testSave() throws Exception{
 		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, ptctList);
 		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsusario());
-		Assert.assertTrue(mc.getUsusario().getId()!=null);
-		Assert.assertNotNull(mc.getUsusario().getPerfil());
-		Assert.assertTrue(!mc.getUsusario().getPerfil().isEmpty());
+		Assert.assertNotNull(mc.getUsuario());
+		Assert.assertTrue(mc.getUsuario().getId()!=null);
+		Assert.assertNotNull(mc.getUsuario().getPerfil());
+		Assert.assertTrue(!mc.getUsuario().getPerfil().isEmpty());
 	}
 	
 	@Test
 	public void testSaveMiembroWithoutPerfil() throws Exception{
 		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
 		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsusario());
-		Assert.assertTrue(mc.getUsusario().getId()!=null);
-		Assert.assertNull(mc.getUsusario().getPerfil());
+		Assert.assertNotNull(mc.getUsuario());
+		Assert.assertTrue(mc.getUsuario().getId()!=null);
+		Assert.assertNull(mc.getUsuario().getPerfil());
 	}
 }

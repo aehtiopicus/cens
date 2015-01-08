@@ -20,7 +20,7 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 
 	@Override
 	public Alumno saveAlumno(MiembroCens miembroCens) throws CensException{
-		if(miembroCens==null  || !Utils.checkIsCensMiembro(miembroCens.getUsusario().getPerfil(), PERFIL_TYPE)){
+		if(miembroCens==null  || !Utils.checkIsCensMiembro(miembroCens.getUsuario().getPerfil(), PERFIL_TYPE)){
 			throw new CensException("El usuario no puede asignarse como un Alumno");
 		}
 		

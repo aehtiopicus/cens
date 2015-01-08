@@ -1,14 +1,11 @@
 package com.aehtiopicus.cens.service.cens;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.MiembroCensRepository;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -31,14 +28,13 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 
 	@Transactional
 	@Override
-	public MiembroCens saveMiembroSens(MiembroCens miembroCens,
-			Usuarios usuario, List<PerfilTrabajadorCensType> perfilTypeList)
+	public MiembroCens saveMiembroSens(MiembroCens miembroCens)
 			throws CensException {
 		if (miembroCens != null) {
-			usuario = usuarioCensService.saveUsuario(usuario);
-			perfilCensService.addPerfilesToUsuarios(perfilTypeList, usuario);
-			usuario.setPerfil(perfilCensService.listPerfilFromUsuario(usuario));
-			miembroCens.setUsusario(usuario);
+			miembroCens.setUsuario(usuarioCensService.saveUsuario(miembroCens.getUsuario()));
+			perfilCensService.addPerfilesToUsuarios(miembroCens.getUsuario());
+			miembroCens.getUsuario().setPerfil(perfilCensService.listPerfilFromUsuario(miembroCens.getUsuario()));
+			miembroCens.setUsuario(miembroCens.getUsuario());
 			miembroCens = miembroCensRepository.save(miembroCens);	
 			rolCensService.assignRolToMiembro(miembroCens);
 			return miembroCens;

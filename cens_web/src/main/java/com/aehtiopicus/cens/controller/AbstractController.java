@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.VistasConstant;
 import com.aehtiopicus.cens.service.EmpleadoServiceImpl;
+import com.aehtiopicus.cens.utils.CensException;
 
 public class AbstractController {
 
@@ -14,6 +15,15 @@ public class AbstractController {
 
 	@ExceptionHandler({Exception.class})
 	public ModelAndView handleFormException(Exception ex) {
+		logger.error(ex.getMessage());
+		ex.printStackTrace();
+		ModelAndView mv = new ModelAndView(VistasConstant.ERROR_VIEW);
+		mv.addObject("error",ex.getMessage());
+		return mv;
+	}
+	
+	@ExceptionHandler({CensException.class})
+	public ModelAndView handleFormCensException(CensException ex) {
 		logger.error(ex.getMessage());
 		ex.printStackTrace();
 		ModelAndView mv = new ModelAndView(VistasConstant.ERROR_VIEW);

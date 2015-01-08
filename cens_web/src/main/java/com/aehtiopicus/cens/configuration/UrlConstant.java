@@ -136,5 +136,7 @@ public class UrlConstant {
 	/*Perfil*/
 	public static final String ROL ="/rol";
 	
+	public static final String MIEMBRO_CENS ="/miembroCens";
+	
 
 }
