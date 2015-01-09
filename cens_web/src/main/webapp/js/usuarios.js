@@ -8,7 +8,8 @@ jQuery(document).ready(function () {
 	var apellido = jQuery("#apellido").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:"usuariosgrilla?perfil="+perfil+"&apellido="+apellido,
+    		//url:"usuariosgrilla?perfil="+perfil+"&apellido="+apellido,
+    		url:"miembroList",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {repeatitems: false, id:"usuarioId"},
@@ -50,6 +51,7 @@ jQuery(document).ready(function () {
             page:cookiePage,
             viewrecords: true,
             caption: "Usuarios",
+            postData:{"filters":[{"field":"perfil","data":"algo"},{"field":"perfil","data":"algo2"},{"field":"perfil","data":"algo3"}]},
             loadComplete: function (data) {
             	$(".ui-pg-selbox").val(cookieRegsXPage);
             	$(".ui-pg-input").val(data.page);
@@ -162,7 +164,8 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-           	url:"usuariosgrilla?perfil="+perfil+"&apellido="+apellido,
+           	//url:"usuariosgrilla?perfil="+perfil+"&apellido="+apellido,
+           	url:"miembroList",    
             gridview:true,
             contentType :'application/json',
       		dataType: "json",

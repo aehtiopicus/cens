@@ -1,6 +1,5 @@
-package com.aehtiopicus.cens.enumeration;
+package com.aehtiopicus.cens.enumeration.cens;
 
-import org.codehaus.jackson.annotate.JsonValue;
 
 
 public enum PerfilTrabajadorCensType {
@@ -24,5 +23,15 @@ public enum PerfilTrabajadorCensType {
 
 	private PerfilTrabajadorCensType(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	
+	public static PerfilTrabajadorCensType getPrefilByName(String name){
+		for(PerfilTrabajadorCensType rt : values()){
+			if(rt.name().equals(name)){
+				return rt;
+			}
+		}
+		return null;
 	}
 }

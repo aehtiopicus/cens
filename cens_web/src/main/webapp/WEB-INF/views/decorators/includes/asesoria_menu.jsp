@@ -5,7 +5,7 @@
 <ul class="menu">
 
     <li>
-        <a href="<%=request.getContextPath() %>/usuarioList">Administraci&oacute;n de usuarios</a>
+        <a href="<%=request.getContextPath() %>/miembroList">Administraci&oacute;n de Miembros</a>
 <!--         <ul> -->
 <%--             <li><a href="<%=request.getContextPath() %>/asesoresList">Gesti&oacute;n de Asesores</a></li> --%>
 <%--             <li><a href="<%=request.getContextPath() %>/enteList.jsp">Gesti&oacute;n de Profesores</a></li> --%>

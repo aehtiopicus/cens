@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.aehtiopicus.cens.domain.entities.Perfil;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class Utils {
 

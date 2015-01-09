@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.PerfilCensRepository;
 import com.aehtiopicus.cens.utils.CensException;
 

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.AlumnoCensRepository;
 import com.aehtiopicus.cens.utils.CensException;
 import com.aehtiopicus.cens.utils.Utils;

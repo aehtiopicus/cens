@@ -1,6 +1,6 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class PerfilDto {
 	     	

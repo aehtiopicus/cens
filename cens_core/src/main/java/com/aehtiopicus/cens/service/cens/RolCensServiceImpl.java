@@ -1,5 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
@@ -80,4 +83,17 @@ public class RolCensServiceImpl implements RolCensService {
 			}
 		}
 	}
+
+	@Override
+	public List<PerfilTrabajadorCensType> listPerfil() {
+		return Arrays.asList(PerfilTrabajadorCensType.values());
+	}
+
+	@Override
+	public PerfilTrabajadorCensType getPerfilByName(String perfilName) {
+		return PerfilTrabajadorCensType.getPrefilByName(perfilName);
+	}
+	
+	
 }
+

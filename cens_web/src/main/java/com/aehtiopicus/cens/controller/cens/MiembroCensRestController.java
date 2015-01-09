@@ -34,7 +34,7 @@ public class MiembroCensRestController extends AbstractRestController{
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = UrlConstant.MIEMBRO_CENS, method=RequestMethod.GET, produces="application/json", consumes="application/json")
+	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST, method=RequestMethod.GET, produces="application/json", consumes="application/json")
 	public List<MiembroCensDto> listMiembro() throws Exception{
 		
 		List<MiembroCens> miembroCensList =miembroCensService.listMiembrosCens();

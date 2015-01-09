@@ -70,5 +70,6 @@ public class VistasConstant {
 	/**********/
 	
 	public final static String ASESORES_LIST_VIEW = "asesoreslist";
+	public final static String MIEMBRO_LIST_VIEW = "cens/miembrocens";
 	
 }

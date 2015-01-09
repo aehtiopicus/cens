@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.dto.cens.PerfilDto;
 import com.aehtiopicus.cens.dto.cens.UsuariosDto;
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

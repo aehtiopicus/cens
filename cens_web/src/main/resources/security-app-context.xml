@@ -58,11 +58,11 @@
 
 				users-by-username-query="
 		      	select username,password, enabled 
-		      	from usuarios where username=?"
+		      	from cens_usuarios where username=?"
 
 				authorities-by-username-query="
 			  	select u.username as username, pusc.perfilType as authority from  
-				usuarios u inner join perfil_usuario_cens pusc on u.id = pusc.usuario_id				
+				cens_usuarios u inner join cens_perfil_usuario_cens pusc on u.id = pusc.usuario_id				
 				where u.username =? " />
 
 		</authentication-provider>
