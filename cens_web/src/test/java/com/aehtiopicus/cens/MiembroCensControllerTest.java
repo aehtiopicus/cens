@@ -47,7 +47,7 @@ import com.google.gson.reflect.TypeToken;
 @ActiveProfiles("development")
 public class MiembroCensControllerTest {
 
-	private static final int MIEMBRO_SIZE = 100;
+	private static final int MIEMBRO_SIZE = 5;
 	private static final Logger log = LoggerFactory.getLogger(MiembroCensControllerTest.class);
 	
 	@Autowired

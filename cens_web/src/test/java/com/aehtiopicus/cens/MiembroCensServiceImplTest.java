@@ -3,6 +3,7 @@ package com.aehtiopicus.cens;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
+import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
@@ -32,7 +34,7 @@ public class MiembroCensServiceImplTest {
 	
 	private MiembroCens miembroCens;
 	private Usuarios usuario;
-	private List<PerfilTrabajadorCensType> ptctList;
+	private List<Perfil> perfilList;
 	
 	@Before
 	public void setUp(){
@@ -45,25 +47,35 @@ public class MiembroCensServiceImplTest {
 		usuario = new Usuarios();
 		usuario.setPassword(Mockito.anyString());
 		usuario.setUsername(Mockito.anyString());
-		
-		ptctList =Arrays.asList(new PerfilTrabajadorCensType[]{PerfilTrabajadorCensType.ADMINISTRADOR,PerfilTrabajadorCensType.ASESOR});
+
+		perfilList =Arrays.asList(createPerfil(PerfilTrabajadorCensType.ADMINISTRADOR),createPerfil(PerfilTrabajadorCensType.ASESOR));
+		usuario.setPerfil(perfilList);
+		miembroCens.setUsuario(usuario);
+	}
+	
+	private Perfil createPerfil(PerfilTrabajadorCensType ptct){
+		Perfil p = new Perfil();
+		p.setPerfilType(ptct);
+		return p;
 	}
 	@Test
 	public void testSave() throws Exception{
-		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, ptctList);
+
+		List<MiembroCens> mc = miembroCensService.saveMiembroSens(Arrays.asList(miembroCens));
 		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsuario());
-		Assert.assertTrue(mc.getUsuario().getId()!=null);
-		Assert.assertNotNull(mc.getUsuario().getPerfil());
-		Assert.assertTrue(!mc.getUsuario().getPerfil().isEmpty());
+		Assert.assertNotNull(mc.get(0).getUsuario());
+		Assert.assertTrue(mc.get(0).getUsuario().getId()!=null);
+		Assert.assertNotNull(mc.get(0).getUsuario().getPerfil());
+		Assert.assertTrue(!mc.get(0).getUsuario().getPerfil().isEmpty());
 	}
 	
 	@Test
 	public void testSaveMiembroWithoutPerfil() throws Exception{
-		MiembroCens mc = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
+		miembroCens.getUsuario().setPerfil(null);
+		List<MiembroCens> mc = miembroCensService.saveMiembroSens(Arrays.asList(miembroCens));
 		Assert.assertNotNull(mc);
-		Assert.assertNotNull(mc.getUsuario());
-		Assert.assertTrue(mc.getUsuario().getId()!=null);
-		Assert.assertNull(mc.getUsuario().getPerfil());
+		Assert.assertNotNull(mc.get(0).getUsuario());
+		Assert.assertTrue(mc.get(0).getUsuario().getId()!=null);
+		Assert.assertTrue(CollectionUtils.isEmpty(mc.get(0).getUsuario().getPerfil()));
 	}
 }

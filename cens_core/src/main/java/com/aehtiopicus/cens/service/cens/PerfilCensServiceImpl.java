@@ -29,15 +29,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 	
 	@Override
 	public Perfil addPerfilToUser(Usuarios usuario, PerfilTrabajadorCensType perfilType){
-//		Resuelto en el remove si?
-//		List<Perfil> perfilList = this.listPerfilFromUsuario(usuario);
-//		if(CollectionUtils.isNotEmpty(perfilList)){
-//			for(Perfil perfil : perfilList){
-//				if(perfil.getPerfilType().equals(perfilType)){
-//					throw new CensException("El perfil ya existe");
-//				}
-//			}
-//		}
+
 		Perfil perfil = createPerfil(usuario, perfilType);
 		return perfilCensRepository.save(perfil);
 		
@@ -97,12 +89,19 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 					rolCensService.removeRolToMiembro(perfil.getPerfilType(), usuario);
 				}else{
 					log.info("Removiendo tipo de perfil existente");
-					perfilTypeList.remove(perfil.getPerfilType());
+					removeAllDuplicatedPerfiles(perfilTypeList,perfil.getPerfilType());
 				}
 			}
 		}
 		
 	}
+	
+	private void removeAllDuplicatedPerfiles(List<PerfilTrabajadorCensType> perfilTypeList,PerfilTrabajadorCensType ptct){
+		while(perfilTypeList.contains(ptct)){
+			perfilTypeList.remove(ptct);
+		}
+	}
+	
 
 	private void checkPerfilTypeIncompatibility(List<PerfilTrabajadorCensType> newPerfiles) throws CensException{
 		List<PerfilTrabajadorCensType> checkList = new ArrayList<PerfilTrabajadorCensType>();

@@ -42,8 +42,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 				miembroCens.setUsuario(usuarioCensService.saveUsuario(miembroCens.getUsuario()));
 				miembroCens.getUsuario().setPerfil(perfilList);
 				perfilCensService.addPerfilesToUsuarios(miembroCens.getUsuario());
-				miembroCens.getUsuario().setPerfil(perfilCensService.listPerfilFromUsuario(miembroCens.getUsuario()));
-				miembroCens.setUsuario(miembroCens.getUsuario());
+				miembroCens.getUsuario().setPerfil(perfilCensService.listPerfilFromUsuario(miembroCens.getUsuario()));				
 				miembroCens = miembroCensRepository.save(miembroCens);	
 				rolCensService.assignRolToMiembro(miembroCens);
 				miembroCensListResult.add(miembroCens);

@@ -35,7 +35,7 @@ public class MiembroCens implements Serializable {
 
 	private Boolean baja = false;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Usuarios usuario;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens")

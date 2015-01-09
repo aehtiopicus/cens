@@ -50,11 +50,12 @@ public class AsesorCensServiceImplTest {
 		usuario = new Usuarios();
 		usuario.setPassword(Mockito.anyString());
 		usuario.setUsername(Mockito.anyString());
+		miembroCens.setUsuario(usuario);
 	}
 	
 	@Test
 	public void testSave() throws Exception{
-		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
+		miembroCens = miembroCensService.saveMiembroSens(Arrays.asList(miembroCens)).get(0);
 		Perfil perfil = new Perfil();
 		perfil.setPerfilType(PerfilTrabajadorCensType.ASESOR);
 		miembroCens.getUsuario().setPerfil(Arrays.asList(perfil));
@@ -65,7 +66,7 @@ public class AsesorCensServiceImplTest {
 	
 	@Test(expected = CensException.class)
 	public void testSaveWithoutAsesor() throws Exception{
-		miembroCens = miembroCensService.saveMiembroSens(miembroCens, usuario, null);
+		miembroCens = miembroCensService.saveMiembroSens(Arrays.asList(miembroCens)).get(0);
 		Perfil perfil = new Perfil();
 		perfil.setPerfilType(PerfilTrabajadorCensType.PRECEPTOR);
 		miembroCens.getUsuario().setPerfil(Arrays.asList(perfil));

@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 
 public enum PerfilTrabajadorCensType {
-	ADMINISTRADOR("ROLE_ADMINISTADOR"),
+	ADMINISTRADOR("ROLE_ADMINISTRADOR"),
 	ASESOR("ROLE_ASESOR"),
 	PROFESOR("ROLE_PROFESOR"),
 	ALUMNO("ROLE_ALUMNO"),

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -60,14 +61,23 @@ public class PerfilCensServiceImplTest {
 		Assert.assertNotNull(perfil);
 	}
 	
-	@Test(expected= CensException.class)
+	@Test
 	public void testCreationDuplicated() throws Exception{
 		
 		usuario = usuarioCensService.saveUsuario(usuario);
-		for(int i = 0 ; i<2;i++){
-			service.addPerfilToUser(usuario, PerfilTrabajadorCensType.ADMINISTRADOR);
-		}
+		Perfil perfil = null;
 		
+		usuario.setPerfil(new ArrayList<Perfil>());
+		
+		
+		for(int i = 0 ; i<2;i++){
+			perfil =  new Perfil();
+			perfil.setPerfilType(PerfilTrabajadorCensType.ADMINISTRADOR);
+			usuario.getPerfil().add(perfil);
+			service.addPerfilesToUsuarios(usuario);
+		}
+		List<Perfil> a =service.listPerfilFromUsuario(usuario);
+		Assert.assertTrue(a.size()==1);
 	}
 	
 	@Test
