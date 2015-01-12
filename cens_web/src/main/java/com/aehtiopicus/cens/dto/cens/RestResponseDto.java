@@ -5,10 +5,10 @@ import java.util.List;
 public class RestResponseDto<T> {
 	
 	private int page;
-	private int row;
+	private int records;
 	private String sord;
-	private long cantidad;
-	private List<T> response;
+	private long total;
+	private List<T> rows;
 	
 	public int getPage() {
 		return page;
@@ -16,11 +16,12 @@ public class RestResponseDto<T> {
 	public void setPage(int page) {
 		this.page = page;
 	}
-	public int getRow() {
-		return row;
+	
+	public int getRecords() {
+		return records;
 	}
-	public void setRow(int row) {
-		this.row = row;
+	public void setRecords(int records) {
+		this.records = records;
 	}
 	public String getSord() {
 		return sord;
@@ -28,18 +29,19 @@ public class RestResponseDto<T> {
 	public void setSord(String sord) {
 		this.sord = sord;
 	}
-	public long getCantidad() {
-		return cantidad;
+	public long getTotal() {
+		return total;
 	}
-	public void setCantidad(long cantidad) {
-		this.cantidad = cantidad;
+	public void setTotal(long total) {
+		this.total = total;
 	}
-	public List<T> getResponse() {
-		return response;
+	public List<T> getRows() {
+		return rows;
 	}
-	public void setResponse(List<T> response) {
-		this.response = response;
+	public void setRows(List<T> rows) {
+		this.rows = rows;
 	}
+
 	
 	
 	

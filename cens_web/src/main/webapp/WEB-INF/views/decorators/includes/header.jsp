@@ -8,7 +8,7 @@
 <div id="encabezado">
 	
 		<div class="logo">
-			<img src="css/midasUI-theme/images/logo_cens.png"  >
+			<img src="<%=request.getContextPath() %>/css/midasUI-theme/images/logo_cens.png"  >
 		</div>
 		<div class="center">
 			<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>

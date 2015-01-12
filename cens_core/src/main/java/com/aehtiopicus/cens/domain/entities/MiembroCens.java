@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="CENS_MIEMBROS_CENS")
@@ -38,7 +42,8 @@ public class MiembroCens implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuarios usuario;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens",fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Contacto> contactos;
 
 	public Long getId() {

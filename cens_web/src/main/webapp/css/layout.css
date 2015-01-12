@@ -337,7 +337,7 @@ fieldset div textarea:focus{
 
 .footerForm{
     margin-top: 30px;
-    text-align: right;
+    text-align: center;
     margin-right: 5px;
 }
 
@@ -623,3 +623,33 @@ fieldset div input[type=file]{
 /* .handsontable .current { */
 /*   background-color: #E7E8EF; */
 /* } */
+
+ul#perfilList
+{
+padding: 0;
+margin: 0;
+list-style-type: none;
+float: left;
+width: auto;
+/* color: #fff; */
+/* background-color: #036; */
+}
+
+ ul#perfilList li { margin-left: -20px } 
+
+ul#perfilList li a
+{
+float: left;
+width: 5em;
+/* color: #fff; */
+/* background-color: #036; */
+/* padding: 0.2em 1em; */
+/* text-decoration: none; */
+/* border-right: 1px solid #fff; */
+}
+
+ul#perfilList li a:hover
+{
+/* background-color: #369; */
+/* color: #fff; */
+}

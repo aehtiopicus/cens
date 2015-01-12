@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="CENS_USUARIOS")
@@ -24,7 +28,8 @@ public class Usuarios implements Serializable {
 	protected String password;
 	protected Boolean enabled = true;
 	
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Perfil> perfil;
 
 	public Long getId() {

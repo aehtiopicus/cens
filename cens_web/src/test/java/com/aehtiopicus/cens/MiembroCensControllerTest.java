@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
@@ -138,7 +137,7 @@ public class MiembroCensControllerTest {
 				 accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 		
 		 RestResponseDto<MiembroCensDto> rr =gson.fromJson(mvcResult.getResponse().getContentAsString(), restResponse);
-		 List<MiembroCensDto> dto = rr.getResponse();
+		 List<MiembroCensDto> dto = rr.getRows();
 		 Assert.assertNotNull(dto);
 		  Assert.assertNotNull(dto);
 		 Assert.assertTrue(dto.size()==MIEMBRO_SIZE);
@@ -262,7 +261,7 @@ public class MiembroCensControllerTest {
 				 accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 		
 		 RestResponseDto<MiembroCensDto> rr =gson.fromJson(mvcResult.getResponse().getContentAsString(), restResponse);
-		 List<MiembroCensDto> dto = rr.getResponse();
+		 List<MiembroCensDto> dto = rr.getRows();
 		 Assert.assertNotNull(dto);
 		  Assert.assertNotNull(dto);
 		 Assert.assertTrue(dto.size()==MIEMBRO_SIZE);

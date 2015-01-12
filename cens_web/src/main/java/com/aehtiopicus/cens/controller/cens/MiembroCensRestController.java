@@ -20,6 +20,7 @@ import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.mapper.cens.MiembroCensMapper;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
+import com.aehtiopicus.cens.util.Utils;
 
 @Controller
 public class MiembroCensRestController extends AbstractRestController{
@@ -53,11 +54,13 @@ public class MiembroCensRestController extends AbstractRestController{
 	
 	private RestResponseDto<MiembroCensDto> convertToResponse(RestRequest rr,long cantidad,List<MiembroCensDto> mcDto){
 		RestResponseDto<MiembroCensDto> result = new RestResponseDto<MiembroCensDto>();
-		result.setCantidad(cantidad);
+	
+		result.setTotal(Utils.getNumberOfPages(rr.getRow(),(int)cantidad));
 		result.setPage(rr.getPage()+1);
-		result.setResponse(mcDto);
-		result.setRow(rr.getRow());
+		result.setRows(mcDto);
+		result.setRecords((int)cantidad);
 		result.setSord(rr.getSord());
+		
 		return result;
 	}
 	

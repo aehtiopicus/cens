@@ -13,14 +13,28 @@ jQuery(document).ready(function () {
     		url:"miembro",    		
             datatype: "json",
             contentType :'application/json',
-            jsonReader: {repeatitems: false, id:"usuarioId"},
-            colNames:['Username','Nombre', 'Apellido', 'Email', 'Perfil','<span class="ui-icon ui-icon-locked"/>','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
+            jsonReader: {
+                repeatitems: false,
+                id: "id",
+                cell: "",
+                root: function (obj) { 
+                	return obj.rows; 
+                	},
+              
+            },
+            colNames:['Usuario','Nombre', 'Apellido', 'DNI', 'Perfil','<span class="ui-icon ui-icon-locked"/>','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
             colModel:[
-                {name:'username',index:'username', sortable: false},
-                {name:'nombre',index:'nombre',sortable: false},
-                {name:'apellido',index:'apellido',sortable: false},
-                {name:'email',index:'email',sortable: false},
-                {name:'profileName',index:'profileName',sortable: false}, 
+                {name:'usuario.username',index:'Usuario', sortable: false},
+                {name:'nombre',index:'Nombre',sortable: false},
+                {name:'apellido',index:'Apellido',sortable: false},
+                {name:'dni',index:'DNI',sortable: false},
+                {name:function(val){
+                	var tipo="";
+                	$.each(val.usuario.perfil ,function(index,val) {
+                		  tipo=tipo+val.perfilType+",";
+                		}); 
+                	return tipo.substring(0,tipo.length-1);
+                },index:'Perfil',sortable: false}, 
                 { 	
         			name: 'usuarioId',   
         			width: 16,
@@ -30,7 +44,7 @@ jQuery(document).ready(function () {
         			formatter: resetPasswordCurrencyFmatter
         		},
         		{ 	
-        			name: 'usuarioId',   
+        			name: 'id',   
         			width: 16,
         			editable: false, 
         			sortable: false,
@@ -46,7 +60,7 @@ jQuery(document).ready(function () {
         			formatter: deleteCurrencyFmatter
         		}
             ],
-            rowList:[5,10,50],
+            rowList:[1,2,5,10,50],
             rowNum:cookieRegsXPage,
             pager: "#pagingDiv",
             page:cookiePage,
@@ -54,7 +68,7 @@ jQuery(document).ready(function () {
                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":perfil,"apellido":apellido}});
             }},
             viewrecords: true,
-            caption: "Usuarios",            
+            caption: "Miembros Cens",            
             loadComplete: function (data) {
             	$(".ui-pg-selbox").val(cookieRegsXPage);
             	$(".ui-pg-input").val(data.page);
@@ -98,7 +112,7 @@ jQuery(document).ready(function () {
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='usuario/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='miembroABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }

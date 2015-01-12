@@ -77,6 +77,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 
 
 	@Override
+	@Transactional
 	public List<MiembroCens> listMiembrosCens(RestRequest restRequest) {
 		
 		Page<MiembroCens> requestedPage = null;
