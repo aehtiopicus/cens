@@ -3,13 +3,15 @@ package com.aehtiopicus.cens.enumeration.cens;
 
 
 public enum PerfilTrabajadorCensType {
-	ADMINISTRADOR("ROLE_ADMINISTRADOR"),
-	ASESOR("ROLE_ASESOR"),
-	PROFESOR("ROLE_PROFESOR"),
-	ALUMNO("ROLE_ALUMNO"),
-	PRECEPTOR("ROLE_PRECEPTOR");
+	ADMINISTRADOR("ROLE_ADMINISTRADOR",1),
+	ASESOR("ROLE_ASESOR",1),
+	PROFESOR("ROLE_PROFESOR",2),
+	ALUMNO("ROLE_ALUMNO",2),
+	PRECEPTOR("ROLE_PRECEPTOR",2);
 	
 	protected final String nombre;
+	
+	protected final int prioridad;
 
 	
 	public String getNombre() {
@@ -21,8 +23,9 @@ public enum PerfilTrabajadorCensType {
 		return nombre;
 	}
 
-	private PerfilTrabajadorCensType(String nombre) {
+	private PerfilTrabajadorCensType(String nombre,int prioridad) {
 		this.nombre = nombre;
+		this.prioridad = prioridad;
 	}
 	
 	
@@ -34,4 +37,10 @@ public enum PerfilTrabajadorCensType {
 		}
 		return null;
 	}
+
+	public int getPrioridad() {
+		return prioridad;
+	}
+	
+	
 }
