@@ -1,14 +1,16 @@
 package com.aehtiopicus.cens;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -31,9 +33,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.dto.cens.PerfilDto;
+import com.aehtiopicus.cens.dto.cens.RestRequestDto;
+import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.UsuariosDto;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.google.gson.Gson;
@@ -65,6 +71,8 @@ public class MiembroCensControllerTest {
 	
 	private Type listType;
 	
+	private Type restResponse;
+	
 	private Mapper mapper = new DozerBeanMapper();
 	
 	@Before
@@ -72,6 +80,9 @@ public class MiembroCensControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 		listType =  new TypeToken<ArrayList<MiembroCensDto>>() {
 	    }.getType();
+	    restResponse = new TypeToken<RestResponseDto<MiembroCensDto>>(){	    	
+	    }.getType();
+	    
 		gson = TestUtils.getSon();		
 		miembroCensDto = new MiembroCensDto();
 		miembroCensDto.setApellido("test+a");
@@ -93,7 +104,7 @@ public class MiembroCensControllerTest {
 	@Test
 	public void testRestCreation() throws Exception{
 		
-		 MvcResult mvcResult=this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult=this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 		.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isOk()).andReturn();
 		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);		 
 		 Assert.assertNotNull(dto);
@@ -108,7 +119,7 @@ public class MiembroCensControllerTest {
 		PerfilDto pdto = new PerfilDto();
 		pdto.setPerfilType(PerfilTrabajadorCensType.ALUMNO);
 		usuarioDto.getPerfil().add(pdto);
-		 MvcResult mvcResult= this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult= this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 		.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isBadRequest()).andReturn();
 		Assert.assertTrue(mvcResult.getResponse().getStatus()== HttpStatus.BAD_REQUEST.value());
 		log.info(mvcResult.getResponse().getContentAsString());
@@ -120,13 +131,14 @@ public class MiembroCensControllerTest {
 		for(int i = 0;i<MIEMBRO_SIZE;i++){
 			listMiembros.add(copyToOther(miembroCensDto));		 
 		}
-		this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 				.content(gson.toJson(listMiembros))).andExpect(status().isOk()).andReturn();
 					 
-		 MvcResult mvcResult=this.mockMvc.perform(get("/miembroCens").contentType(MediaType.APPLICATION_JSON).
+		 MvcResult mvcResult=this.mockMvc.perform(get(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON).
 				 accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 		
-		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);
+		 RestResponseDto<MiembroCensDto> rr =gson.fromJson(mvcResult.getResponse().getContentAsString(), restResponse);
+		 List<MiembroCensDto> dto = rr.getResponse();
 		 Assert.assertNotNull(dto);
 		  Assert.assertNotNull(dto);
 		 Assert.assertTrue(dto.size()==MIEMBRO_SIZE);
@@ -138,12 +150,12 @@ public class MiembroCensControllerTest {
 	public void testRestRetrieveMiembro()throws Exception{
 		
 		
-		 MvcResult mvcResult=this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult=this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 				.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isOk()).andReturn();
 					 		
 		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);
 		 
-		 mvcResult = this.mockMvc.perform(get("/miembroCens/"+dto.get(0).getId()).contentType(MediaType.APPLICATION_JSON).
+		 mvcResult = this.mockMvc.perform(get(UrlConstant.MIEMBRO_CENS_REST+"/"+dto.get(0).getId()).contentType(MediaType.APPLICATION_JSON).
 				 accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();	
 		 MiembroCensDto miembroDto =gson.fromJson(mvcResult.getResponse().getContentAsString(), MiembroCensDto.class);
 		 Assert.assertNotNull(miembroDto);
@@ -154,7 +166,7 @@ public class MiembroCensControllerTest {
 	public void testRestUpdateMiembro()throws Exception{
 		
 		
-		 MvcResult mvcResult=this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult=this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 				.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isOk()).andReturn();
 					 		
 		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);
@@ -164,7 +176,7 @@ public class MiembroCensControllerTest {
 		 mcDto.setApellido("la gran vaca");
 		 mcDto.getUsuario().setUsername("aehtiopicus");
 		 
-		 mvcResult=this.mockMvc.perform(put("/miembroCens/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
+		 mvcResult=this.mockMvc.perform(put(UrlConstant.MIEMBRO_CENS_REST+"/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(mcDto))).andExpect(status().isOk()).andReturn();
 		 		
 		 MiembroCensDto miembroDto =gson.fromJson(mvcResult.getResponse().getContentAsString(), MiembroCensDto.class);
@@ -178,7 +190,7 @@ public class MiembroCensControllerTest {
 	public void testRestUpdateMiembroAddPerfil()throws Exception{
 		
 		
-		 MvcResult mvcResult=this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult=this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 				.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isOk()).andReturn();
 					 		
 		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);
@@ -188,7 +200,7 @@ public class MiembroCensControllerTest {
 		PerfilDto pdto = new PerfilDto();
 		pdto.setPerfilType(PerfilTrabajadorCensType.PROFESOR);
 		mcDto.getUsuario().getPerfil().add(pdto);
-		 mvcResult=this.mockMvc.perform(put("/miembroCens/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
+		 mvcResult=this.mockMvc.perform(put(UrlConstant.MIEMBRO_CENS_REST+"/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(mcDto))).andExpect(status().isOk()).andReturn();
 		 		
 		 MiembroCensDto miembroDto =gson.fromJson(mvcResult.getResponse().getContentAsString(), MiembroCensDto.class);
@@ -204,7 +216,7 @@ public class MiembroCensControllerTest {
 		pdto.setPerfilType(PerfilTrabajadorCensType.PROFESOR);
 		miembroCensDto.getUsuario().getPerfil().add(pdto);
 		
-		 MvcResult mvcResult=this.mockMvc.perform(post("/miembroCens").contentType(MediaType.APPLICATION_JSON)
+		 MvcResult mvcResult=this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
 				.content(gson.toJson(Arrays.asList(miembroCensDto)))).andExpect(status().isOk()).andReturn();
 					 		
 		 List<MiembroCensDto> dto =gson.fromJson(mvcResult.getResponse().getContentAsString(), listType);
@@ -213,7 +225,7 @@ public class MiembroCensControllerTest {
 		 
 		
 		mcDto.getUsuario().getPerfil().remove(0);
-		 mvcResult=this.mockMvc.perform(put("/miembroCens/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
+		 mvcResult=this.mockMvc.perform(put(UrlConstant.MIEMBRO_CENS_REST+"/"+mcDto.getId()).contentType(MediaType.APPLICATION_JSON)
 					.content(gson.toJson(mcDto))).andExpect(status().isOk()).andReturn();
 		 		
 		 MiembroCensDto miembroDto =gson.fromJson(mvcResult.getResponse().getContentAsString(), MiembroCensDto.class);
@@ -225,5 +237,36 @@ public class MiembroCensControllerTest {
 	
 	private MiembroCensDto copyToOther(MiembroCensDto miembroDto){
 		return mapper.map(miembroDto, MiembroCensDto.class);
+	}
+	
+	
+	@Test
+	public void testRestRetrieveMiembrosRestRequest() throws Exception{
+		List<MiembroCensDto> listMiembros = new ArrayList<MiembroCensDto>();
+		for(int i = 0;i<MIEMBRO_SIZE;i++){
+			listMiembros.add(copyToOther(miembroCensDto));		 
+		}
+		this.mockMvc.perform(post(UrlConstant.MIEMBRO_CENS_REST).contentType(MediaType.APPLICATION_JSON)
+				.content(gson.toJson(listMiembros))).andExpect(status().isOk()).andReturn();
+					
+		RestRequestDto rrDto = new RestRequestDto();
+		rrDto.setPage(1);
+		rrDto.setRow(2);
+		rrDto.setSord("asc");
+		Map<String,String> a = new HashMap<String, String>();
+		a.put("perfil", PerfilTrabajadorCensType.ASESOR.name());
+		a.put("apellido", "test");		
+		rrDto.setFilters(a);
+				
+		 MvcResult mvcResult=this.mockMvc.perform(get(UrlConstant.MIEMBRO_CENS_REST).param("requestData", gson.toJson(rrDto)).contentType(MediaType.APPLICATION_JSON).
+				 accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+		
+		 RestResponseDto<MiembroCensDto> rr =gson.fromJson(mvcResult.getResponse().getContentAsString(), restResponse);
+		 List<MiembroCensDto> dto = rr.getResponse();
+		 Assert.assertNotNull(dto);
+		  Assert.assertNotNull(dto);
+		 Assert.assertTrue(dto.size()==MIEMBRO_SIZE);
+		 Assert.assertNotNull(dto.get(0).getId());
+		 log.info(mvcResult.getResponse().getContentAsString());
 	}
 }

@@ -138,6 +138,7 @@ public class UrlConstant {
 	
 	public static final String MIEMBRO_CENS_REST ="/miembro";
 	public static final String MIEMBRO_CENS ="/miembroList";
+	public static final String MIEMBRO_CENS_ABM="/miembroABM";
 	
 
 }

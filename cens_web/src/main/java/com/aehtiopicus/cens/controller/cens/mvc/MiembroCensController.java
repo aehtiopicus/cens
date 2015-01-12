@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +31,22 @@ public class MiembroCensController extends AbstractController{
 	public ModelAndView getMiembrosCensMainPage(HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
 		ModelAndView mav = new ModelAndView(VistasConstant.MIEMBRO_LIST_VIEW);		
 		mav.addObject("perfilDto",rolCensMapper.convertRolTypeToRolDTO(rolCensService.listPerfil()));
+		return mav;
+	}
+	
+	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM+"/{id}"}, method = RequestMethod.GET)
+	public ModelAndView getABMData(@PathVariable(value="id") Long id, HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
+		ModelAndView mav = new ModelAndView(VistasConstant.MIEMBRO_ABM_VIEW);		
+		mav.addObject("perfilDto",rolCensMapper.convertRolTypeToRolDTO(rolCensService.listPerfil()));
+		mav.addObject("id",id);
+		return mav;
+	}
+	
+	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM}, method = RequestMethod.GET)
+	public ModelAndView getCreacionData(HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
+		ModelAndView mav = new ModelAndView(VistasConstant.MIEMBRO_ABM_VIEW);		
+		mav.addObject("perfilDto",rolCensMapper.convertRolTypeToRolDTO(rolCensService.listPerfil()));
+		mav.addObject("id",null);
 		return mav;
 	}
 }

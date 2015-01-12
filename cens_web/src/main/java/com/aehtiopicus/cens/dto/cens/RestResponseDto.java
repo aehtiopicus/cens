@@ -1,15 +1,14 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import java.util.Map;
+import java.util.List;
 
-public class RestRequestDto {
-
+public class RestResponseDto<T> {
 	
 	private int page;
 	private int row;
 	private String sord;
-	private Map<String,String> filters;
-	
+	private long cantidad;
+	private List<T> response;
 	
 	public int getPage() {
 		return page;
@@ -29,16 +28,18 @@ public class RestRequestDto {
 	public void setSord(String sord) {
 		this.sord = sord;
 	}
-	public Map<String, String> getFilters() {
-		return filters;
+	public long getCantidad() {
+		return cantidad;
 	}
-	public void setFilters(Map<String, String> filters) {
-		this.filters = filters;
+	public void setCantidad(long cantidad) {
+		this.cantidad = cantidad;
 	}
-	
-	
-	
-	
+	public List<T> getResponse() {
+		return response;
+	}
+	public void setResponse(List<T> response) {
+		this.response = response;
+	}
 	
 	
 	

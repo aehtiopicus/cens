@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
+
+
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
+import com.aehtiopicus.cens.util.Utils;
 
 @Component
 public class MiembroCensMapper {
 
-	private Mapper mapper =  new DozerBeanMapper();
+	
 	
 	public MiembroCensDto convertMiembroCensToDto(MiembroCens miembroCens){
-		return mapper.map(miembroCens, MiembroCensDto.class);
+		return Utils.getMapper().map(miembroCens, MiembroCensDto.class);
 		
 	}
 	
 	public MiembroCens convertMiembroCensDtoToEntity(MiembroCensDto miembroCensDto){
-		return mapper.map(miembroCensDto, MiembroCens.class);
+		return Utils.getMapper().map(miembroCensDto, MiembroCens.class);
 		
 	}
 

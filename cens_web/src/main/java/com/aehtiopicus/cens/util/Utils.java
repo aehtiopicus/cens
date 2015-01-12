@@ -1,20 +1,32 @@
 package com.aehtiopicus.cens.util;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 public class Utils {
 	
 	public final static String DD_MM_YYYY = "dd/MM/yyyy";
+	
+	private static final Mapper mapper =new DozerBeanMapper ();
 	
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DD_MM_YYYY);
 	
@@ -96,4 +108,21 @@ public class Utils {
 		return bigDecimalRedondeado.doubleValue();
 	}
 	
+	public static Gson getSon() {
+		GsonBuilder builder = new GsonBuilder();
+
+		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+			public Date deserialize(JsonElement json, Type typeOfT,
+					JsonDeserializationContext context)
+					throws JsonParseException {
+				return new Date(json.getAsJsonPrimitive().getAsLong());
+			}
+		});		
+		builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		return builder.create();
+	}
+	
+	public static Mapper getMapper(){
+		return mapper;
+	}
 }

@@ -9,14 +9,14 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 
-    <script src="js/usuarios.js?v=<%= new Date().getTime()%>"></script>
+    <script src="js/cens/miembrocens.js?v=<%= new Date().getTime()%>"></script>
 
 <div class="centreDiv">
   
     <div class="floatLeftDiv">
     
     	<div class="acciones">
-    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/usuario'">Nuevo Usuario</button>
+    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/miembroABM'">Nuevo Miembro Cens</button>
     	</div>
     
 		<!--     Filtros -->

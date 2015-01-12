@@ -1,10 +1,9 @@
-package com.aehtiopicus.cens.dto.cens;
+package com.aehtiopicus.cens.domain.entities;
 
 import java.util.Map;
 
-public class RestRequestDto {
+public class RestRequest {
 
-	
 	private int page;
 	private int row;
 	private String sord;
@@ -35,11 +34,4 @@ public class RestRequestDto {
 	public void setFilters(Map<String, String> filters) {
 		this.filters = filters;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

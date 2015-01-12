@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Perfil;
+import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.MiembroCensRepository;
+import com.aehtiopicus.cens.specification.cens.MiembroCensSpecification;
 import com.aehtiopicus.cens.utils.CensException;
+import com.aehtiopicus.cens.utils.Utils;
 
 @Service
 public class MiembroCensServiceImpl implements MiembroCensService {
@@ -29,6 +38,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	@Autowired
 	private MiembroCensRepository miembroCensRepository;
 
+	private static final Logger logger = LoggerFactory.getLogger(MiembroCensServiceImpl.class);
 	
 
 	@Transactional
@@ -67,16 +77,66 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 
 
 	@Override
-	public List<MiembroCens> listMiembrosCens() {
+	public List<MiembroCens> listMiembrosCens(RestRequest restRequest) {
 		
-		return miembroCensRepository.findAll();
+		Page<MiembroCens> requestedPage = null;
+		 if(restRequest.getPage() > 0){
+			 restRequest.setPage(restRequest.getPage() - 1);
+		 }
+		 		 
+		 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("apellido") && !restRequest.getFilters().containsKey("perfil"))){
+			 requestedPage = miembroCensRepository.findAll(Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
+			 return requestedPage.getContent();
+		 }
+		 Specifications<MiembroCens> specifications = getSpecificationMiembroCens(
+				 restRequest.getFilters().get("apellido"), PerfilTrabajadorCensType.getPrefilByName(restRequest.getFilters().get("perfil")), true);
+		 requestedPage = miembroCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
+		 return requestedPage.getContent();
+		 
 		
+		
+	}
+	private Specifications<MiembroCens> getSpecificationMiembroCens(String apellido, PerfilTrabajadorCensType ptct, boolean where){
+		Specifications<MiembroCens> specifications = null;
+		 if(ptct!=null){
+			 if(where == true){
+				 specifications = Specifications.where(MiembroCensSpecification.perfilTrabajadorCensEquals(ptct));
+				 where = false;
+			 }
+		 }
+		 if(!StringUtils.isEmpty(apellido)){			 
+			 if(where == true){
+				 specifications = Specifications.where(MiembroCensSpecification.apellidoEquals(apellido));
+				 where = false;
+			 } else{
+				 specifications = specifications.and(MiembroCensSpecification.apellidoEquals(apellido));
+			 }
+		 }
+		return specifications;
 	}
 	
 	@Override
 	public MiembroCens getMiembroCens(Long id){
-		
+		logger.info("Obteniendo miembro "+id);
 		return miembroCensRepository.findOne(id);
+	}
+
+
+
+	@Override
+	public Long getTotalUsersFilterByProfile(RestRequest restRequest) {
+		logger.info("obteniendo numero de registros de usuarios");
+    	long cantUsers = 0;   	 	   	 	
+   	 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("apellido") && !restRequest.getFilters().containsKey("perfil"))){
+   		cantUsers = miembroCensRepository.count();
+		
+	 }else{
+		 Specifications<MiembroCens> specification = getSpecificationMiembroCens(
+				 restRequest.getFilters().get("apellido"), PerfilTrabajadorCensType.getPrefilByName(restRequest.getFilters().get("perfil")), true);
+		 cantUsers = miembroCensRepository.count(specification);
+	 }
+   	 	   	 	
+    	return (long) Math.ceil(cantUsers);
 	}
 	
 }
