@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.configuration.VistasConstant;
+import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.mapper.cens.RolCensMapper;
 import com.aehtiopicus.cens.service.cens.RolCensService;
 
@@ -36,17 +37,19 @@ public class MiembroCensController extends AbstractController{
 	
 	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM+"/{id}"}, method = RequestMethod.GET)
 	public ModelAndView getABMData(@PathVariable(value="id") Long id, HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
-		ModelAndView mav = new ModelAndView(VistasConstant.MIEMBRO_ABM_VIEW);		
-		mav.addObject("perfilDto",rolCensMapper.convertRolTypeToRolDTO(rolCensService.listPerfil()));
-		mav.addObject("id",id);
-		return mav;
+		return prepareModelAndViewABM(id);
 	}
 	
 	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM}, method = RequestMethod.GET)
 	public ModelAndView getCreacionData(HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
+		return prepareModelAndViewABM(null);
+	}
+	
+	private ModelAndView prepareModelAndViewABM(Long id){
 		ModelAndView mav = new ModelAndView(VistasConstant.MIEMBRO_ABM_VIEW);		
 		mav.addObject("perfilDto",rolCensMapper.convertRolTypeToRolDTO(rolCensService.listPerfil()));
-		mav.addObject("id",null);
+		mav.addObject("id",id);
+		mav.addObject("miembroCensDto",new MiembroCensDto());
 		return mav;
 	}
 }

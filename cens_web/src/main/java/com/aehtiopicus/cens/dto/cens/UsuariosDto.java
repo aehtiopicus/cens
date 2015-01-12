@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.dto.cens;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuariosDto {
@@ -8,8 +9,9 @@ public class UsuariosDto {
 
 	protected String username;
 	protected String password;
+	protected String passwordConfirm;
 	protected Boolean enabled;		
-	private List<PerfilDto> perfil;
+	private List<PerfilDto> perfil ;
 	public Long getId() {
 		return id;
 	}
@@ -39,6 +41,12 @@ public class UsuariosDto {
 	}
 	public void setPerfil(List<PerfilDto> perfil) {
 		this.perfil = perfil;
+	}
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 	
 	
