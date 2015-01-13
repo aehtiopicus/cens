@@ -37,6 +37,15 @@ public enum PerfilTrabajadorCensType {
 		}
 		return null;
 	}
+	
+	public static PerfilTrabajadorCensType getPrefilByNombre(String nombre){
+		for(PerfilTrabajadorCensType rt : values()){
+			if(rt.getNombre().equals(nombre)){
+				return rt;
+			}
+		}
+		return null;
+	}
 
 	public int getPrioridad() {
 		return prioridad;

@@ -14,4 +14,6 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 	@Query("UPDATE Usuarios u SET u.enabled = false WHERE u = (SELECT mc.usuario FROM MiembroCens mc WHERE mc.id = ?1)")
 	void softDeleteByMiembro(Long miembroId);
 
+	Usuarios findByUsername(String username);
+
 }

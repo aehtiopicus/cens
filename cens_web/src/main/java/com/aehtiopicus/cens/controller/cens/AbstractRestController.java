@@ -44,7 +44,7 @@ public class AbstractRestController {
 		ex.printStackTrace();
 		ErrorDto errorDto = new ErrorDto();
 		errorDto.setStatusCode(HttpStatus.BAD_REQUEST);
-		errorDto.setErrorMessage(ex.getMessage());
+		errorDto.setMessage(ex.getMessage());
 		return errorDto;
 	}
 
@@ -54,7 +54,8 @@ public class AbstractRestController {
 		logger.error(ex.getMessage());
 		ErrorDto errorDto = new ErrorDto();
 		errorDto.setStatusCode(HttpStatus.BAD_REQUEST);
-		errorDto.setErrorMessage(ex.getMessage());
+		errorDto.setMessage(ex.getMessage());
+		errorDto.setErrors(ex.getError());
 		return errorDto;
 
 	}

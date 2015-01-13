@@ -15,11 +15,9 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	
 	@Override
 	public Usuarios saveUsuario(Usuarios usuarios) throws CensException{
-		try{
-		if(usuarios==null){
-			throw new CensException("No se puede guardar el usuario");
-		}		
-		return usuariosCensRepository.save(usuarios);
+		try{	
+			validate(usuarios);
+			return usuariosCensRepository.save(usuarios);
 		}catch(CensException e){
 			throw e;
 		}catch(Exception e){
@@ -27,10 +25,31 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 		}
 	}
 
+	private void validate(Usuarios usuarios ) throws CensException{
+		if(usuarios==null){
+			throw new CensException("No se puede guardar el usuario");
+		}
+		usuarios.setUsername(usuarios.getUsername().toLowerCase());
+		Usuarios u = findUsuarioByUsername(usuarios.getUsername());
+		
+		if(u!=null && (usuarios.getId()==null || !u.getId().equals(usuarios.getId()))){
+			throw new CensException("No se puede guardar el usuario","username","El nombre de usuario ya existe");
+		}
+	}
 	@Override
 	public void deleteUsuarioByMiembroId(Long miembroId) {
 		usuariosCensRepository.softDeleteByMiembro(miembroId);
 		
+	}
+	
+	@Override
+	public Usuarios findUsuarioByUsername(String username){
+		return usuariosCensRepository.findByUsername(username);
+	}
+
+	@Override
+	public Usuarios findUsuarioById(Long id) {
+		return usuariosCensRepository.findOne(id);
 	}
 	
 

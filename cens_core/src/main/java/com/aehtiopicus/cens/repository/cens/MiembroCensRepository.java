@@ -20,4 +20,6 @@ public interface MiembroCensRepository extends JpaRepository<MiembroCens,Long>,J
 	@Query("UPDATE MiembroCens mc  SET mc.baja = true WHERE mc.id = :miembroId")
 	public int softDelete(@Param("miembroId")Long miembroId);
 
+	public MiembroCens findByDni(String dni);
+
 }

@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.aehtiopicus.cens.controller.cens.validator.MiembroCensValidator;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
+import com.aehtiopicus.cens.dto.cens.RestResponseDeleteDto;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.mapper.cens.MiembroCensMapper;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
@@ -31,17 +34,21 @@ public class MiembroCensRestController extends AbstractRestController{
 	private MiembroCensService miembroCensService;
 	@Autowired
 	private MiembroCensMapper miembroCensMapper;
+	@Autowired
+	private MiembroCensValidator validator;
 		
-	
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST, method=RequestMethod.POST, produces="application/json", consumes="application/json")
 	public List<MiembroCensDto> crearMiembro(@RequestBody List<MiembroCensDto> miembroCensDto) throws Exception{
 		
-		List<MiembroCens> miembroCensList = miembroCensService.saveMiembroSens(miembroCensMapper.convertMiembrCensDtoListToEntityList(miembroCensDto));
+		List<MiembroCens> miembroCensList = miembroCensMapper.convertMiembrCensDtoListToEntityList(miembroCensDto);
+		validator.validate(miembroCensList);
+		miembroCensList = miembroCensService.saveMiembroSens(miembroCensList);		
 		return miembroCensMapper.convertMiembrCensListToDtoList(miembroCensList);
 	}
 	
-	
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST, method=RequestMethod.GET, produces="application/json")
 	public RestResponseDto<MiembroCensDto> listMiembro(@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
@@ -78,20 +85,28 @@ public class MiembroCensRestController extends AbstractRestController{
 	}
 	
 	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST+"/{id}", method=RequestMethod.PUT, produces="application/json", consumes="application/json")
-	public MiembroCensDto updateMiembro(@RequestBody MiembroCensDto miembroCensDto,@PathVariable(value="id") Long miembroId) throws Exception{
-		
+	public MiembroCensDto updateMiembro(@RequestBody MiembroCensDto miembroCensDto,@PathVariable(value="id") Long miembroId) throws Exception{		
 		miembroCensDto.setId(miembroId);
-		List<MiembroCens> miembroCens = miembroCensService.saveMiembroSens(Arrays.asList(miembroCensMapper.convertMiembroCensDtoToEntity(miembroCensDto)));
+		
+		List<MiembroCens> miembroCens = new ArrayList<MiembroCens>(Arrays.asList(miembroCensMapper.convertMiembroCensDtoToEntity(miembroCensDto)));
+		miembroCensService.updateCurrentUserFromMiembro(miembroCens.get(0));
+		validator.validate(miembroCens);
+		 miembroCens = miembroCensService.saveMiembroSens(miembroCens);
+		
 		return miembroCensMapper.convertMiembroCensToDto(miembroCens.get(0));
 		
 	}
 	
-	
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST+"/{id}", method=RequestMethod.DELETE, produces="application/json", consumes="application/json")
-	public void deleteMiembro(@PathVariable(value="id") Long miembroId) throws Exception{		
+	public @ResponseBody RestResponseDeleteDto deleteMiembro(@PathVariable(value="id") Long miembroId) throws Exception{		
 		miembroCensService.deleteMiembro(miembroId);		
-		
+		RestResponseDeleteDto dto = new RestResponseDeleteDto();
+		dto.setId(miembroId);
+		dto.setMessage("Miembro Eliminado");
+		return dto;
 	}
 	
 }

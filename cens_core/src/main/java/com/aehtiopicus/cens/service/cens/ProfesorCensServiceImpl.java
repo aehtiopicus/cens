@@ -26,7 +26,9 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 		
 		Profesor p = getProfesor(miembroCens);
 		if(p == null || p.getBaja()){
-			p = new Profesor();
+			if(p==null){
+				p = new Profesor();
+			}
 			p.setMiembroCens(miembroCens);
 		}else if (p.getBaja()){
 			p.setBaja(false);

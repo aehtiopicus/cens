@@ -8,4 +8,8 @@ public interface UsuarioCensService {
 	public Usuarios saveUsuario(Usuarios usuarios) throws CensException;
 
 	public void deleteUsuarioByMiembroId(Long miembroId);
+
+	public Usuarios findUsuarioByUsername(String username);
+
+	public Usuarios findUsuarioById(Long id);
 }

@@ -48,6 +48,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		if (CollectionUtils.isNotEmpty(miembroCensList)) {
 			List<MiembroCens> miembroCensListResult = new ArrayList<MiembroCens>();
 			for(MiembroCens  miembroCens:miembroCensList){
+				validateMiembro(miembroCens);
 				List<Perfil> perfilList = miembroCens.getUsuario().getPerfil();
 				miembroCens.setUsuario(usuarioCensService.saveUsuario(miembroCens.getUsuario()));
 				miembroCens.getUsuario().setPerfil(perfilList);
@@ -63,7 +64,12 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		}
 	}
 
-	
+	private void validateMiembro(MiembroCens miembroCens)throws CensException{
+		MiembroCens mc = miembroCensRepository.findByDni(miembroCens.getDni());
+		if(mc!=null && (miembroCens.getId()==null || !mc.getId().equals(miembroCens.getId()))){
+			throw new CensException("No se puede guardar el miembro","dni","Existe un miembro con el documento indicado");
+		}
+	}
 	
 	@Override
 	public MiembroCens searchMiembroCensByUsuario(Usuarios usuario){
@@ -152,6 +158,15 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	public void deleteMiembro(Long miembroId) {
 		usuarioCensService.deleteUsuarioByMiembroId(miembroId);
 		miembroCensRepository.softDelete(miembroId);		
+	}
+
+	@Override
+	public void updateCurrentUserFromMiembro(MiembroCens miembroCensDto) {
+		Usuarios u = usuarioCensService.findUsuarioById(miembroCensDto.getUsuario().getId());
+		miembroCensDto.getUsuario().setEnabled(u.getEnabled());
+		miembroCensDto.getUsuario().setPassword(u.getPassword());
+		miembroCensDto.getUsuario().setUsername(u.getUsername());		
+		
 	}
 	
 }

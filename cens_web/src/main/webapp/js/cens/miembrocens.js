@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
                 	return tipo.substring(0,tipo.length-1);
                 },index:'Perfil',sortable: false}, 
                 { 	
-        			name: 'id',   
+        			name: 'usuario.id',   
         			width: 16,
         			editable: false, 
         			sortable: false,
@@ -230,19 +230,23 @@ function deleteUsuario(){
 		success: function(data){
 			gridReload(pageToLoad);
 			$('#message').addClass('msgSuccess');
-			cargarMensaje();
+			cargarMensaje(data);
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
-			cargarMensaje();
+			cargarMensaje(errorConverter(data));
 		}								
 
 		}
 		
 	);
-	cargarMensaje = function(){
+	cargarMensaje = function(data){
 		//cargo mensaje en pantalla
-		$('#message').text(data.message)
+		if(data.errorDto != undefined){
+			$('#message').text(data.message)
+		}else{
+			$('#message').text("Se produjo un error en el servidor");
+		}
 		setTimeout("$('#message').text('')", 5000);
 	}
 } 

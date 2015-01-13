@@ -319,8 +319,22 @@ fieldset div select {
 
 fieldset div .ui-state-error{
 	margin-left: 188px;
-	display: inline-block;
+	display: inline-block;	
+	height: 10px;			
 }
+
+fieldset div .ui-state-error-img{
+margin-left: 188px;
+display: inline-block;		
+float: right;
+width: auto;
+height: 10px;
+background-position: 14% 85%;
+background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png');
+}
+
+
+
 
 fieldset div .ui-state-hint{
 	margin-left: 188px;

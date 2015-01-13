@@ -26,7 +26,9 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 		
 		Alumno p = getAlumno(miembroCens);
 		if(p == null || p.getBaja()){
-			p = new Alumno();
+			if(p==null){
+				p = new Alumno();
+			}
 			p.setMiembroCens(miembroCens);
 		}else if (p.getBaja()){
 			p.setBaja(false);

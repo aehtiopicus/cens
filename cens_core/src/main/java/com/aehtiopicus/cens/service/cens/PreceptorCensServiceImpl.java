@@ -26,7 +26,9 @@ public class PreceptorCensServiceImpl implements PreceptorCensService{
 		
 		Preceptor p = getPreceptor(miembroCens);
 		if(p == null || p.getBaja()){
-			p = new Preceptor();
+			if(p==null){
+				p = new Preceptor();
+			}
 			p.setMiembroCens(miembroCens);
 		}else if (p.getBaja()){
 			p.setBaja(false);

@@ -25,4 +25,7 @@ public interface MiembroCensService {
 
 
 	public void deleteMiembro(Long miembroId);
+
+
+	public void updateCurrentUserFromMiembro(MiembroCens miembroCensDto);
 }

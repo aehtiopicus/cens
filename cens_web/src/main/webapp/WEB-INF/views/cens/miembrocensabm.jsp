@@ -25,50 +25,39 @@
 			<div>
 				<label for="nombre">Nombre:</label>
 				<form:input  path="nombre"/>
-				<form:errors path="nombre" cssClass="ui-state-error"/> 
 			</div>
 
 			<div>
 				<label for="apellido">Apellido:</label>
 				<form:input  path="apellido"/>
-				<form:errors path="apellido" cssClass="ui-state-error"/> 
 			</div>	
 			
 			<div>
 				<label for="dni">DNI:</label>
 				<form:input  path="dni" class="entero" maxlength="8"/>
-				<form:errors path="dni" cssClass="ui-state-error"/> 
 			</div>
 			<div>
 				<label for="fechaNac">Fecha de Nacimiento:</label>
-				<form:input  path="fechaNac" class="hasdatepicker"/>
-				<form:errors path="fechaNac" cssClass="ui-state-error"/> 
+				<form:input  path="fechaNac" class="hasdatepicker" maxlength="10"/>
 			</div>			
 			<c:choose>
 			<c:when test="${id == null}">
 				<div>
 					<label for="usuario.username">Nombre de Usuario:</label>
 					<form:input  path="usuario.username" id="username"/>
-					<form:errors path="usuario.username" cssClass="ui-state-error"/> 
 				</div>
 				
 			
 				<div>
 					<label for="usuario.password">Contraseña:</label>
-					<form:password  path="usuario.password" id="password"/>
-					<form:errors path="usuario.password" cssClass="ui-state-error"/> 
+					<form:password  path="usuario.password" id="password"/>					
 				</div>
 				
 				<div>
 					<label for="usuario.passwordConfirm">Confirmar Contraseña:</label>
-					<form:password  path="usuario.passwordConfirm" id="passwordConfirm"/>
-					<form:errors path="usuario.passwordConfirm" cssClass="ui-state-error"/> 
+					<form:password  path="usuario.passwordConfirm" id="passwordConfirm"/>					 
 				</div>
 			</c:when>
-			<c:otherwise>
-				<form:hidden  path="usuario.username" id="username"/>	
-				<form:hidden  path="usuario.password" id="password"/>		
-			</c:otherwise>
 			</c:choose>
 			<div >
 				<label for="">PERFILES:</label>
@@ -78,6 +67,7 @@
 					<form:checkboxes items="${perfilDto}" path="usuario.perfil" id="perfilType" itemLabel="perfilType" element="li" itemValue="perfilType"/>
 				</ul>
 				</div>
+				<input type="hidden" id="perfil"/>
 			</div>
 			
 			

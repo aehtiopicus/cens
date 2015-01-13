@@ -25,6 +25,7 @@
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
 
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
 
 		<script>
 	        var marginWidthGrid = 20;
@@ -83,7 +84,7 @@
     	
     		<div class="menuPanel">
     			<!-- INSERTAR MENU.JSP -->
-    			<security:authorize ifAllGranted="ROLE_ADMINISTRADOR">
+    			<security:authorize ifAnyGranted="ROLE_ADMINISTRADOR,ROLE_ASESOR">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
 				</security:authorize>
 <%--     			<security:authorize ifAllGranted="ROLE_RRHH"> --%>

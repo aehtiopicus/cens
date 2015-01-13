@@ -26,7 +26,9 @@ public class AsesorCensServiceImpl implements AsesorCensService{
 		
 		Asesor a = getAsesor(miembroCens);
 		if(a == null || a.getBaja()){
-			a = new Asesor();
+			if(a==null){
+				a = new Asesor();
+			}
 			a.setMiembroCens(miembroCens);
 		}else if (a.getBaja()){
 			a.setBaja(false);

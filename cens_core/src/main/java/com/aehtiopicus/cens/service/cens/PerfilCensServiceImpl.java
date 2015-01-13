@@ -2,7 +2,9 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -84,7 +86,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 		if(CollectionUtils.isNotEmpty(perfilList)){
 			for(Perfil perfil : perfilList){
 				if(!perfilTypeList.contains(perfil.getPerfilType())){
-					log.info("Removiendo perfil para el usuario "+ perfil.getPerfilType().getNombre().replace("ROLE_", ""));
+					log.info("Removiendo perfil para el usuario "+ perfil.getPerfilType().name());
 					perfilCensRepository.delete(perfil);
 					rolCensService.removeRolToMiembro(perfil.getPerfilType(), usuario);
 				}else{
@@ -112,28 +114,28 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 				if(checkList.isEmpty()){
 					checkList.add(ptct);
 				}else{
-					throw new CensException(assembleException(PerfilTrabajadorCensType.ALUMNO,checkList));
+					throw new CensException("Conflicto con perfiles",assembleException(PerfilTrabajadorCensType.ALUMNO,checkList));
 				}				
 				break;
 			case ASESOR:
 				if(checkList.isEmpty() || checkList.contains(PerfilTrabajadorCensType.PROFESOR)){
 					checkList.add(ptct);
 				}else{
-					throw new CensException(assembleException(PerfilTrabajadorCensType.ASESOR,Arrays.asList(ptct)));
+					throw new CensException("Conflicto con perfiles",assembleException(PerfilTrabajadorCensType.ASESOR,Arrays.asList(ptct)));
 				}
 				break;
 			case PRECEPTOR:
 				if(checkList.isEmpty()){
 					checkList.add(ptct);
 				}else{
-					throw new CensException(assembleException(PerfilTrabajadorCensType.PRECEPTOR,checkList));
+					throw new CensException("Conflicto con perfiles",assembleException(PerfilTrabajadorCensType.PRECEPTOR,checkList));
 				}		
 				break;
 			case PROFESOR:
 				if(checkList.isEmpty() || checkList.contains(PerfilTrabajadorCensType.ASESOR)){
 					checkList.add(ptct);
 				}else{
-					throw new CensException(assembleException(PerfilTrabajadorCensType.PROFESOR,Arrays.asList(ptct)));
+					throw new CensException("Conflicto con perfiles",assembleException(PerfilTrabajadorCensType.PROFESOR,Arrays.asList(ptct)));
 				}
 				break;
 			default:
@@ -142,14 +144,17 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 			}
 	}
 	
-	private String assembleException(PerfilTrabajadorCensType perfilError, List<PerfilTrabajadorCensType> incompatible){
+	private Map<String,String> assembleException(PerfilTrabajadorCensType perfilError, List<PerfilTrabajadorCensType> incompatible){
 		StringBuilder sb = new StringBuilder();	
 		for(PerfilTrabajadorCensType ptct : incompatible){
-			sb.append(ptct.getNombre().replace("ROLE_", ""));
+			sb.append(ptct.name());
 			sb.append(", ");
 		}
 		String perfilesIncompatibles = sb.toString();
 		perfilesIncompatibles =perfilesIncompatibles.substring(0, perfilesIncompatibles.length()-2);
-		return "El rol "+perfilError.getNombre().replace("ROLE_", "") +" no se puede asignarse con : "+perfilesIncompatibles;
+		
+		 Map<String,String> map = new HashMap<String, String>();
+		 map.put("perfil", "El rol "+perfilError.name() +" no se puede asignarse con : "+perfilesIncompatibles);
+		 return map;
 	}
 }

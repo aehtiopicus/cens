@@ -32,7 +32,7 @@ public class AbstractController {
 		logger.error(ex.getMessage());
 		ErrorDto errorDto = new ErrorDto();
 		errorDto.setStatusCode(HttpStatus.BAD_REQUEST);
-		errorDto.setErrorMessage(ex.getMessage());
+		errorDto.setMessage(ex.getMessage());
         return errorDto;
 		
 	}

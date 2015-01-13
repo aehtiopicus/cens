@@ -42,7 +42,7 @@ public class MiembroCens implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuarios usuario;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "miembroCens",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "miembroCens",fetch=FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Contacto> contactos;
 
