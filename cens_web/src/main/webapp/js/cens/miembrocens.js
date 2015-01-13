@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
                 	return tipo.substring(0,tipo.length-1);
                 },index:'Perfil',sortable: false}, 
                 { 	
-        			name: 'usuarioId',   
+        			name: 'id',   
         			width: 16,
         			editable: false, 
         			sortable: false,
@@ -52,7 +52,7 @@ jQuery(document).ready(function () {
         			formatter: editCurrencyFmatter
         		},
                 { 	
-        			name: 'usuarioId',  
+        			name: 'id',  
         			width: 16,
         			editable: false, 
         			sortable: false,
@@ -223,26 +223,26 @@ function deleteUsuario(){
 	$('#message').removeClass('msgError');
 	
 	$.ajax({
-		type:"POST",
-		url:"removeusuario",
-		data:{
-			usuarioId:usuarioId
-		},
+		type:"DELETE",
+		url:"miembro/"+usuarioId,
+		contentType :'application/json',
+		dataType:"json",
 		success: function(data){
-			if(data.success == true){
-				//refresco datos enla grilla
-				gridReload(pageToLoad);
-				$('#message').addClass('msgSuccess');
-			}else{
-				$('#message').addClass('msgError');
-			}
-			
-			//cargo mensaje en pantalla
-			$('#message').text(data.message)
-			setTimeout("$('#message').text('')", 5000);
-
+			gridReload(pageToLoad);
+			$('#message').addClass('msgSuccess');
+			cargarMensaje();
+		},
+		error: function(data){
+			$('#message').addClass('msgError');	
+			cargarMensaje();
+		}								
 
 		}
 		
-	})
+	);
+	cargarMensaje = function(){
+		//cargo mensaje en pantalla
+		$('#message').text(data.message)
+		setTimeout("$('#message').text('')", 5000);
+	}
 } 

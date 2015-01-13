@@ -1,6 +1,5 @@
 jQuery(document).ready(function () {
-	
-	
+		
 
 	$(function() {
 		   $(".hasdatepicker").datepicker({
@@ -9,11 +8,13 @@ jQuery(document).ready(function () {
 		});
 	if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){
 	$.ajax({
-		url: "../miembro/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
+		url: pagePath+"/miembro/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
-		success: function(data){					
+		success: function(data){
+			$('#id').val(data.id);
+			$('#usuarioid').val(data.usuario.id);
 			$('#fechaNac').val(convertDate(data.fechaNac));
 			$('#username').val(data.usuario.username);
 			$('#nombre').val(data.nombre);
@@ -40,10 +41,10 @@ function convertDate(value){
 	var a =(new Date(value));
 	date = a.getDate().toString();
 	date =date.length == 1 ? 0+date : date;
-	return a.getFullYear()+"-"+a.getMonth()+1+"-"+ date;
+	return a.getFullYear()+"-"+(a.getMonth()+1)+"-"+ date;
 }
 
-function submitMiembro(){
+function submitMiembro(url){
 
 	var tipo =[];
 	$.each($('#perfilList li input') ,function(index,val) {
@@ -53,20 +54,20 @@ function submitMiembro(){
 		  }
 		});
 	
-	var usuario='{"username":"'+$('#username').val()+'","password":"'+$('#password').val()+'","passwordConfirm":"'+$('#passwordConfirm').val()+'","perfil":['+tipo+']}';
-	var miembroCens = '[{"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').val().replace("/","-")+'","usuario":'+usuario+'}]';
+	var usuario='{"id":'+($("#usuarioid").length == 0 ? null : $("#usuarioid").val())+',"username":"'+$('#username').val()+'","password":"'+$('#password').val()+'","passwordConfirm":"'+$('#passwordConfirm').val()+'","perfil":['+tipo+']}';
+	var miembroCens = '[{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').val().replace("/","-")+'","usuario":'+usuario+'}]';
 	
 	$.ajax({
 		  type: "POST",
-		  url: "miembro",
+		  url: url,
 		  data: miembroCens,
-		  dataType:"application/json",
+		  dataType:"json",
 		  contentType:"application/json", 
 		  success: function(value){
-			  
+			 $('#cancelar').trigger("onclick");
 		  },
 		  error:function(value){
-			  
+			  alert("error: (" + value.responseText + ") " + value.statusText);
 		  }
 		  
 		});

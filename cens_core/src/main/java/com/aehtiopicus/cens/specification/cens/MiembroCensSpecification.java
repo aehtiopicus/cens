@@ -1,7 +1,5 @@
 package com.aehtiopicus.cens.specification.cens;
 
-import java.util.List;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -10,7 +8,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
-import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class MiembroCensSpecification {
@@ -45,4 +42,18 @@ public class MiembroCensSpecification {
       pattern.append("%");
       return pattern.toString();
   }
+	 
+	 public static Specification<MiembroCens> bajaFalse() {
+	        
+	        return new Specification<MiembroCens>() {
+				
+				@Override
+				public Predicate toPredicate(Root<MiembroCens> root, CriteriaQuery<?> query,
+						CriteriaBuilder cb) {
+					return cb.isFalse(root.<Boolean>get("baja"));
+					
+				}
+			};
+	    }
+
 }

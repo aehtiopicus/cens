@@ -22,4 +22,7 @@ public interface MiembroCensService {
 
 
 	public Long getTotalUsersFilterByProfile(RestRequest rr);
+
+
+	public void deleteMiembro(Long miembroId);
 }

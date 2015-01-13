@@ -10,7 +10,7 @@ public class MiembroCensDto {
 	private String apellido;	
 	private Date fechaNac;
 	private String dni;
-	private Boolean baja;
+	private Boolean baja = false;
 	private UsuariosDto usuario;
 	private List<ContactoDto> contactos;
 	public Long getId() {

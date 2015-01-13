@@ -86,7 +86,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		 }
 		 		 
 		 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("apellido") && !restRequest.getFilters().containsKey("perfil"))){
-			 requestedPage = miembroCensRepository.findAll(Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
+			 requestedPage = miembroCensRepository.findAll(getSpecificationMiembroCens(null,null,true),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
 			 return requestedPage.getContent();
 		 }
 		 Specifications<MiembroCens> specifications = getSpecificationMiembroCens(
@@ -100,18 +100,23 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	private Specifications<MiembroCens> getSpecificationMiembroCens(String apellido, PerfilTrabajadorCensType ptct, boolean where){
 		Specifications<MiembroCens> specifications = null;
 		 if(ptct!=null){
-			 if(where == true){
+			 if(where){
 				 specifications = Specifications.where(MiembroCensSpecification.perfilTrabajadorCensEquals(ptct));
 				 where = false;
 			 }
 		 }
 		 if(!StringUtils.isEmpty(apellido)){			 
-			 if(where == true){
+			 if(where ){
 				 specifications = Specifications.where(MiembroCensSpecification.apellidoEquals(apellido));
 				 where = false;
 			 } else{
 				 specifications = specifications.and(MiembroCensSpecification.apellidoEquals(apellido));
 			 }
+		 }
+		 if(where){
+			 specifications = Specifications.where(MiembroCensSpecification.bajaFalse());
+		 }else{
+			 specifications = specifications.and(MiembroCensSpecification.bajaFalse());
 		 }
 		return specifications;
 	}
@@ -129,7 +134,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		logger.info("obteniendo numero de registros de usuarios");
     	long cantUsers = 0;   	 	   	 	
    	 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("apellido") && !restRequest.getFilters().containsKey("perfil"))){
-   		cantUsers = miembroCensRepository.count();
+   		cantUsers = miembroCensRepository.count(getSpecificationMiembroCens(null,null,true));
 		
 	 }else{
 		 Specifications<MiembroCens> specification = getSpecificationMiembroCens(
@@ -138,6 +143,15 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	 }
    	 	   	 	
     	return (long) Math.ceil(cantUsers);
+	}
+
+
+
+	@Override
+	@Transactional
+	public void deleteMiembro(Long miembroId) {
+		usuarioCensService.deleteUsuarioByMiembroId(miembroId);
+		miembroCensRepository.softDelete(miembroId);		
 	}
 	
 }

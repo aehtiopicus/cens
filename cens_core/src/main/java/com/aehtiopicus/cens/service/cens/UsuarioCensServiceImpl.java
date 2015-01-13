@@ -26,6 +26,12 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 			throw new CensException ("No se puede guardar el usuario ",e);
 		}
 	}
+
+	@Override
+	public void deleteUsuarioByMiembroId(Long miembroId) {
+		usuariosCensRepository.softDeleteByMiembro(miembroId);
+		
+	}
 	
 
 }

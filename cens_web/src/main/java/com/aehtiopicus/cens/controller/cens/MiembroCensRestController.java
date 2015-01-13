@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
@@ -66,6 +68,7 @@ public class MiembroCensRestController extends AbstractRestController{
 	
 	
 	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST+"/{id}", method=RequestMethod.GET, produces="application/json", consumes="application/json")
 	public MiembroCensDto getMiembro(@PathVariable(value="id") Long miembroId) throws Exception{
 		
@@ -81,6 +84,13 @@ public class MiembroCensRestController extends AbstractRestController{
 		miembroCensDto.setId(miembroId);
 		List<MiembroCens> miembroCens = miembroCensService.saveMiembroSens(Arrays.asList(miembroCensMapper.convertMiembroCensDtoToEntity(miembroCensDto)));
 		return miembroCensMapper.convertMiembroCensToDto(miembroCens.get(0));
+		
+	}
+	
+	
+	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST+"/{id}", method=RequestMethod.DELETE, produces="application/json", consumes="application/json")
+	public void deleteMiembro(@PathVariable(value="id") Long miembroId) throws Exception{		
+		miembroCensService.deleteMiembro(miembroId);		
 		
 	}
 	

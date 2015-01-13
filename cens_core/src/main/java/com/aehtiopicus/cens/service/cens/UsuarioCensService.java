@@ -6,4 +6,6 @@ import com.aehtiopicus.cens.utils.CensException;
 public interface UsuarioCensService {
 
 	public Usuarios saveUsuario(Usuarios usuarios) throws CensException;
+
+	public void deleteUsuarioByMiembroId(Long miembroId);
 }

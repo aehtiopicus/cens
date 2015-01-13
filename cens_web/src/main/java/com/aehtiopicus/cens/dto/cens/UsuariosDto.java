@@ -10,7 +10,7 @@ public class UsuariosDto {
 	protected String username;
 	protected String password;
 	protected String passwordConfirm;
-	protected Boolean enabled;		
+	protected Boolean enabled = true;		
 	private List<PerfilDto> perfil ;
 	public Long getId() {
 		return id;

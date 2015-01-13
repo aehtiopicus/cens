@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,7 +87,13 @@ public class RolCensServiceImpl implements RolCensService {
 
 	@Override
 	public List<PerfilTrabajadorCensType> listPerfil() {
-		return Arrays.asList(PerfilTrabajadorCensType.values());
+		List<PerfilTrabajadorCensType> list =new  ArrayList<PerfilTrabajadorCensType>();
+		for(PerfilTrabajadorCensType ptct : PerfilTrabajadorCensType.values()){
+			if(!ptct.equals(PerfilTrabajadorCensType.ADMINISTRADOR)){
+				list.add(ptct);
+			}
+		}
+		return list;
 	}
 
 	@Override
