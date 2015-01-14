@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.service.cens;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.repository.cens.UsuariosCensRepository;
@@ -53,6 +54,7 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	}
 
 	@Override
+	@Transactional
 	public void resetPassword(Long usuarioId, String defaulPassword) {
 		usuariosCensRepository.resetPassword(usuarioId,defaulPassword);
 		

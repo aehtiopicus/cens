@@ -39,7 +39,7 @@
 					inline: true,
 					yearRange: "-100:+0",
 					changeMonth: true,
-				    changeYear: true
+				    changeYear: true,
 				    dateFormat: "yy-mm-dd"
 				});
 				

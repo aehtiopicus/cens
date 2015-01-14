@@ -13,12 +13,12 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 
 	@Modifying
 	@Query("UPDATE Usuarios u SET u.enabled = false WHERE u = (SELECT mc.usuario FROM MiembroCens mc WHERE mc.id = ?1)")
-	public void softDeleteByMiembro(Long miembroId);
+	public int softDeleteByMiembro(Long miembroId);
 
 	public Usuarios findByUsername(String username);
 
 	@Modifying
 	@Query("UPDATE Usuarios u SET u.password = :password WHERE u.id = :id")
-	public void resetPassword(@Param("password")Long usuarioId,@Param("id") String defaulPassword);
+	public int resetPassword(@Param("id")Long usuarioId,@Param("password") String defaulPassword);
 
 }

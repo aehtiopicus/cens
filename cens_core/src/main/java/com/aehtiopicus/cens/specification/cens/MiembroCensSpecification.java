@@ -19,7 +19,7 @@ public class MiembroCensSpecification {
 				@Override
 				public Predicate toPredicate(Root<MiembroCens> root, CriteriaQuery<?> query,
 						CriteriaBuilder cb) {
-					return cb.equal(root.join("usuario").join("perfil").get("perfilType"),ptct);
+					return cb.equal(root.join("usuario").join("perfil").get("perfilType"),ptct.getNombre());
 					
 				}
 			};
