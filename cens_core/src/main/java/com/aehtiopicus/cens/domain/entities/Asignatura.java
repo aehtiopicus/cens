@@ -12,6 +12,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "CENS_ASIGNATURA")
 public class Asignatura implements Serializable {
@@ -35,9 +38,11 @@ public class Asignatura implements Serializable {
 	private String horarios;
 
 	@OneToMany(mappedBy = "asignatura")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<MaterialDidactico> materialesDidacticos;
 	
 	@OneToMany(mappedBy = "asignaturas")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Alumno> alumnos;
 
 	@OneToOne
@@ -45,6 +50,9 @@ public class Asignatura implements Serializable {
 
 	@OneToOne
 	private Profesor profesor;
+	
+	@OneToOne
+	private Profesor profesorSuplente;
 
 	public Long getId() {
 		return id;
@@ -116,6 +124,14 @@ public class Asignatura implements Serializable {
 
 	public void setHorarios(String horarios) {
 		this.horarios = horarios;
+	}
+
+	public Profesor getProfesorSuplente() {
+		return profesorSuplente;
+	}
+
+	public void setProfesorSuplente(Profesor profesorSuplente) {
+		this.profesorSuplente = profesorSuplente;
 	}
 	
 	

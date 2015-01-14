@@ -17,7 +17,7 @@
         <a href="#">Gesti&oacute;n de Cursos</a>
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/expedienteList">Modalidad</a></li>
-			<li><a href="<%=request.getContextPath() %>/cursosList">Cursos</a></li>
+			<li><a href="<%=request.getContextPath() %>/cursoList">Cursos</a></li>
 		</ul>
 	</li>
 	<li>

@@ -10,9 +10,6 @@
 			<div class="center">
 				<img src="css/midasUI-theme/images/logo_cens.png">
 			</div>
-<!-- 			<div class="tituloForm"> -->
-<!-- 				<h3>NOVATIUM - Sistema de Gesti&oacute;n</h3> -->
-<!-- 			</div> -->
 	
 			<div>
 				<label for="username">Usuario:</label>

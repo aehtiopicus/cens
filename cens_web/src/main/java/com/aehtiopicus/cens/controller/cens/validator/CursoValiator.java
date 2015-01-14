@@ -26,11 +26,11 @@ public class CursoValiator {
 				errorMap.put("nombre", "Nombre es requerido");
 			}
 			if (curso.getYearCurso() == 0) {
-				errorMap.put("yearCurso", "El año es requerido");
+				errorMap.put("yearCurso", "El a&ntilde;o es requerido");
 			}else if(curso.getYearCurso()> Calendar.getInstance().get(Calendar.YEAR)){
-				errorMap.put("yearCurso", "El año m&aacute;ximo es el corriente");
+				errorMap.put("yearCurso", "El a&ntilde;o m&aacute;ximo es el corriente");
 			}else if(curso.getYearCurso()<1988){
-				errorMap.put("yearCurso", "El año m&iacute;nimo es 1988");
+				errorMap.put("yearCurso", "El a&ntilde;o m&iacute;nimo es 1988");
 			}
 			
 

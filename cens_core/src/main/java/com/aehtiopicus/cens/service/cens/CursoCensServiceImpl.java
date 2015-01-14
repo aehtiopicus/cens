@@ -43,7 +43,7 @@ public class CursoCensServiceImpl implements CursoCensService{
 	private void validate(Curso curso)throws CensException{
 		Curso c = findCursoByYearAndNombre(curso.getYearCurso(),curso.getNombre());
 		if(c!=null && (curso.getId()==null || !c.getId().equals(curso.getId()))){
-			throw new CensException("No se puede guardar el curso","yearCurso","Existe un curso en este año con el nombre dado","nombre","Existe un curso en este año con el nombre dado");
+			throw new CensException("No se puede guardar el curso","yearCurso","Existe un curso en este a&ntilde;o con el nombre dado","nombre","Existe un curso en este a&ntilde;o con el nombre dado");
 		}
 	}
 	

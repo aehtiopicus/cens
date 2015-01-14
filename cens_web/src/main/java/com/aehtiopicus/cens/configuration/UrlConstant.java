@@ -146,6 +146,7 @@ public class UrlConstant {
 	public final static String RESET_PASSWORD_MVC = "/resetpassword";
 	/*Curso*/
 	public static final String CURSO_CENS_MVC="/cursoList";
+	public static final String CURSO_CENS_ABM_MVC="/cursoABM";
 	public static final String CURSO_CENS_REST = "/curso";
 	
 

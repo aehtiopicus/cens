@@ -16,14 +16,13 @@
     	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/chosen.css">
 
         <script src="<%=request.getContextPath() %>/js/jquery-1.10.1.min.js"></script>
-		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>     
+		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="<%=request.getContextPath() %>/js/jquery.numeric.js" type="text/javascript"></script>
+		<script src="<%=request.getContextPath() %>/js/jquery.jqGrid.min.js" type="text/javascript"></script>     
 		<script src="<%=request.getContextPath() %>/js/jquery.ui.datepicker-es.js"></script>     
-    	<script src="<%=request.getContextPath() %>/js/grid.locale-en.js" type="text/javascript"></script>
-	    <script src="<%=request.getContextPath() %>/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script>
-	    <script src="<%=request.getContextPath() %>/js/jquery.numeric.js" type="text/javascript"></script>
+    	<script src="<%=request.getContextPath() %>/js/grid.locale-en.js" type="text/javascript"></script>	    
+	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script>	    
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
-
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
 
@@ -57,6 +56,7 @@
 		        
     	    });
 
+    	    
     	    function deleteAllCookies() {
     	        var cookies = document.cookie.split(";");
 

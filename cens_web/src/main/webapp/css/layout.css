@@ -222,6 +222,7 @@ div.heading{
     color:white;
     font-size:20px;
     padding:5px 30px;
+    width: auto;
 }
 div.centreDiv{
     width:100%;
@@ -295,6 +296,18 @@ fieldset div input {
     height: 16px;
     padding: 7px;
     width: 440px;
+}
+
+
+
+fieldset div span .ui-spinner-input{
+    height: 11px;
+    padding: 7px;
+    width: 413px;
+     outline: none !important;
+    border:0px !important ;
+    box-shadow: none !important;
+   
 }
 
 fieldset div input[type=checkbox] {
@@ -649,21 +662,19 @@ width: auto;
 /* background-color: #036; */
 }
 
- ul#perfilList li { margin-left: -20px } 
+ul#perfilList li {
+  margin-left: -20px 
+ } 
 
 ul#perfilList li a
 {
 float: left;
 width: 5em;
-/* color: #fff; */
-/* background-color: #036; */
-/* padding: 0.2em 1em; */
-/* text-decoration: none; */
-/* border-right: 1px solid #fff; */
+
 }
 
-ul#perfilList li a:hover
-{
-/* background-color: #369; */
-/* color: #fff; */
+.spanFocus{
+	outline: none !important;
+    border:1px solid blue !important;
+    box-shadow: 0 0 10px #719ECE !important;
 }

@@ -4,11 +4,11 @@ var cookieRegsXPage = "";
 jQuery(document).ready(function () {
 
 	restoreState();
-	var perfil = jQuery("#perfil").val();
-	var apellido = jQuery("#apellido").val();
+	var year = jQuery("#year").val();
+
 	
-    jQuery("#projectTable").jqGrid({
-    		url:"miembro",    		
+    jQuery("#projectTable").jqGrid({    	
+    		url:"curso",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -20,28 +20,11 @@ jQuery(document).ready(function () {
                 	},
               
             },
-            colNames:['Usuario','Nombre', 'Apellido', 'DNI', 'Perfil','<span class="ui-icon ui-icon-locked"/>','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
-            colModel:[
-                {name:'usuario.username',index:'Usuario', sortable: false},
+            colNames:['Nombre', 'A&ntilde;o','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
+            colModel:[                
                 {name:'nombre',index:'Nombre',sortable: false},
-                {name:'apellido',index:'Apellido',sortable: false},
-                {name:'dni',index:'DNI',sortable: false},
-                {name:function(val){
-                	var tipo="";
-                	$.each(val.usuario.perfil ,function(index,val) {
-                		  tipo=tipo+val.perfilType+",";
-                		}); 
-                	return tipo.substring(0,tipo.length-1);
-                },index:'Perfil',sortable: false}, 
+                {name:'yearCurso',index:'A&ntilde;o',sortable: false},
                 { 	
-        			name: 'usuario.id',   
-        			width: 16,
-        			editable: false, 
-        			sortable: false,
-        			fixed: true,
-        			formatter: resetPasswordCurrencyFmatter
-        		},
-        		{ 	
         			name: 'id',   
         			width: 16,
         			editable: false, 
@@ -63,18 +46,18 @@ jQuery(document).ready(function () {
             pager: "#pagingDiv",
             page:cookiePage,
             postData:{requestData:function(postData) {            	
-                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":perfil,"apellido":apellido}});
+                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"year":year}});
             }},
             viewrecords: true,
-            caption: "Miembros Cens",            
+            caption: "Curso",            
             loadComplete: function (data) {
             	$(".ui-pg-selbox").val(cookieRegsXPage);
             	$(".ui-pg-input").val(data.page);
-            	setCookie('usuarioPage', $('.ui-pg-input').val());
-            	cookiePage = $('.ui-pg-input').val();            	
+            	setCookie('cursoPage', $('.ui-pg-input').val());
+            	cookiePage = $('.ui-pg-input').val();
             },
             onPaging: function(page){
-            	setCookie('usuarioRegXPage', $(".ui-pg-selbox").val());
+            	setCookie('cursoRegXPage', $(".ui-pg-selbox").val());
             	cookieRegsXPage = $(".ui-pg-selbox").val();
             }
         });
@@ -85,7 +68,7 @@ jQuery(document).ready(function () {
         }).trigger('resize');
         
         
-        $( "#remUser" ).dialog({
+        $( "#remCurso" ).dialog({
 			autoOpen: false,
 			width: 400,
 			buttons: [
@@ -100,57 +83,47 @@ jQuery(document).ready(function () {
 					text: "Cancelar",
 					click: function() {
 						$( this ).dialog( "close" );
-						usuarioIdToRemove = null;
+						cursoIdToRemove = null;
 					}
 				}
 			]
-		});         
+		});
         fixTable();
     });
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='miembroABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='cursoABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
 
- function resetPasswordCurrencyFmatter (cellvalue, options, rowObject)
- {
-	var template = "<a onclick=\"resetPassword('usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
-	 
-    return template.replace("{ENTITY_ID}",cellvalue);
- }
  
  function deleteCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='javascript:deleteUsuario_dialog({ENTITY_ID})' title='Eliminar'><span class='ui-icon ui-icon-trash'/></a>";
+	var template = "<a href='javascript:deleteCurso_dialog({ENTITY_ID})' title='Eliminar'><span class='ui-icon ui-icon-trash'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
  
  function saveState(){
-	 setCookie('usuarioF1', jQuery("#perfil").val());
-	 setCookie('usuarioF2', jQuery("#apellido").val());
+	 setCookie('cursoF1', jQuery("#year").val());
  }
  
 function restoreState(){
-	if(isAValidCookie('usuarioF1')){ 
-		jQuery("#perfil").val(getCookie('usuarioF1'));
-	}
-	if(isAValidCookie('usuarioF2')){
-		jQuery("#apellido").val(getCookie('usuarioF2'));
-	}
+	if(isAValidCookie('cursoF1')){ 
+		jQuery("#year").val(getCookie('usuarioF1'));
+	}	
 	
-	if(getCookie('usuarioRegXPage') != ""){
-		$(".ui-pg-selbox").val(getCookie('usuarioRegXPage'));
-		cookieRegsXPage = getCookie('usuarioRegXPage');
+	if(getCookie('cursoRegXPage') != ""){
+		$(".ui-pg-selbox").val(getCookie('cursoRegXPage'));
+		cookieRegsXPage = getCookie('cursoRegXPage');
 	}else{
 		cookieRegsXPage = 5;
 	}
-	if(getCookie('usuarioPage') != ""){
-		$('.ui-pg-input').val(getCookie('usuarioPage'));
-		cookiePage = getCookie('usuarioPage');
+	if(getCookie('cursoPage') != ""){
+		$('.ui-pg-input').val(getCookie('cursoPage'));
+		cookiePage = getCookie('cursoPage');
 	}else{
 		cookiePage = 1;
 	}
@@ -169,8 +142,7 @@ function restoreState(){
  
  
  function gridReload(currentPage){
-	var perfil = jQuery("#perfil").val();
-	var apellido = jQuery("#apellido").val();
+	var year = jQuery("#year").val();	
 	var pageNro = 1; 
 	if(currentPage != null && currentPage > 1){
 		pageNro = currentPage;
@@ -179,12 +151,12 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:"miembro",
+       		url:"curso",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
       		 postData:{requestData:function(postData) {            	
-                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":perfil,"apellido":apellido}});
+                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"year":year}});
              }},
       		page:pageNro})
       		.trigger("reloadGrid");
@@ -204,30 +176,30 @@ function calculatePageToLoadAfterDelete(){
 	return currentPage;
 }
  
-var usuarioIdToRemove = null;
-function deleteUsuario_dialog(usuarioId){
-	usuarioIdToRemove = usuarioId;
-	$("#remUser").dialog("open");
+var cursoIdToRemove = null;
+function deleteCurso_dialog(cursoId){
+	cursoIdToRemove = cursoId;
+	$("#remCurso").dialog("open");
 }
 
 function deleteUsuario(){
-	var usuarioId = usuarioIdToRemove;
+	var cursoId = cursoIdToRemove;
 	
 	var pageToLoad = calculatePageToLoadAfterDelete();
 	
-	usuarioIdToRemove = null;
+	cursoIdToRemove = null;
 	$('#message').removeClass('msgSuccess');
 	$('#message').removeClass('msgError');
 	
 	$.ajax({
 		type:"DELETE",
-		url:"miembro/"+usuarioId,
+		url:"curso/"+cursoId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
 			gridReload(pageToLoad);
 			$('#message').addClass('msgSuccess');
-			cargarMensaje(data);
+			cargarMensaje(data,true);
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
@@ -240,23 +212,3 @@ function deleteUsuario(){
 	
 } 
 
-function resetPassword(url){
-	$.ajax({
-		type:"POST",
-		url:url,
-		contentType :'application/json',
-		dataType:"json",
-		success: function(data){
-			gridReload(pageToLoad);
-			$('#message').addClass('msgSuccess');
-			cargarMensaje(data);
-		},
-		error: function(data){
-			$('#message').addClass('msgError');	
-			cargarMensaje(errorConverter(data));
-		}								
-
-		}
-		
-	);
-}

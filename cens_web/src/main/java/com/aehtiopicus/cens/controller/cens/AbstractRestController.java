@@ -1,5 +1,10 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +82,18 @@ public class AbstractRestController {
 		    }else{
 		    	restRequestDto = wrapper.getDto();
 		    }
-		return restRequestMapper.convertRestRequestDto(restRequestDto);
+		    RestRequest rr = restRequestMapper.convertRestRequestDto(restRequestDto);
+		    Map<String,String> data = rr.getFilters();
+		    if(data!=null){
+		    	Set<Entry<String,String>> mapData = data.entrySet();
+		    	
+		    	for(Entry<String, String> entry : mapData){
+		    		if(StringUtils.isEmpty(entry.getValue())){
+		    			data.remove(entry.getKey());
+		    		}
+		    	}
+		    }
+		return rr;
 	}
 	
 	

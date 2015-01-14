@@ -51,10 +51,10 @@ public class MiembroCensValidator {
 				}
 				
 				if(StringUtils.isEmpty(miembro.getUsuario().getPassword())){
-					errorMap.put("password", "Contraseña de Usuario es requerida");
+					errorMap.put("password", "Contrase&ntilde;a de Usuario es requerida");
 				}else{
 					if(miembro.getUsuario().getPassword().length()<6){
-						errorMap.put("password", "Contraseña de Usuario debe tener almenos 6 caracteres");
+						errorMap.put("password", "Contrase&ntilde;a de Usuario debe tener almenos 6 caracteres");
 					}					
 				}
 				

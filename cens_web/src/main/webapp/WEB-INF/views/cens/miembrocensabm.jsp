@@ -5,7 +5,6 @@
 <script src="<%=request.getContextPath() %>/js/cens/miembrocensabm.js"></script>
 
 	<form:form  commandName="miembroCensDto" onsubmit="algo(this);" action="/miembro">
-<%-- 		<form:hidden path="usuarioId"/>  --%>
 		<fieldset>
 			<c:if test="${id != null}">
 				<form:hidden path="id" id="id"/>

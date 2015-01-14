@@ -11,7 +11,16 @@ function errorDivs(errorDiv,field,value){
 
 function addError(field,value){
 	var errorDiv = field+"ErrorDiv";
-	$('#'+field).parent().append(errorDivs(errorDiv,field,value));
+	getErrorParenter($('#'+field)).append(errorDivs(errorDiv,field,value));
+}
+
+function getErrorParenter(field){
+	var parentDiv; 
+	if(field.parent().is("div")){
+		return field.parent();
+	}else{
+		return getErrorParenter(field.parent());
+	}
 }
 
 function closeError(value){
@@ -28,4 +37,23 @@ function checkDate(datevalue){
 	    return false;
 	  }
 	  return true;
+}
+
+function cargarMensaje(data,ok){
+	//cargo mensaje en pantalla
+	if(ok){
+		$('#message').text(data.message)
+	}else{
+		if(data.errorDto != undefined && data.errorDto){
+			$('#message').text(data.message)
+		}else{
+			$('#message').text("Se produjo un error en el servidor");
+		}
+	}
+	setTimeout("$('#message').text('')", 5000);
+}
+
+function fixTable(){
+	$('table').width('100%');
+	$($('.ui-jqgrid-hbox ')[0]).width('100%')
 }

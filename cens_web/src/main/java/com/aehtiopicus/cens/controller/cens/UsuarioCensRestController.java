@@ -37,7 +37,7 @@ public class UsuarioCensRestController extends AbstractRestController{
 		usuarioCensService.resetPassword(usuarioId,password);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(usuarioId);
-		dto.setMessage("Contraseña actualizada por defecto");
+		dto.setMessage("Contrase&ntilde;a actualizada por defecto");
 		return dto;
     }
 }
