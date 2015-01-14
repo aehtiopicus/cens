@@ -60,7 +60,7 @@ jQuery(document).ready(function () {
         			formatter: deleteCurrencyFmatter
         		}
             ],
-            rowList:[1,2,5,10,50],
+            rowList:[5,10,50],
             rowNum:cookieRegsXPage,
             pager: "#pagingDiv",
             page:cookiePage,
@@ -119,7 +119,7 @@ jQuery(document).ready(function () {
 
  function resetPasswordCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='reset/{ENTITY_ID}' title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
+	var template = "<a onclick=\"resetPassword('usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -240,13 +240,34 @@ function deleteUsuario(){
 		}
 		
 	);
-	cargarMensaje = function(data){
-		//cargo mensaje en pantalla
-		if(data.errorDto != undefined){
-			$('#message').text(data.message)
-		}else{
-			$('#message').text("Se produjo un error en el servidor");
-		}
-		setTimeout("$('#message').text('')", 5000);
-	}
+	
 } 
+ function cargarMensaje(data){
+	//cargo mensaje en pantalla
+	if(data.errorDto != undefined && data.errorDto){
+		$('#message').text(data.message)
+	}else{
+		$('#message').text("Se produjo un error en el servidor");
+	}
+	setTimeout("$('#message').text('')", 5000);
+}
+function resetPassword(url){
+	$.ajax({
+		type:"POST",
+		url:url,
+		contentType :'application/json',
+		dataType:"json",
+		success: function(data){
+			gridReload(pageToLoad);
+			$('#message').addClass('msgSuccess');
+			cargarMensaje(data);
+		},
+		error: function(data){
+			$('#message').addClass('msgError');	
+			cargarMensaje(errorConverter(data));
+		}								
+
+		}
+		
+	);
+}

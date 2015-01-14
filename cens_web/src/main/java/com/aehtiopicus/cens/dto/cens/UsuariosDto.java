@@ -1,6 +1,5 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsuariosDto {

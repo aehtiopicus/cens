@@ -1,6 +1,5 @@
 package com.aehtiopicus.cens.controller.cens.mvc;
 
-import static com.aehtiopicus.cens.controller.cens.mvc.AbstractController.logger;
 
 import java.security.Principal;
 import java.util.Locale;
@@ -39,11 +38,11 @@ public class UsuarioCensController extends AbstractController {
     public ModelAndView resetPasswordForm(Locale locale, Model model, Principal principal, @PathVariable("usuarioId") Long usuarioId) {
 
 		log.info("Reset password");		
-		Usuario usuario = usuarioService.getById(usuarioId);		
-        ResetPasswordDto dto = UsuarioMapper.getResetPasswordDtoFromUsuario(usuario);
+//		Usuario usuario = usuarioService.getById(usuarioId);		
+//        ResetPasswordDto dto = UsuarioMapper.getResetPasswordDtoFromUsuario(usuario);
         
         ModelAndView mav = new ModelAndView(VistasConstant.RESETEAR_PASSWORD_VIEW);
-        mav.addObject("resetPasswordDto", dto);
+//        mav.addObject("resetPasswordDto", dto);
         
         return mav;
     }

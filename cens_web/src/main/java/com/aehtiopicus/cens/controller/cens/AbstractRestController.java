@@ -43,6 +43,7 @@ public class AbstractRestController {
 		logger.error(ex.getMessage());
 		ex.printStackTrace();
 		ErrorDto errorDto = new ErrorDto();
+		errorDto.setErrorDto(false);
 		errorDto.setStatusCode(HttpStatus.BAD_REQUEST);
 		errorDto.setMessage(ex.getMessage());
 		return errorDto;

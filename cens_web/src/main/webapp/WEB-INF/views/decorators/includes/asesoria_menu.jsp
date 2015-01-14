@@ -14,7 +14,14 @@
     </li>
 
 	<li>
-        <a href="#">Gesti&oacute;n de Expedientes</a>
+        <a href="#">Gesti&oacute;n de Cursos</a>
+		<ul>
+			<li><a href="<%=request.getContextPath() %>/expedienteList">Modalidad</a></li>
+			<li><a href="<%=request.getContextPath() %>/cursosList">Cursos</a></li>
+		</ul>
+	</li>
+	<li>
+        <a href="#">Gesti&oacute;n de Cursos</a>
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/expedienteList">Gesti&oacute;n de Expedientes</a></li>
 

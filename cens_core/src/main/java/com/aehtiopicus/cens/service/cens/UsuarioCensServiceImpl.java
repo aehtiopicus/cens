@@ -51,6 +51,12 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	public Usuarios findUsuarioById(Long id) {
 		return usuariosCensRepository.findOne(id);
 	}
+
+	@Override
+	public void resetPassword(Long usuarioId, String defaulPassword) {
+		usuariosCensRepository.resetPassword(usuarioId,defaulPassword);
+		
+	}
 	
 
 }

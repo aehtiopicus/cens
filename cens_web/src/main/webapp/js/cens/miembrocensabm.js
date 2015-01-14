@@ -1,11 +1,6 @@
 jQuery(document).ready(function () {
 		
 
-	$(function() {
-		   $(".hasdatepicker").datepicker({
-		      dateFormat: "yy-mm-dd"
-		   });
-		});
 	if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){
 	$.ajax({
 		url: pagePath+"/miembro/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
@@ -32,7 +27,7 @@ jQuery(document).ready(function () {
 		},
 		error: function(data){
 			errorData = errorConverter(value);
-			if(errorData.errorDto != undefined){
+			if(errorData.errorDto != undefined && value.errorDto){
 				alert(errorConverter(value).message);
 			}else{
 				 alert("Se produjo un error el servidor");
@@ -74,7 +69,7 @@ function submitMiembro(url){
 	}
 }	
 function validationError (error){
-	if(error.errorDto != undefined){
+	if(error.errorDto != undefined && error.errorDto){
 		for(var key in error.errors) {
 			addError(key,error.errors[key]);
 		}

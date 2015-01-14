@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,12 +93,12 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		 }
 		 		 
 		 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("apellido") && !restRequest.getFilters().containsKey("perfil"))){
-			 requestedPage = miembroCensRepository.findAll(getSpecificationMiembroCens(null,null,true),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
+			 requestedPage = miembroCensRepository.findAll(getSpecificationMiembroCens(null,null,true),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 			 return requestedPage.getContent();
 		 }
 		 Specifications<MiembroCens> specifications = getSpecificationMiembroCens(
 				 restRequest.getFilters().get("apellido"), PerfilTrabajadorCensType.getPrefilByName(restRequest.getFilters().get("perfil")), true);
-		 requestedPage = miembroCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow()));
+		 requestedPage = miembroCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 		 return requestedPage.getContent();
 		 
 		
@@ -168,5 +169,13 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		miembroCensDto.getUsuario().setUsername(u.getUsername());		
 		
 	}
+	
+	/**
+     * Retorna  Sort object que ordena usuarios acorde al nombre asociado 
+     * @return
+     */
+    public  Sort sortByApellidoAsc() {
+        return new Sort(Sort.Direction.ASC, "apellido");
+    }
 	
 }

@@ -1,6 +1,6 @@
 package com.aehtiopicus.cens.dto.cens;
 
-public class RestResponseDeleteDto {
+public class RestSingleResponseDto {
 
 	private String message;
 	private Long id;

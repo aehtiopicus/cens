@@ -41,18 +41,11 @@ public class Utils {
      * @param pageIndex Numero de pagina que se quiere obtener
      * @return
      */
-    public static Pageable constructPageSpecification(int pageIndex, int row) {
-        Pageable pageSpecification = new PageRequest(pageIndex, row, sortByUsernameAsc());
+    public static Pageable constructPageSpecification(int pageIndex, int row, Sort sort) {
+        Pageable pageSpecification = new PageRequest(pageIndex, row, sort);
      
         return pageSpecification;
     }
-    
-    /**
-     * Retorna  Sort object que ordena usuarios acorde al nombre asociado 
-     * @return
-     */
-    public static  Sort sortByUsernameAsc() {
-        return new Sort(Sort.Direction.ASC, "usuario.username");
-    }
+        
     
 }

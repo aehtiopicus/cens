@@ -35,11 +35,12 @@
     	    $(document).ready(function() {
 				$( ".button" ).button();
 				
-				$( ".datepicker" ).datepicker({
+				$( ".hasdatepicker" ).datepicker({
 					inline: true,
 					yearRange: "-100:+0",
 					changeMonth: true,
 				    changeYear: true
+				    dateFormat: "yy-mm-dd"
 				});
 				
 				$( ".menu" ).menu({

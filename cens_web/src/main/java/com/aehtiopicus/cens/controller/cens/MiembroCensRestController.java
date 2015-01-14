@@ -21,7 +21,7 @@ import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
-import com.aehtiopicus.cens.dto.cens.RestResponseDeleteDto;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.mapper.cens.MiembroCensMapper;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
@@ -101,9 +101,9 @@ public class MiembroCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST+"/{id}", method=RequestMethod.DELETE, produces="application/json", consumes="application/json")
-	public @ResponseBody RestResponseDeleteDto deleteMiembro(@PathVariable(value="id") Long miembroId) throws Exception{		
+	public @ResponseBody RestSingleResponseDto deleteMiembro(@PathVariable(value="id") Long miembroId) throws Exception{		
 		miembroCensService.deleteMiembro(miembroId);		
-		RestResponseDeleteDto dto = new RestResponseDeleteDto();
+		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(miembroId);
 		dto.setMessage("Miembro Eliminado");
 		return dto;

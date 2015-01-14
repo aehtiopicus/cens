@@ -141,7 +141,12 @@ public class UrlConstant {
 	public static final String MIEMBRO_CENS_ABM="/miembroABM";
 	
 	/*Usuario*/
+	public static final String USUARIO_CENS_REST ="/usuario";
+	public static final String USUARIO_CENS_REST_PASSWORD =USUARIO_CENS_REST+"/{id}/reset";
 	public final static String RESET_PASSWORD_MVC = "/resetpassword";
+	/*Curso*/
+	public static final String CURSO_CENS_MVC="/cursoList";
+	public static final String CURSO_CENS_REST = "/curso";
 	
 
 }

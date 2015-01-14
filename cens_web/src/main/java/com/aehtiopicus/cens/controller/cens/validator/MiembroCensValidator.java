@@ -62,9 +62,10 @@ public class MiembroCensValidator {
 					errorMap.put("perfil", "Se requiere perfil de usuario");
 				}
 			}
-		}
+		
 		if(!errorMap.isEmpty()){
 			throw new CensException("Error al crear el miembro del cens",errorMap);
+		}
 		}
 	}
 }

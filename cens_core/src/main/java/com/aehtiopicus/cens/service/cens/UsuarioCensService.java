@@ -12,4 +12,6 @@ public interface UsuarioCensService {
 	public Usuarios findUsuarioByUsername(String username);
 
 	public Usuarios findUsuarioById(Long id);
+
+	public void resetPassword(Long usuarioId, String defaulPassword);
 }
