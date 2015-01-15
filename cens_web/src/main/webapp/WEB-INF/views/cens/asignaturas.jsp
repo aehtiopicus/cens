@@ -16,7 +16,7 @@
     <div class="floatLeftDiv">
     
     	<div class="acciones">
-    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/miembroABM'">Nueva Asignatura</button>
+    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/asignaturaABM'">Nueva Asignatura</button>
     	</div>
     
 		<!--     Filtros -->

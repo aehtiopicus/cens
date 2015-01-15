@@ -84,15 +84,15 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	
 	private Specifications<Profesor> getSpecificationProfesor(String data){
 		
-		Specifications<Profesor> specifications = Specifications.where(ProfesorCensSpecification.perfilTrabajadorCensEquals());
-		specifications = specifications.and(ProfesorCensSpecification.miembroBajaFalse());
+		Specifications<Profesor> specifications = Specifications.where(ProfesorCensSpecification.miembroBajaFalse());		
 		specifications = specifications.and(ProfesorCensSpecification.profesorNotBaja());
 		 if(StringUtils.isNotEmpty(data)){
-			 specifications = specifications.or(ProfesorCensSpecification.apellidoLike(data));
-			 specifications = specifications.or(ProfesorCensSpecification.nombreLike(data));
-			 specifications = specifications.or(ProfesorCensSpecification.dniLike(data));
+			 specifications  = (specifications.or(ProfesorCensSpecification.apellidoLike(data)).or(ProfesorCensSpecification.nombreLike(data)).or(ProfesorCensSpecification.dniLike(data)));
+//			 specifications = specifications.or(ProfesorCensSpecification.apellidoLike(data));
+//			 specifications = specifications.or(ProfesorCensSpecification.nombreLike(data));
+//			 specifications = specifications.or(ProfesorCensSpecification.dniLike(data));
 		 } 
-		return specifications;
+		return specifications = specifications.and(ProfesorCensSpecification.perfilTrabajadorCensEquals());
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
     	
 		long cantUsers = 0;   	 	   	 	
    	 	if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("data")){
-   	 		cantUsers = profesorCensRepository.count(getSpecificationProfesor(restRequest.getFilters().get("data")));
+   	 		cantUsers = profesorCensRepository.count(getSpecificationProfesor(null));
 		
    	 	}else{
    	 		Specifications<Profesor> specification = getSpecificationProfesor(restRequest.getFilters().get("data"));
@@ -112,7 +112,7 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	}
 	
 	 public  Sort sortByApellidoAsc() {
-	        return new Sort(Sort.Direction.ASC, "apellido");
+	        return new Sort(Sort.Direction.ASC, "miembroCens.apellido");
 	    }
 
 	@Override

@@ -112,7 +112,7 @@ html,body,table{
   .ui-menu > li { margin: 0px 4px !important; padding: 0 0 !important; border-radius: 0px!important;}
   .ui-menu > li > a { /*float: left; display: block;*/ clear: both; overflow: hidden; border-radius: 0px!important;}
   .ui-menu .ui-menu-icon { margin-top: 1px !important; }
-  .ui-menu .ui-menu .ui-menu li { float: left; display: block; border-radius: 0px!important;}
+  .ui-menu .ui-menu .ui-menu li { float: left; display: block; border-radius: 0px!important;}   
   
 /* --------------------fin - menu ------------------------------------------ */
 
@@ -345,9 +345,18 @@ height: 10px;
 background-position: 14% 85%;
 background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png');
 }
-
-
-
+.ui-autocomplete{
+	width: 440px;
+}
+.ui-autocomplete-loading {
+	
+    background-image: white url('midasUI-theme/images/ui-anim_basic_16x16.gif') right center no-repeat;
+    width: 100px;
+    height: 100px;
+}
+.ui-autocomplete .ui-menu-item {
+	width: 100% !important;
+	}
 
 fieldset div .ui-state-hint{
 	margin-left: 188px;

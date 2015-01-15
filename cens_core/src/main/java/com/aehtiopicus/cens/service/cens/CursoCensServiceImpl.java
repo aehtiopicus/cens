@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,21 +61,29 @@ public class CursoCensServiceImpl implements CursoCensService{
 			 restRequest.setPage(restRequest.getPage() - 1);
 		 }
 		 		 
-		 if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("year")){
+		 if(restRequest.getFilters()==null  || (!restRequest.getFilters().containsKey("year")||!restRequest.getFilters().containsKey("nombre") )){
 			 requestedPage = cursoCensRepository.findAll(Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByNombreAsc()));
 			 return requestedPage.getContent();
 		 }
-		 Specifications<Curso> specifications =getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")));
+		 Specifications<Curso> specifications =getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")),restRequest.getFilters().get("nombre"));
 		 requestedPage = cursoCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByNombreAsc()));
 		 return requestedPage.getContent();
 		 
 	}
-	private Specifications<Curso> getSpecificationCurso(int year){
+	private Specifications<Curso> getSpecificationCurso(int year,String nombre){
 		Specifications<Curso> specifications = null;
-		 
+		 boolean where = false;
 		 if(year>0){			 
 			 specifications = Specifications.where(CursoSpecification.yearEqual(year));
-		 }		 
+			 where = true;
+		 }
+		 if(StringUtils.isNotEmpty(nombre)){
+			 if(where){
+				 specifications = specifications.and(CursoSpecification.nombreLike(nombre));
+			 }else{
+				 specifications = Specifications.where(CursoSpecification.nombreLike(nombre)); 
+			 }
+		 }
 		return specifications;
 	}
 	
@@ -90,11 +99,11 @@ public class CursoCensServiceImpl implements CursoCensService{
 	public long getTotalCursos(RestRequest restRequest) {
 		logger.info("obteniendo numero de registros de cursos");
     	long cantUsers = 0;   	 	   	 	
-   	 if(restRequest.getFilters()==null  ||!restRequest.getFilters().containsKey("year") ){
+   	 if(restRequest.getFilters()==null  ||(!restRequest.getFilters().containsKey("year")||!restRequest.getFilters().containsKey("nombre"))){
    		cantUsers = cursoCensRepository.count();
 		
 	 }else{
-		 Specifications<Curso> specification = getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")));
+		 Specifications<Curso> specification = getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")),restRequest.getFilters().get("nombre"));
 		 cantUsers = cursoCensRepository.count(specification);
 	 }
    	 	   	 	

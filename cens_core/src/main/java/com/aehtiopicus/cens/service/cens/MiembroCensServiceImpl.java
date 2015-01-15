@@ -50,7 +50,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 			List<MiembroCens> miembroCensListResult = new ArrayList<MiembroCens>();
 			for(MiembroCens  miembroCens:miembroCensList){
 				miembroCens = validateMiembro(miembroCens);
-				List<Perfil> perfilList = miembroCens.getUsuario().getPerfil();
+				List<Perfil> perfilList = new ArrayList<Perfil>(miembroCens.getUsuario().getPerfil());
 				miembroCens.setUsuario(usuarioCensService.saveUsuario(miembroCens.getUsuario()));
 				miembroCens.getUsuario().setPerfil(perfilList);
 				perfilCensService.addPerfilesToUsuarios(miembroCens.getUsuario());
@@ -73,6 +73,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		if(mc!=null){
 			List<Perfil> perfiles = miembroCens.getUsuario().getPerfil();
 			miembroCens.setUsuario(mc.getUsuario());
+			
 			miembroCens.getUsuario().setPerfil(perfiles);
 		}
 		return miembroCens;
