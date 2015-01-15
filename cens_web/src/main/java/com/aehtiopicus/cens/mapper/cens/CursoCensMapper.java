@@ -11,7 +11,7 @@ import com.aehtiopicus.cens.dto.cens.CursoDto;
 import com.aehtiopicus.cens.util.Utils;
 
 @Component
-public class CursoMapper {
+public class CursoCensMapper {
 
 	public CursoDto convertCursoToDto(Curso curso){
 		return Utils.getMapper().map(curso, CursoDto.class);

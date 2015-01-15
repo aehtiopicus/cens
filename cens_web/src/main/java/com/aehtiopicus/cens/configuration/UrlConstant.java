@@ -148,6 +148,10 @@ public class UrlConstant {
 	public static final String CURSO_CENS_MVC="/cursoList";
 	public static final String CURSO_CENS_ABM_MVC="/cursoABM";
 	public static final String CURSO_CENS_REST = "/curso";
+	/*Asignatura*/
+	public static final String ASIGNATURA_CENS_REST ="/asignatura";
+	public static final String ASIGNATURA_CENS_MVC="/asignaturaList";
+	public static final String ASIGNATURA_CENS_ABM_MVC="/asignaturaABM";
 	
 
 }

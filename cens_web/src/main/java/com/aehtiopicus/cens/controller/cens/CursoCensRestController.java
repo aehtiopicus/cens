@@ -24,7 +24,7 @@ import com.aehtiopicus.cens.dto.cens.CursoDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
-import com.aehtiopicus.cens.mapper.cens.CursoMapper;
+import com.aehtiopicus.cens.mapper.cens.CursoCensMapper;
 import com.aehtiopicus.cens.service.cens.CursoCensService;
 import com.aehtiopicus.cens.util.Utils;
 
@@ -32,7 +32,7 @@ import com.aehtiopicus.cens.util.Utils;
 public class CursoCensRestController extends AbstractRestController{
 
 	@Autowired
-	private CursoMapper mapper;
+	private CursoCensMapper mapper;
 	@Autowired
 	private CursoValiator validator;
 	@Autowired

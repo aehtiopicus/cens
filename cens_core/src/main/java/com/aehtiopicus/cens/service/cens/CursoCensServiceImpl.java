@@ -117,4 +117,9 @@ public class CursoCensServiceImpl implements CursoCensService{
 		}
 		
 	}
+
+	@Override
+	public Curso findById(Long id) {
+		return cursoCensRepository.findOne(id);
+	}
 }

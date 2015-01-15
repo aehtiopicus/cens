@@ -1,8 +1,8 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -85,13 +85,13 @@ public class AbstractRestController {
 		    RestRequest rr = restRequestMapper.convertRestRequestDto(restRequestDto);
 		    Map<String,String> data = rr.getFilters();
 		    if(data!=null){
-		    	Set<Entry<String,String>> mapData = data.entrySet();
-		    	
-		    	for(Entry<String, String> entry : mapData){
+		    	Iterator<Entry<String,String>> iterator =data.entrySet().iterator();
+		    	while(iterator.hasNext()){
+		    		Entry<String,String> entry =iterator.next();
 		    		if(StringUtils.isEmpty(entry.getValue())){
-		    			data.remove(entry.getKey());
+		    			iterator.remove();
 		    		}
-		    	}
+		    	}		    			    
 		    }
 		return rr;
 	}

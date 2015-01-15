@@ -76,4 +76,7 @@ public class VistasConstant {
 	public static final String CURSO_LIST_VIEW ="cens/cursos";
 	public static final String CURSO_LIST_ABM_VIEW ="cens/cursoabm";
 	
+	public static final String ASIGNATURA_LIST_VIEW ="cens/asignaturas";
+	public static final String ASIGNATURA_LIST_ABM_VIEW ="cens/asignaturaabm";
+	
 }

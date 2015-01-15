@@ -26,9 +26,7 @@ public class Asignatura implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
-	private int yearDictado;
+	private Long id;	
 
 	private String nombre;
 
@@ -45,13 +43,13 @@ public class Asignatura implements Serializable {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Alumno> alumnos;
 
-	@OneToOne
+	@OneToOne(optional=false)
 	private Curso curso;
 
-	@OneToOne
+	@OneToOne(optional=false)	
 	private Profesor profesor;
 	
-	@OneToOne
+	@OneToOne(optional=true)
 	private Profesor profesorSuplente;
 
 	public Long getId() {
@@ -60,14 +58,6 @@ public class Asignatura implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public int getYearDictado() {
-		return yearDictado;
-	}
-
-	public void setYearDictado(int yearDictado) {
-		this.yearDictado = yearDictado;
 	}
 
 	public String getNombre() {

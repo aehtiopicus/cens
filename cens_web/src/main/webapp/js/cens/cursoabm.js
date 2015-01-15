@@ -3,7 +3,7 @@ $("#yearCurso").spinner({
     min : 1980,
     max : new Date().getFullYear(),   
     showOn : 'both',
-    spin: function( event, ui ) {alert(ui);},
+    //spin: function( event, ui ) {alert(ui);},
     numberFormat: "n",    
     	
 });

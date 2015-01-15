@@ -49,7 +49,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		if (CollectionUtils.isNotEmpty(miembroCensList)) {
 			List<MiembroCens> miembroCensListResult = new ArrayList<MiembroCens>();
 			for(MiembroCens  miembroCens:miembroCensList){
-				validateMiembro(miembroCens);
+				miembroCens = validateMiembro(miembroCens);
 				List<Perfil> perfilList = miembroCens.getUsuario().getPerfil();
 				miembroCens.setUsuario(usuarioCensService.saveUsuario(miembroCens.getUsuario()));
 				miembroCens.getUsuario().setPerfil(perfilList);
@@ -65,11 +65,18 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 		}
 	}
 
-	private void validateMiembro(MiembroCens miembroCens)throws CensException{
+	private MiembroCens validateMiembro(MiembroCens miembroCens)throws CensException{
 		MiembroCens mc = miembroCensRepository.findByDni(miembroCens.getDni());
 		if(mc!=null && (miembroCens.getId()==null || !mc.getId().equals(miembroCens.getId()))){
 			throw new CensException("No se puede guardar el miembro","dni","Existe un miembro con el documento indicado");
 		}
+		if(mc!=null){
+			List<Perfil> perfiles = miembroCens.getUsuario().getPerfil();
+			miembroCens.setUsuario(mc.getUsuario());
+			miembroCens.getUsuario().setPerfil(perfiles);
+		}
+		return miembroCens;
+		
 	}
 	
 	@Override
