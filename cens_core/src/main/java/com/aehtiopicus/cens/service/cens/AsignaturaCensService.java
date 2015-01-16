@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.List;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -18,5 +19,9 @@ public interface AsignaturaCensService {
 	public void deleteAsignatura(Long asignaturaID) throws CensException;
 
 	public Asignatura getAsignatura(Long asignaturaId);
+
+	public List<Asignatura> findAsignaturasActivasByProfesor(Profesor findOneByMiembroCens);
+
+	public void removeProfesorFromAsignaturas(Profesor findById);
 
 }

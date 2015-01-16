@@ -37,14 +37,19 @@
 				<input type="text" id="profesor"/>
 			</div>	
 			<div>
-				<label for="profesorsuplente">Profesor Suplente:</label>
-				<input type="text" id="profesorsuplente"/>
+				<label for="profesorSuplente">Profesor Suplente:</label>
+				<input type="text" id="profesorSuplente"/>
 			</div>	
 			
 			<div>
 				<label for="curso">Curso:</label>
 				<input type="text" id="curso"/>
 			</div>
+			<div>
+				<label for="vigente">vigente:</label>
+				<input type="checkbox" id="vigente" style="margin-left: -10px; border: none;width:37px;height:16px;"/>
+			</div>	
+			
 			<input type="hidden" id ="profesorId" />
 			<input type="hidden" id ="profesorSuplenteId" />
 			<input type="hidden" id ="cursoId" />
@@ -52,7 +57,7 @@
 			<input type="hidden" id ="profesorSuplenteName" />
 			<input type="hidden" id ="cursoName" />
 			<div class="footerForm">
-				<button class="button" type="button" onclick="submitCurso('<%=request.getContextPath() %>/asignatura');" >Guardar</button>
+				<button class="button" type="button" onclick="submitAsignatura('<%=request.getContextPath() %>/asignatura');" >Guardar</button>
 
 				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/asignaturaList'">Cancelar</button>
 			</div>

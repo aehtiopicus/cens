@@ -30,12 +30,17 @@ public class AsignaturaCensValidator {
 			if(asignatura.getCurso()== null || asignatura.getCurso().getId()==null){
 				errorMap.put("curso", "Curso es requerido");
 			}
-			if(asignatura.getProfesor()==null || asignatura.getProfesor().getId() == null){
-				errorMap.put("profesor", "Profesor es requerido");
+			if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId() != null){
+				if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
+					if(asignatura.getProfesor().getId().equals(asignatura.getProfesorSuplente().getId())){
+						errorMap.put("profesorSuplente", "El profesor suplente no puede ser titular");
+					}
+				}
+				
 			}			
 		
 		if(!errorMap.isEmpty()){
-			throw new CensException("Error al crear el miembro del cens",errorMap);
+			throw new CensException("Error al guardar Asignatura",errorMap);
 		}
 		}
 	}

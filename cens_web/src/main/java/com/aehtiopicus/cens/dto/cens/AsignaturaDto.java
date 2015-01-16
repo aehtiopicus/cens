@@ -10,6 +10,7 @@ public class AsignaturaDto {
 	private AsignaturaCursoDto curso;
 	private AsignaturaProfesorDto profesor;
 	private AsignaturaProfesorDto profesorSuplente;
+	private boolean vigente;
 	
 	
 	public Long getId() {
@@ -53,6 +54,12 @@ public class AsignaturaDto {
 	}
 	public void setProfesorSuplente(AsignaturaProfesorDto profesorSuplente) {
 		this.profesorSuplente = profesorSuplente;
+	}
+	public boolean isVigente() {
+		return vigente;
+	}
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
 	}
 	
 	

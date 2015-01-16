@@ -6,7 +6,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
@@ -128,6 +127,17 @@ public class ProfesorCensSpecification {
 				return cb.and(cb.isFalse(root.<Boolean> get("baja")),cb.isFalse(root.get("miembroCens").<Boolean> get("baja")));
 			}
 			
+		};
+	}
+
+	public static Specification<Profesor> notThisOne(final Long profesorId) {
+		return new Specification<Profesor>() {
+
+			@Override
+			public Predicate toPredicate(Root<Profesor> root,
+					CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.notEqual(root.get("id"), profesorId);
+			}
 		};
 	}
 }

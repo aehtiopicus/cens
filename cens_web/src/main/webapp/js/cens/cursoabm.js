@@ -73,15 +73,7 @@ function submitCurso(url){
 		});
 	
 }	
-function validationError (error){
-	if(error.errorDto != undefined && error.errorDto){
-		for(var key in error.errors) {
-			addError(key,error.errors[key]);
-		}
-		return true;
-	}
-	return false;
-}
+
 
 function prepareData(post){
 				

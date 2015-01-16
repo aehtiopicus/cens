@@ -13,12 +13,14 @@ public interface ProfesorCensService {
 
 	public Profesor getProfesor(MiembroCens usuario);
 
-	public void deleteProfesor(MiembroCens miembroCens);
+	public void deleteProfesor(MiembroCens miembroCens) throws CensException;
 
 	public List<Profesor> listProfesores(RestRequest restRequest);
 
 	public Long getTotalProfesoresFilterByProfile(RestRequest restRequest);
 
 	public Profesor findById(Long id);
+
+	public void removeAsignaturasProfesor(Long profesorId);
 
 }

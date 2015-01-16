@@ -81,7 +81,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 	
 	@Override
 	public void removePerfiles(List<PerfilTrabajadorCensType> perfilTypeList,
-			Usuarios usuario) {
+			Usuarios usuario) throws CensException{
 		List<Perfil> perfilList = listPerfilFromUsuario(usuario);
 		if(CollectionUtils.isNotEmpty(perfilList)){
 			for(Perfil perfil : perfilList){

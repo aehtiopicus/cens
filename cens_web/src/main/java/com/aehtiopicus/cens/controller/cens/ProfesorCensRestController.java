@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +19,10 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.ProfesorCensValidator;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
-import com.aehtiopicus.cens.dto.cens.MiembroCensDto;
 import com.aehtiopicus.cens.dto.cens.ProfesorDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.mapper.cens.ProfesorCensMapper;
 import com.aehtiopicus.cens.service.cens.ProfesorCensService;
 import com.aehtiopicus.cens.util.Utils;
@@ -43,7 +44,7 @@ public class ProfesorCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@RequestMapping(value = UrlConstant.PROFESOR_CENS_CREST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = UrlConstant.PROFESOR_CENS_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public RestResponseDto<ProfesorDto> listProfesores(@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
 		logger.info("listando profesores");
 		RestRequest rr = getRequestRequest(wrapper);
@@ -64,5 +65,15 @@ public class ProfesorCensRestController extends AbstractRestController{
 		result.setSord(rr.getSord());
 		
 		return result;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)	
+	@RequestMapping(value = UrlConstant.PROFESOR_CENS_REMOVE_ASIGNATURAS_REST, method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RestSingleResponseDto removeAsignaturas(@PathVariable(value="id") Long profesorId) throws Exception{	
+		profesorCensService.removeAsignaturasProfesor(profesorId);		
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+		dto.setId(profesorId);
+		dto.setMessage("Profesor eliminado de asignaturas");
+		return dto;
 	}
 }

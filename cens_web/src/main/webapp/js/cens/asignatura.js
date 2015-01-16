@@ -27,15 +27,15 @@ jQuery(document).ready(function () {
                 {name:'modalidad',index:'Modalidad',sortable: false},
                 {name:'horarios',index:'Horarios',sortable: false},                
                 {name:function(val){
-                	return val.profesor.miembroCens.apellido+","+val.profesor.miembroCens.dni;                	
+                	return val.profesor.miembroCens.apellido+", ("+val.profesor.miembroCens.dni+")";                	
                 },index:'Profesor',sortable: false}, 
                 {name:function(val){
-                	if(val.profesorSuplente != undefined && val.profesorSuplente.length > 0){
-                		return val.profesorSuplente.miembroCens.apellido+","+val.profesorSuplente.miembroCens.dni;
+                	if(val.profesorSuplente !=null){
+                		return val.profesorSuplente.miembroCens.apellido+", ("+val.profesorSuplente.miembroCens.dni+")";
                 	}else{
                 		return "";
                 	}
-                },index:'Profesor',sortable: false},
+                },index:'Profesor Suplente',sortable: false},
                 {name:function(val){
                 	return val.curso.nombre+" ("+val.curso.yearCurso+")";
                 },index:'Profesor',sortable: false},                 
@@ -224,7 +224,7 @@ function deleteAsignatura(){
 		dataType:"json",
 		success: function(data){
 			gridReload(pageToLoad);
-			$('#message').addClass('msgSuccess');
+			$('#message').addClass('msgSuccess',true);
 			cargarMensaje(data);
 		},
 		error: function(data){

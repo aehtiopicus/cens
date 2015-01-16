@@ -1,7 +1,6 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -62,7 +61,7 @@ public class RolCensServiceImpl implements RolCensService {
 
 	@Override
 	public void removeRolToMiembro(PerfilTrabajadorCensType perfil,
-			Usuarios usuario) {
+			Usuarios usuario) throws CensException{
 		MiembroCens miembroCens = miembroCensService
 				.searchMiembroCensByUsuario(usuario);
 		if (miembroCens != null) {

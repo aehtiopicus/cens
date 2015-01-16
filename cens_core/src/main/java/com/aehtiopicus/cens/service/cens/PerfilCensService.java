@@ -16,6 +16,6 @@ public interface PerfilCensService {
 	public List<Perfil> addPerfilesToUsuarios(Usuarios usuario) throws CensException;
 
 	public void removePerfiles(List<PerfilTrabajadorCensType> perfilTypeList,
-			Usuarios usuario);
+			Usuarios usuario) throws CensException;
 
 }

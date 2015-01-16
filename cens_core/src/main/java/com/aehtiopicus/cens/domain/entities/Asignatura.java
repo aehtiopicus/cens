@@ -46,11 +46,13 @@ public class Asignatura implements Serializable {
 	@OneToOne(optional=false)
 	private Curso curso;
 
-	@OneToOne(optional=false)	
+	@OneToOne(optional=true)	
 	private Profesor profesor;
 	
 	@OneToOne(optional=true)
 	private Profesor profesorSuplente;
+	
+	private boolean vigente = false;
 
 	public Long getId() {
 		return id;
@@ -122,6 +124,14 @@ public class Asignatura implements Serializable {
 
 	public void setProfesorSuplente(Profesor profesorSuplente) {
 		this.profesorSuplente = profesorSuplente;
+	}
+
+	public boolean isVigente() {
+		return vigente;
+	}
+
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
 	}
 	
 	

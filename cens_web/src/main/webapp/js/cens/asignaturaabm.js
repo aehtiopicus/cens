@@ -30,30 +30,30 @@ jQuery(document).ready(function () {
 			}
 	    });
 	
-	$( "#profesorsuplente" ).autocomplete({     
+	$( "#profesorSuplente" ).autocomplete({     
 		   delay: 500,
 		   minLength: 4,
 		   source : function(request,response){
-			   cargarDatos('profesorsuplente',request.term,'profesor',response);
+			   cargarDatos('profesorSuplente',request.term,'profesor',response);
 		   },
 		  
 		   select : function(event,ui){
-			   $( "#profesorsuplente" ).val(ui.item.label);		
-			   $( "#profesorsuplenteId" ).val(ui.item.value);
-			   $( "#profesorsuplenteName" ).val(ui.item.label);
+			   $( "#profesorSuplente" ).val(ui.item.label);		
+			   $( "#profesorSuplenteId" ).val(ui.item.value);
+			   $( "#profesorSuplenteName" ).val(ui.item.label);
 			return false;
 			},
 			change : function(event,ui){
 				if(ui.item != null){
-					$( "#profesorsuplente" ).val(ui.item.label);	
-					$( "#profesorsuplenteId" ).val(ui.item.value);
-					$( "#profesorsuplenteName" ).val(ui.item.label);
+					$( "#profesorSuplente" ).val(ui.item.label);	
+					$( "#profesorSuplenteId" ).val(ui.item.value);
+					$( "#profesorSuplenteName" ).val(ui.item.label);
 				}else{
-					if($( "#profesorsuplente" ).val().length==0){
-						$( "#profesorsuplenteId" ).val("");
-						$( "#profesorsuplenteName" ).val("");
+					if($( "#profesorSuplente" ).val().length==0){
+						$( "#profesorSuplenteId" ).val("");
+						$( "#profesorSuplenteName" ).val("");
 					}else{
-						$( "#profesorsuplente" ).val($( "#profesorsuplenteName" ).val());						
+						$( "#profesorSuplente" ).val($( "#profesorSuplenteName" ).val());						
 					}
 				}
 			return false;
@@ -93,14 +93,29 @@ jQuery(document).ready(function () {
 
 if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){
 	$.ajax({
-		url: pagePath+"/curso/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
+		url: pagePath+"/asignatura/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
 		success: function(data){
 			$('#id').val(data.id);
 			$('#nombre').val(data.nombre);
-			$('#yearCurso').val(data.yearCurso);
+			$('#modalidad').val(data.modalidad);
+			$('#horarios').val(data.horarios);
+			if(data.profesor != null){
+				$('#profesor').val(data.profesor.miembroCens.apellido+", "+data.profesor.miembroCens.nombre+" ("+data.profesor.miembroCens.dni+")");
+				$('#profesorId').val(data.profesor.id);
+				$('#profesorName').val(data.profesor.miembroCens.apellido+", "+data.profesor.miembroCens.nombre+" ("+data.profesor.miembroCens.dni+")");
+			}
+			if(data.profesorSuplente != null){
+				$('#profesorSuplente').val(data.profesorSuplente.miembroCens.apellido+", "+data.profesorSuplente.miembroCens.nombre+" ("+data.profesorSuplente.miembroCens.dni+")");
+				$('#profesorSuplenteId').val(data.profesorSuplente.id);
+				$('#profesorSuplenteName').val(data.profesor.miembroCens.apellido+", "+data.profesorSuplente.miembroCens.nombre+" ("+data.profesorSuplente.miembroCens.dni+")");
+			}
+			$('#curso').val(data.curso.nombre+" ("+data.curso.yearCurso+")");
+			$('#cursoId').val(data.curso.id);
+			$('#cursoName').val(data.curso.nombre+" ("+data.curso.yearCurso+")");
+			$('#vigente').prop("checked",data.vigente);
 		},
 		error: function(data){
 			errorData = errorConverter(value);
@@ -121,7 +136,7 @@ function cargarDatos(field,value,url,response){
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",
-		data:{ requestData:prepareJsonRequestData(url,value)},
+		data:{ requestData:prepareJsonRequestData(field,url,value)},
 		success: function(data){		
 			response( assembleAutocompleteJson(data,url));
 		},
@@ -136,10 +151,16 @@ function cargarDatos(field,value,url,response){
 	});	
 }
 
-function prepareJsonRequestData(url,value){
+function prepareJsonRequestData(field,url,value){
 	var request = {"page": 1,"row": 10,"sord":"asc","filters":{}};
 	if(url === "profesor"){
 		request.filters = {"data":value};
+		if(field==="profesorSuplente" && $('#profesorId').val().length>0){
+			request.filters.profesor = $('#profesorId').val();
+		}
+		if(field==="profesor" && $('#profesorSuplenteId').val().length>0){
+			request.filters.profesor = $('#profesorSuplenteId').val();
+		}
 	}else if(url === "curso"){
 		request.filters = {"nombre":value};
 	}
@@ -162,14 +183,14 @@ function assembleAutocompleteJson(data,url){
 }
 
 
-function submitCurso(url){
+function submitAsignatura(url){
 
 	var post =$('#id').length == 0;
 			
 	$.ajax({
 		  type: post ? "POST" : "PUT",
 		  url: post? url :(url+"/"+ $('#id').val()),
-		  data: prepareData(post),
+		  data: JSON.stringify(prepareData(post)),
 		  dataType:"json",
 		  contentType:"application/json", 
 		  success: function(value){
@@ -186,23 +207,21 @@ function submitCurso(url){
 		});
 	
 }	
-function validationError (error){
-	if(error.errorDto != undefined && error.errorDto){
-		for(var key in error.errors) {
-			addError(key,error.errors[key]);
-		}
-		return true;
-	}
-	return false;
-}
+
 
 function prepareData(post){
-				
-		var curso='{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","yearCurso":"'+$('#yearCurso').val()+'"}';		
-		var postData = '[{post}]';		
+		var profesor = {id:$('#profesorId').val()};
+		var profesorSuplente = {id:$('#profesorSuplenteId').val()};
+		var curso = {id:$('#cursoId').val()}
+		var asignatura = {id: $("#id").val() == undefined ? null : $("#id").val(), nombre : $('#nombre').val(), modalidad : $('#modalidad').val(), horarios : $('#horarios').val(), vigente:$('#vigente').prop("checked")}
+		asignatura.profesor = profesor;
+		asignatura.profesorSuplente = profesorSuplente;
+		asignatura.curso = curso;
+		
+			
 		if(post){
-			curso = postData.replace('{post}',curso);
+			return [asignatura];
 		}
-		return curso;
+		return asignatura;
 }
 

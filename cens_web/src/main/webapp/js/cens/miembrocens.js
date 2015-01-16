@@ -104,7 +104,27 @@ jQuery(document).ready(function () {
 					}
 				}
 			]
-		});         
+		});  
+        $( "#remAsignaturas" ).dialog({
+			autoOpen: false,
+			width: 400,
+			buttons: [
+				{
+					text: "Ok",
+					click: function() {
+						$( this ).dialog( "close" );
+						deleteAsignaturas();
+					}
+				},
+				{
+					text: "Cancelar",
+					click: function() {
+						$( this ).dialog( "close" );
+						$('#profesorId').val("");
+					}
+				}
+			]
+		});
         fixTable();
     });
  
@@ -227,7 +247,41 @@ function deleteUsuario(){
 		success: function(data){
 			gridReload(pageToLoad);
 			$('#message').addClass('msgSuccess');
-			cargarMensaje(data);
+			cargarMensaje(data,true);
+		},
+		error: function(data){
+			$('#message').addClass('msgError');	
+			dataError = errorConverter(data);
+			
+			if(dataError.errorDto != undefined && dataError.errorDto){
+				for(var key in error.errors) {
+					if(key==="profesorId"){
+						$('#profesorId').val(dataError.errors[key]);
+						$("#remAsignaturas").dialog("open");
+						return;
+					}					
+				}
+				
+			}			
+			cargarMensaje(dataError);
+		}								
+
+		}
+		
+	);
+	
+} 
+
+function deleteAsignaturas(){	
+	
+
+	$.ajax({
+		type:"DELETE",
+		url:"profesor/"+$('#profesorId').val()+"/removerasignaturas",
+		contentType :'application/json',
+		dataType:"json",
+		success: function(data){
+			deleteUsuario();
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
@@ -249,7 +303,7 @@ function resetPassword(url){
 		success: function(data){
 			gridReload(pageToLoad);
 			$('#message').addClass('msgSuccess');
-			cargarMensaje(data);
+			cargarMensaje(data,true);
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	

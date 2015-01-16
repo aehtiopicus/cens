@@ -48,11 +48,13 @@
         	<label id="message"></label>
         </div>
     </div>
-
+	<input type="hidden" id="profesorId"/>
 </div>
 
 <div id="remUser" class="dialog" title="Confirmar">
 	<p>Se elimininar&aacute; el usuario del sistema. ¿Desea continuar?</p>
 </div>
-
+<div id="remAsignaturas" class="dialog" title="Confirmar">
+	<p>El profesor tiene materias asignadas. ¿Desea eliminarlas?</p>
+</div>
 

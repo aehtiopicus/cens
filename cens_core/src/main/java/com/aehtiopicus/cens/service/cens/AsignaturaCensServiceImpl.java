@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
 import com.aehtiopicus.cens.specification.cens.AsignaturaCensSpecification;
@@ -167,6 +168,18 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Override
 	public Asignatura getAsignatura(Long asignaturaId) {
 		return asignaturaCensRepository.findOne(asignaturaId);
+	}
+
+	@Override
+	public List<Asignatura> findAsignaturasActivasByProfesor(
+			Profesor profesor) {
+		return asignaturaCensRepository.findAsignaturaByProfesor(profesor);
+	}
+
+	@Override
+	public void removeProfesorFromAsignaturas(Profesor profesor) {
+		asignaturaCensRepository.removeProfesor(profesor);
+		
 	}
 	 
 	 

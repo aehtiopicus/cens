@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,9 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 
 	@Autowired
 	private ProfesorCensRepository profesorCensRepository;
+	
+	@Autowired
+	private AsignaturaCensService asignaturaCensService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProfesorCensServiceImpl.class);
 	private static final PerfilTrabajadorCensType PERFIL_TYPE = PerfilTrabajadorCensType.PROFESOR;
@@ -60,8 +64,13 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	}
 
 	@Override
-	public void deleteProfesor(MiembroCens miembroCens) {
-		profesorCensRepository.markAsesorAsDisable(miembroCens);
+	public void deleteProfesor(MiembroCens miembroCens) throws CensException {
+		Profesor p = profesorCensRepository.findOneByMiembroCens(miembroCens);
+		if(CollectionUtils.isEmpty(asignaturaCensService.findAsignaturasActivasByProfesor(p))){
+			profesorCensRepository.markAsesorAsDisable(miembroCens);
+		}else{
+			throw new CensException("El profesor posee asignaturas asociadas.","profesorId",""+p.getId());
+		}
 		
 	}
 	
@@ -73,24 +82,35 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 		 }
 		 		 
 		 if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("data")){
-			 requestedPage = profesorCensRepository.findAll(getSpecificationProfesor(null),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
+			 requestedPage = profesorCensRepository.findAll(getSpecificationProfesor(null,null),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 			 return requestedPage.getContent();
 		 }
 		 Specifications<Profesor> specifications = getSpecificationProfesor(
-				 restRequest.getFilters().get("data"));
+				 restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("profesor") ?restRequest.getFilters().get("profesor") : null);
 		 requestedPage = profesorCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 		 return requestedPage.getContent();
 	}
 	
-	private Specifications<Profesor> getSpecificationProfesor(String data){
+	private Specifications<Profesor> getSpecificationProfesor(String data, String profesor){
 		
 		Specifications<Profesor> specifications = Specifications.where(ProfesorCensSpecification.perfilTrabajadorCensEquals());		
-
+		
 		 if(StringUtils.isNotEmpty(data)){
 			 
 			 specifications  = specifications.and(ProfesorCensSpecification.nombreApellidoDniLikeNotBaja(data));
 		 }else{
 			 specifications  = specifications.and(ProfesorCensSpecification.NotBaja());
+		 }
+		 if(StringUtils.isNotEmpty(profesor)){
+			 Long profesorId;
+			 try{
+				 profesorId = Long.parseLong(profesor);
+			 }catch(Exception e){	
+				 profesorId = null;
+			 }
+			 if(profesorId!=null){
+				 specifications = specifications.and(ProfesorCensSpecification.notThisOne(profesorId));
+			 }
 		 }
 		return specifications; 
 	}
@@ -101,10 +121,10 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
     	
 		long cantUsers = 0;   	 	   	 	
    	 	if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("data")){
-   	 		cantUsers = profesorCensRepository.count(getSpecificationProfesor(null));
+   	 		cantUsers = profesorCensRepository.count(getSpecificationProfesor(null,null));
 		
    	 	}else{
-   	 		Specifications<Profesor> specification = getSpecificationProfesor(restRequest.getFilters().get("data"));
+   	 		Specifications<Profesor> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("profesor") ?restRequest.getFilters().get("profesor") : null);
    	 		cantUsers = profesorCensRepository.count(specification);
    	 	}
    	 	   	 	
@@ -118,5 +138,12 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	@Override
 	public Profesor findById(Long id) {
 		return profesorCensRepository.findOne(id);
+	}
+
+	@Override
+	public void removeAsignaturasProfesor(Long profesorId) {
+		
+		asignaturaCensService.removeProfesorFromAsignaturas(this.findById(profesorId));
+		
 	}
 }

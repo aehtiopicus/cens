@@ -11,7 +11,7 @@ public interface RolCensService {
 
 	public void assignRolToMiembro(MiembroCens miembroCens) throws CensException;
 
-	public void removeRolToMiembro(PerfilTrabajadorCensType perfil, Usuarios usuario);
+	public void removeRolToMiembro(PerfilTrabajadorCensType perfil, Usuarios usuario) throws CensException;
 	
 	public List<PerfilTrabajadorCensType> listPerfil();
 	

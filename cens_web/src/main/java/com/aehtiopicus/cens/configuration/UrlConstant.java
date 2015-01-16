@@ -153,7 +153,8 @@ public class UrlConstant {
 	public static final String ASIGNATURA_CENS_MVC="/asignaturaList";
 	public static final String ASIGNATURA_CENS_ABM_MVC="/asignaturaABM";
 	/*Profesor*/
-	public static final String PROFESOR_CENS_CREST="/profesor";
+	public static final String PROFESOR_CENS_REST="/profesor";
+	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";
 	
 
 }
