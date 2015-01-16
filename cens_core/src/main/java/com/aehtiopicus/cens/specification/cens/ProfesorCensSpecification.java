@@ -6,6 +6,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
@@ -41,6 +42,17 @@ public class ProfesorCensSpecification {
 		};
 	}
 
+	public static Specification<Profesor> nombreApellidoDniLikeNotBaja(final String searchTerm){
+		return new Specification<Profesor>() {
+			
+			@Override
+			public Predicate toPredicate(Root<Profesor> root, CriteriaQuery<?> query,
+					CriteriaBuilder cb) {
+				String likePattern = getLikePattern(searchTerm);
+				return cb.and(cb.or(cb.like(cb.lower(root.join("miembroCens").<String> get("apellido")), likePattern),cb.like(cb.lower(root.join("miembroCens").<String> get("nombre")), likePattern),cb.like(cb.lower(root.join("miembroCens").<String> get("dni")), likePattern)),cb.isFalse(root.<Boolean> get("baja")),cb.isFalse(root.get("miembroCens").<Boolean> get("baja")));
+			}
+		};
+	}
 	public static Specification<Profesor> apellidoLike(final String searchTerm) {
 
 		return new Specification<Profesor>() {
@@ -104,5 +116,18 @@ public class ProfesorCensSpecification {
 		pattern.append(searchTerm.toLowerCase());
 		pattern.append("%");
 		return pattern.toString();
+	}
+
+	public static Specification<Profesor> NotBaja() {
+		return new Specification<Profesor>() {
+
+			@Override
+			public Predicate toPredicate(Root<Profesor> root,
+					CriteriaQuery<?> query, CriteriaBuilder cb) {
+				
+				return cb.and(cb.isFalse(root.<Boolean> get("baja")),cb.isFalse(root.get("miembroCens").<Boolean> get("baja")));
+			}
+			
+		};
 	}
 }

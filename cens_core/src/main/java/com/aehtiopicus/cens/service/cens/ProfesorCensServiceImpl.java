@@ -84,15 +84,15 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	
 	private Specifications<Profesor> getSpecificationProfesor(String data){
 		
-		Specifications<Profesor> specifications = Specifications.where(ProfesorCensSpecification.miembroBajaFalse());		
-		specifications = specifications.and(ProfesorCensSpecification.profesorNotBaja());
+		Specifications<Profesor> specifications = Specifications.where(ProfesorCensSpecification.perfilTrabajadorCensEquals());		
+
 		 if(StringUtils.isNotEmpty(data)){
-			 specifications  = (specifications.or(ProfesorCensSpecification.apellidoLike(data)).or(ProfesorCensSpecification.nombreLike(data)).or(ProfesorCensSpecification.dniLike(data)));
-//			 specifications = specifications.or(ProfesorCensSpecification.apellidoLike(data));
-//			 specifications = specifications.or(ProfesorCensSpecification.nombreLike(data));
-//			 specifications = specifications.or(ProfesorCensSpecification.dniLike(data));
-		 } 
-		return specifications = specifications.and(ProfesorCensSpecification.perfilTrabajadorCensEquals());
+			 
+			 specifications  = specifications.and(ProfesorCensSpecification.nombreApellidoDniLikeNotBaja(data));
+		 }else{
+			 specifications  = specifications.and(ProfesorCensSpecification.NotBaja());
+		 }
+		return specifications; 
 	}
 	
 	@Override

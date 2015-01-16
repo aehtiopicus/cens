@@ -29,6 +29,66 @@ jQuery(document).ready(function () {
 			return false;
 			}
 	    });
+	
+	$( "#profesorsuplente" ).autocomplete({     
+		   delay: 500,
+		   minLength: 4,
+		   source : function(request,response){
+			   cargarDatos('profesorsuplente',request.term,'profesor',response);
+		   },
+		  
+		   select : function(event,ui){
+			   $( "#profesorsuplente" ).val(ui.item.label);		
+			   $( "#profesorsuplenteId" ).val(ui.item.value);
+			   $( "#profesorsuplenteName" ).val(ui.item.label);
+			return false;
+			},
+			change : function(event,ui){
+				if(ui.item != null){
+					$( "#profesorsuplente" ).val(ui.item.label);	
+					$( "#profesorsuplenteId" ).val(ui.item.value);
+					$( "#profesorsuplenteName" ).val(ui.item.label);
+				}else{
+					if($( "#profesorsuplente" ).val().length==0){
+						$( "#profesorsuplenteId" ).val("");
+						$( "#profesorsuplenteName" ).val("");
+					}else{
+						$( "#profesorsuplente" ).val($( "#profesorsuplenteName" ).val());						
+					}
+				}
+			return false;
+			}
+	    });
+	
+	$( "#curso" ).autocomplete({     
+		   delay: 500,
+		   minLength: 4,
+		   source : function(request,response){
+			   cargarDatos('curso',request.term,'curso',response);
+		   },
+		  
+		   select : function(event,ui){
+			   $( "#curso" ).val(ui.item.label);		
+			   $( "#cursoId" ).val(ui.item.value);
+			   $( "#cursoName" ).val(ui.item.label);
+			return false;
+			},
+			change : function(event,ui){
+				if(ui.item != null){
+					$( "#curso" ).val(ui.item.label);	
+					$( "#cursoId" ).val(ui.item.value);
+					$( "#cursoName" ).val(ui.item.label);
+				}else{
+					if($( "#curso" ).val().length==0){
+						$( "#cursoId" ).val("");
+						$( "#cursoName" ).val("");
+					}else{
+						$( "#curso" ).val($( "#cursoName" ).val());						
+					}
+				}
+			return false;
+			}
+	    });
 
 
 if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){

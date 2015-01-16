@@ -350,9 +350,8 @@ background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png');
 }
 .ui-autocomplete-loading {
 	
-    background-image: white url('midasUI-theme/images/ui-anim_basic_16x16.gif') right center no-repeat;
-    width: 100px;
-    height: 100px;
+    background: url('midasUI-theme/images/ui-anim_basic_16x16.gif') right center no-repeat !important;
+
 }
 .ui-autocomplete .ui-menu-item {
 	width: 100% !important;

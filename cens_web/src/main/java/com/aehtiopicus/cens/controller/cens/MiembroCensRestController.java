@@ -37,7 +37,7 @@ public class MiembroCensRestController extends AbstractRestController{
 	private MiembroCensMapper miembroCensMapper;
 	@Autowired
 	private MiembroCensValidator validator;
-		
+			
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.MIEMBRO_CENS_REST, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
