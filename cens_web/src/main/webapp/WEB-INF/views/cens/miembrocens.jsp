@@ -8,7 +8,7 @@
 
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
-
+	<script>var pagePath="<%=request.getContextPath() %>"</script>
     <script src="js/cens/miembrocens.js?v=<%= new Date().getTime()%>"></script>
 
 <div class="centreDiv">
@@ -47,14 +47,11 @@
         <div class="messageDiv">
         	<label id="message"></label>
         </div>
-    </div>
-	<input type="hidden" id="profesorId"/>
+    </div>	
 </div>
 
 <div id="remUser" class="dialog" title="Confirmar">
 	<p>Se elimininar&aacute; el usuario del sistema. ¿Desea continuar?</p>
 </div>
-<div id="remAsignaturas" class="dialog" title="Confirmar">
-	<p>El profesor tiene materias asignadas. ¿Desea eliminarlas?</p>
-</div>
+
 

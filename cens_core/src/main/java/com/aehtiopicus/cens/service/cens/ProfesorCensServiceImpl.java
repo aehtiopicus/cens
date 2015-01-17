@@ -66,7 +66,7 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	@Override
 	public void deleteProfesor(MiembroCens miembroCens) throws CensException {
 		Profesor p = profesorCensRepository.findOneByMiembroCens(miembroCens);
-		if(CollectionUtils.isEmpty(asignaturaCensService.findAsignaturasActivasByProfesor(p))){
+		if(asignaturaCensService.countAsignaturasActivasByProfesor(p)==0){
 			profesorCensRepository.markAsesorAsDisable(miembroCens);
 		}else{
 			throw new CensException("El profesor posee asignaturas asociadas.","profesorId",""+p.getId());

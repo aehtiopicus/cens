@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.domain.entities.Usuarios;
@@ -54,6 +55,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 	}
 
 	@Override
+	@Transactional
 	public List<Perfil> addPerfilesToUsuarios(Usuarios usuario) throws CensException {
 		List<PerfilTrabajadorCensType> perfilTypeList = assembleListFromEntity(usuario);
 		List<Perfil> perfilList = null;
@@ -80,6 +82,7 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 	}
 	
 	@Override
+	@Transactional
 	public void removePerfiles(List<PerfilTrabajadorCensType> perfilTypeList,
 			Usuarios usuario) throws CensException{
 		List<Perfil> perfilList = listPerfilFromUsuario(usuario);
@@ -87,8 +90,9 @@ public class PerfilCensServiceImpl implements PerfilCensService{
 			for(Perfil perfil : perfilList){
 				if(!perfilTypeList.contains(perfil.getPerfilType())){
 					log.info("Removiendo perfil para el usuario "+ perfil.getPerfilType().name());
-					perfilCensRepository.delete(perfil);
+					
 					rolCensService.removeRolToMiembro(perfil.getPerfilType(), usuario);
+					perfilCensRepository.delete(perfil);
 				}else{
 					log.info("Removiendo tipo de perfil existente");
 					removeAllDuplicatedPerfiles(perfilTypeList,perfil.getPerfilType());

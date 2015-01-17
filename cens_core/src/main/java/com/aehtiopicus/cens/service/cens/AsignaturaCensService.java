@@ -24,4 +24,6 @@ public interface AsignaturaCensService {
 
 	public void removeProfesorFromAsignaturas(Profesor findById);
 
+	Long countAsignaturasActivasByProfesor(Profesor profesor);
+
 }

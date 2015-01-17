@@ -57,7 +57,7 @@
 			<input type="hidden" id ="profesorSuplenteName" />
 			<input type="hidden" id ="cursoName" />
 			<div class="footerForm">
-				<button class="button" type="button" onclick="submitAsignatura('<%=request.getContextPath() %>/asignatura');" >Guardar</button>
+				<button class="button" type="button" onclick="submitAsignatura();" >Guardar</button>
 
 				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/asignaturaList'">Cancelar</button>
 			</div>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 
     <script src="js/cens/asignatura.js"></script>
+    <script>var pagePath="<%=request.getContextPath() %>"</script>
 
 <div class="centreDiv">
   

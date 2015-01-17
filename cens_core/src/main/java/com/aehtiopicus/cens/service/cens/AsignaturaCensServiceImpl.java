@@ -57,13 +57,13 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 			throw new CensException("No se puede guardar el miembro","dni","Existe un miembro con el documento indicado");
 		}		
 		
-		if(asignatura.getProfesor()!=null){
+		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
 			asignatura.setProfesor(profesorCensService.findById(asignatura.getProfesor().getId()));
 		}
-		if(asignatura.getProfesorSuplente()!=null){
+		if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
 			asignatura.setProfesorSuplente(profesorCensService.findById(asignatura.getProfesorSuplente().getId()));
 		}
-		if(asignatura.getCurso()!=null){
+		if(asignatura.getCurso()!=null && asignatura.getCurso().getId()!=null){
 			asignatura.setCurso(cursoCensService.findById(asignatura.getCurso().getId()));
 		}
 		
@@ -175,10 +175,16 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 			Profesor profesor) {
 		return asignaturaCensRepository.findAsignaturaByProfesor(profesor);
 	}
+	
+	@Override
+	public Long countAsignaturasActivasByProfesor(Profesor profesor){
+		return asignaturaCensRepository.countAsignaturaByProfesor(profesor.getId()).longValue();
+	}
 
 	@Override
+	@Transactional
 	public void removeProfesorFromAsignaturas(Profesor profesor) {
-		asignaturaCensRepository.removeProfesor(profesor);
+		asignaturaCensRepository.removeProfesor(profesor.getId());
 		
 	}
 	 

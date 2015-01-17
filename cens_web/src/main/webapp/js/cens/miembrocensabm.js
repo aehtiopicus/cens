@@ -1,9 +1,9 @@
 jQuery(document).ready(function () {
 		
 
-	if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){
+	if(!isNaN(pageId())){
 	$.ajax({
-		url: pagePath+"/miembro/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
+		url: pagePath+"/miembro/"+pageId(),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
@@ -35,6 +35,26 @@ jQuery(document).ready(function () {
 		}
 	});
 	}
+	$( "#remAsignaturas" ).dialog({
+		autoOpen: false,
+		width: 400,
+		buttons: [
+			{
+				text: "Ok",
+				click: function() {
+					$( this ).dialog( "close" );
+					deleteAsignaturas();
+				}
+			},
+			{
+				text: "Cancelar",
+				click: function() {
+					$( this ).dialog( "close" );
+					$('#profesorId').val("");
+				}
+			}
+		]
+	});
 });
 
 function convertDate(value){
@@ -44,13 +64,13 @@ function convertDate(value){
 	return a.getFullYear()+"-"+(a.getMonth()+1)+"-"+ date;
 }
 
-function submitMiembro(url){
+function submitMiembro(){
 
 	var post =$('#id').length == 0;
 	if(checkForm(post)){		
 	$.ajax({
 		  type: post ? "POST" : "PUT",
-		  url: post? url :(url+"/"+ $('#id').val()),
+		  url: post? pagePath+"/miembro" :(pagePath+"/miembro"+"/"+ $('#id').val()),
 		  data: prepareData(post),
 		  dataType:"json",
 		  contentType:"application/json", 
@@ -58,10 +78,26 @@ function submitMiembro(url){
 			 $('#cancelar').trigger("onclick");
 		  },
 		  error:function(value){
-			  if(validationError(errorConverter(value))){
-				  alert(errorConverter(value).message );
-			  }else{
-				  alert("Se produjo un error el servidor");
+			  dataError = errorConverter(value);
+			  if(dataError.errorDto != undefined && dataError.errorDto){
+				  var asignatura = false;
+				  
+				  for(var key in dataError.errors) {
+						if(key==="profesorId"){
+							$('#profesorId').val(dataError.errors[key]);
+							asignatura = true;
+							break;
+						}					
+					}
+				  if(asignatura){
+					  $("#remAsignaturas").dialog("open");
+				  }else{
+					  if(validationError(dataError)){
+				  		alert(dataError.message );
+			  	  	  }else{
+			  	  		alert("Se produjo un error el servidor");
+			  	  	}
+				  }
 			  }
 		  }
 		  
@@ -103,4 +139,28 @@ function checkForm(post){
 	return error;
  
 }
+
+function deleteAsignaturas(){	
+	
+
+	$.ajax({
+		type:"DELETE",
+		url:pagePath+"/profesor/"+$('#profesorId').val()+"/removerasignaturas",
+		contentType :'application/json',
+		dataType:"json",
+		success: function(data){
+			submitMiembro();
+		},
+		error: function(data){			
+			var errorData =errorConverter(data);
+			if(errorData.errorDto===false){
+				alert("Se produjo un error el servidor")
+			}
+		}								
+
+		}
+		
+	);
+	
+} 
 

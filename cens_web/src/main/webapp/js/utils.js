@@ -71,3 +71,7 @@ function fixTable(){
 	$('table').width('100%');
 	$($('.ui-jqgrid-hbox ')[0]).width('100%')
 }
+
+function pageId(){
+	return (parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)));
+}

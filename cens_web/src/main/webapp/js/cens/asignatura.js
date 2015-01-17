@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
 	var year = jQuery("#year").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:"asignatura",    		
+    		url:pagePath+"/asignatura",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -27,7 +27,11 @@ jQuery(document).ready(function () {
                 {name:'modalidad',index:'Modalidad',sortable: false},
                 {name:'horarios',index:'Horarios',sortable: false},                
                 {name:function(val){
-                	return val.profesor.miembroCens.apellido+", ("+val.profesor.miembroCens.dni+")";                	
+                	if(val.profesor !=null){
+                		return val.profesor.miembroCens.apellido+", ("+val.profesor.miembroCens.dni+")";
+                	}else{
+                		return "";
+                	}
                 },index:'Profesor',sortable: false}, 
                 {name:function(val){
                 	if(val.profesorSuplente !=null){
@@ -177,7 +181,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:"asignatura",
+       		url:pagePath+"/asignatura",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -219,13 +223,13 @@ function deleteAsignatura(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:"asignatura/"+asignaturaId,
+		url:pagePath+"/asignatura/"+asignaturaId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
 			gridReload(pageToLoad);
-			$('#message').addClass('msgSuccess',true);
-			cargarMensaje(data);
+			$('#message').addClass('msgSuccess');
+			cargarMensaje(data,true);
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	

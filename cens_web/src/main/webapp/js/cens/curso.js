@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
 	
     jQuery("#projectTable").jqGrid({    	
-    		url:"curso",    		
+    		url:pagePath+"/curso",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -151,7 +151,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:"curso",
+       		url:pagePath+"/curso",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -193,7 +193,7 @@ function deleteUsuario(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:"curso/"+cursoId,
+		url:pagePath+"/curso/"+cursoId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

@@ -71,10 +71,14 @@
 			
 			
 			<div class="footerForm">
-				<button class="button" type="button" onclick="submitMiembro('<%=request.getContextPath() %>/miembro');" >Guardar</button>
+				<button class="button" type="button" onclick="submitMiembro();" >Guardar</button>
 
 				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/miembroList'">Cancelar</button>
 			</div>
+			<input type="hidden" id="profesorId"/>
 		</fieldset>
 
 	</form:form>
+<div id="remAsignaturas" class="dialog" title="Confirmar">
+	<p>El profesor tiene materias asignadas. ¿Desea eliminarlas?</p>
+</div>

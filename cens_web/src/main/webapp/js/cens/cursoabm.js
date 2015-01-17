@@ -24,9 +24,9 @@ $("#yearCurso").focusout(function(a) {
 });
 
 
-if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1))))){
+if(!isNaN(pageId())){
 	$.ajax({
-		url: pagePath+"/curso/"+parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)),
+		url: pagePath+"/curso/"+pageId(),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
@@ -49,13 +49,13 @@ if(!isNaN((parseInt(window.location.pathname.substring(window.location.pathname.
 });
 
 
-function submitCurso(url){
+function submitCurso(){
 
 	var post =$('#id').length == 0;
 			
 	$.ajax({
 		  type: post ? "POST" : "PUT",
-		  url: post? url :(url+"/"+ $('#id').val()),
+		  url: post? pagePath+"/curso" :(pagePath+"/curso/"+ $('#id').val()),
 		  data: prepareData(post),
 		  dataType:"json",
 		  contentType:"application/json", 

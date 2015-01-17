@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 	var apellido = jQuery("#apellido").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:"miembro",    		
+    		url:pagePath+"/miembro",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -104,27 +104,7 @@ jQuery(document).ready(function () {
 					}
 				}
 			]
-		});  
-        $( "#remAsignaturas" ).dialog({
-			autoOpen: false,
-			width: 400,
-			buttons: [
-				{
-					text: "Ok",
-					click: function() {
-						$( this ).dialog( "close" );
-						deleteAsignaturas();
-					}
-				},
-				{
-					text: "Cancelar",
-					click: function() {
-						$( this ).dialog( "close" );
-						$('#profesorId').val("");
-					}
-				}
-			]
-		});
+		});          
         fixTable();
     });
  
@@ -137,7 +117,8 @@ jQuery(document).ready(function () {
 
  function resetPasswordCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a onclick=\"resetPassword('usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
+	 
+	var template = "<a onclick=\"resetPassword('"+pagePath+"/usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -199,7 +180,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:"miembro",
+       		url:pagePath+"/miembro",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -241,7 +222,7 @@ function deleteUsuario(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:"miembro/"+usuarioId,
+		url:pagePath+"/miembro/"+usuarioId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
@@ -251,19 +232,7 @@ function deleteUsuario(){
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
-			dataError = errorConverter(data);
-			
-			if(dataError.errorDto != undefined && dataError.errorDto){
-				for(var key in error.errors) {
-					if(key==="profesorId"){
-						$('#profesorId').val(dataError.errors[key]);
-						$("#remAsignaturas").dialog("open");
-						return;
-					}					
-				}
-				
-			}			
-			cargarMensaje(dataError);
+			cargarMensaje(errorConverter(data));						
 		}								
 
 		}
@@ -272,27 +241,7 @@ function deleteUsuario(){
 	
 } 
 
-function deleteAsignaturas(){	
-	
 
-	$.ajax({
-		type:"DELETE",
-		url:"profesor/"+$('#profesorId').val()+"/removerasignaturas",
-		contentType :'application/json',
-		dataType:"json",
-		success: function(data){
-			deleteUsuario();
-		},
-		error: function(data){
-			$('#message').addClass('msgError');	
-			cargarMensaje(errorConverter(data));
-		}								
-
-		}
-		
-	);
-	
-} 
 
 function resetPassword(url){
 	$.ajax({

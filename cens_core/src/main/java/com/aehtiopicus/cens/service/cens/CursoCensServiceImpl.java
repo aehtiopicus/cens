@@ -61,18 +61,23 @@ public class CursoCensServiceImpl implements CursoCensService{
 			 restRequest.setPage(restRequest.getPage() - 1);
 		 }
 		 		 
-		 if(restRequest.getFilters()==null  || (!restRequest.getFilters().containsKey("year")||!restRequest.getFilters().containsKey("nombre") )){
+		 if(restRequest.getFilters()==null  || (!restRequest.getFilters().containsKey("year")&& !restRequest.getFilters().containsKey("nombre") )){
 			 requestedPage = cursoCensRepository.findAll(Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByNombreAsc()));
 			 return requestedPage.getContent();
 		 }
-		 Specifications<Curso> specifications =getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")),restRequest.getFilters().get("nombre"));
+		 Specifications<Curso> specifications =getSpecificationCurso(restRequest.getFilters().get("year"),restRequest.getFilters().get("nombre"));
 		 requestedPage = cursoCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByNombreAsc()));
 		 return requestedPage.getContent();
 		 
 	}
-	private Specifications<Curso> getSpecificationCurso(int year,String nombre){
+	private Specifications<Curso> getSpecificationCurso(String yearS,String nombre){
 		Specifications<Curso> specifications = null;
 		 boolean where = false;
+		 int year = 0;
+		 try{
+			 year = Integer.parseInt(yearS);
+		 }catch(Exception e){			 
+		 }
 		 if(year>0){			 
 			 specifications = Specifications.where(CursoSpecification.yearEqual(year));
 			 where = true;
@@ -103,7 +108,7 @@ public class CursoCensServiceImpl implements CursoCensService{
    		cantUsers = cursoCensRepository.count();
 		
 	 }else{
-		 Specifications<Curso> specification = getSpecificationCurso(Integer.parseInt(restRequest.getFilters().get("year")),restRequest.getFilters().get("nombre"));
+		 Specifications<Curso> specification = getSpecificationCurso(restRequest.getFilters().get("year"),restRequest.getFilters().get("nombre"));
 		 cantUsers = cursoCensRepository.count(specification);
 	 }
    	 	   	 	
