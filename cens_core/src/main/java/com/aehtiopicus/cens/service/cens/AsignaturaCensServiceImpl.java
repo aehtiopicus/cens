@@ -59,12 +59,18 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		
 		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
 			asignatura.setProfesor(profesorCensService.findById(asignatura.getProfesor().getId()));
+		}else{
+			asignatura.setProfesor(null);
 		}
 		if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
 			asignatura.setProfesorSuplente(profesorCensService.findById(asignatura.getProfesorSuplente().getId()));
+		}else{
+			asignatura.setProfesorSuplente(null);
 		}
 		if(asignatura.getCurso()!=null && asignatura.getCurso().getId()!=null){
 			asignatura.setCurso(cursoCensService.findById(asignatura.getCurso().getId()));
+		}else{
+			asignatura.setCurso(null);
 		}
 		
 		return asignatura;
