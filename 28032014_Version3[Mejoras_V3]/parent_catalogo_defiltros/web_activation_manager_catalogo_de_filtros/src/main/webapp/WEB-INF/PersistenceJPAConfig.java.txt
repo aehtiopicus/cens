@@ -1,0 +1,94 @@
+package ar.com.midasconsultores.catalogodefiltros.configuration;
+
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+@ImportResource("classpath*:*spring-data-config.xml")
+public class PersistenceJPAConfig {
+
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+		factoryBean.setDataSource(restDataSource());
+		// factoryBean.setPackagesToScan( new String[ ] { "org.rest" } );
+		factoryBean
+				.setPackagesToScan(new String[] { "ar.com.midasconsultores.catalogodefiltros.domain" });
+
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
+
+			{
+				// JPA properties
+				setShowSql(true);
+				setDatabase(Database.POSTGRESQL);
+				setGenerateDdl(true);
+			}
+		};
+		factoryBean.setJpaVendorAdapter(vendorAdapter);
+		factoryBean.setJpaProperties(additionalProperties());
+
+		return factoryBean;
+	}
+
+	@Bean(name = "dataSource")
+	public DataSource restDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/catalogodefiltros");
+//		dataSource.setUrl("jdbc:postgresql://192.168.0.103:5432/catalogodefiltros2");
+		dataSource.setUsername("catalogodefiltros");
+		dataSource.setPassword("catalogodefiltros");
+		return dataSource;
+	}	
+
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactoryBean()
+				.getObject());
+
+		return transactionManager;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	 @Bean 
+	    public HibernateExceptionTranslator hibernateExceptionTranslator(){ 
+	      return new HibernateExceptionTranslator(); 
+	    }
+	 
+	final Properties additionalProperties() {
+		return new Properties() {
+
+			/**
+             *
+             */
+			private static final long serialVersionUID = 3996171551371239499L;
+
+			{
+				// use this to inject additional properties in the EntityManager
+				setProperty("hibernate.hbm2ddl.auto", "update");
+				setProperty("hibernate.show_sql","true");
+			}
+		};
+	}
+}

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.repository.cens.CursoCensRepository;
+import com.aehtiopicus.cens.service.cens.ftp.FtpCursoCensService;
 import com.aehtiopicus.cens.specification.cens.CursoSpecification;
 import com.aehtiopicus.cens.utils.CensException;
 import com.aehtiopicus.cens.utils.Utils;
@@ -28,7 +29,11 @@ public class CursoCensServiceImpl implements CursoCensService{
 	@Autowired
 	private CursoCensRepository cursoCensRepository;
 	
+	@Autowired
+	private FtpCursoCensService ftpCursoCensService;
+	
 	@Override
+	@Transactional(rollbackFor={CensException.class,Exception.class})
 	public List<Curso> save(List<Curso> cursoList) throws CensException{
 		if(CollectionUtils.isEmpty(cursoList)){
 			throw new CensException("No existen datos para guardar");
@@ -36,7 +41,9 @@ public class CursoCensServiceImpl implements CursoCensService{
 		List<Curso> cursoResultList = new ArrayList<Curso>();
 		for(Curso curso : cursoList){
 			validate(curso);
-			cursoResultList.add(cursoCensRepository.save(curso));
+			Curso savedCurso = cursoCensRepository.save(curso);
+			cursoResultList.add(savedCurso);
+			ftpCursoCensService.createCursoFolder(savedCurso);
 		}
 		return cursoResultList;
 	}

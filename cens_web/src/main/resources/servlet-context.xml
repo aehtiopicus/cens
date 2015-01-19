@@ -55,6 +55,7 @@
 	
 	<util:properties id="mailProperties"  location="classpath:/mail.${spring.profiles.active}.properties" />
 	<util:properties id="persistenceProperties"  location="classpath:/persistence.${spring.profiles.active}.properties" />
+	<util:properties id="ftpProperties"  location="classpath:/ftp.${spring.profiles.active}.properties" />
 	<context:property-placeholder location="classpath:/consolidado.properties, classpath:/empresa.properties" />
 	<util:properties id="censProperties" location="classpath:/cens.properties"/>
 	<util:properties id="restRequestProperties" location="classpath:/rest.request.properties"/>

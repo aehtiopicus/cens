@@ -18,6 +18,7 @@ import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
+import com.aehtiopicus.cens.service.cens.ftp.FtpAsignaturaCensService;
 import com.aehtiopicus.cens.specification.cens.AsignaturaCensSpecification;
 import com.aehtiopicus.cens.utils.CensException;
 import com.aehtiopicus.cens.utils.Utils;
@@ -36,7 +37,11 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Autowired
 	private ProfesorCensService profesorCensService;
 	
+	@Autowired
+	private FtpAsignaturaCensService ftpAsignaturaCensService;
+	
 	@Override
+	@Transactional(rollbackFor={CensException.class,Exception.class})
 	public List<Asignatura> saveAsignaturas(List<Asignatura> asignaturaList) throws CensException{
 		if(CollectionUtils.isEmpty(asignaturaList)){
 			throw new CensException("Debe existir datos para guardar asignaturas");
@@ -44,8 +49,10 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		logger.info("Guardando asignatura ");
 		List<Asignatura> resultList = new ArrayList<Asignatura>();
 		for(Asignatura asignatura : asignaturaList){
-			asignatura = validateAsignatura(asignatura);			
-			resultList.add(asignaturaCensRepository.save(asignatura));
+			asignatura = validateAsignatura(asignatura);
+			Asignatura asignaturaSaved = asignaturaCensRepository.save(asignatura); 			
+			ftpAsignaturaCensService.createAsignaturaFolder(asignaturaSaved);
+			resultList.add(asignaturaSaved);
 		}
 		return resultList;
 		
