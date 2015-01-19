@@ -59,7 +59,7 @@
 			<div class="footerForm">
 				<button class="button" type="button" onclick="submitAsignatura();" >Guardar</button>
 
-				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/asignaturaList'">Cancelar</button>
+				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/asignaturaList'">Cancelar</button>
 			</div>
 		</fieldset>
 

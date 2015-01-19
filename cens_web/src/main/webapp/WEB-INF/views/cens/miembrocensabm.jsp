@@ -73,7 +73,7 @@
 			<div class="footerForm">
 				<button class="button" type="button" onclick="submitMiembro();" >Guardar</button>
 
-				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/miembroList'">Cancelar</button>
+				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/miembroList'">Cancelar</button>
 			</div>
 			<input type="hidden" id="profesorId"/>
 		</fieldset>

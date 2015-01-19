@@ -32,7 +32,7 @@
 			<div class="footerForm">
 				<button class="button" type="button" onclick="submitCurso('<%=request.getContextPath() %>/curso');" >Guardar</button>
 
-				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/cursoList'">Cancelar</button>
+				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/cursoList'">Cancelar</button>
 			</div>
 		</fieldset>
 

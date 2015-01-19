@@ -2,7 +2,7 @@ package com.aehtiopicus.cens.configuration;
 
 public class UrlConstant {
 
-	public final static String MAIN_URL = "/main";
+	public final static String MAIN_URL = "/mvc/main";
 	public final static String UNAUTHORIZED_URL = "/unauthorized";
 	
 	//usuarios
@@ -137,21 +137,21 @@ public class UrlConstant {
 	public static final String ROL ="/rol";
 	
 	public static final String MIEMBRO_CENS_REST ="/miembro";
-	public static final String MIEMBRO_CENS ="/miembroList";
-	public static final String MIEMBRO_CENS_ABM="/miembroABM";
+	public static final String MIEMBRO_CENS ="/mvc/miembroList";
+	public static final String MIEMBRO_CENS_ABM="/mvc/miembroABM";
 	
 	/*Usuario*/
 	public static final String USUARIO_CENS_REST ="/usuario";
 	public static final String USUARIO_CENS_REST_PASSWORD =USUARIO_CENS_REST+"/{id}/reset";
-	public final static String RESET_PASSWORD_MVC = "/resetpassword";
+	public final static String RESET_PASSWORD_MVC = "/mvc/resetpassword";
 	/*Curso*/
-	public static final String CURSO_CENS_MVC="/cursoList";
-	public static final String CURSO_CENS_ABM_MVC="/cursoABM";
+	public static final String CURSO_CENS_MVC="/mvc/cursoList";
+	public static final String CURSO_CENS_ABM_MVC="/mvc/cursoABM";
 	public static final String CURSO_CENS_REST = "/curso";
 	/*Asignatura*/
 	public static final String ASIGNATURA_CENS_REST ="/asignatura";
-	public static final String ASIGNATURA_CENS_MVC="/asignaturaList";
-	public static final String ASIGNATURA_CENS_ABM_MVC="/asignaturaABM";
+	public static final String ASIGNATURA_CENS_MVC="/mvc/asignaturaList";
+	public static final String ASIGNATURA_CENS_ABM_MVC="/mvc/asignaturaABM";
 	/*Profesor*/
 	public static final String PROFESOR_CENS_REST="/profesor";
 	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";

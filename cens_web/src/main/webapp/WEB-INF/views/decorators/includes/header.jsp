@@ -8,7 +8,7 @@
 <div id="encabezado">
 	
 		<div class="logo">
-			<img src="<%=request.getContextPath() %>/css/midasUI-theme/images/logo_cens.png"  >
+			<img src="<%=request.getContextPath() %>/css/midasUI-theme/images/logo_cens.png" onclick="location.href='<%=request.getContextPath() %>/main'" >
 		</div>
 		<div class="center">
 			<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>

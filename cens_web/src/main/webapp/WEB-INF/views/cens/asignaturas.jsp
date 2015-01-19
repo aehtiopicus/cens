@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 
-    <script src="js/cens/asignatura.js"></script>
+    <script src="<%=request.getContextPath() %>/js/cens/asignatura.js"></script>
     <script>var pagePath="<%=request.getContextPath() %>"</script>
 
 <div class="centreDiv">
@@ -17,7 +17,7 @@
     <div class="floatLeftDiv">
     
     	<div class="acciones">
-    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/asignaturaABM'">Nueva Asignatura</button>
+    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/asignaturaABM'">Nueva Asignatura</button>
     	</div>
     
 		<!--     Filtros -->

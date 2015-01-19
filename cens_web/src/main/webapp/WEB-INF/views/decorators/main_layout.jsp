@@ -73,17 +73,22 @@
     	    	deleteAllCookies();
     	    	window.location = '<%=request.getContextPath() %>/j_spring_security_logout';
     	    }
+    	    
+    	    jQuery(window).load(function () {
+    	       $('#mainPanel').show();
+    	       
+    	    });
 		</script>
     </head>
       
     <body marginheight="0px" marginwidth="0px" style="margin-top: 0px; margin-left: 0px;"> 
-    	<div class="mainPanel">
+    	<div class="mainPanel" id="mainPanel" style="display: none;">
     		<div class="headerPanel">
     			<!-- INSERTAR HEADER.JSP -->
     			<jsp:include page="includes/header.jsp"></jsp:include>
     		</div>
     	
-    		<div class="menuPanel">
+    		<div class="menuPanel" id="menuPanel">
     			<!-- INSERTAR MENU.JSP -->
     			<security:authorize ifAnyGranted="ROLE_ADMINISTRADOR,ROLE_ASESOR">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
@@ -100,7 +105,7 @@
 				
     		</div>
     	
-    		<div class="contentPanel">
+    		<div class="contentPanel" id="contentPanel">
     			<!-- INSERTAR BODY -->
     			<decorator:body/>  
     		</div>

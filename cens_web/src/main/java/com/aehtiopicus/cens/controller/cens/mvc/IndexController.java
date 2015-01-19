@@ -1,4 +1,4 @@
-package com.aehtiopicus.cens.controller;
+package com.aehtiopicus.cens.controller.cens.mvc;
 
 import java.security.Principal;
 import java.util.ArrayList;

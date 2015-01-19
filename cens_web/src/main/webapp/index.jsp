@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Novatium</title>
+<title>Cens</title>
 </head>
 <body>
-	<c:redirect url="/main"></c:redirect>
+	<c:redirect url="/mvc/main"></c:redirect>
 </body>
 </html>
