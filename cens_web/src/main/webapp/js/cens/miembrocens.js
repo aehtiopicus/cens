@@ -244,13 +244,14 @@ function deleteUsuario(){
 
 
 function resetPassword(url){
+
 	$.ajax({
 		type:"POST",
 		url:url,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
-			gridReload(pageToLoad);
+			gridReload($('.ui-pg-input').val());
 			$('#message').addClass('msgSuccess');
 			cargarMensaje(data,true);
 		},

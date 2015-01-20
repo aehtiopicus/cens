@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.VistasConstant;
+import com.aehtiopicus.cens.utils.PageNotFoundException;
 
 @ControllerAdvice
 public class AbstractController {
@@ -21,6 +22,15 @@ public class AbstractController {
 		mv.addObject("error",ex.getMessage());
 		return mv;
 	}
+	
+	@ExceptionHandler({PageNotFoundException.class})
+	public ModelAndView handleFormException(PageNotFoundException ex) {		
+		
+		ModelAndView mv = new ModelAndView(VistasConstant.NOT_FOUND);
+		mv.addObject("error",ex.getMessage());
+		return mv;
+	}
+	
 	
 	
 }

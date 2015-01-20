@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.ProfesorCensValidator;
+import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
+import com.aehtiopicus.cens.dto.cens.ProfesorAsignaturaDto;
 import com.aehtiopicus.cens.dto.cens.ProfesorDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
@@ -33,7 +35,7 @@ public class ProfesorCensRestController extends AbstractRestController{
 	private static final Logger logger = LoggerFactory.getLogger(ProfesorCensRestController.class);
 	
 	@Autowired
-	private ProfesorCensService profesorCensService;
+	private ProfesorCensService profesorCensService;		
 	
 	@Autowired
 	private ProfesorCensValidator profesorValidator;
@@ -75,5 +77,17 @@ public class ProfesorCensRestController extends AbstractRestController{
 		dto.setId(profesorId);
 		dto.setMessage("Profesor eliminado de asignaturas");
 		return dto;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@RequestMapping(value = UrlConstant.PROFESOR_CENS_CURSO_ASIGNATURAS_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ProfesorAsignaturaDto listProfesoresAsignatura(@PathVariable(value="id")Long profesorId)  throws Exception{					  
+		logger.info("listando asignaturas de profesor");
+		Profesor profesor = profesorCensService.findById(profesorId);
+		List<Curso> cursoList = profesorCensService.listCursoAsignaturaByProfesor(profesor);
+		ProfesorAsignaturaDto dto =profesorCensMapper.convertCursoListIntoProfesorAsignaturaDto(cursoList,profesor);
+		return dto;
+		
 	}
 }

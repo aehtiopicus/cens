@@ -2,7 +2,6 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
+import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
@@ -29,6 +29,9 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	
 	@Autowired
 	private AsignaturaCensService asignaturaCensService;
+	
+	@Autowired
+	private CursoCensService cursoCensService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProfesorCensServiceImpl.class);
 	private static final PerfilTrabajadorCensType PERFIL_TYPE = PerfilTrabajadorCensType.PROFESOR;
@@ -139,9 +142,12 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	}
 
 	@Override
-	public void removeAsignaturasProfesor(Long profesorId) {
-		
-		asignaturaCensService.removeProfesorFromAsignaturas(this.findById(profesorId));
-		
+	public void removeAsignaturasProfesor(Long profesorId) {		
+		asignaturaCensService.removeProfesorFromAsignaturas(this.findById(profesorId));		
+	}
+
+	@Override
+	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor) {
+		return cursoCensService.listCursoAsignaturaByProfesor(profesor.getId());
 	}
 }

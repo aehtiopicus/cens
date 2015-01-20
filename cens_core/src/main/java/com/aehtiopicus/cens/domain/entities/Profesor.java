@@ -27,6 +27,9 @@ public class Profesor implements Serializable{
 	@OneToMany(mappedBy = "profesor")
 	private List<Asignatura> asignatura;
 	
+	@OneToMany(mappedBy = "profesorSuplente")
+	private List<Asignatura> asignaturaSuplente;
+	
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
 	
@@ -63,6 +66,14 @@ public class Profesor implements Serializable{
 
 	public void setBaja(Boolean baja) {
 		this.baja = baja;
+	}
+
+	public List<Asignatura> getAsignaturaSuplente() {
+		return asignaturaSuplente;
+	}
+
+	public void setAsignaturaSuplente(List<Asignatura> asignaturaSuplente) {
+		this.asignaturaSuplente = asignaturaSuplente;
 	}
 	
 	

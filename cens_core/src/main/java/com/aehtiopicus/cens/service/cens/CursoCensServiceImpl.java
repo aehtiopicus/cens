@@ -143,4 +143,9 @@ public class CursoCensServiceImpl implements CursoCensService{
 	public Curso findById(Long id) {
 		return cursoCensRepository.findOne(id);
 	}
+
+	@Override
+	public List<Curso> listCursoAsignaturaByProfesor(Long profesorId) {
+		return cursoCensRepository.findCursoAsignaturaByProfesor(profesorId);
+	}
 }

@@ -69,6 +69,8 @@ public class VistasConstant {
 	
 	/**********/
 	
+	public static final String NOT_FOUND = "cens/404";
+	
 	public final static String ASESORES_LIST_VIEW = "asesoreslist";
 	public final static String MIEMBRO_LIST_VIEW = "cens/miembrocens";
 	public static final String MIEMBRO_ABM_VIEW = "cens/miembrocensabm";
@@ -80,5 +82,7 @@ public class VistasConstant {
 	public static final String ASIGNATURA_LIST_ABM_VIEW ="cens/asignaturaabm";
 	
 	public static final String PROFESOR_ASIGNATURA_LIST_VIEW ="cens/profesorasignaturas";
+
+	
 	
 }

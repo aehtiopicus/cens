@@ -75,3 +75,14 @@ function fixTable(){
 function pageId(){
 	return (parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1)));
 }
+
+
+function startSpinner(){
+	$("body").addClass("loading");   
+}
+
+function stopSpinner(){
+	$("body").removeClass("loading");
+}
+
+

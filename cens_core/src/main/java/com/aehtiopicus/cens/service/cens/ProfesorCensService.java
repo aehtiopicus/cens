@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.List;
 
+import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
@@ -22,5 +23,7 @@ public interface ProfesorCensService {
 	public Profesor findById(Long id);
 
 	public void removeAsignaturasProfesor(Long profesorId);
+
+	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor);
 
 }

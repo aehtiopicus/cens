@@ -78,4 +78,17 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.txt</url-pattern>
   </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.woff</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.ttf</url-pattern>
+  </servlet-mapping>
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/errors/404</location>
+</error-page>
 </web-app>
