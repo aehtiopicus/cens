@@ -19,8 +19,8 @@
 	
 	<interceptors>
 
-		<interceptor>
-			<mapping path="/mvc/**" />
+		<interceptor>			
+			<mapping path="/mvc/profesor/**" />
 			<beans:bean class="com.aehtiopicus.cens.controller.cens.mvc.AbstractControllerInterceptor" />
 		</interceptor>
 	</interceptors>

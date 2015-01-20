@@ -23,7 +23,7 @@
 	<li>
         <a href="#">Profesores</a>
 		<ul>
-			<li><a href="<%=request.getContextPath() %>/mvc/usuario/${profesorId}/planes">Gesti&oacute;n de planes de estudio</a></li>
+			<li><a href="<%=request.getContextPath() %>/mvc/profesor/asignaturaList">Gesti&oacute;n de planes de estudio</a></li>
 			<li><a href="<%=request.getContextPath() %>/mvc/cursoList">Gesti&oacute;n de Material Did&aacute;ctico</a></li>
 		</ul>
 	</li>

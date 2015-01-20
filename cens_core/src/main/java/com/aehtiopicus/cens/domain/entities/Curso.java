@@ -31,10 +31,7 @@ public class Curso implements Serializable {
 
 	private String nombre;
 
-	private int yearCurso;
-
-	@OneToMany
-	private List<Profesor> profesores;
+	private int yearCurso;	
 
 	@OneToMany(mappedBy = "curso")
 	private List<Asignatura> asignaturas;
@@ -63,13 +60,6 @@ public class Curso implements Serializable {
 		this.yearCurso = yearCurso;
 	}
 
-	public List<Profesor> getProfesores() {
-		return profesores;
-	}
-
-	public void setProfesores(List<Profesor> profesores) {
-		this.profesores = profesores;
-	}
 
 	public List<Asignatura> getAsignaturas() {
 		return asignaturas;

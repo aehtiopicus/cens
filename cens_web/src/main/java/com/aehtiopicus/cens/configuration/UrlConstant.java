@@ -155,6 +155,8 @@ public class UrlConstant {
 	/*Profesor*/
 	public static final String PROFESOR_CENS_REST="/profesor";
 	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";
+	public static final String PROFESOR_CENS_ASIGNATURAS_MVC="/mvc/profesor/asignaturaList";
+	public static final String PROFESOR_CENS_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/asignaturas";
 	
 
 }
