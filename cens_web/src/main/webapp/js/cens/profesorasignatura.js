@@ -6,7 +6,7 @@ $(document).ajaxStop(function() {
 });
 
 jQuery(document).ready(function () {
-
+carruselIds = [];
 	$.ajax({
 		type:"GET",
 		url:pagePath+"/profesor/"+profesorId+"/curso/asignatura",
@@ -17,9 +17,6 @@ jQuery(document).ready(function () {
 			loadPorlet();
 			loadCarrousel();
 			loadAccordion();
-			
-			
-			
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
@@ -29,9 +26,25 @@ jQuery(document).ready(function () {
 		}
 		
 	);
-
 	
+	$(window).bind('resizeEnd', function() {		
+		carruselIds.splice(0,carruselIds.length);
+		$( ".censaccordion div.ui-accordion-content:hidden").each(function(index,element){ 
+			hidencurso = "#"+$('#'+$(element).prop("id")+" .censmaterias").prop("id");
+			carruselIds.push(hidencurso);
+			});
 
+
+	});
+	
+	 $(window).resize(function() {
+	        if(this.resizeTO) clearTimeout(this.resizeTO);
+	        this.resizeTO = setTimeout(function() {
+	            $(this).trigger('resizeEnd');
+	        }, 500);
+	    });
+	
+	 setTimeout(function(){$(window).trigger('resizeEnd')  }, 300);
 });
 function loadPorlet(){
 	$(function() {
@@ -75,42 +88,62 @@ function loadAccordion(){
 	      heightStyle: "panel",
 	      collapsible: true,
 	      navigation: true,
-	      active: function( event, ui ) {
-//	    	  $('.censaccordion').accordion("destroy");
-	    	  $('.censaccordion').accordion("refresh");
-//	    	  $('.censmaterias').resizeCanvas();
-//	    	  if(ui.newPanel.length>0){
-//	    		  var width = 0;
-//	    		  var itemWidth = 0;
-//	    		  $('.slick-track').each(function(a,b){
-//	    			  if($(b).width()==0){
-////	    				  width = $(b).width();
-//	    				  $(b).width($( window ).width());}
-////	    				  itemWidth = $($(b).children()[0]).width();
-////	    			  }else{
-////	    				  $(b).width(width);
-////	    				  $(b).children().each(function(index,value){
-////	    					  $(value).width(itemWidth);
-////	    				  });
-////	    			  }
-//	    			  });
-//	    	  }
+	      active: false,
+	      refresh: function(){
+	    	  alert("refesh");
+	      },
+	      beforeActivate: function(event,ui){
+	    	  if(ui.newPanel.length>0 && carruselIds.length>0 ){
+	    		  carru = "#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id");
+	    		  if($.inArray(carru, carruselIds)!==-1){
+	    			  startSpinner();
+	    		  	removeCarousel("#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id"));
+	    		  }
+	    	  }
+	      },
+	      activate: function( event, ui ) {
+	    	  if(ui.newPanel.length>0 && carruselIds.length>0 ){
+	    		  carru = "#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id");
+	    		  if($.inArray(carru, carruselIds)!==-1){
+	    			  carruselIds.splice( $.inArray(carru, carruselIds), 1 );	    		  
+	    		  	loadCarrousel(carru);
+	    		  	stopSpinner();
+	    		  }
+	    	  }
 	      }
 	    });
 	    
 	  });
 }
 
-function loadCarrousel(){
-	$('.censmaterias').slick({
+function removeCarousel(materias){
+	if(materias === null || materias === undefined){
+		materias  = ".censmaterias";
+	}
+	$(materias).unslick();
+}
+function loadCarrousel(materias){
+	if(materias === null || materias === undefined){
+		materias  = ".censmaterias";
+	}
+	$(materias).slick({
 		  infinite: true,
 		  arrows: true,
 		  dots: true,
-		  slidesToShow: 4,
-		  slidesToScroll: 4,
+		  slidesToShow: 5,
+		  slidesToScroll: 5,
 		  responsive: [
+		               	{
+    					breakpoint: 1200,
+    					settings: {
+    						slidesToShow: 4,
+      						slidesToScroll: 4,
+      						infinite: true,
+      						dots: true
+    						}
+  						},
 		               {
-		                 breakpoint: 1024,
+		                 breakpoint: 900,
 		                 settings: {
 		                   slidesToShow: 3,
 		                   slidesToScroll: 3,
@@ -119,14 +152,14 @@ function loadCarrousel(){
 		                 }
 		               },
 		               {
-		                 breakpoint: 600,
+		                 breakpoint: 690,
 		                 settings: {
 		                   slidesToShow: 2,
 		                   slidesToScroll: 2
 		                 }
 		               },
 		               {
-		                 breakpoint: 480,
+		                 breakpoint: 550,
 		                 settings: {
 		                   slidesToShow: 1,
 		                   slidesToScroll: 1
@@ -134,6 +167,7 @@ function loadCarrousel(){
 		               }
 		             ]
 		});
+	
 }
 
 function cargarDatos(data){
@@ -142,19 +176,22 @@ function cargarDatos(data){
 	var divPorlet = '<div class="portlet" id="{id}"></div>';
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
-	var list ='<ul><li><a href=""+pagePath+"/asignatura/{id}/programa">Programa</a></li><li><a href=""+pagePath+"/asignatura/{id}/material">Material Did&aacute;ctico</a></li><li>Sugerencias</li></ul>';
-	var currentDiv = null;
+	var list ='<ul>{programa}{cartillas}{sugerencias}';
+	var itemPrograma='<li><a href="'+pagePath+'/asignatura/{id}/programa">Programa</a></li>';
+	var itemCartillas='<li><a href="'+pagePath+'/asignatura/{id}/material">Material Did&aacute;ctico</a></li>';
+	var itemSugerencias='<li><a href="'+pagePath+'/asignatura/{id}/sugerencias">Sugerencias</a></li></ul>';
+	list = list.replace('{programa}',itemPrograma).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
 	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
 	$.each(data.cursoAsignatura,function(index,value){		
 		currentDiv.append(title.replace("{cursoName}",(value.nombre+"("+value.yearCurso+")")));
-		currentDiv = currentDiv.append("<div class='censmaterias' id='curso"+value.id+"'></div>");
-		
+		currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
+		 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
 		$.each(value.asignaturasDelCursoDto,function(index,asignatura){	
-			var currentPorlet = null;
-			currentPorlet =$("#curso"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
-			currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre));
+
+			currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
+			currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
 			currentPorlet = currentPorlet.append(divPorletContet);
-			currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id));			
+			currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id).replace("{id}",asignatura.id));			
 		});
 		});
 }
