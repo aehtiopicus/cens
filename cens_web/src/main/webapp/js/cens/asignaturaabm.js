@@ -110,7 +110,7 @@ if(!isNaN(pageId())){
 			if(data.profesorSuplente != null){
 				$('#profesorSuplente').val(data.profesorSuplente.miembroCens.apellido+", "+data.profesorSuplente.miembroCens.nombre+" ("+data.profesorSuplente.miembroCens.dni+")");
 				$('#profesorSuplenteId').val(data.profesorSuplente.id);
-				$('#profesorSuplenteName').val(data.profesor.miembroCens.apellido+", "+data.profesorSuplente.miembroCens.nombre+" ("+data.profesorSuplente.miembroCens.dni+")");
+				$('#profesorSuplenteName').val(data.profesorSuplente.miembroCens.apellido+", "+data.profesorSuplente.miembroCens.nombre+" ("+data.profesorSuplente.miembroCens.dni+")");
 			}
 			$('#curso').val(data.curso.nombre+" ("+data.curso.yearCurso+")");
 			$('#cursoId').val(data.curso.id);

@@ -14,10 +14,11 @@ jQuery(document).ready(function () {
 		dataType:"json",
 		success: function(data){			
 			cargarDatos(data);
-//			loadPorlet();
-//			loadAccordion();
-//			
-//			loadCarrousel();
+			loadPorlet();
+			loadCarrousel();
+			loadAccordion();
+			
+			
 			
 		},
 		error: function(data){
@@ -71,9 +72,30 @@ function loadAccordion(){
 	    };
 	    $( ".censaccordion" ).accordion({
 	      icons: icons,
-	      heightStyle: "content",
+	      heightStyle: "panel",
 	      collapsible: true,
-	      navigation: true
+	      navigation: true,
+	      active: function( event, ui ) {
+//	    	  $('.censaccordion').accordion("destroy");
+	    	  $('.censaccordion').accordion("refresh");
+//	    	  $('.censmaterias').resizeCanvas();
+//	    	  if(ui.newPanel.length>0){
+//	    		  var width = 0;
+//	    		  var itemWidth = 0;
+//	    		  $('.slick-track').each(function(a,b){
+//	    			  if($(b).width()==0){
+////	    				  width = $(b).width();
+//	    				  $(b).width($( window ).width());}
+////	    				  itemWidth = $($(b).children()[0]).width();
+////	    			  }else{
+////	    				  $(b).width(width);
+////	    				  $(b).children().each(function(index,value){
+////	    					  $(value).width(itemWidth);
+////	    				  });
+////	    			  }
+//	    			  });
+//	    	  }
+	      }
 	    });
 	    
 	  });
@@ -84,8 +106,8 @@ function loadCarrousel(){
 		  infinite: true,
 		  arrows: true,
 		  dots: true,
-		  slidesToShow: 6,
-		  slidesToScroll: 2,
+		  slidesToShow: 4,
+		  slidesToScroll: 4,
 		  responsive: [
 		               {
 		                 breakpoint: 1024,
@@ -125,12 +147,11 @@ function cargarDatos(data){
 	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
 	$.each(data.cursoAsignatura,function(index,value){		
 		currentDiv.append(title.replace("{cursoName}",(value.nombre+"("+value.yearCurso+")")));
-		currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
+		currentDiv = currentDiv.append("<div class='censmaterias' id='curso"+value.id+"'></div>");
 		
-		$.each(value.asignaturasDelCursoDto,function(index,asignatura){
-		$("#curso"+value.id).append(divMateria.replace("{cursoId}","censmateria"+asignatura.id));
+		$.each(value.asignaturasDelCursoDto,function(index,asignatura){	
 			var currentPorlet = null;
-			currentPorlet =$('#censmateria'+asignatura.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
+			currentPorlet =$("#curso"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 			currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre));
 			currentPorlet = currentPorlet.append(divPorletContet);
 			currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id));			
