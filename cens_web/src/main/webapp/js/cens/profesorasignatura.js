@@ -177,9 +177,9 @@ function cargarDatos(data){
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
 	var list ='<ul>{programa}{cartillas}{sugerencias}';
-	var itemPrograma='<li><a href="'+pagePath+'/asignatura/{id}/programa">Programa</a></li>';
-	var itemCartillas='<li><a href="'+pagePath+'/asignatura/{id}/material">Material Did&aacute;ctico</a></li>';
-	var itemSugerencias='<li><a href="'+pagePath+'/asignatura/{id}/sugerencias">Sugerencias</a></li></ul>';
+	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa">Programa</a></li>';
+	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico</a></li>';
+	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias</a></li></ul>';
 	list = list.replace('{programa}',itemPrograma).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
 	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
 	$.each(data.cursoAsignatura,function(index,value){		

@@ -39,4 +39,11 @@ public class AsignaturaCensController extends AbstractController{
 		mav.addObject("id",id);		
 		return mav;
 	}
+	
+	@RequestMapping(value=UrlConstant.ASIGNATURA_PROGRAMA_CENS_MVC, method= RequestMethod.GET)
+	public ModelAndView getAsignaturaProgramaABMMainPage(@PathVariable(value="id") Long asignaturaId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
+		ModelAndView mav = new ModelAndView(VistasConstant.ASIGNATURA_PROGRAMA_ABM_VIEW);				
+		mav.addObject("asignaturaId", asignaturaId);
+		return mav;
+	}
 }
