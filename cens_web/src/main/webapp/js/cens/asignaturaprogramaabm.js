@@ -1,5 +1,3 @@
-var pagePath="<%=request.getContextPath() %>";
-var profesorId=${profesorId};
 var asignaturaId=window.location.pathname.split('/')[2];
 
 jQuery(document).ready(function () {
@@ -11,7 +9,7 @@ jQuery(document).ready(function () {
 	    numberFormat: "n",    
 	    	
 	});
-	$('#cantCartillas').val(new Date().getFullYear());
+	$('#cantCartillas').val(1);
 	$("#cantCartillas").focus(function(a) {
 		  $( this ).parent().addClass('spanFocus');
 	});
@@ -26,11 +24,57 @@ jQuery(document).ready(function () {
 			}
 		  $( this ).parent().removeClass('spanFocus');
 	});
+	
+
+	 var progressbar = $( "#progressbar" ),
+     progressLabel = $( ".progress-label" );
+
+   progressbar.progressbar({
+     value: 0,
+     change: function() {
+       progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+     },
+     complete: function() {
+       progressLabel.text( "Complete!" );
+     }
+   });
+
 });
 
 $(function () {
 	 
     $('#fileupload').fileupload({
+    	
+    	  dataType: 'json',
+    	  
+          done: function (e, data) {
+              $("tr:has(td)").remove();
+              $.each(data.result, function (index, file) {
+   
+                  $("#uploaded-files").append(
+                          $('<tr/>')
+                          .append($('<td/>').text(file.fileName))
+                          .append($('<td/>').text(file.fileSize))
+                          .append($('<td/>').text(file.fileType))
+                          .append($('<td/>').html("<a href='upload?f="+index+"'>Click</a>"))
+                          .append($('<td/>').text("@"+file.twitter))
+   
+                          )//end $("#uploaded-files").append()
+              }); 
+          },
+   
+          progressall: function (e, data) {
+              var progress = parseInt(data.loaded / data.total * 100, 10);
+              $( "#progressbar" ).progressbar( "option", "value", progress );
+          },
+   
+          dropZone: $('#dropzone') 
+    });        
+    });
+
+
+/**
+ *
  
         dataType: 'json',
  
@@ -58,10 +102,5 @@ $(function () {
             );
         },
  
-        dropZone: $('#dropzone')}).bind('fileuploadsubmit', function (e, data) {
-        // The example input, doesn't have to be part of the upload form:
-        var twitter = $('#twitter');
-        data.formData = {twitter: twitter.val()};        
-    });
- 
-});
+        dropZone: $('#dropzone') 
+ */

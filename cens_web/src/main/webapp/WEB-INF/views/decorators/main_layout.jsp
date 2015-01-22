@@ -15,6 +15,10 @@
         <link href="<%=request.getContextPath() %>/css/midasUI-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
     	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/chosen.css">
 
+
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery.fileupload.css">
+
         <script src="<%=request.getContextPath() %>/js/jquery-1.10.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery.numeric.js" type="text/javascript"></script>

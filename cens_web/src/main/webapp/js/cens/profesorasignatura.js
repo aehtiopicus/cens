@@ -44,7 +44,7 @@ carruselIds = [];
 	        }, 500);
 	    });
 	
-	 setTimeout(function(){$(window).trigger('resizeEnd')  }, 300);
+	 setTimeout(function(){$(window).trigger('resizeEnd')  }, 1000);
 });
 function loadPorlet(){
 	$(function() {
