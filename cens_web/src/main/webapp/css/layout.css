@@ -747,9 +747,7 @@ body.loading .modal {
     opacity: 1;
 }
 
-fieldset #fileupload{
-	padding: 0px;
-}
+
 
 archivos .custom-file-input{
 	position: absolute;
@@ -760,7 +758,8 @@ opacity: 0;
 -ms-filter: 'alpha(opacity=0)';
 font-size: 200px;
 direction: ltr;
-cursor: pointer
+cursor: pointer;
+width: 117px;
 }
 
 archivos .table{

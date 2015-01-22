@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.AsignaturaCensValidator;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.AsignaturaDto;
+import com.aehtiopicus.cens.dto.cens.AsignaturaProgramaDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
@@ -106,6 +112,36 @@ public class AsignaturaCensRestController extends AbstractRestController{
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(asignaturaID);
 		dto.setMessage("Asignatura Eliminada");
+		return dto;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.ASIGNATURA_PROGRAMA_CENS_REST, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RestSingleResponseDto uploadPrograma(@RequestPart("properties")  AsignaturaProgramaDto properties, @RequestPart("file")  @NotNull @NotBlank MultipartFile file) throws Exception{		
+//		asignaturaCensService.deleteAsignatura(asignaturaID);		
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+//		dto.setId(asignaturaID);
+		dto.setMessage("Asignatura Eliminada");
+//		 Iterator<String> itr =  request.getFileNames();
+		 
+//	     MultipartFile mpf = request.getFile(itr.next());
+//	     System.out.println(mpf.getOriginalFilename() +" uploaded!");
+//	     Enumeration enume =request.getParameterNames();
+//	     while(enume.hasMoreElements()){
+//	    	 System.out.println(enume.nextElement());
+//	     }
+//
+//	     try {
+//	                //just temporary save file info into ufile
+//	       System.out.println( mpf.getBytes().length);
+//	       System.out.println(mpf.getBytes());
+//	       System.out.println( mpf.getContentType());
+//	       System.out.println( mpf.getOriginalFilename());
+//	 
+//	    } catch (IOException e) {
+//	        // TODO Auto-generated catch block
+//	        e.printStackTrace();
+//	    }
 		return dto;
 	}
 }
