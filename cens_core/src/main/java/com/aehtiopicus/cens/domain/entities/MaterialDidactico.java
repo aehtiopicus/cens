@@ -26,10 +26,7 @@ public class MaterialDidactico implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@OneToOne
-	private Asignatura asignatura;
+	private Long id;	
 	
 	@Enumerated(EnumType.STRING)
 	private MaterialDidacticoUbicacionType ubicacionType;
@@ -42,6 +39,69 @@ public class MaterialDidactico implements Serializable{
 	
 	@Column(length=500)
 	private String descripcionFormato;
+	
+	@OneToOne(optional=false)
+	private Profesor profesor;
+	
+	@OneToOne(optional=false)
+	private Programa programa;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}	
+
+	public MaterialDidacticoUbicacionType getUbicacionType() {
+		return ubicacionType;
+	}
+
+	public void setUbicacionType(MaterialDidacticoUbicacionType ubicacionType) {
+		this.ubicacionType = ubicacionType;
+	}
+
+	public String getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+
+	public FormatoType getTipoFormato() {
+		return tipoFormato;
+	}
+
+	public void setTipoFormato(FormatoType tipoFormato) {
+		this.tipoFormato = tipoFormato;
+	}
+
+	public String getDescripcionFormato() {
+		return descripcionFormato;
+	}
+
+	public void setDescripcionFormato(String descripcionFormato) {
+		this.descripcionFormato = descripcionFormato;
+	}
+
+	public Profesor getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor) {
+		this.profesor = profesor;
+	}
+
+	public Programa getPrograma() {
+		return programa;
+	}
+
+	public void setPrograma(Programa programa) {
+		this.programa = programa;
+	}
+	
 	
 	
 	

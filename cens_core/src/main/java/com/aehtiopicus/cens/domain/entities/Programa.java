@@ -1,20 +1,18 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CENS_PLANIFICACION_MATERIAL_DIDACTICO")
-public class PlanificacionMaterialDidactico implements Serializable{
+@Table(name = "CENS_PROGRAMA")
+public class Programa implements Serializable{
 
 	/**
 	 * 
@@ -26,16 +24,21 @@ public class PlanificacionMaterialDidactico implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne
+	@OneToOne(optional=false)
 	private Profesor profesor;
+	
+	private String nombre;
+	
+	@OneToOne(optional=false)
+	private Asignatura asignatura;
 	
 	@Column(length=500)
 	private String descripcion;
 	
-	@OneToMany
-	private List<MaterialDidactico> materialDidactico;
+	private int cantCartillas;	
 	
-	private int ciclo;
+	@OneToOne(optional=true)
+	private FileCensInfo fileInfo;
 
 	public Long getId() {
 		return id;
@@ -60,22 +63,40 @@ public class PlanificacionMaterialDidactico implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-	public List<MaterialDidactico> getMaterialDidactico() {
-		return materialDidactico;
+	
+	public int getCantCartillas() {
+		return cantCartillas;
 	}
 
-	public void setMaterialDidactico(List<MaterialDidactico> materialDidactico) {
-		this.materialDidactico = materialDidactico;
+	public void setCantCartillas(int cantCartillas) {
+		this.cantCartillas = cantCartillas;
 	}
 
-	public int getCiclo() {
-		return ciclo;
+	public Asignatura getAsignatura() {
+		return asignatura;
 	}
 
-	public void setCiclo(int ciclo) {
-		this.ciclo = ciclo;
+	public void setAsignatura(Asignatura asignatura) {
+		this.asignatura = asignatura;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public FileCensInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(FileCensInfo fileInfo) {
+		this.fileInfo = fileInfo;
+	}
+
+	
 	
 	
 	

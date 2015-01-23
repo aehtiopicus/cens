@@ -34,10 +34,6 @@ public class Asignatura implements Serializable {
 	
 	@Column(length=1000)
 	private String horarios;
-
-	@OneToMany(mappedBy = "asignatura")
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<MaterialDidactico> materialesDidacticos;
 	
 	@OneToMany(mappedBy = "asignaturas")
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -78,13 +74,6 @@ public class Asignatura implements Serializable {
 		this.modalidad = modalidad;
 	}
 
-	public List<MaterialDidactico> getMaterialesDidacticos() {
-		return materialesDidacticos;
-	}
-
-	public void setMaterialesDidacticos(List<MaterialDidactico> materialesDidacticos) {
-		this.materialesDidacticos = materialesDidacticos;
-	}
 
 	public List<Alumno> getAlumnos() {
 		return alumnos;

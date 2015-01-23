@@ -24,25 +24,24 @@ jQuery(document).ready(function () {
 	});
 	
 
-	progressbar = $( "#progressbar" ),
-    progressLabel = $( ".progress-label" );
-
-   progressbar.progressbar({
+	$("#progressbar").progressbar({
      value: 0,
      change: function() {
-       progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+    	 $(".progress-label").text($("#progressbar").progressbar( "value" ) + "%" );
      },
      complete: function() {
-       progressLabel.text( "Carga completa!" );
+    	 $(".progress-label").text( "Carga completa!" );
      }
    });
+	
    
    $( "#guardarPrograma" ).dialog({
 		autoOpen: false,
 		width: 400,
 		buttons: [
 			{
-				text: "Ok",			
+				text: "Ok",
+				id:"btnGuardarOk",
 				click: function() {
 					$('#btnGuardarPrograma').trigger("click");
 				}
@@ -51,7 +50,8 @@ jQuery(document).ready(function () {
 				text: "Cancelar",
 				click: function() {
 					$( this ).dialog( "close" );
-					usuarioIdToRemove = null;
+					$( "#guardarPrograma #fileUploadFailureErrorDiv" ).remove();
+					
 				}
 			}
 		]
@@ -86,7 +86,7 @@ $(function () {
              
               if(!(/(\.|\/)(xlsx|xls|doc|docx|ppt|pptx|pps|ppsx|pdf)$/i).test(data.files[0].name)){
             	  addError('fileupload',"Tipo no Soportado");
-            	  return;
+            	  return false;
               }
               $('#fileUploadName').val(data.files[0].name);
               $('#fileUploadUsed').val("true");
@@ -110,8 +110,16 @@ $(function () {
         	  			nombre: $('#nombre').val().length===0 ? null : $('#nombre').val(),
         	  			cantCartillas:  $('#cantCartillas').val().length===0 ? null : $('#cantCartillas').val(),
         	  			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
-        	  			profesorId:profesorId
+        	  			profesorId : profesorId		
         	  		};
+        	  	var fileInfo ={
+        	  			fileName:data.files[0].name,
+        	  			fileSize:data.files[0].size,
+        	  			fileLastModify:convertDate(data.files[0].lastModified),
+        	  			creatorId:profesorId,
+        	  			creatorType:'PROFESOR'
+        	  	};
+        	  	model.fileInfo = fileInfo;
         	  	formData.append('properties', new Blob([JSON.stringify(model)], { type: "application/json" }));
         	
         	  $.ajax({
@@ -127,11 +135,14 @@ $(function () {
                     }
                     return myXhr;
                 },
-        	     success : function(result){
+        	    success : function(result){
         	    	         	            
-        	    }
+        	    },
                 error: function(error){
-                	
+                	 $( "#progressbar" ).progressbar( "option", "value", 0 );
+            		 $(".progress-label").text( "" );
+                	addError('fileUploadFailure',"Error al guardar el programa");
+                	$('#btnGuardarOk').prop("disabled",true)
                 }
         	  });        	  
           },          
@@ -161,6 +172,10 @@ function progress (data) {
 
 function guardarPrograma(){
 	if( $('#fileUploadUsed').val()==="true"){
+		$('#btnGuardarOk').prop("disabled",false);
+		 $( "#progressbar" ).progressbar( "option", "value", 0 );
+		 $(".progress-label").text( "" );
+		
 		$("#guardarPrograma").dialog("open");
 	}else{
 		

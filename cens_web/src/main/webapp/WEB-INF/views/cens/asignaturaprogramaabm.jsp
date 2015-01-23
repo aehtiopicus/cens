@@ -55,6 +55,7 @@ var asignaturaId=${asignaturaId};
 	 <div>
            <div id="progressbar" style="border: none;">
         		<div class="progress-label"></div>
+        		<input type="hidden" id="fileUploadFailure"/>
     		</div>
     </div>
 </div>

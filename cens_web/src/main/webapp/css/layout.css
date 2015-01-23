@@ -335,7 +335,15 @@ fieldset div .ui-state-error{
 	display: inline-block;	
 	height: 10px;			
 }
-
+.ui-dialog .ui-state-error-img{
+	margin-left: 188px;
+display: inline-block;		
+float: right;
+width: 13px;
+height: 14px;
+background-position: 14% 85%;
+background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png');
+}
 fieldset div .ui-state-error-img{
 margin-left: 188px;
 display: inline-block;		

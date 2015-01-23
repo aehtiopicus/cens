@@ -1,13 +1,11 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,24 +22,10 @@ public class Profesor implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;	
 	
-	@OneToMany(mappedBy = "profesor")
-	private List<Asignatura> asignatura;
-	
-	@OneToMany(mappedBy = "profesorSuplente")
-	private List<Asignatura> asignaturaSuplente;
-	
 	@OneToOne(optional = false)
 	private MiembroCens miembroCens;
 	
 	private Boolean baja = false;
-
-	public List<Asignatura> getAsignatura() {
-		return asignatura;
-	}
-
-	public void setAsignatura(List<Asignatura> asignatura) {
-		this.asignatura = asignatura;
-	}
 
 	
 	public Long getId() {
@@ -68,14 +52,7 @@ public class Profesor implements Serializable{
 		this.baja = baja;
 	}
 
-	public List<Asignatura> getAsignaturaSuplente() {
-		return asignaturaSuplente;
-	}
 
-	public void setAsignaturaSuplente(List<Asignatura> asignaturaSuplente) {
-		this.asignaturaSuplente = asignaturaSuplente;
-	}
-	
 	
 	
 

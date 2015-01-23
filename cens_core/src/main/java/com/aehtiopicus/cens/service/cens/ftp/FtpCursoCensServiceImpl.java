@@ -6,6 +6,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Curso;
@@ -15,7 +16,10 @@ import com.aehtiopicus.cens.utils.CensException;
 public class FtpCursoCensServiceImpl extends AbstractFtpCensService implements  FtpCursoCensService{
 
 	private static final Logger logger = LoggerFactory.getLogger(FtpCursoCensServiceImpl.class);
-	public static final String CURSO_FTP_ASIGNATURAS = "/asignaturas";
+	
+	private static final String FTP_CURSO_ASIGNATURA_ROOT = "#{ftpProperties['curso.asignatura.root']}";
+	@Value(FTP_CURSO_ASIGNATURA_ROOT)
+	private String cursoAsignaturaRoot ;
 	
 	@Override
 	public void createCursoFolder(Curso curso) throws CensException{
@@ -26,7 +30,7 @@ public class FtpCursoCensServiceImpl extends AbstractFtpCensService implements  
 			 if(cursoDir == null || cursoDir.length==0){
 				 String cursoArchive = curso.getId().toString();
 				 ftp.makeDirectory(cursoArchive);
-				 ftp.makeDirectory(cursoArchive+CURSO_FTP_ASIGNATURAS);				 
+				 ftp.makeDirectory(cursoArchive+cursoAsignaturaRoot);				 
 				 disconnect(ftp);
 			 }
 			

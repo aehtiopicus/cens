@@ -57,12 +57,6 @@ jQuery(document).ready(function () {
 	});
 });
 
-function convertDate(value){
-	var a =(new Date(value));
-	date = a.getDate().toString();
-	date =date.length == 1 ? 0+date : date;
-	return a.getFullYear()+"-"+(a.getMonth()+1)+"-"+ date;
-}
 
 function submitMiembro(){
 

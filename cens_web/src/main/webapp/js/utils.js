@@ -38,6 +38,8 @@ function validationError (error){
 }
 function closeAllErrors(){
 	$('.ui-state-error-img').remove();
+	$('.ui-state-error').remove();
+	
 }
 function closeError(value){
 	$('#'+value).remove();
@@ -85,6 +87,15 @@ function startSpinner(){
 
 function stopSpinner(){
 	$("body").removeClass("loading");
+}
+
+function convertDate(value){
+	var a =(new Date(value));
+	date = a.getDate().toString();
+	date = date.length == 1 ? 0+date : date;
+	month = (a.getMonth()+1).toString();
+	month = month.length == 1 ? 0+month : date;
+	return a.getFullYear()+"-"+month+"-"+ date;
 }
 
 
