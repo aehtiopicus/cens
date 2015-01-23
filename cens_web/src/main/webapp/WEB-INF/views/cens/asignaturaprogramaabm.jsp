@@ -35,7 +35,7 @@ var asignaturaId=${asignaturaId};
 				<button class="button" type="button" style="height: 32px;top: -1px;">Agregar Archivo                                        
                 	   <input id="fileupload" type="file" class="custom-file-input" name="file" multiple/>
                 </button>
-                <input type="text" readonly="readonly" id="fileUploadName" style="width:305px;"/>
+                <input type="text" readonly="readonly" id="fileUploadName" style="width:305px;" accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,pdf"/>
                 <input type="hidden" id="fileUploadUsed"/>
                 <input type="hidden" id="btnGuardarPrograma"/>
             </div>

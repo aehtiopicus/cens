@@ -36,7 +36,9 @@ function validationError (error){
 	}
 	return false;
 }
-
+function closeAllErrors(){
+	$('.ui-state-error-img').remove();
+}
 function closeError(value){
 	$('#'+value).remove();
 }
