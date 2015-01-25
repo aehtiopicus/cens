@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,6 +223,31 @@ public abstract class AbstractFtpCensService {
 				disconnect(ftp);
 			}
 		}
+	}
+	
+	public void copyFilesFromDirToDi(FTPClient ftp,String dirFrom, String dirTo)throws CensException{
+		try{
+			for(FTPFile file : ftp.listFiles(dirFrom)){				
+				if(!ftp.rename(dirFrom+"/"+file.getName(), dirTo+"/"+file.getName())){								
+					throw new Exception("No se pudo renombrar el archivo");
+				}
+			}
+		}catch(Exception e){
+			logger.error(e.getMessage(),e);
+			throw new CensException("Error al copiar archivos");
+		}
+	}
+	
+	public void removeDirectory(FTPClient ftp, String dirName) throws CensException{
+		try{
+			if(!ftp.removeDirectory(dirName)){
+				throw new Exception("Error al eliminar el directorio de ftp");
+			}
+		}catch(Exception e){
+			logger.error(e.getMessage(),e);
+			throw new CensException("Error al eliminar el directorio");
+		}
+		
 	}
 
 }

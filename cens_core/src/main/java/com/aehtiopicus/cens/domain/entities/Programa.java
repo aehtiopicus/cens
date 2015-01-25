@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,12 +25,13 @@ public class Programa implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(optional=false)
+	
+	@OneToOne
 	private Profesor profesor;
 	
 	private String nombre;
 	
-	@OneToOne(optional=false)
+	@OneToOne
 	private Asignatura asignatura;
 	
 	@Column(length=500)

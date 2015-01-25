@@ -48,20 +48,34 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		}
 		logger.info("Guardando asignatura ");
 		List<Asignatura> resultList = new ArrayList<Asignatura>();
+		Long oldCursoId = null;
 		for(Asignatura asignatura : asignaturaList){
 			asignatura = validateAsignatura(asignatura);
-			Asignatura asignaturaSaved = asignaturaCensRepository.save(asignatura); 			
-			ftpAsignaturaCensService.createAsignaturaFolder(asignaturaSaved);
+			if(asignatura.getId()!=null){
+				oldCursoId=asignaturaCensRepository.findOne(asignatura.getId()).getCurso().getId();
+			}
+			Asignatura asignaturaSaved = asignaturaCensRepository.save(asignatura); 	
+			handleFtp(asignaturaSaved, oldCursoId);
 			resultList.add(asignaturaSaved);
 		}
 		return resultList;
 		
 	}
 	
+	private void handleFtp(Asignatura asignaturaSaved,Long oldCursoId) throws CensException{
+		ftpAsignaturaCensService.createAsignaturaFolder(asignaturaSaved);
+		if(oldCursoId!=null){		
+			if(oldCursoId!= asignaturaSaved.getCurso().getId()){
+				ftpAsignaturaCensService.moveAsignaturaData(oldCursoId,asignaturaSaved);
+			}
+		}
+		
+	}
+	
 	private Asignatura validateAsignatura(Asignatura asignatura)throws CensException{
 		Asignatura a = asignaturaCensRepository.findByNombreAndModalidadAndCurso(asignatura.getNombre(),asignatura.getModalidad(),asignatura.getCurso());
 		if(a!=null && (asignatura.getId()==null || !a.getId().equals(asignatura.getId()))){
-			throw new CensException("No se puede guardar el miembro","dni","Existe un miembro con el documento indicado");
+			throw new CensException("No se puede guardar la asignatura");
 		}		
 		
 		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
@@ -77,8 +91,8 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		if(asignatura.getCurso()!=null && asignatura.getCurso().getId()!=null){
 			asignatura.setCurso(cursoCensService.findById(asignatura.getCurso().getId()));
 		}else{
-			asignatura.setCurso(null);
-		}
+			throw new CensException("La asignatura debe pertenecer a un curso");
+		}		
 		
 		return asignatura;
 	}

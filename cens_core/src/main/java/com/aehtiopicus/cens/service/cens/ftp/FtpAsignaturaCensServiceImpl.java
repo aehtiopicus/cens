@@ -34,12 +34,12 @@ public class FtpAsignaturaCensServiceImpl extends AbstractFtpCensService impleme
 	public void createAsignaturaFolder(Asignatura asignatura)throws CensException{
 		
 		FTPClient ftp = ftpConnect();
+		
 		try{
-			String cursoFolder = asignatura.getCurso().getId().toString();
-			 FTPFile[] cursoDir = ftp.listDirectories(cursoFolder+cursoAsignaturaRoot+"/"+asignatura.getId());
-			 if(cursoDir == null || cursoDir.length==0){
-				 String asignaturaArchive = asignatura.getId().toString();
-				 String asignaturaFolder = cursoFolder+cursoAsignaturaRoot+"/"+asignaturaArchive;
+			
+			String asignaturaFolder = asignaturaPath(asignatura);
+			 FTPFile[] cursoDir = ftp.listDirectories(asignaturaFolder);
+			 if(cursoDir == null || cursoDir.length==0){				 
 				 ftp.makeDirectory(asignaturaFolder);
 				 ftp.makeDirectory(asignaturaFolder+programa);
 				 ftp.makeDirectory(asignaturaFolder+material);
@@ -52,4 +52,32 @@ public class FtpAsignaturaCensServiceImpl extends AbstractFtpCensService impleme
 			throw new CensException("Error al interactura con directorio de asignaruas "+asignatura.getNombre()+"( curso="+asignatura.getCurso().getNombre()+" "+asignatura.getCurso().getYearCurso()+")");
 		}
 	}
+	
+	private String asignaturaPath(Asignatura asignatura){
+		return asignatura.getCurso().getId().toString()+cursoAsignaturaRoot+"/"+asignatura.getId();
+	}
+
+	@Override
+	public void moveAsignaturaData(Long from, Asignatura target) throws CensException {
+		
+		FTPClient ftp = ftpConnect();
+		
+		String asignaturaFrom = asignaturaPath(target).replaceFirst(target.getCurso().getId().toString(), from.toString());
+		createAsignaturaFolder(target);		
+		String asignaturaTo = asignaturaPath(target);
+		try{
+			for(FTPFile file : ftp.listDirectories(asignaturaFrom)){
+				copyFilesFromDirToDi(ftp, asignaturaFrom+"/"+file.getName(),asignaturaTo+"/"+file.getName() );
+				removeDirectory(ftp,asignaturaFrom+"/"+file.getName());
+			}
+			removeDirectory(ftp, asignaturaFrom);
+		}catch(IOException e){
+			logger.error(e.getMessage(),e);
+			throw new CensException("Error al listar informaci&oacute;n");
+		}
+		
+		
+	}
+
+	
 }

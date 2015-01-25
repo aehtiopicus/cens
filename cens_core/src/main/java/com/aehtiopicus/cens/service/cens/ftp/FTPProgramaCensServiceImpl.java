@@ -40,9 +40,9 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 			sb.append(cursoAsignaturaRoot);
 			sb.append("/");
 			sb.append(asignatura.getId());
-			sb.append(FTP_ASIGNATURA_PROGRAMA);
+			sb.append(programa);
 			sb.append("/");
-			sb.append(file.getName());
+			sb.append(file.getOriginalFilename());
 			String filePath = sb.toString();
 			
 			uploadFile(file.getInputStream(), filePath);

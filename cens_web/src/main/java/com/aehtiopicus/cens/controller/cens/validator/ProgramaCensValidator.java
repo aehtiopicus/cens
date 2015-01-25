@@ -32,10 +32,9 @@ public class ProgramaCensValidator {
 		if (StringUtils.isEmpty(dto.getNombre())) {
 			errorMap.put("nombre", "Nombre es requerido");
 		}
-		if (dto.getCantCartillas()== null ||dto.getCantCartillas() >0 || dto.getCantCartillas() <99 ) {
+		if (dto.getCantCartillas()== null ||dto.getCantCartillas() <=0 || dto.getCantCartillas() >99 ) {
 			errorMap.put("cantCartillas", "La cantidad de cartillas debe estar entre 1-99");
-		}
-		
+		}		
 
 		if (!errorMap.isEmpty()) {
 			throw new CensException("Error al guardar Programa de la Asignatura", errorMap);

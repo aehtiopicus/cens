@@ -7,4 +7,6 @@ public interface FtpAsignaturaCensService {
 
 	public void createAsignaturaFolder(Asignatura asignatura) throws CensException;
 
+	public void moveAsignaturaData(Long from, Asignatura target) throws CensException;
+
 }
