@@ -20,13 +20,16 @@ import com.aehtiopicus.cens.configuration.VistasConstant;
 public class ProgramaCensController extends AbstractController{
 
 	@RequestMapping(value=UrlConstant.PROGRAMA_CENS_MVC, method= RequestMethod.GET)
-	public ModelAndView getProgramaCreation(@RequestParam("asignatura") String asignatura, @PathVariable(value="id") Long asignaturaId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
-		return prepareModelAndViewABM(null,asignaturaId,asignatura);
+	public ModelAndView getProgramaCreation(@RequestParam(value="disabled",required=false) String disabled,@RequestParam("asignatura") String asignatura, @PathVariable(value="id") Long asignaturaId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
+		ModelAndView mav = prepareModelAndViewABM(null,asignaturaId,asignatura);
+		return mav;
 	}
 	
 	@RequestMapping(value=UrlConstant.PROGRAMA_CENS_MVC+"/{programaId}", method= RequestMethod.GET)
-	public ModelAndView getProgramaABM(@RequestParam("asignatura") String asignatura,@PathVariable(value="programaId") Long programaId,@PathVariable(value="id") Long asignaturaId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
-		return prepareModelAndViewABM(programaId,asignaturaId,asignatura);
+	public ModelAndView getProgramaABM(@RequestParam(value="disabled",required=false) String disabled,@RequestParam("asignatura") String asignatura,@PathVariable(value="programaId") Long programaId,@PathVariable(value="id") Long asignaturaId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
+		ModelAndView mav = prepareModelAndViewABM(programaId,asignaturaId,asignatura);
+		mav.addObject("disabled",disabled);
+		return mav;
 	}
 	
 	private ModelAndView prepareModelAndViewABM(Long id,Long asignaturaId,String asignatura){

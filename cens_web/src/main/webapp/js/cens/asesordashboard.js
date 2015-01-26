@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
 carruselIds = [];
 	$.ajax({
 		type:"GET",
-		url:pagePath+"/profesor/"+profesorId+"/curso/asignatura",
+		url:pagePath+"/asesor/"+asesorId+"/dashboard",
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){			
@@ -174,19 +174,22 @@ function cargarDatos(data){
 			
 	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
 	
-	$.each(data.cursoAsignatura,function(index,value){		
+	if(data.cursoDto!==null){
+		$.each(data.cursoDto,function(index,value){		
 		
-		currentDiv=datosCurso(currentDiv,value);
-		
-		$.each(value.asignaturasDelCursoDto,function(index,asignatura){	
-			datosAsignatura(value,currentDiv,asignatura);						
+			currentDiv=datosCurso(currentDiv,value);
+			if(value.asignaturas!==null){
+				$.each(value.asignaturas,function(index,asignatura){	
+					datosAsignatura(value,currentDiv,asignatura);						
+				});
+			}
 		});
-	});
+	}
 }
 
 function datosCurso(currentDiv,value){
 	var title = '<h3>{cursoName}</h3>';
-	currentDiv.append(title.replace("{cursoName}","ASIGNATURAS DEL CURSO <span class='cursoFont'>"+(value.nombre.toUpperCase()+"("+value.yearCurso+")</span>")));
+	currentDiv.append(title.replace("{cursoName}","ASIGNATURAS DEL CURSO <span class='cursoFont'>"+(value.nombre.toUpperCase()+" ("+value.yearCurso+")</span>")));
 	currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
 	 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
 	 return currentDiv;
@@ -194,13 +197,11 @@ function datosCurso(currentDiv,value){
 
 function datosAsignatura(value,currentDiv,asignatura){
 	var divPorlet = '<div class="portlet" id="{id}"></div>';
-	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
+	var divPorletHeader =  '<a = href="'+pagePath+'/mvc/asesor/'+asesorId+'/asignatura/'+asignatura.id+'?asignatura='+asignatura.nombre.toUpperCase()+' ('+value.nombre.toLowerCase()+' - '+value.yearCurso+')"><div class="portlet-header">{name}</div></a>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
 	
-	var list ='<ul>{programa}{cartillas}{sugerencias}';	
-	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico (No Existe)</a></li>';
-	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias (No Existe)</a></li></ul>';	
-	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
+	var list ='<ul>{profesor}{suplente}</ul>';		
+	list = list.replace('{profesor}',datosProfesor(value,asignatura.profe,false)).replace('{suplente}',datosProfesor(value,asignatura.profeSuplente,true));
 	
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
@@ -209,15 +210,12 @@ function datosAsignatura(value,currentDiv,asignatura){
 	
 }	
 
-function datosPrograma(value,asignatura){
-	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <span class="estadoMaterial {subClass}">({estado})</span></a></li>';
-	if(asignatura.programa!==null){
-		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO"){
-			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
-		}else{
-			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&disabled=true");
-		}
+function datosProfesor(value,profe,suplente){
+	var itemProfesor='<li>{nombreProfe}: <span class="estadoMaterial {subClass}">{profesor}</span></li>';
+	itemProfesor = itemProfesor.replace("{nombreProfe}",suplente ? "Suplente" :"Profesor");
+	if(profe!==null){		
+		return itemProfesor.replace("{profesor}",profe.apellido.toUpperCase()+", ("+profe.dni+")").replace("{subClass}","nuevo");
 	}else{
-		return itemPrograma.replace("{existente}","").replace("{estado}","No Existe").replace("{subClass}","inexistente").replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre.toLowerCase()+" - "+value.yearCurso+")");
+		return itemProfesor.replace("{profesor}","No Asignado").replace("{subClass}","rechazado");
 	}
 }

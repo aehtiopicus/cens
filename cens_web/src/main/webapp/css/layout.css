@@ -79,7 +79,7 @@ html,body,table{
 .mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; min-width:650px; width: 100%; height: 100%; }
 
 .headerPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  height: 67px;}
-.contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:25px; margin-top:10px;}
+.contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:25px; margin-top:10px; margin-bottom: 20px;}
 /* .leftPanel{padding: 0px 3px 0px 0px;  outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 20%;    float: left; border-right: 1px solid #004499; } */
 /* .rightPanel{padding: 0px 15px 0px 0px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:auto;  width: 77%;   float: right; } */
 /* .treePanel{padding: 3px; outline-style:none; outline-color:#000000; outline-width:0px; overflow:hidden;  width: 100%;  height: 60%; margin-left: -2px; margin-top: 2px; border-bottom: 1px solid #004499;} */
@@ -390,6 +390,7 @@ fieldset div textarea:focus{
 	color: #005577;
 	margin-left: 3px;
 	font-family: cursive;
+	text-align: -webkit-center;
 }
 
 .tituloForm,h2 {
@@ -660,7 +661,8 @@ width: 5em;
 .censaccordion  .portlet {
     margin: 0 1em 1em 0;
     padding: 0.5em;
-    min-width: 170px;    
+    min-width: 170px;  
+    min-height: 111px;  
   }
 .censaccordion   .portlet-header {
     padding: 0.2em 0.3em;
@@ -691,6 +693,7 @@ width: 5em;
     height: 10vh;
 	margin-top: -6px;
   }
+  .censaccordion  .portlet-content ul li,
 .censaccordion  .portlet-content ul a{
 font-size: 15px;
 color: #005577;
@@ -869,5 +872,48 @@ archivos .progress-label {
 .estadoMaterial{
 	font-size: 10px;
 	font-weight: 800;
-	color: rgb(215, 52, 52);
+	
 }  
+
+.estadoMaterial.nuevo{
+
+	color: rgb(76, 131, 33);
+}  
+
+.estadoMaterial.listo{
+
+	color: rgb(37, 60, 152);
+}
+
+.estadoMaterial.inexistente {
+	color: rgb(6,6,6);
+}
+
+
+.estadoMaterial.asignado{
+	color: rgb(194, 167, 32);
+}
+
+
+.estadoMaterial.rechazado{
+
+	color: rgb(232, 36, 73);
+}
+
+.estadoMaterial.aceptado{
+
+	color: rgb(37, 60, 152);
+}
+
+
+.estadoMaterial.cambios{
+	color: rgb(76, 131, 33);
+}
+.cursoFont{
+	font-variant: small-caps;
+}
+
+fieldset h3.subtitulo{
+	text-align: -webkit-left;
+font-size: 14px;
+}

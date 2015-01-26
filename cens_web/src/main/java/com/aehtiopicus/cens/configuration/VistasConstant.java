@@ -68,22 +68,24 @@ public class VistasConstant {
 	
 	
 	/**********/
-	
+	/*404*/
 	public static final String NOT_FOUND = "cens/404";
 	
-	public final static String ASESORES_LIST_VIEW = "asesoreslist";
+	/*Miembro*/
 	public final static String MIEMBRO_LIST_VIEW = "cens/miembrocens";
 	public static final String MIEMBRO_ABM_VIEW = "cens/miembrocensabm";
-	
+	/*Curso*/
 	public static final String CURSO_LIST_VIEW ="cens/cursos";
 	public static final String CURSO_LIST_ABM_VIEW ="cens/cursoabm";
-	
+	/*Asignatura*/
 	public static final String ASIGNATURA_LIST_VIEW ="cens/asignaturas";
 	public static final String ASIGNATURA_LIST_ABM_VIEW ="cens/asignaturaabm";
 	public static final String ASIGNATURA_PROGRAMA_ABM_VIEW ="cens/asignaturaprogramaabm";
-	
+	/*Profesor*/
 	public static final String PROFESOR_ASIGNATURA_LIST_VIEW ="cens/profesorasignaturas";
-
+	/*Asesor*/
+	public static final String ASESOR_DASHBOARD_LIST_VIEW ="cens/asesordashboard";
+	public static final String ASESOR_ASIGNATURA_VIEW ="cens/asignaturarevision";
 	
 	
 }

@@ -29,6 +29,11 @@
 	</li>
 	
 	<li>
+        <a href="<%=request.getContextPath() %>/mvc/asesor/dashboard">Asesor</a>
+
+	</li>
+	
+	<li>
         <a href="#">Gesti&oacute;n de Cursos</a>
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/mvc/expedienteList">Gesti&oacute;n de Expedientes</a></li>

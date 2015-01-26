@@ -12,7 +12,7 @@ public class ProgramaDto {
 	private Long profesorId;
 	private Long asignaturaId;
 	private String programaAdjunto;
-	private EstadoRevisionType estadoRevisionType;
+	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
 	private String asignatura;
 	
 	

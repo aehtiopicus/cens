@@ -17,5 +17,8 @@ public interface CursoCensRepository extends JpaRepository<Curso, Long>, JpaSpec
 
 	@Query("SELECT distinct(c) FROM Curso c INNER JOIN c.asignaturas a WHERE (a.profesor.id = :profesorId OR a.profesorSuplente.id = :profesorId) AND a.vigente = true")
 	public List<Curso> findCursoAsignaturaByProfesor(@Param("profesorId")Long profesorId);
+	
+	@Query("SELECT distinct(c) FROM Curso c INNER JOIN c.asignaturas a WHERE a.vigente = true")
+	public List<Curso> findDistinctCursoByAsignaturaAndAsignatura();
 
 }

@@ -1,10 +1,8 @@
 
 jQuery(document).ready(function () {
-	if(!isNaN(pageId())){	
+	if(!isNaN(pageId())){
+		startSpinner();
 		$.ajax({
-			ajaxStart: function(){
-				startSpinner();
-			},
 			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
 			type: "GET",	    	    
 			contentType :'application/json',
@@ -15,10 +13,10 @@ jQuery(document).ready(function () {
 				$('#descripcion').val(result.descripcion);
 				$('#cantCartillas').val(result.cantCartillas);
 				if(result.programaAdjunto!=null){
-					$('#programaadjunto').val(result.programaAdjunto);
-					
+					$('#programaadjunto').val(result.programaAdjunto);					
 					$('#downloadPrograma').prop("download",result.programaAdjunto);
-					$('#downloadPrograma').prop("href",pagePath+"/asignatura/asignaturaId/programa/"+result.id+"/archivo")
+					$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");
+					$('#btnEliminarPrograma').click(function(){$( '#borrarPrograma').dialog('open');});
 				}
 				stopSpinner();
 			},
@@ -32,7 +30,9 @@ jQuery(document).ready(function () {
 				stopSpinner();
 			}		
 		});
-	}	
+	}else{
+		$('#btnEliminarPrograma').prop("disabled",true);
+	}
 	$("#cantCartillas").spinner({
 	    min : 1,
 	    max : 99,   
@@ -86,6 +86,44 @@ jQuery(document).ready(function () {
 					$( this ).dialog( "close" );	
 					$( "#progressbar" ).progressbar( "option", "value", 0 );
 					 $(".progress-label").text( "" );
+					
+				}
+			}
+		]
+	});
+   
+   $( "#borrarPrograma" ).dialog({
+		autoOpen: false,
+		width: 400,
+		modal:true,
+		buttons: [
+			{
+				text: "Ok",
+				click: function() {
+					 $.ajax({
+						    url:  $('#downloadPrograma').prop("href"),
+						    type: 'DELETE',						    
+						    dataType:"json",
+							contentType:"application/json", 
+						    success : function(result){    		 
+								 location.href = location.href;
+						    },
+						    error: function(value){
+						    	$( this ).dialog( "close" );	
+						    	 errorData = errorConverter(value);
+									if(errorData.errorDto != undefined && value.errorDto){
+										alert(errorConverter(value).message);
+									}else{
+										 alert("Se produjo un error el servidor");
+									}
+						    }
+						  });  
+				}
+			},
+			{
+				text: "Cancelar",
+				click: function() {
+					$( this ).dialog( "close" );	
 					
 				}
 			}

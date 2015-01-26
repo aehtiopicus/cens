@@ -22,6 +22,7 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.ProgramaCensValidator;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.dto.cens.ProgramaDto;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.mapper.cens.ProgramaCensMapper;
 import com.aehtiopicus.cens.service.cens.ProgramaCensService;
 import com.aehtiopicus.cens.utils.CensException;
@@ -116,6 +117,18 @@ public class ProgramaCensRestController extends AbstractRestController{
 			}
 		}
 	    
+	    
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.PROGRAMA_CENS_FILE_REST, method = RequestMethod.DELETE)
+	public @ResponseBody RestSingleResponseDto deletePrograma(@PathVariable Long programaId) throws CensException {
+		
+		programaCensService.removePrograma(programaId);
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+		dto.setId(programaId);
+		dto.setMessage("Programa Eliminado ");
+		return dto;
 	    
 	}
 }

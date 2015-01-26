@@ -24,4 +24,6 @@ public interface CursoCensService {
 
 	public List<Curso> listCursoAsignaturaByProfesor(Long profesorId);
 
+	public List<Curso> listCursoAsignatura();
+
 }

@@ -107,5 +107,14 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		ftpProgramaCensService.leerPrograma(fileLocationPath,os);
 		
 	}
+
+	@Override
+	@Transactional
+	public void removePrograma(Long programaId) throws CensException {
+		Programa p = findById(programaId);
+		fileCensService.deleteFileCensInfo(p.getFileInfo());
+		programaCensRepository.removeFileInfo(p,EstadoRevisionType.NUEVO);
+		
+	}
 	
 }

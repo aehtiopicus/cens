@@ -18,4 +18,6 @@ public interface ProgramaCensService {
 
 	public void getArchivoAdjunto(String fileLocationPath,OutputStream os) throws CensException;
 
+	public void removePrograma(Long programaId) throws CensException;
+
 }

@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -14,6 +16,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.repository.cens.CursoCensRepository;
@@ -146,6 +149,32 @@ public class CursoCensServiceImpl implements CursoCensService{
 
 	@Override
 	public List<Curso> listCursoAsignaturaByProfesor(Long profesorId) {
-		return cursoCensRepository.findCursoAsignaturaByProfesor(profesorId);
+		List<Curso> cursoList = cursoCensRepository.findCursoAsignaturaByProfesor(profesorId);
+		if(CollectionUtils.isNotEmpty(cursoList)){
+			for(Curso c : cursoList){
+				Collections.sort(c.getAsignaturas(), new CursoSortAsignaturaName());
+			}
+		}
+		return cursoList;
+	}
+	
+	class CursoSortAsignaturaName implements Comparator<Asignatura>{
+
+		@Override
+		public int compare(Asignatura o1, Asignatura o2) {
+			return o1.getNombre().toLowerCase().compareTo(o2.getNombre().toLowerCase());			
+		}
+		
+	}
+
+	@Override
+	public List<Curso> listCursoAsignatura() {
+		List<Curso> cursoList = cursoCensRepository.findDistinctCursoByAsignaturaAndAsignatura();
+		if(CollectionUtils.isNotEmpty(cursoList)){
+			for(Curso c : cursoList){
+				Collections.sort(c.getAsignaturas(), new CursoSortAsignaturaName());
+			}
+		}
+		return cursoList;
 	}
 }

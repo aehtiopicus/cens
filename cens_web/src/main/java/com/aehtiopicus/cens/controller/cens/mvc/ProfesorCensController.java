@@ -23,13 +23,4 @@ public class ProfesorCensController extends AbstractController{
 		return mav;
 	}
 	
-//	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM+"/{id}"}, method = RequestMethod.GET)
-//	public ModelAndView getABMData(@PathVariable(value="id") Long id, HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
-//		return prepareModelAndViewABM(id);
-//	}
-//	
-//	@RequestMapping(value={UrlConstant.MIEMBRO_CENS_ABM}, method = RequestMethod.GET)
-//	public ModelAndView getCreacionData(HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
-//		return prepareModelAndViewABM(null);
-//	}
 }

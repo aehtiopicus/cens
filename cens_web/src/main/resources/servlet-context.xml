@@ -22,6 +22,7 @@
 		<interceptor>			
 			<mapping path="/mvc/profesor/**" />
 			<mapping path="/mvc/asignatura/**" />
+			<mapping path="/mvc/asesor/**" />
 			<beans:bean class="com.aehtiopicus.cens.controller.cens.mvc.AbstractControllerInterceptor" />
 		</interceptor>
 	</interceptors>

@@ -162,4 +162,9 @@ public class UrlConstant {
 	public static final String PROGRAMA_CENS_REST ="/asignatura/{id}/programa";
 	public static final String PROGRAMA_CENS_NO_FILE_REST ="/asignatura/{id}/programanf";
 	public static final String PROGRAMA_CENS_FILE_REST ="/asignatura/{id}/programa/{programaId}/archivo";
+	/*Aesor*/
+	public static final String ASESOR_CENS_REST="/asesor";
+	public static final String ASESOR_CENS_CURSO_ASIGNATURAS_REST=ASESOR_CENS_REST+"/{id}/dashboard";
+	public static final String ASESOR_CENS_DASHBOARD_MVC="/mvc/asesor/dashboard";
+	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}";
 }

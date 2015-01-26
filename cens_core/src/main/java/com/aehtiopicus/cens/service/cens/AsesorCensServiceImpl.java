@@ -1,9 +1,12 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Asesor;
+import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.AsesorCensRepository;
@@ -15,6 +18,9 @@ public class AsesorCensServiceImpl implements AsesorCensService{
 
 	@Autowired
 	private AsesorCensRepository asesorCensRepository;
+	
+	@Autowired
+	private CursoCensService cursoCensService;
 	
 	private static final PerfilTrabajadorCensType PERFIL_TYPE = PerfilTrabajadorCensType.ASESOR;
 
@@ -50,6 +56,16 @@ public class AsesorCensServiceImpl implements AsesorCensService{
 	public void deleteAsesor(MiembroCens miembroCens) {
 		asesorCensRepository.markAsesorAsDisable(miembroCens);
 		
+	}
+
+	@Override
+	public Asesor findById(Long asesorId) {
+		return asesorCensRepository.findOne(asesorId);
+	}
+
+	@Override
+	public List<Curso> listCursos() {
+		return cursoCensService.listCursoAsignatura();
 	}
 	
 	
