@@ -21,11 +21,9 @@ public class ProgramaCensValidator {
 		if (dto == null) {
 			throw new CensException("No hay datos del profesor");
 		}
-		if(mf==null && dto.getFileInfo()!=null){
-			throw new CensException("No hay informaci&oacute;n del Archivo");
+		if(mf!=null ){
+			fileUploadCensValidator.validate(mf);
 		}
-	
-		fileUploadCensValidator.validate(mf);
 	
 		Map<String, String> errorMap = new HashMap<String, String>();
 

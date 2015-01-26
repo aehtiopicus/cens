@@ -1,5 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.io.OutputStream;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.FileCensInfo;
 import com.aehtiopicus.cens.domain.entities.Programa;
-import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
+import com.aehtiopicus.cens.enumeration.cens.FileCensInfoType;
+import com.aehtiopicus.cens.enumeration.cens.MaterialDidacticoUbicacionType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
+import com.aehtiopicus.cens.repository.cens.ProfesorCensRepository;
 import com.aehtiopicus.cens.repository.cens.ProgramaCensRepository;
 import com.aehtiopicus.cens.service.cens.ftp.FTPProgramaCensService;
 import com.aehtiopicus.cens.utils.CensException;
@@ -20,7 +29,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	private static final Logger logger = LoggerFactory.getLogger(ProgramaCensServiceImpl.class);
 	
 	@Autowired
-	private AsignaturaCensService asignaturaCensService;
+	private AsignaturCensRepository asignaturCensRepository;
 	
 	@Autowired
 	private FTPProgramaCensService ftpProgramaCensService;
@@ -29,7 +38,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	private ProgramaCensRepository programaCensRepository;
 	
 	@Autowired
-	private ProfesorCensService profesorCensService;
+	private ProfesorCensRepository profesorCensRepository;
 	
 	@Autowired
 	private FileCensService fileCensService;
@@ -41,34 +50,62 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			throw new CensException("El programa no puede ser nulo");
 		}
 		logger.info("Guardando programa ");
-		Asignatura asignatura = asignaturaCensService.getAsignatura(p.getAsignatura().getId());
-		p.setProfesor(profesorCensService.findById(p.getProfesor().getId()));
+		Asignatura asignatura = asignaturCensRepository.findOne(p.getAsignatura().getId());
+		p.setProfesor(profesorCensRepository.findOne(p.getProfesor().getId()));
 		p.setAsignatura(asignatura);
-		p = validate(p);
+		p = validate(p);		
 		p = programaCensRepository.save(p);
-		if(file!=null && p.getFileInfo()!=null){
-			logger.info("iniciando ftp upload del programa");
-			String filePath = ftpProgramaCensService.guardarPrograma(asignatura, file);
-			logger.info("programa subido. ruta = "+filePath);
-			p.getFileInfo().setFileLocation(MaterialDidacticoUbicacionType.FTP);
-			p.getFileInfo().setFileLocationPath(filePath);			
-			p.setFileInfo(fileCensService.updateFileInfo(p.getFileInfo()));
+		if(file!=null){
+			p.setFileInfo(handleFtp(file, p));	
+			p.setEstadoRevisionType(EstadoRevisionType.LISTO);
+			return programaCensRepository.save(p);
+		}else{
+			return p;
 		}
-		return p;
 	}
 	
+	private FileCensInfo handleFtp(MultipartFile file, Programa p) throws CensException{
+		FileCensInfo fci = null;
+		if(file!=null ){
+			
+			String filePath =ftpProgramaCensService.getRutaPrograma(p.getAsignatura(), file);
+			if(p.getFileInfo()!=null){
+				fileCensService.deleteFileCensInfo(p.getFileInfo());
+			}
+			fci = fileCensService.createNewFileCensService(file,p.getProfesor().getId(),PerfilTrabajadorCensType.PROFESOR,filePath, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.PROGRAMA);
+			
+			logger.info("iniciando ftp upload del programa");
+			ftpProgramaCensService.guardarPrograma(p.getAsignatura(), file,filePath);
+			logger.info("programa subido. ruta = "+filePath);						
+		}
+		return fci;
+	}
 	private Programa validate(Programa programa) throws CensException{
 		Programa p = programaCensRepository.findByAsignatura(programa.getAsignatura());
 		if(p!=null && (programa.getId()==null || !p.getId().equals(programa.getId()))){
 			throw new CensException("Ya existe un programa para esta asignatura");
 		}
-		if(p!=null){
-			if(p.getAsignatura().getId()!= programa.getAsignatura().getId()){
-				throw new CensException("La asignatura no puede modificarse");
-			}
-			programa.setFileInfo(fileCensService.copyData(programa.getFileInfo(), p.getFileInfo()));		
+		if(p!=null && p.getFileInfo()!=null){
+			programa.setFileInfo(p.getFileInfo());
+			programa.setEstadoRevisionType(p.getEstadoRevisionType());
 		}
 		return programa;
+	}
+
+	@Override
+	public List<Programa> getProgramasForAsignatura(Long id) {
+		return programaCensRepository.findProgramaByProfesor(id);
+	}
+
+	@Override
+	public Programa findById(Long programaId) {
+		return programaCensRepository.findOne(programaId);
+	}
+
+	@Override
+	public void getArchivoAdjunto(String fileLocationPath, OutputStream os)throws CensException {
+		ftpProgramaCensService.leerPrograma(fileLocationPath,os);
+		
 	}
 	
 }

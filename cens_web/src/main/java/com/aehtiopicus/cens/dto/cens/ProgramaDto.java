@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.dto.cens;
 
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
+
 
 public class ProgramaDto {
 
@@ -9,8 +11,11 @@ public class ProgramaDto {
 	private Integer cantCartillas;
 	private Long profesorId;
 	private Long asignaturaId;
+	private String programaAdjunto;
+	private EstadoRevisionType estadoRevisionType;
+	private String asignatura;
 	
-	private FileCensInfoDto fileInfo;
+	
 	
 	public String getNombre() {
 		return nombre;
@@ -30,12 +35,7 @@ public class ProgramaDto {
 	public void setCantCartillas(Integer cantCartillas) {
 		this.cantCartillas = cantCartillas;
 	}
-	public FileCensInfoDto getFileInfo() {
-		return fileInfo;
-	}
-	public void setFileInfo(FileCensInfoDto fileInfo) {
-		this.fileInfo = fileInfo;
-	}
+
 	public Long getId() {
 		return id;
 	}
@@ -53,6 +53,24 @@ public class ProgramaDto {
 	}
 	public void setAsignaturaId(Long asignaturaId) {
 		this.asignaturaId = asignaturaId;
+	}
+	public String getProgramaAdjunto() {
+		return programaAdjunto;
+	}
+	public void setProgramaAdjunto(String programaAdjunto) {
+		this.programaAdjunto = programaAdjunto;
+	}
+	public EstadoRevisionType getEstadoRevisionType() {
+		return estadoRevisionType;
+	}
+	public void setEstadoRevisionType(EstadoRevisionType estadoRevisionType) {
+		this.estadoRevisionType = estadoRevisionType;
+	}
+	public String getAsignatura() {
+		return asignatura;
+	}
+	public void setAsignatura(String asignatura) {
+		this.asignatura = asignatura;
 	}
 	
 	

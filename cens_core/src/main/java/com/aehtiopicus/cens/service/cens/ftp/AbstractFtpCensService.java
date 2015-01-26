@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,11 +121,11 @@ public abstract class AbstractFtpCensService {
 	 * @param filename
 	 * @throws Exception
 	 */
-	private void readFromFtp(FTPClient ftp, ByteArrayOutputStream output,
-			String hostDir, String filename) throws CensException {
+	private void readFromFtp(FTPClient ftp, OutputStream output,
+			String filePath) throws CensException {
 
 		try {
-			ftp.retrieveFile(hostDir + filename, output);
+			ftp.retrieveFile(filePath, output);
 			logger.info("retrieve completo " + ftp.getReplyString());
 			if (ftp.getReplyString().contains("451")) {
 				throw new IOException("erorr de lectura reintentando");
@@ -132,10 +133,9 @@ public abstract class AbstractFtpCensService {
 		} catch (IOException e) {
 			try {
 				logger.info("Error reintentando");
-				output.flush();
-				output.reset();
+				output.flush();				
 				ftp.enterLocalActiveMode();
-				ftp.retrieveFile(hostDir + filename, output);
+				ftp.retrieveFile(filePath, output);
 			} catch (IOException ee) {
 				logger.error("Error al leer archivos", ee);
 				throw new CensException("Error al leer archivos");
@@ -146,13 +146,13 @@ public abstract class AbstractFtpCensService {
 	}
 
 	public List<String> retrieveFileContent(ByteArrayOutputStream output,
-			String hostDir, String filename) throws CensException {
+			String filePath) throws CensException {
 
 		FTPClient ftp = ftpConnect();
 
 		try {
 
-			readFromFtp(ftp, output, hostDir, filename);
+			readFromFtp(ftp, output, filePath);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					new ByteArrayInputStream(output.toByteArray())));
@@ -184,14 +184,13 @@ public abstract class AbstractFtpCensService {
 		}
 	}
 
-	public void retrieveFile(ByteArrayOutputStream output, String hostDir,
-			String filename, boolean binary) throws CensException {
+	public void retrieveFile(OutputStream output, String filePath) throws CensException {
 
-		FTPClient ftp = new FTPClient();
+		FTPClient ftp = ftpConnect();
 
 		try {
 
-			readFromFtp(ftp, output, hostDir, filename);
+			readFromFtp(ftp, output, filePath);
 
 		} finally {
 			if (ftp != null && ftp.isConnected()) {
@@ -202,12 +201,12 @@ public abstract class AbstractFtpCensService {
 	}
 
 	public byte[] retrieveByteFile(ByteArrayOutputStream output,
-			String hostDir, String filename) throws CensException {
-		FTPClient ftp = new FTPClient();
+			String filePath) throws CensException {
+		FTPClient ftp = ftpConnect();
 
 		try {
 
-			readFromFtp(ftp, output, hostDir, filename);
+			readFromFtp(ftp, output, filePath);
 
 			return output.toByteArray();
 

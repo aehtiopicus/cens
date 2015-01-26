@@ -6,6 +6,7 @@ public class AsignaturasDelCursoDto {
 	private String nombre;
 	private String modalidad;	
 	private String horarios;
+	private ProgramaDto programa;
 	
 	public Long getId() {
 		return id;
@@ -30,6 +31,12 @@ public class AsignaturasDelCursoDto {
 	}
 	public void setHorarios(String horarios) {
 		this.horarios = horarios;
+	}
+	public ProgramaDto getPrograma() {
+		return programa;
+	}
+	public void setPrograma(ProgramaDto programa) {
+		this.programa = programa;
 	}
 	
 	

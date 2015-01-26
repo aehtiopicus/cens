@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Profesor;
+import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.ProfesorCensRepository;
@@ -29,6 +30,7 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	
 	@Autowired
 	private AsignaturaCensService asignaturaCensService;
+	
 	
 	@Autowired
 	private CursoCensService cursoCensService;
@@ -149,5 +151,10 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 	@Override
 	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor) {
 		return cursoCensService.listCursoAsignaturaByProfesor(profesor.getId());
+	}
+
+	@Override
+	public List<Programa> getProgramasForAsignaturas(Profesor profesor) {
+		return asignaturaCensService.getProgramasForAsignaturas(profesor.getId());
 	}
 }

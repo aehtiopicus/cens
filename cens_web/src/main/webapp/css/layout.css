@@ -163,6 +163,7 @@ html,body,table{
 	color: #004499;
 	font-size: 12px;
 	margin-top: 8px;
+	font-family: cursive;
 }
 
 .filtrosDiv input:focus, 
@@ -388,6 +389,7 @@ fieldset div textarea:focus{
 	font-size: 15px;
 	color: #005577;
 	margin-left: 3px;
+	font-family: cursive;
 }
 
 .tituloForm,h2 {
@@ -863,3 +865,9 @@ archivos .progress-label {
     font-weight: bold;
     text-shadow: 1px 1px 0 #fff;
   }
+  
+.estadoMaterial{
+	font-size: 10px;
+	font-weight: 800;
+	color: rgb(215, 52, 52);
+}  

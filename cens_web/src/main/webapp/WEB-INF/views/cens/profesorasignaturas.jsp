@@ -12,7 +12,7 @@
 	<script>var profesorId="${profesorId}"</script>
     <script src="<%=request.getContextPath() %>/js/cens/profesorasignatura.js"></script>
 
-	<h3>Planes de Estudio por Curso</h3>	
+	<h3>Informaci&oacute;n de las Asignaturas</h3>	
   	<div id="yearContent"></div>
 
 

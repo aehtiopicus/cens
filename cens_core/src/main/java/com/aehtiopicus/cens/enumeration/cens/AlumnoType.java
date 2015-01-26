@@ -1,4 +1,4 @@
-package com.aehtiopicus.cens.enumeration;
+package com.aehtiopicus.cens.enumeration.cens;
 
 public enum AlumnoType {
 

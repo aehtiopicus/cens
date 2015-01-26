@@ -1,5 +1,38 @@
 
 jQuery(document).ready(function () {
+	if(!isNaN(pageId())){	
+		$.ajax({
+			ajaxStart: function(){
+				startSpinner();
+			},
+			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
+			type: "GET",	    	    
+			contentType :'application/json',
+			dataType: "json",    
+			success : function(result){
+				$('#id').val(result.id);
+				$('#nombre').val(result.nombre);
+				$('#descripcion').val(result.descripcion);
+				$('#cantCartillas').val(result.cantCartillas);
+				if(result.programaAdjunto!=null){
+					$('#programaadjunto').val(result.programaAdjunto);
+					
+					$('#downloadPrograma').prop("download",result.programaAdjunto);
+					$('#downloadPrograma').prop("href",pagePath+"/asignatura/asignaturaId/programa/"+result.id+"/archivo")
+				}
+				stopSpinner();
+			},
+			error: function(value){
+				errorData = errorConverter(value);
+				if(errorData.errorDto != undefined && value.errorDto){
+					alert(errorConverter(value).message);
+				}else{
+					alert("Se produjo un error el servidor");
+				}
+				stopSpinner();
+			}		
+		});
+	}	
 	$("#cantCartillas").spinner({
 	    min : 1,
 	    max : 99,   
@@ -31,6 +64,7 @@ jQuery(document).ready(function () {
      },
      complete: function() {
     	 $(".progress-label").text( "Carga completa!" );
+    	 startSpinner();
      }
    });
 	
@@ -38,10 +72,10 @@ jQuery(document).ready(function () {
    $( "#guardarPrograma" ).dialog({
 		autoOpen: false,
 		width: 400,
+		modal:true,
 		buttons: [
 			{
 				text: "Ok",
-				id:"btnGuardarOk",
 				click: function() {
 					$('#btnGuardarPrograma').trigger("click");
 				}
@@ -49,8 +83,9 @@ jQuery(document).ready(function () {
 			{
 				text: "Cancelar",
 				click: function() {
-					$( this ).dialog( "close" );
-					$( "#guardarPrograma #fileUploadFailureErrorDiv" ).remove();
+					$( this ).dialog( "close" );	
+					$( "#progressbar" ).progressbar( "option", "value", 0 );
+					 $(".progress-label").text( "" );
 					
 				}
 			}
@@ -105,26 +140,15 @@ $(function () {
         	  	if($('#nombre').val().length===0){
         	  		addError('nombre',"Nombre requerido");
         	  		return false;
-        	  	}
-        	  	var model = {
-        	  			nombre: $('#nombre').val().length===0 ? null : $('#nombre').val(),
-        	  			cantCartillas:  $('#cantCartillas').val().length===0 ? null : $('#cantCartillas').val(),
-        	  			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
-        	  			profesorId : profesorId		
-        	  		};
-        	  	var fileInfo ={
-        	  			fileName:data.files[0].name,
-        	  			fileSize:data.files[0].size,
-        	  			fileLastModify:convertDate(data.files[0].lastModified),
-        	  			creatorId:profesorId,
-        	  			creatorType:'PROFESOR'
-        	  	};
-        	  	model.fileInfo = fileInfo;
-        	  	formData.append('properties', new Blob([JSON.stringify(model)], { type: "application/json" }));
-        	
+        	  	}     	  	
+
+        	  	formData.append('properties', new Blob([cargarData()], { type: "application/json" }));
+        	  
+        	  	var post =$('#id').length == 0;
+
         	  $.ajax({
-        	    url: pagePath+"/asignatura/"+asignaturaId+"/programa",
-        	    type: "POST",
+        	    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programa" : (pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
+        	    type:  "POST",//post si o si sino no funciona
         	    data: formData,
         	    processData: false,  // tell jQuery not to process the data
         	    contentType: false,   // tell jQuery not to set contentType
@@ -136,13 +160,23 @@ $(function () {
                     return myXhr;
                 },
         	    success : function(result){
-        	    	         	            
+        	    	stopSpinner();
+        	    $("#progressbar" ).progressbar( "option", "value", 0 );
+           		 $(".progress-label").text( "" );
+           		 $("#guardarPrograma").dialog("close"); 
+           		 $('#cancelar').trigger("click");
         	    },
-                error: function(error){
+                error: function(value){
+                	stopSpinner();
                 	 $( "#progressbar" ).progressbar( "option", "value", 0 );
             		 $(".progress-label").text( "" );
-                	addError('fileUploadFailure',"Error al guardar el programa");
-                	$('#btnGuardarOk').prop("disabled",true)
+            		 $("#guardarPrograma").dialog("close");
+            		 errorData = errorConverter(value);
+         			if(errorData.errorDto != undefined && value.errorDto){
+         				alert(errorConverter(value).message);
+         			}else{
+         				 alert("Se produjo un error el servidor");
+         			}
                 }
         	  });        	  
           },          
@@ -172,12 +206,51 @@ function progress (data) {
 
 function guardarPrograma(){
 	if( $('#fileUploadUsed').val()==="true"){
-		$('#btnGuardarOk').prop("disabled",false);
 		 $( "#progressbar" ).progressbar( "option", "value", 0 );
-		 $(".progress-label").text( "" );
-		
+		 $(".progress-label").text( "" );		
 		$("#guardarPrograma").dialog("open");
 	}else{
-		
+		guardarSinArchivo();
 	}
 };
+
+function guardarSinArchivo(){
+ 	var post =$('#id').length == 0;
+  	
+  $.ajax({
+    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
+    type: post ? "POST" : "PUT",
+    data: cargarData(),
+    dataType:"json",
+	  contentType:"application/json", 
+    success : function(result){    		 
+		 $('#cancelar').trigger("click");
+    },
+    error: function(value){
+    	 errorData = errorConverter(value);
+			if(errorData.errorDto != undefined && value.errorDto){
+				alert(errorConverter(value).message);
+			}else{
+				 alert("Se produjo un error el servidor");
+			}
+    }
+  });  
+}
+
+function cargarData(){	
+	var model = {
+  			nombre: $('#nombre').val().length===0 ? null : $('#nombre').val(),
+  			cantCartillas:  $('#cantCartillas').val().length===0 ? null : $('#cantCartillas').val(),
+  			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
+  			profesorId : profesorId
+  			
+  		};
+	
+	var post =$('#id').length == 0;
+  	if(!post){
+  		model.id = $('#id').val().length===0 ? null : $('#id').val();
+  	}
+  	return JSON.stringify(model);
+}
+
+

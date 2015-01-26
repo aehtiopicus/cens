@@ -19,6 +19,9 @@ public class ProgramaCensMapper {
 		ProgramaDto dto =Utils.getMapper().map(programa, ProgramaDto.class);
 		dto.setProfesorId(programa.getProfesor().getId());
 		dto.setAsignaturaId(programa.getAsignatura().getId());
+		dto.setProgramaAdjunto(programa.getFileInfo()!=null ? programa.getFileInfo().getFileName() : "");
+		dto.setEstadoRevisionType(programa.getEstadoRevisionType());
+		dto.setAsignatura(programa.getAsignatura().getNombre() +" ("+ programa.getAsignatura().getCurso().getNombre()+" "+programa.getAsignatura().getCurso().getYearCurso()+")");
 		return dto;
 		
 	}

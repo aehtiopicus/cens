@@ -2,7 +2,7 @@ package com.aehtiopicus.cens.dto.cens;
 
 import java.util.Date;
 
-import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
+import com.aehtiopicus.cens.enumeration.cens.MaterialDidacticoUbicacionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class FileCensInfoDto {

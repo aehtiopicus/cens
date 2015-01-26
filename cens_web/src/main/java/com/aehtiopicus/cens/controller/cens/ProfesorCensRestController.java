@@ -19,6 +19,7 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.ProfesorCensValidator;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
+import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.ProfesorAsignaturaDto;
 import com.aehtiopicus.cens.dto.cens.ProfesorDto;
@@ -86,7 +87,8 @@ public class ProfesorCensRestController extends AbstractRestController{
 		logger.info("listando asignaturas de profesor");
 		Profesor profesor = profesorCensService.findById(profesorId);
 		List<Curso> cursoList = profesorCensService.listCursoAsignaturaByProfesor(profesor);
-		ProfesorAsignaturaDto dto =profesorCensMapper.convertCursoListIntoProfesorAsignaturaDto(cursoList,profesor);
+		List<Programa> programaList =profesorCensService.getProgramasForAsignaturas(profesor);
+		ProfesorAsignaturaDto dto = profesorCensMapper.convertCursoListIntoProfesorAsignaturaDto(cursoList,profesor,programaList);
 		return dto;
 		
 	}

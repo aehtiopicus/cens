@@ -170,29 +170,50 @@ function loadCarrousel(materias){
 	
 }
 
-function cargarDatos(data){
+function cargarDatos(data){	
+			
+	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
+	
+	$.each(data.cursoAsignatura,function(index,value){		
+		
+		currentDiv=datosCurso(currentDiv,value);
+		
+		$.each(value.asignaturasDelCursoDto,function(index,asignatura){	
+			datosAsignatura(value,currentDiv,asignatura);						
+		});
+	});
+}
+
+function datosCurso(currentDiv,value){
 	var title = '<h3>{cursoName}</h3>';
-	var divMateria = '<div class="censmaterias" id="{cursoId}"></div>';
+	currentDiv.append(title.replace("{cursoName}",(value.nombre+"("+value.yearCurso+")")));
+	currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
+	 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
+	 return currentDiv;
+}
+
+function datosAsignatura(value,currentDiv,asignatura){
 	var divPorlet = '<div class="portlet" id="{id}"></div>';
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
-	var list ='<ul>{programa}{cartillas}{sugerencias}';
-	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa">Programa</a></li>';
-	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico</a></li>';
-	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias</a></li></ul>';
-	list = list.replace('{programa}',itemPrograma).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
-	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
-	$.each(data.cursoAsignatura,function(index,value){		
-		currentDiv.append(title.replace("{cursoName}",(value.nombre+"("+value.yearCurso+")")));
-		currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
-		 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
-		$.each(value.asignaturasDelCursoDto,function(index,asignatura){	
+	
+	var list ='<ul>{programa}{cartillas}{sugerencias}';	
+	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico (No Existe)</a></li>';
+	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias (No Existe)</a></li></ul>';	
+	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
+	
+	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
+	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
+	currentPorlet = currentPorlet.append(divPorletContet);
+	currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id).replace("{id}",asignatura.id));
+	
+}	
 
-			currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
-			currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
-			currentPorlet = currentPorlet.append(divPorletContet);
-			currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id).replace("{id}",asignatura.id));			
-		});
-		});
+function datosPrograma(value,asignatura){
+	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <span class="estadoMaterial">({estado})</span></a></li>';
+	if(asignatura.programa!==null){
+		return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
+	}else{
+		return itemPrograma.replace("{existente}","").replace("{estado}","No Existe").replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre.toLowerCase()+" - "+value.yearCurso+")");
+	}
 }
- 

@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.aehtiopicus.cens.enumeration.AlumnoType;
+import com.aehtiopicus.cens.enumeration.cens.AlumnoType;
 
 @Entity
 @Table(name = "CENS_ALUMNO")

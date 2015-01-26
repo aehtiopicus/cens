@@ -14,7 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
+import com.aehtiopicus.cens.enumeration.cens.FileCensInfoType;
+import com.aehtiopicus.cens.enumeration.cens.MaterialDidacticoUbicacionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 @Entity
@@ -53,16 +54,13 @@ public class FileCensInfo implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
-	
-	@Column(name="updater_id")
-	private Long updaterId;	
+		
 	
 	@Enumerated(EnumType.STRING)
-	private PerfilTrabajadorCensType updaterType;
+	private FileCensInfoType fileType;
 	
-	@Temporal(TemporalType.DATE)
-	private Date updateDate;
-
+	@Column(columnDefinition="boolean default false")
+	private Boolean baja = false;
 
 	public Long getId() {
 		return id;
@@ -134,30 +132,22 @@ public class FileCensInfo implements Serializable{
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}	
+
+	public FileCensInfoType getFileType() {
+		return fileType;
 	}
 
-	public Long getUpdaterId() {
-		return updaterId;
+	public void setFileType(FileCensInfoType fileType) {
+		this.fileType = fileType;
 	}
 
-	public void setUpdaterId(Long updaterId) {
-		this.updaterId = updaterId;
+	public boolean isBaja() {
+		return baja;
 	}
 
-	public PerfilTrabajadorCensType getUpdaterType() {
-		return updaterType;
-	}
-
-	public void setUpdaterType(PerfilTrabajadorCensType updaterType) {
-		this.updaterType = updaterType;
-	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
+	public void setBaja(boolean baja) {
+		this.baja = baja;
 	}
 	
 	

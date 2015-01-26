@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.service.cens.ftp;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,7 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 
 	private static final String FTP_CURSO_ASIGNATURA_ROOT = "#{ftpProperties['curso.asignatura.root']}";
 	private static final String FTP_ASIGNATURA_PROGRAMA = "#{ftpProperties['asignatura.programa']}";
-	private static final String FTP_ASIGNATURA_MATERIAL = "#{ftpProperties['asignatura.material']}";
+
 
 	@Value(FTP_CURSO_ASIGNATURA_ROOT)
 	private String cursoAsignaturaRoot;
@@ -28,28 +30,35 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 	@Value(FTP_ASIGNATURA_PROGRAMA)
 	private String programa;
 
-	@Value(FTP_ASIGNATURA_MATERIAL)
-	private String material;
+
 
 	@Override
-	public String guardarPrograma(Asignatura asignatura, MultipartFile file)
+	public void guardarPrograma(Asignatura asignatura, MultipartFile file,String filePath)
 			throws CensException {
-		try {
-			StringBuilder sb = new StringBuilder();
-			sb.append(asignatura.getCurso().getId());
-			sb.append(cursoAsignaturaRoot);
-			sb.append("/");
-			sb.append(asignatura.getId());
-			sb.append(programa);
-			sb.append("/");
-			sb.append(file.getOriginalFilename());
-			String filePath = sb.toString();
-			
-			uploadFile(file.getInputStream(), filePath);
-			return filePath;
+		try {			
+			uploadFile(file.getInputStream(), filePath);			
 		} catch (IOException e) {
 			logger.error(e.getMessage(),e);
 			throw new CensException("Error al intentar obtener datos del archivo");
 		}
+	}
+	
+	@Override
+	public String getRutaPrograma(Asignatura asignatura, MultipartFile file){
+		StringBuilder sb = new StringBuilder();
+		sb.append(asignatura.getCurso().getId());
+		sb.append(cursoAsignaturaRoot);
+		sb.append("/");
+		sb.append(asignatura.getId());
+		sb.append(programa);
+		sb.append("/"+new Date().getTime());
+		sb.append(file.getOriginalFilename());
+		return sb.toString();
+	}
+
+	@Override
+	public void leerPrograma(String fileLocationPath, OutputStream os) throws CensException{
+		this.retrieveFile(os, fileLocationPath);
+		
 	}
 }

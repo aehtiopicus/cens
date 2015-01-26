@@ -35,7 +35,7 @@ if(!isNaN(pageId())){
 			$('#nombre').val(data.nombre);
 			$('#yearCurso').val(data.yearCurso);
 		},
-		error: function(data){
+		error: function(value){
 			errorData = errorConverter(value);
 			if(errorData.errorDto != undefined && value.errorDto){
 				alert(errorConverter(value).message);

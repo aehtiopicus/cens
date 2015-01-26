@@ -11,7 +11,7 @@ var asignaturaId=${asignaturaId};
 
 		<fieldset>			
 			<div class="tituloForm" >
-						<h3 id="titulo">Plan de estudio para la asignatura</h3>									
+						<h3 id="titulo">Planificaci&oacute;n de Programa <span style="font-variant: small-caps;"> ${asignatura}</span></h3>									
 			</div>			
 			<div>
 				<label for="nombre">Nombre:</label>
@@ -27,17 +27,17 @@ var asignaturaId=${asignaturaId};
 			</div>
 			<div>
 				<label for="programaadjunto">Programa Adjunto:</label>
-				<input type="text" id="programaadjunto" readonly="readonly" placeholder="No existe archivo" onclick="alert('hola');"/>
+				<button class="button" type="button" style="height: 32px;top: -1px;" disabled id="btnEliminarPrograma">Eliminar Archivo                                                        	  
+                </button>
+                <a href="google" id="downloadPrograma"><input type="text" id="programaadjunto" readonly="readonly" placeholder="No existe archivo"  style="width:302px;"/></a>                
 			</div>
 			<archivos>
 			<div id="fileUp">
 				<label for="fileupload">Adjuntar Programa:</label>			
-				<button class="button" type="button" style="height: 32px;top: -1px;">Agregar Archivo                                        
-                	   <input id="fileupload" type="file" class="custom-file-input" name="file" multiple/>
+				<button class="button" type="button" style="height: 32px;top: -1px;">Insertar Archivo                                        
+                	   <input id="fileupload" title ="Seleccionar Programa" type="file" class="custom-file-input" name="file"  accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf"/>
                 </button>
-                <input type="text" readonly="readonly" id="fileUploadName" style="width:305px;" accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,pdf"/>
-                <input type="hidden" id="fileUploadUsed"/>
-                <input type="hidden" id="btnGuardarPrograma"/>
+                <input type="text" readonly="readonly" id="fileUploadName" style="width:302px; margin-left: 7px;" />
             </div>
            
 				 			
@@ -46,8 +46,15 @@ var asignaturaId=${asignaturaId};
 			<div class="footerForm">
 				<button class="button" type="button" onclick="guardarPrograma();" >Guardar</button>
 
-				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/cursoList'">Cancelar</button>
+				<button id ="cancelar" class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/profesor/asignaturaList'">Cancelar</button>
 			</div>
+			
+				<input type="hidden" id="fileUploadUsed"/>
+                <input type="hidden" id="btnGuardarPrograma"/>
+                <c:if test="${id != null}">
+					<input type="hidden" id ="id" value="${id}"/>							
+				</c:if>			
+                
 		</fieldset>
 		
 <div id="guardarPrograma" class="dialog" title="Confirmar">

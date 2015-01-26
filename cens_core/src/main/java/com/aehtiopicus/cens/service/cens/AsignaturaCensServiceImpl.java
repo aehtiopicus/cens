@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Profesor;
+import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
+import com.aehtiopicus.cens.repository.cens.ProfesorCensRepository;
 import com.aehtiopicus.cens.service.cens.ftp.FtpAsignaturaCensService;
 import com.aehtiopicus.cens.specification.cens.AsignaturaCensSpecification;
 import com.aehtiopicus.cens.utils.CensException;
@@ -35,10 +37,13 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	private CursoCensService cursoCensService;
 	
 	@Autowired
-	private ProfesorCensService profesorCensService;
+	private ProfesorCensRepository profesorCensRepository;
 	
 	@Autowired
 	private FtpAsignaturaCensService ftpAsignaturaCensService;
+	
+	@Autowired
+	private ProgramaCensService programaCensService;
 	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
@@ -79,12 +84,12 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		}		
 		
 		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
-			asignatura.setProfesor(profesorCensService.findById(asignatura.getProfesor().getId()));
+			asignatura.setProfesor(profesorCensRepository.findOne(asignatura.getProfesor().getId()));
 		}else{
 			asignatura.setProfesor(null);
 		}
 		if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
-			asignatura.setProfesorSuplente(profesorCensService.findById(asignatura.getProfesorSuplente().getId()));
+			asignatura.setProfesorSuplente(profesorCensRepository.findOne(asignatura.getProfesorSuplente().getId()));
 		}else{
 			asignatura.setProfesorSuplente(null);
 		}
@@ -213,6 +218,11 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	public void removeProfesorFromAsignaturas(Profesor profesor) {
 		asignaturaCensRepository.removeProfesor(profesor.getId());
 		
+	}
+
+	@Override
+	public List<Programa> getProgramasForAsignaturas(Long id) {
+		return programaCensService.getProgramasForAsignatura(id);
 	}
 	 
 	 

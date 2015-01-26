@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 
 @Entity
 @Table(name = "CENS_PROGRAMA")
@@ -41,6 +44,9 @@ public class Programa implements Serializable{
 	
 	@OneToOne(optional=true)
 	private FileCensInfo fileInfo;
+	
+	@Enumerated(EnumType.STRING)
+	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO; 
 
 	public Long getId() {
 		return id;
@@ -96,6 +102,14 @@ public class Programa implements Serializable{
 
 	public void setFileInfo(FileCensInfo fileInfo) {
 		this.fileInfo = fileInfo;
+	}
+
+	public EstadoRevisionType getEstadoRevisionType() {
+		return estadoRevisionType;
+	}
+
+	public void setEstadoRevisionType(EstadoRevisionType estadoRevisionType) {
+		this.estadoRevisionType = estadoRevisionType;
 	}
 
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Profesor;
+import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -25,5 +26,7 @@ public interface ProfesorCensService {
 	public void removeAsignaturasProfesor(Long profesorId);
 
 	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor);
+
+	public List<Programa> getProgramasForAsignaturas(Profesor profesor);
 
 }

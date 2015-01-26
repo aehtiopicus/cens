@@ -149,16 +149,17 @@ public class UrlConstant {
 	public static final String CURSO_CENS_ABM_MVC="/mvc/cursoABM";
 	public static final String CURSO_CENS_REST = "/curso";
 	/*Asignatura*/
-	public static final String ASIGNATURA_CENS_REST ="/asignatura";
-	public static final String ASIGNATURA_PROGRAMA_CENS_REST ="/asignatura/{id}/programa";
+	public static final String ASIGNATURA_CENS_REST ="/asignatura";	
 	public static final String ASIGNATURA_CENS_MVC="/mvc/asignaturaList";
-	public static final String ASIGNATURA_CENS_ABM_MVC="/mvc/asignaturaABM";
-	public static final String ASIGNATURA_PROGRAMA_CENS_MVC="/mvc/asignatura/{id}/programa";
+	public static final String ASIGNATURA_CENS_ABM_MVC="/mvc/asignaturaABM";	
 	/*Profesor*/
 	public static final String PROFESOR_CENS_REST="/profesor";
 	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";
 	public static final String PROFESOR_CENS_ASIGNATURAS_MVC="/mvc/profesor/asignaturaList";
 	public static final String PROFESOR_CENS_CURSO_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/curso/asignatura";
-	
-
+	/*Programa*/
+	public static final String PROGRAMA_CENS_MVC="/mvc/asignatura/{id}/programa";
+	public static final String PROGRAMA_CENS_REST ="/asignatura/{id}/programa";
+	public static final String PROGRAMA_CENS_NO_FILE_REST ="/asignatura/{id}/programanf";
+	public static final String PROGRAMA_CENS_FILE_REST ="/asignatura/{id}/programa/{programaId}/archivo";
 }

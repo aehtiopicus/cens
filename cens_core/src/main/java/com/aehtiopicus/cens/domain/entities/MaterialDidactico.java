@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.aehtiopicus.cens.enumeration.FormatoType;
-import com.aehtiopicus.cens.enumeration.MaterialDidacticoUbicacionType;
+import com.aehtiopicus.cens.enumeration.cens.MaterialDidacticoUbicacionType;
 
 @Entity
 @Table(name = "CENS_MATERIAL_DIDACTICO")

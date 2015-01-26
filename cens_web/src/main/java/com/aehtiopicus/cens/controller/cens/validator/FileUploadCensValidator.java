@@ -29,7 +29,7 @@ public class FileUploadCensValidator {
 		}
 		
         if(! Pattern.compile(FILE_EXTENSION_VALIDATION_PATTERN).matcher(
-                        file.getOriginalFilename()).matches()){
+                        file.getOriginalFilename().replace(" ", "")).matches()){
         	throw new CensException("Error al adjuntar Archivo","fileupload", "Formato v&aacute;lido 'xlsx','xls','doc','docx','ppt','pptx','pps','ppsx','pdf'");
         }		
 		
