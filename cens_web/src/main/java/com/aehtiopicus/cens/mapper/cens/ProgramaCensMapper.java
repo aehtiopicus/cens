@@ -18,6 +18,7 @@ public class ProgramaCensMapper {
 	public ProgramaDto convertProgramaToDto(Programa programa){
 		ProgramaDto dto =Utils.getMapper().map(programa, ProgramaDto.class);
 		dto.setProfesorId(programa.getProfesor().getId());
+		dto.setProfesorData(programa.getProfesor().getMiembroCens().getApellido().toUpperCase()+", "+programa.getProfesor().getMiembroCens().getNombre()+" ("+programa.getProfesor().getMiembroCens().getDni()+")");
 		dto.setAsignaturaId(programa.getAsignatura().getId());
 		dto.setProgramaAdjunto(programa.getFileInfo()!=null ? programa.getFileInfo().getFileName() : null);
 		dto.setEstadoRevisionType(programa.getEstadoRevisionType());

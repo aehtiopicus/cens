@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.domain.entities.FileCensInfo;
@@ -13,8 +15,10 @@ public interface FileCensService {
 	public FileCensInfo updateFileInfo(FileCensInfo fileInfo) throws CensException;
 
 	public FileCensInfo createNewFileCensService(MultipartFile file, Long miembroRolId,
-			PerfilTrabajadorCensType miembroPerfilType,String path, MaterialDidacticoUbicacionType locationType,FileCensInfoType fciType) throws CensException;
+			PerfilTrabajadorCensType miembroPerfilType,String path,String newFileName, MaterialDidacticoUbicacionType locationType,FileCensInfoType fciType) throws CensException;
 
 	public void deleteFileCensInfo(FileCensInfo fileInfo);
+
+	public void updatePath(List<String> asignaturaPath, Long oldCursoId);
 
 }

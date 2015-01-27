@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class FileCensServiceImpl implements FileCensService{
 	@Override
 	@Transactional
 	public FileCensInfo createNewFileCensService(MultipartFile file,
-			Long miembroRolId, PerfilTrabajadorCensType miembroPerfilType,String path, MaterialDidacticoUbicacionType locationType,FileCensInfoType fciType)
+			Long miembroRolId, PerfilTrabajadorCensType miembroPerfilType,String path,String newFileName, MaterialDidacticoUbicacionType locationType,FileCensInfoType fciType)
 			throws CensException {
 		FileCensInfo fci = new FileCensInfo();
 		fci.setCreationDate(new Date());
@@ -41,6 +42,7 @@ public class FileCensServiceImpl implements FileCensService{
 		fci.setFileLocation(locationType);
 		fci.setFileLocationPath(path);
 		fci.setFileType(fciType);
+		fci.setRealFileName(newFileName);
 		return fileCensRepository.save(fci);
 	}
 
@@ -48,6 +50,17 @@ public class FileCensServiceImpl implements FileCensService{
 	@Transactional
 	public void deleteFileCensInfo(FileCensInfo fileInfo) {
 		fileCensRepository.softDelete(fileInfo);
+		
+	}
+
+	@Override
+	@Transactional
+	public void updatePath(List<String> asignaturaPath, Long oldCursoId) {
+		String oldPath=null;
+		for(String pathToChange : asignaturaPath){
+			oldPath =oldCursoId+pathToChange.substring(pathToChange.indexOf("/"), pathToChange.length());
+			fileCensRepository.updateFileInfo(oldPath,pathToChange);
+		}		
 		
 	}
 	

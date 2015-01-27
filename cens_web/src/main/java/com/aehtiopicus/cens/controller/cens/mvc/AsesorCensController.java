@@ -26,10 +26,15 @@ public class AsesorCensController extends AbstractController{
 	}
 	
 	@RequestMapping(value=UrlConstant.ASESOR_CENS_ASIGNATURA_MVC, method= RequestMethod.GET)
-	public ModelAndView getAsignaturaRevision(@RequestParam("asignatura") String asignatura,@PathVariable(value="asignaturaId") Long asignaturaId,@PathVariable(value="id") Long asesorId,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
+	public ModelAndView getAsignaturaRevision(@RequestParam("asignatura") String asignatura,
+			@PathVariable(value="asignaturaId") Long asignaturaId,
+			@PathVariable(value="id") Long asesorId,
+			@PathVariable(value="programaId") Long programaId,
+			HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){				
 		ModelAndView mav = new ModelAndView(VistasConstant.ASESOR_ASIGNATURA_VIEW);
 		mav.addObject("asignatura",asignatura);
 		mav.addObject("asignaturaId",asignaturaId);
+		mav.addObject("programaId",programaId);
 		return mav;
 	}
 }

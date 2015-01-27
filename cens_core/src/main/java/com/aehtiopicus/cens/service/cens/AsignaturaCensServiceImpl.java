@@ -49,6 +49,9 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Autowired
 	private ProgramaCensService programaCensService;
 	
+	@Autowired
+	private FileCensService fileCensService;
+	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
 	public List<Asignatura> saveAsignaturas(List<Asignatura> asignaturaList) throws CensException{
@@ -75,6 +78,8 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		ftpAsignaturaCensService.createAsignaturaFolder(asignaturaSaved);
 		if(oldCursoId!=null){		
 			if(oldCursoId!= asignaturaSaved.getCurso().getId()){
+				List<String> asignaturaPath =ftpAsignaturaCensService.asignaturaPaths(asignaturaSaved);
+				fileCensService.updatePath(asignaturaPath,oldCursoId);
 				ftpAsignaturaCensService.moveAsignaturaData(oldCursoId,asignaturaSaved);
 			}
 		}

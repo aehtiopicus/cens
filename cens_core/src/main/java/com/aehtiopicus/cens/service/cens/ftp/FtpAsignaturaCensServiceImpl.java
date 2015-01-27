@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.service.cens.ftp;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -53,8 +55,27 @@ public class FtpAsignaturaCensServiceImpl extends AbstractFtpCensService impleme
 		}
 	}
 	
+	
 	private String asignaturaPath(Asignatura asignatura){
 		return asignatura.getCurso().getId().toString()+cursoAsignaturaRoot+"/"+asignatura.getId();
+	}
+	
+	
+	private String asignaturaProgramaPath(Asignatura asignatura){
+		return asignatura.getCurso().getId().toString()+cursoAsignaturaRoot+"/"+asignatura.getId()+programa+"/";
+	}
+	
+	@Override
+	public List<String> asignaturaPaths(Asignatura asignatura){
+		List<String> list = new ArrayList<String>();
+		list.add(asignaturaProgramaPath(asignatura));
+		list.add(asignaturMaterialPath(asignatura));
+		return list;
+	}
+	
+
+	private String asignaturMaterialPath(Asignatura asignatura){
+		return asignatura.getCurso().getId().toString()+cursoAsignaturaRoot+"/"+asignatura.getId()+material+"/";
 	}
 
 	@Override

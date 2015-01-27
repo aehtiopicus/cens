@@ -17,18 +17,23 @@
 
 
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery.fileupload.css">
-
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery.fileupload.css">    
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/slick/slick.css"/>
+    
         <script src="<%=request.getContextPath() %>/js/jquery-1.10.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery.numeric.js" type="text/javascript"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery.jqGrid.min.js" type="text/javascript"></script>     
 		<script src="<%=request.getContextPath() %>/js/jquery.ui.datepicker-es.js"></script>     
     	<script src="<%=request.getContextPath() %>/js/grid.locale-en.js" type="text/javascript"></script>	    
-	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script>	    
+	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script>
+	    <script type="text/javascript" src="<%=request.getContextPath() %>/js/slick.min.js"></script>	    
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>
-        <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>        
+    
+	
 
 		<script>
 	        var marginWidthGrid = 20;
@@ -82,6 +87,8 @@
     	       $('#mainPanel').show();
     	       
     	    });
+    	    
+    	  
 		</script>
     </head>
       

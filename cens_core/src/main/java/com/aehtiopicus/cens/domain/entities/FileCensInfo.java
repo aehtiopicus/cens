@@ -40,6 +40,9 @@ public class FileCensInfo implements Serializable{
 	@Column(name="name")
 	private String fileName;
 	
+	@Column(name="real_name")
+	private String realFileName;
+	
 	@Column(name="size")
 	private Long fileSize;
 	
@@ -141,14 +144,23 @@ public class FileCensInfo implements Serializable{
 	public void setFileType(FileCensInfoType fileType) {
 		this.fileType = fileType;
 	}
+	
+	public String getRealFileName() {
+		return realFileName;
+	}
 
-	public boolean isBaja() {
+	public void setRealFileName(String realFileName) {
+		this.realFileName = realFileName;
+	}
+
+	public Boolean getBaja() {
 		return baja;
 	}
 
-	public void setBaja(boolean baja) {
+	public void setBaja(Boolean baja) {
 		this.baja = baja;
 	}
+	
 	
 	
 	

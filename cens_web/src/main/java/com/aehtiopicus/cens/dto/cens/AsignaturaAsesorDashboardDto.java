@@ -8,6 +8,7 @@ public class AsignaturaAsesorDashboardDto {
 	private String horarios;
 	private ProfesorAsesorDashboardDto profe;
 	private ProfesorAsesorDashboardDto profeSuplente;
+	private ProgramaAsesorDashboardDto programa;
 
 	public Long getId() {
 		return id;
@@ -44,6 +45,12 @@ public class AsignaturaAsesorDashboardDto {
 	}
 	public void setProfeSuplente(ProfesorAsesorDashboardDto profeSuplente) {
 		this.profeSuplente = profeSuplente;
+	}
+	public ProgramaAsesorDashboardDto getPrograma() {
+		return programa;
+	}
+	public void setPrograma(ProgramaAsesorDashboardDto programa) {
+		this.programa = programa;
 	}
 	
 	

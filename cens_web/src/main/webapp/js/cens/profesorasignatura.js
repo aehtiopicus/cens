@@ -3,6 +3,7 @@ $(document).ajaxStart(function() {
 });
 $(document).ajaxStop(function() {
 	stopSpinner();
+	$('.censmaterias').slickSetOption('respondeTo', '', true);
 });
 
 jQuery(document).ready(function () {
@@ -16,7 +17,6 @@ carruselIds = [];
 			cargarDatos(data);
 			loadPorlet();
 			loadCarrousel();
-			loadAccordion();
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
@@ -27,148 +27,10 @@ carruselIds = [];
 		
 	);
 	
-	$(window).bind('resizeEnd', function() {		
-		carruselIds.splice(0,carruselIds.length);
-		$( ".censaccordion div.ui-accordion-content:hidden").each(function(index,element){ 
-			hidencurso = "#"+$('#'+$(element).prop("id")+" .censmaterias").prop("id");
-			carruselIds.push(hidencurso);
-			});
-
-
-	});
 	
-	 $(window).resize(function() {
-	        if(this.resizeTO) clearTimeout(this.resizeTO);
-	        this.resizeTO = setTimeout(function() {
-	            $(this).trigger('resizeEnd');
-	        }, 500);
-	    });
-	
-	 setTimeout(function(){$(window).trigger('resizeEnd')  }, 1000);
 });
-function loadPorlet(){
-	$(function() {
-	    $( ".column" ).sortable({
-	      connectWith: ".column",
-	      handle: ".portlet-header",
-	      cancel: ".portlet-toggle",
-	      placeholder: "portlet-placeholder ui-corner-all"
-	    });
-	 
-	    $( ".portlet" )
-	      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-	      .find( ".portlet-header" )
-	        .addClass( "ui-widget-header ui-corner-all" )
-	        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-	 
-	    $( ".portlet-toggle" ).click(function() {
-	      var icon = $( this );
-	      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-	      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
-	    });
-	  });
-	
-	$(function() {
-	    $( ".portlet-header" ).each(function(){
-	    	$(this).children().remove();
-	    
-	    });
-	});
-	
-}
-function loadAccordion(){
-	
-	$(function() {
-	    var icons = {
-	      header: "ui-icon-circle-arrow-e",
-	      activeHeader: "ui-icon-circle-arrow-s"
-	    };
-	    $( ".censaccordion" ).accordion({
-	      icons: icons,
-	      heightStyle: "panel",
-	      collapsible: true,
-	      navigation: true,
-	      active: false,
-	      refresh: function(){
-	    	  alert("refesh");
-	      },
-	      beforeActivate: function(event,ui){
-	    	  if(ui.newPanel.length>0 && carruselIds.length>0 ){
-	    		  carru = "#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id");
-	    		  if($.inArray(carru, carruselIds)!==-1){
-	    			  startSpinner();
-	    		  	removeCarousel("#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id"));
-	    		  }
-	    	  }
-	      },
-	      activate: function( event, ui ) {
-	    	  if(ui.newPanel.length>0 && carruselIds.length>0 ){
-	    		  carru = "#"+$('#'+$(ui.newPanel).prop("id")+" .censmaterias").prop("id");
-	    		  if($.inArray(carru, carruselIds)!==-1){
-	    			  carruselIds.splice( $.inArray(carru, carruselIds), 1 );	    		  
-	    		  	loadCarrousel(carru);
-	    		  	stopSpinner();
-	    		  }
-	    	  }
-	      }
-	    });
-	    
-	  });
-}
 
-function removeCarousel(materias){
-	if(materias === null || materias === undefined){
-		materias  = ".censmaterias";
-	}
-	$(materias).unslick();
-}
-function loadCarrousel(materias){
-	if(materias === null || materias === undefined){
-		materias  = ".censmaterias";
-	}
-	$(materias).slick({
-		  infinite: true,
-		  arrows: true,
-		  dots: true,
-		  slidesToShow: 5,
-		  slidesToScroll: 5,
-		  responsive: [
-		               	{
-    					breakpoint: 1200,
-    					settings: {
-    						slidesToShow: 4,
-      						slidesToScroll: 4,
-      						infinite: true,
-      						dots: true
-    						}
-  						},
-		               {
-		                 breakpoint: 900,
-		                 settings: {
-		                   slidesToShow: 3,
-		                   slidesToScroll: 3,
-		                   infinite: true,
-		                   dots: true
-		                 }
-		               },
-		               {
-		                 breakpoint: 690,
-		                 settings: {
-		                   slidesToShow: 2,
-		                   slidesToScroll: 2
-		                 }
-		               },
-		               {
-		                 breakpoint: 550,
-		                 settings: {
-		                   slidesToShow: 1,
-		                   slidesToScroll: 1
-		                 }
-		               }
-		             ]
-		});
-	
-}
+
 
 function cargarDatos(data){	
 			
@@ -185,9 +47,9 @@ function cargarDatos(data){
 }
 
 function datosCurso(currentDiv,value){
-	var title = '<h3>{cursoName}</h3>';
+	var title = '<h3 class="subtitulo">{cursoName}</h3>';
 	currentDiv.append(title.replace("{cursoName}","ASIGNATURAS DEL CURSO <span class='cursoFont'>"+(value.nombre.toUpperCase()+"("+value.yearCurso+")</span>")));
-	currentDiv = currentDiv.append("<div id='curso"+value.id+"'></div>");
+	currentDiv = currentDiv.append("<div id='curso"+value.id+"' class='curso'></div>");
 	 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
 	 return currentDiv;
 }

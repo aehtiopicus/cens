@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -69,10 +70,11 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		if(file!=null ){
 			
 			String filePath =ftpProgramaCensService.getRutaPrograma(p.getAsignatura(), file);
+			String fileName = new Date().getTime()+file.getOriginalFilename();
 			if(p.getFileInfo()!=null){
 				fileCensService.deleteFileCensInfo(p.getFileInfo());
 			}
-			fci = fileCensService.createNewFileCensService(file,p.getProfesor().getId(),PerfilTrabajadorCensType.PROFESOR,filePath, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.PROGRAMA);
+			fci = fileCensService.createNewFileCensService(file,p.getProfesor().getId(),PerfilTrabajadorCensType.PROFESOR,filePath,fileName, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.PROGRAMA);
 			
 			logger.info("iniciando ftp upload del programa");
 			ftpProgramaCensService.guardarPrograma(p.getAsignatura(), file,filePath);
@@ -115,6 +117,11 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		fileCensService.deleteFileCensInfo(p.getFileInfo());
 		programaCensRepository.removeFileInfo(p,EstadoRevisionType.NUEVO);
 		
+	}
+
+	@Override
+	public List<Programa> getProgramas() {
+		return programaCensRepository.findProgramaByAsignaturaVigente();
 	}
 	
 }

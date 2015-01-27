@@ -10,6 +10,7 @@ public class ProgramaDto {
 	private String descripcion;
 	private Integer cantCartillas;
 	private Long profesorId;
+	private String profesorData;
 	private Long asignaturaId;
 	private String programaAdjunto;
 	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
@@ -71,6 +72,12 @@ public class ProgramaDto {
 	}
 	public void setAsignatura(String asignatura) {
 		this.asignatura = asignatura;
+	}
+	public String getProfesorData() {
+		return profesorData;
+	}
+	public void setProfesorData(String profesorData) {
+		this.profesorData = profesorData;
 	}
 	
 	

@@ -2,7 +2,6 @@ package com.aehtiopicus.cens.service.cens.ftp;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +49,7 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 		sb.append(cursoAsignaturaRoot);
 		sb.append("/");
 		sb.append(asignatura.getId());
-		sb.append(programa);
-		sb.append("/"+new Date().getTime());
-		sb.append(file.getOriginalFilename());
+		sb.append(programa+"/");		
 		return sb.toString();
 	}
 

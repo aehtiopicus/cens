@@ -20,4 +20,6 @@ public interface ProgramaCensService {
 
 	public void removePrograma(Long programaId) throws CensException;
 
+	public List<Programa> getProgramas();
+
 }

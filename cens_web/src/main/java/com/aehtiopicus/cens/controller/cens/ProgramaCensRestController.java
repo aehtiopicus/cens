@@ -109,7 +109,7 @@ public class ProgramaCensRestController extends AbstractRestController{
 		if(p.getFileInfo()!=null){
 			try{
 				OutputStream baos =  response.getOutputStream();
-				programaCensService.getArchivoAdjunto(p.getFileInfo().getFileLocationPath(),baos);
+				programaCensService.getArchivoAdjunto(p.getFileInfo().getFileLocationPath()+p.getFileInfo().getRealFileName(),baos);
 	    		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
 	    		response.setHeader("Content-Disposition", "attachment; filename="+p.getFileInfo().getFileName());
 			}catch(IOException e){
