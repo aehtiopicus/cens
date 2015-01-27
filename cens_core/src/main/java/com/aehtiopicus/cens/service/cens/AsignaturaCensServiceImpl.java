@@ -1,7 +1,10 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
@@ -224,6 +228,39 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	public List<Programa> getProgramasForAsignaturas(Long id) {
 		return programaCensService.getProgramasForAsignatura(id);
 	}
+
+	@Override
+	public List<Curso> listarAsignaturasByProfesor(Long id) {
+		return assembleCursoList(asignaturaCensRepository.findByProfesorId(id));
+	
+	}
+	
+	private List<Curso> assembleCursoList(List<Asignatura> asignatura){
+		List<Curso> cursoList = null;
+		if(CollectionUtils.isNotEmpty(asignatura)){
+			Map<Long,Curso> cursos = new HashMap<Long,Curso>();
+			for(Asignatura a : asignatura){
+				if(cursos.get(a.getCurso().getId())== null){
+					Curso c = a.getCurso();
+					c.setAsignaturas(new ArrayList<Asignatura>());
+					c.getAsignaturas().add(a);
+					cursos.put(c.getId(),c);				
+				}else{
+					Curso c =cursos.get(a.getCurso().getId());
+					c.getAsignaturas().add(a);
+				}
+			}
+			cursoList = new ArrayList<Curso>();
+			
+			for(Entry<Long,Curso> cursoEntry : cursos.entrySet()){				
+				cursoList.add(cursoEntry.getValue());
+			}
+			
+		}
+		return cursoList;
+	}
+	
+
 	 
 	 
 

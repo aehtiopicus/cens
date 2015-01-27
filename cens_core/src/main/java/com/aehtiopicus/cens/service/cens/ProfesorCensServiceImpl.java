@@ -150,7 +150,7 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 
 	@Override
 	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor) {
-		return cursoCensService.listCursoAsignaturaByProfesor(profesor.getId());
+		return asignaturaCensService.listarAsignaturasByProfesor(profesor.getId());
 	}
 
 	@Override

@@ -693,7 +693,10 @@ width: 5em;
     height: 10vh;
 	margin-top: -6px;
   }
-  .censaccordion  .portlet-content ul li,
+.censaccordion .portlet a{
+	text-decoration: none;
+}  
+.censaccordion  .portlet-content ul li,
 .censaccordion  .portlet-content ul a{
 font-size: 15px;
 color: #005577;
@@ -915,5 +918,6 @@ archivos .progress-label {
 
 fieldset h3.subtitulo{
 	text-align: -webkit-left;
-font-size: 14px;
+	font-size: 14px;
+	height: 6px;
 }

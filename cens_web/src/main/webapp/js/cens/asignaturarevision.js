@@ -38,32 +38,6 @@ if(!isNaN(pageId())){
 	}
 
 
-	
-	$(function() {
-	    var icons = {
-	      header: "ui-icon-circle-arrow-e",
-	      activeHeader: "ui-icon-circle-arrow-s"
-	    };
-	    $( ".censaccordion2" ).accordion({
-	      icons: icons,
-//	      heightStyle: "content",
-//	      collapsible: true,
-//	      navigation: true,
-//	      active: true,
-	      fillSpace: true,
-//	      refresh: function(){
-////	    	  alert("refesh");
-//	      },
-//	      beforeActivate: function(event,ui){
-////	    	  $(this).accordion( "resize" );
-//	      },
-//	      activate: function( event, ui ) {
-////	    	  $(this).accordion( "resize" );
-//	      }
-	    });
-	    
-	  });
-
 
 });
 

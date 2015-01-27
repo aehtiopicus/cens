@@ -23,9 +23,9 @@ var asignaturaId = ${asignaturaId};
 					placeholder="Nombre del programa" />
 			</div>
 			<div>
-				<label for="descripcion" style="float: left;">Descripci&oacute;n:</label>
-				<textarea rows="4" cols="50" id="descripcion"
-					style="margin-left: 3px;" placeholder="Breve descripci&oacute;n"></textarea>
+				<label for="profesor" >Profesor:</label>
+				<input type="text" id="profesor"
+					placeholder="Nombre del programa" />
 			</div>
 			<div>
 				<label for="cantCartillas">Cantidad de Cartillas:</label> <input

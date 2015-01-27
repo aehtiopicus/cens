@@ -20,9 +20,7 @@ public interface CursoCensService {
 
 	public void deleteCurso(Long cursoId) throws CensException;
 
-	public Curso findById(Long id);
-
-	public List<Curso> listCursoAsignaturaByProfesor(Long profesorId);
+	public Curso findById(Long id);	
 
 	public List<Curso> listCursoAsignatura();
 

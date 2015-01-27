@@ -146,17 +146,6 @@ public class CursoCensServiceImpl implements CursoCensService{
 	public Curso findById(Long id) {
 		return cursoCensRepository.findOne(id);
 	}
-
-	@Override
-	public List<Curso> listCursoAsignaturaByProfesor(Long profesorId) {
-		List<Curso> cursoList = cursoCensRepository.findCursoAsignaturaByProfesor(profesorId);
-		if(CollectionUtils.isNotEmpty(cursoList)){
-			for(Curso c : cursoList){
-				Collections.sort(c.getAsignaturas(), new CursoSortAsignaturaName());
-			}
-		}
-		return cursoList;
-	}
 	
 	class CursoSortAsignaturaName implements Comparator<Asignatura>{
 

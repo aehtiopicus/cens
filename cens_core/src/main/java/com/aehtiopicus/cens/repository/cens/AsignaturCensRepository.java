@@ -32,4 +32,7 @@ public interface AsignaturCensRepository extends JpaRepository<Asignatura, Long>
 	@Query(nativeQuery=true, value="UPDATE cens_asignatura  SET profesor_id = CASE WHEN profesor_id = :profe THEN null ELSE profesor_id END, profesorsuplente_id = CASE WHEN profesorsuplente_id = :profe THEN null ELSE profesorsuplente_id END WHERE vigente = true ")
 	public int removeProfesor(@Param("profe")Long profesorID);
 
+	@Query("SELECT a FROM Asignatura a WHERE (a.profesor.id = :profesorId OR a.profesorSuplente.id = :profesorId) AND a.vigente = true ORDER BY a.nombre ASC")		
+	public List<Asignatura> findByProfesorId(@Param("profesorId")Long id);
+
 }
