@@ -1,8 +1,6 @@
 
 jQuery(document).ready(function () {
 
-	
-	
 
 	$("#progressbar").progressbar({
      value: 0,
@@ -15,36 +13,7 @@ jQuery(document).ready(function () {
      }
    });
 	
-	$( "#asesor" ).autocomplete({     
-		   delay: 500,
-		   minLength: 4,
-		   source : function(request,response){
-			   cargarDatos('asesor',request.term,'asesor',response);
-		   },
-		  
-		   select : function(event,ui){
-			   $( "#asesor" ).val(ui.item.label);		
-			   $( "#asesorId" ).val(ui.item.value);
-			   $( "#asesorName" ).val(ui.item.label);
-			return false;
-			},
-			change : function(event,ui){
-				if(ui.item != null){
-					$( "#asesor" ).val(ui.item.label);	
-					$( "#asesorId" ).val(ui.item.value);
-					$( "#asesorName" ).val(ui.item.label);
-				}else{
-					if($( "#asesor" ).val().length==0){
-						$( "#asesorId" ).val("");
-						$( "#asesorName" ).val("");
-					}else{
-						$( "#asesor" ).val($( "#asesorName" ).val());						
-					}
-				}
-			return false;
-			}
-	    });
-   
+
    $( "#estadoPrograma" ).dialog({
 		autoOpen: false,
 		width: 700,			
@@ -69,10 +38,11 @@ jQuery(document).ready(function () {
 		]
 	});
    
-   $( "#borrarPrograma" ).dialog({
+   $( "#comentariosPrograma" ).dialog({
 		autoOpen: false,
-		width: 600,
+		width: 700,
 		modal:true,
+		resizable:false,
 		buttons: [
 			{
 				text: "Ok",
@@ -107,45 +77,15 @@ jQuery(document).ready(function () {
 		]
 	});
 
+   $('#accordion').accordion({
+	   collapsible: true,
+	   heightStyle: "content",
+	   fillSpace: true,
+	   active: false,
+   });
 });
 
-function cargarDatos(field,value,url,response){
-	$.ajax({
-		url: pagePath+"/"+url,
-		type: "GET",
-		contentType :'application/json',
-		dataType: "json",
-		data:{ requestData:prepareJsonRequestData(field,url,value)},
-		success: function(data){		
-			response( assembleAutocompleteJson(data,url));
-		},
-		error: function(errorData){
-			errorData = errorConverter(errorData);
-			if(errorData.errorDto != undefined && errorData.errorDto){
-				addError(field,errorData.message);
-			}else{
-				alert("Se produjo un error el servidor");
-			}
-		}
-	});	
-}
 
-function prepareJsonRequestData(field,url,value){
-	var request = {"page": 1,"row": 10,"sord":"asc","filters":{}};
-	request.filters = {"data":value};
-	return JSON.stringify(request);
-}
-
-function assembleAutocompleteJson(data,url){
-	
-	var fieldData = [];
-
-		$.each(data.rows,function(index2,value2){			
-			fieldData.push({"value":value2.id, "label" : value2.miembroCens.apellido+", "+value2.miembroCens.nombre+" ("+value2.miembroCens.dni+")"});				
-		});
-
-	return fieldData;
-}
 function openPrograma(){
 	if(!isNaN(pageId())){
 		startSpinner();
@@ -178,6 +118,10 @@ function openPrograma(){
 			}		
 		});
 	}
+}
+
+function openComentario(){
+	$('#comentariosPrograma').dialog('open');
 }
 $(function () {
 	 

@@ -76,7 +76,7 @@ function datosPrograma(value,asignatura){
 	var itemText ='Programa: <span class="estadoMaterial {subClass}">({estado})</span>';
 	if(asignatura.programa!==null && estadoRevision(asignatura.programa)){
 	
-			itemLink = itemLink.replace("{existente}","/"+asignatura.programa.id).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
+			itemLink = itemLink.replace("{existente}","/"+asignatura.programa.id).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&estado="+asignatura.programa.estadoRevisionType);
 			itemText = itemText.replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase());
 		}else{
 			if(asignatura.programa!=null){

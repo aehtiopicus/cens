@@ -21,20 +21,32 @@ var profesorId;
 		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
 		
 			<div>
-				<label for="asesor">Asesor:</label>
-				 <input type="text" id="asesor" placeholder="Asesor asignado"/>
+				<label for="estado">Estado:</label>
+				 <select id="estado">
+			   <option value=""/> 
+		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >
+		         	<c:if test="${estado.equals(estadoRevision) }">
+		           	<option value="${estadoRevision}" selected> ${estadoRevision} </option>
+		           </c:if>
+		           <option value="${estadoRevision}"> ${estadoRevision} </option>
+		        </c:forEach>
+	        </select>
 			</div>
 			
-			<div>
-				<label for="descripcionRevision" style="float: left;">Descripci&oacute;n:</label>
-				<textarea rows="4" cols="50" id="descripcionRevision"
-					style="margin-left: 3px;" placeholder="Breve descripci&oacute;n"></textarea>
-			</div>
 			
 			<div>
 				<label for="visualizarPrograma" style="float: left;">Programa:</label>
 				<button class="button" type="button"
 					style="width: 457px;left: 3px;" id="btnVisualizar" onclick="openPrograma();" >Visualizar Programa Adjunto</button>
+			</div>
+		<h3 class="subtitulo">Comentarios</h3>
+		<div>
+		
+				<button class="button" type="button"
+					style="width: 457px;left:188px;" id="btnVisualizar" onclick="openComentario();" >Dejar un Comentario</button>
+					</div>
+			<div id="accordion" style="height: 100%;">
+				
 			</div>
 
 			<div class="footerForm">
@@ -56,7 +68,7 @@ var profesorId;
 
 <div id="estadoPrograma" class="dialog" title="Estado del Programa">
 <fieldset>
-	<h3>Datos del Programa</h3>
+	
 			<div>
 				<label for="nombre">Nombre:</label> <input type="text" id="nombre"
 					placeholder="Nombre del programa" readonly/>
@@ -82,7 +94,31 @@ var profesorId;
 </fieldset>			
 </div>
 
-<div id="borrarPrograma" class="dialog" title="Confirmar">
-	<p>Se eliminar&aacute; el programa adjunto. ¿Desea continuar?</p>
+<div id="comentariosPrograma" class="dialog" title="Agregar Comentario">
+<fieldset>
 
+			<div>
+				<label for="comentario" style="float: left;">Comentario:</label>
+				<textarea rows="4" cols="50" id="comentario"
+					style="margin-left: 3px;" placeholder="Comentario" ></textarea>
+			</div>
+			<archivos>
+			<div id="fileUp">
+				<label for="fileupload">Adjuntar Archivo:</label>
+				<button class="button" type="button"
+					style="height: 32px; top: -1px;">
+					Insertar Archivo <input id="fileupload"
+						title="Seleccionar Programa" type="file" class="custom-file-input"
+						name="file"
+						accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf" />
+				</button>
+				<input type="text" readonly="readonly" id="fileUploadName" placeholder="Archivo"
+					style="width: 302px; margin-left: 7px;" />
+			</div>
+
+
+			</archivos>
+</fieldset>			
 </div>
+
+
