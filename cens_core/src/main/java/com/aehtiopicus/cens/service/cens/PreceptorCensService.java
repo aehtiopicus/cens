@@ -12,4 +12,6 @@ public interface PreceptorCensService {
 
 	public void deletePreceptor(MiembroCens miembroCens);
 
+	public Preceptor findById(Long id);
+
 }

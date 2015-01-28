@@ -51,4 +51,9 @@ public class PreceptorCensServiceImpl implements PreceptorCensService{
 		preceptorCensRepository.markAsesorAsDisable(miembroCens);
 		
 	}
+
+	@Override
+	public Preceptor findById(Long id) {
+		return preceptorCensRepository.findOne(id);
+	}
 }

@@ -937,14 +937,7 @@ padding-bottom: 10px;
 padding-right: 40px;
 }
 
-#accordion{
-	padding-left: 186px;
-padding-right: 5px;
-}
 
-#accordion h3{
-text-align: -webkit-left;
-}
 
 @media screen and (max-width: 1100px) {
     .estadoMaterial{

@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
 <script src="<%=request.getContextPath()%>/js/cens/asesorprograma.js"></script>
+<script src="<%=request.getContextPath()%>/js/cens/comentarios.js"></script>
 <script>
 var pagePath="<%=request.getContextPath()%>";
 var programaId = ${programaId};
@@ -40,11 +41,7 @@ var profesorId;
 					style="width: 457px;left: 3px;" id="btnVisualizar" onclick="openPrograma();" >Visualizar Programa Adjunto</button>
 			</div>
 		<h3 class="subtitulo">Comentarios</h3>
-		<div>
-		
-				<button class="button" type="button"
-					style="width: 457px;left:188px;" id="btnVisualizar" onclick="openComentario();" >Dejar un Comentario</button>
-					</div>
+	
 			<div id="accordion" style="height: 100%;">
 				
 			</div>
@@ -57,6 +54,7 @@ var profesorId;
 			</div>
 
 			<input type="hidden" id="fileUploadUsed" />
+			<input type="hidden" id="fileUploadData" />
 			<input type="hidden" id="asesorId" />			
 			<input type="hidden" id="asesorName" />
 			<input type="hidden" id="btnGuardarPrograma" />
@@ -94,31 +92,5 @@ var profesorId;
 </fieldset>			
 </div>
 
-<div id="comentariosPrograma" class="dialog" title="Agregar Comentario">
-<fieldset>
-
-			<div>
-				<label for="comentario" style="float: left;">Comentario:</label>
-				<textarea rows="4" cols="50" id="comentario"
-					style="margin-left: 3px;" placeholder="Comentario" ></textarea>
-			</div>
-			<archivos>
-			<div id="fileUp">
-				<label for="fileupload">Adjuntar Archivo:</label>
-				<button class="button" type="button"
-					style="height: 32px; top: -1px;">
-					Insertar Archivo <input id="fileupload"
-						title="Seleccionar Programa" type="file" class="custom-file-input"
-						name="file"
-						accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf" />
-				</button>
-				<input type="text" readonly="readonly" id="fileUploadName" placeholder="Archivo"
-					style="width: 302px; margin-left: 7px;" />
-			</div>
-
-
-			</archivos>
-</fieldset>			
-</div>
 
 

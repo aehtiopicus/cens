@@ -12,4 +12,6 @@ public interface AlumnoCensService {
 
 	public void deleteAlumno(MiembroCens miembroCens);
 
+	public Alumno findById(Long id);
+
 }

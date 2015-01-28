@@ -51,4 +51,9 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 		alumnoCensRepository.markAsesorAsDisable(miembroCens);
 		
 	}
+
+	@Override
+	public Alumno findById(Long id) {
+		return alumnoCensRepository.findOne(id);
+	}
 }
