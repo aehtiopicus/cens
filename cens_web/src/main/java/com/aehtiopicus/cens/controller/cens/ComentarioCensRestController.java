@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,13 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
-import com.aehtiopicus.cens.dto.cens.ComentarioDto;
+import com.aehtiopicus.cens.dto.cens.ComentarioDescriptionDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestWrapperDto;
 import com.aehtiopicus.cens.dto.cens.ComentariosDto;
-import com.aehtiopicus.cens.dto.cens.ProgramaDto;
 import com.aehtiopicus.cens.mapper.cens.ComentarioCensMapper;
 import com.aehtiopicus.cens.service.cens.ComentarioCensService;
+import com.aehtiopicus.cens.utils.CensException;
 
 @Controller
 public class ComentarioCensRestController extends AbstractRestController{
@@ -39,28 +41,67 @@ public class ComentarioCensRestController extends AbstractRestController{
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.COMENTARIO_CENS_REST, method=RequestMethod.GET)
-	public ComentariosDto listComentarios(@RequestParam("value") ComentarioRequestWrapperDto wrapperDto,@PathVariable("id") Long comentarioId ) throws Exception{					  
-	   ComentarioRequestDto comentarioRequestDto = wrapperDto.getDto();
-		MiembroCens mc = comentarioCensService.getMiembroCensByPerfilTypeAndRealId(comentarioRequestDto.getUsuarioTipo(), comentarioRequestDto.getUsuarioId());
-		ComentariosDto dto = mapper.createCommentariosDto(comentarioRequestDto.getUsuarioId(),mc);
+	public ComentariosDto listComentarios(@RequestParam("value") ComentarioRequestWrapperDto wrapperDto) throws Exception{				
+	   ComentarioRequestDto comentarioRequestDto = wrapperDto.getDto();		
+	   List<ComentarioCens> comentarioList = comentarioCensService.findAllParentcomments(comentarioRequestDto.getTipoId(),comentarioRequestDto.getTipoType());
+	   ComentariosDto dto = mapper.createCommentariosDto(comentarioRequestDto.getUsuarioId(),findMiembroCens(comentarioRequestDto));
+	   mapper.addComments(dto, comentarioList);
 		return dto;
 		
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST,UrlConstant.COMENTARIO_CENS_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ComentariosDto uploadComentario(@PathVariable("id") Long comentarioId, 
-			@RequestPart("comentarioRequest") ComentarioRequestDto comentarioRequestDto,
-			@RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
-		ComentarioCens cc = mapper.getDataForComentarioCens(comentarioRequestDto);
-		return null;       
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto uploadComentario(@RequestPart("comentarioRequest") ComentarioRequestDto comentarioRequestDto,
+			@RequestPart(value="file",required=true)   MultipartFile file) throws Exception{	
+		
+		return save(comentarioRequestDto,file,null);       
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_NO_FILE_REST,UrlConstant.COMENTARIO_CENS_NO_FILE_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ComentariosDto uploadComentarioSinArchivo(@PathVariable("id") Long comentarioId, 
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto uploadComentarioPut(@PathVariable("comentarioId") Long comentarioId, 
+			@RequestPart("comentarioRequest") ComentarioRequestDto comentarioRequestDto,
+			@RequestPart(value="file",required=true)   MultipartFile file) throws Exception{	
+		
+		return save(comentarioRequestDto,file,comentarioId);       
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_NO_FILE_REST}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto uploadComentarioSinArchivo(@RequestBody ComentarioRequestDto comentarioRequestDto) throws Exception{		
+
+		return save(comentarioRequestDto,null,null);     
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_NO_FILE_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto uploadComentarioSinArchivoPut(@PathVariable("comentarioId") Long comentarioId, 
 			@RequestBody ComentarioRequestDto comentarioRequestDto) throws Exception{		
 
-		return null;       
+		return save(comentarioRequestDto,null,comentarioId);     
 	}
+	
+	
+	
+	private ComentarioDescriptionDto save(ComentarioRequestDto comentarioRequestDto,MultipartFile file, Long comentarioId) throws CensException{
+		
+		ComentarioCens cc = mapper.getDataForComentarioCens(comentarioRequestDto);
+		cc.setId(comentarioId);
+		MiembroCens mc= findMiembroCens(comentarioRequestDto);
+		cc.setFullName(mc.getApellido().toUpperCase()+", "+mc.getNombre()+" ("+mc.getDni()+")");
+		cc = comentarioCensService.saveComentario(cc,file);
+		
+		ComentarioDescriptionDto dto =mapper.mapSingleComentario(cc);
+		dto.setComment_id(comentarioId);
+		return dto;
+		
+	
+	}
+	
+	private MiembroCens findMiembroCens(ComentarioRequestDto comentarioRequestDto)throws CensException{
+		return comentarioCensService.getMiembroCensByPerfilTypeAndRealId(comentarioRequestDto.getUsuarioTipo(), comentarioRequestDto.getUsuarioId());
+	}
+	
+	
 }

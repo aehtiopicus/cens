@@ -6,8 +6,8 @@ public class ComentarioUserDto {
 	private String fullname;
 	private String picture;
 	private boolean is_logged_in = false;
-	private boolean is_add_allowed;
-	private boolean is_edit_allowed;
+	private boolean is_add_allowed = true;
+	private boolean is_edit_allowed = true;
 	
 	public Long getUser_id() {
 		return user_id;

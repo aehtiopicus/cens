@@ -97,3 +97,6 @@ ul.posted-comment-childs .avatar img{
 	height:22px;
 }
 
+.pull-left{
+	float:left;
+}

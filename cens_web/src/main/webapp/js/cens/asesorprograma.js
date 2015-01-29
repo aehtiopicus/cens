@@ -79,8 +79,8 @@ jQuery(document).ready(function () {
 
    $('#accordion').comment({
        title: 'Comentarios',
-       url_get: pagePath+'/comentario/1/comments/list',
-       url_input: pagePath+'/comentario/1/comments/list',
+       url_get: pagePath+'/comentario/comments/list',
+       url_input: pagePath+'/comentario/comments/list',
        url_delete: pagePath+'/comentario/id/1/comments/delete',
        arguments:{tipoType:"PROGRAMA",tipoId:programaId,usuarioId:asesorId,usuarioTipo:"ASESOR"},
        limit: 10,

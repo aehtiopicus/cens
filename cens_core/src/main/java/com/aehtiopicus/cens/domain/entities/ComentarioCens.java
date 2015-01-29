@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,9 +62,16 @@ public class ComentarioCens implements Serializable{
 	@OneToOne
 	private ComentarioCens parent;
 	
-	@OneToMany(mappedBy = "parent", cascade= CascadeType.ALL)
-	@Fetch(FetchMode.SELECT)
-	private List<ComentarioCens> children;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<ComentarioCens> childrens;
+	
+	
+	
+	@Column(name="apellido_nombre_dni")
+	private String fullName;
+	
+	
 	
 	private Boolean baja = false;
 
@@ -148,13 +156,6 @@ public class ComentarioCens implements Serializable{
 		this.parent = parent;
 	}
 
-	public List<ComentarioCens> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<ComentarioCens> children) {
-		this.children = children;
-	}
 
 	public Boolean getPrimero() {
 		return primero;
@@ -163,6 +164,23 @@ public class ComentarioCens implements Serializable{
 	public void setPrimero(Boolean primero) {
 		this.primero = primero;
 	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public List<ComentarioCens> getChildrens() {
+		return childrens;
+	}
+
+	public void setChildrens(List<ComentarioCens> childrens) {
+		this.childrens = childrens;
+	}
+
 
 
 	

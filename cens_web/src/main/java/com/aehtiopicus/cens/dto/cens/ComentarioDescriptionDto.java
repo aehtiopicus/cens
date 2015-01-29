@@ -5,11 +5,12 @@ import java.util.List;
 
 public class ComentarioDescriptionDto {
 
-	private Long comment_id;
+	private boolean success;
+	private Long comment_id;	
 	private Long parent_id;
-	private Long in_reply_to;
+	private String in_reply_to;
 	private Long element_id;
-	private String created_by;
+	private Long created_by;
 	private String fullname;
 	private String picture;
 	private String posted_date;
@@ -30,10 +31,10 @@ public class ComentarioDescriptionDto {
 	public void setParent_id(Long parent_id) {
 		this.parent_id = parent_id;
 	}
-	public Long getIn_reply_to() {
+	public String getIn_reply_to() {
 		return in_reply_to;
 	}
-	public void setIn_reply_to(Long in_reply_to) {
+	public void setIn_reply_to(String in_reply_to) {
 		this.in_reply_to = in_reply_to;
 	}
 	public Long getElement_id() {
@@ -42,10 +43,10 @@ public class ComentarioDescriptionDto {
 	public void setElement_id(Long element_id) {
 		this.element_id = element_id;
 	}
-	public String getCreated_by() {
+	public Long getCreated_by() {
 		return created_by;
 	}
-	public void setCreated_by(String created_by) {
+	public void setCreated_by(Long created_by) {
 		this.created_by = created_by;
 	}
 	public String getFullname() {
@@ -83,6 +84,12 @@ public class ComentarioDescriptionDto {
 	}
 	public void setChildrens(List<ComentarioDescriptionDto> childrens) {
 		this.childrens = childrens;
+	}
+	public boolean isSuccess() {
+		return success;
+	}
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	

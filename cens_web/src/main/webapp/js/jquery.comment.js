@@ -34,7 +34,7 @@ if ( typeof Object.create !== 'function' ) {
 			var self = this;
 			
 			var form_elem = $('<form></form>');
-			form_elem.attr("id","formId");
+			form_elem.attr("id","formId"+(parent_id!==null ? parent_id :'')+(comment_id!==null ? comment_id :''));
 
 			if(comment_id!=null)
 				form_elem.attr('action', self.options.url_input+'/'+comment_id);
@@ -56,7 +56,7 @@ if ( typeof Object.create !== 'function' ) {
 			textarea.attr('name', 'text');
 			textarea.attr('placeHolder', 'Dejar mensaje...');
 			textarea.css('overflow', 'hidden');
-			textarea.attr("id","txtComentarios");
+			textarea.attr("id","txtComentarios"+(parent_id!==null ? parent_id :'')+(comment_id!==null ? comment_id :''));
 			textarea.attr("rows","5");
 			textarea.autogrow();
 
@@ -84,7 +84,7 @@ if ( typeof Object.create !== 'function' ) {
 			fileAcceptButton.css("right","5px");
 			fileAcceptButton.on("click",function(e){
 				e.preventDefault();
-				self.submitForm_(comment_id, form_elem.serialize());
+				self.submitForm_(comment_id, parent_id);
 			})
 			
 			var fileInputButton = $('<button>Archivo</button>');
@@ -118,16 +118,17 @@ if ( typeof Object.create !== 'function' ) {
 
 			var url_input = self.options.url_input+"{nf}";
 
-			if(comment_id!=null) 	// form edit mode
-				url_input = self.options.url_input+'/'+comment_id;
-
+			if(comment_id!=null){ 	// form edit mode
+				url_input = url_input+'/'+comment_id;
+			}
 		     	  	
 
     	  	if( $('#fileUploadComentarioUsed').val()==="true"){
     	  		var data = fileUploadComentarioData;
     			var formData = new FormData();
-        	  	formData.append("file",data.files[0]);    	          	  	
-        	  	self.options.arguments.mensaje = $('#txtComentarios').val();
+        	  	formData.append("file",data.files[0]);    	          	  	        	  	
+        	  	self.options.arguments.mensaje = $('#txtComentarios'+(form_data!==null ? form_data :'')+(comment_id!==null ? comment_id :'')).val();
+    			self.options.arguments.parentId =form_data;
         	  	formData.append('comentarioRequest',new Blob([JSON.stringify(self.options.arguments)],{type:"application/json"}));
     	  		return $.ajax({
     	  		url:  url_input.replace("{nf}",""),
@@ -159,12 +160,79 @@ if ( typeof Object.create !== 'function' ) {
      					alert("Se produjo un error el servidor");
      				}
             	}
-    	  	}).done(function(result){
-    	  		self.doneFunction(result);
-    	  		}); 
+    	  	}).done( function(result){
+
+                if(result.success!=undefined)
+                {
+                    if(result.success===false)
+                    {
+                        // error
+                        $.each(result, function(key, val){
+                             // check error if any
+                            if(val.error!=undefined)
+                            {
+                                $show_warning_(val.error);
+                                return false;
+                            }
+                        });
+                    }
+                    else
+                    {
+                    	if(result.comment_id!=null)	// edit mode
+                    	{
+                    		var item = $('#posted-'+result.comment_id, self.$elem);
+                    		
+                    		var item_txt = $('.posted-comment-txt:hidden', item);
+                    		item_txt.html(result.text);
+                    		item_txt.toggle();
+
+                    		var item_form_edit = $('.posted-comment-form-edit', item);
+                    		item_form_edit.toggle();
+
+                    	}
+                    	else
+                    	{
+                        	result.fullname = self.user_info_.fullname;
+                        	result.picture = pagePath+self.user_info_.picture;
+
+                        	// add new itemlist
+    						var itemlist = self.buildItemList_( result );
+
+    						if(result.parent_id===undefined)
+    	                    	self.$rootlist.prepend(itemlist);
+    	                    else
+    	                    {
+    	                    	if(result.parent_id==0)
+    		                    	self.$rootlist.prepend(itemlist);
+    	                    	else
+    	                    	{
+    		                    	var id = 'posted-comment-child-'+result.parent_id;
+
+    		                    	//prepend the new comment
+    		                    	var the_child = $('ul[id="'+id+'"]', self.$elem).prepend(itemlist);
+
+    		                    	// hide the form post
+    		                    	$('div.posted-comments-postbox:visible', the_child).hide();
+    	                    	}
+    	                    }
+
+                        	// update total comment
+                        	self.total_comment++;
+                        	self.$total_comment.html(self.total_comment+' '+self.options.title);
+                    	}
+
+                    	// clear and enable textarea
+                        $('textarea', self.$elem).val('');                    	
+                        $('textarea', self.$elem).attr("disabled", false);  	                    
+                    }
+                }                   
+
+
+            }
+    	  			); 
     	  }else{
-    			self.options.arguments.mensaje = $('#txtComentarios').val();
-    			
+    			self.options.arguments.mensaje = $('#txtComentarios'+(form_data!==null ? form_data :'')+(comment_id!==null ? comment_id :'')).val();
+    			self.options.arguments.parentId =form_data;
     	  		return $.ajax({
     	  			type:"POST",
 					url: url_input.replace("{nf}","nf"),
@@ -175,80 +243,93 @@ if ( typeof Object.create !== 'function' ) {
 
                     	$('textarea', self.$elem).attr("disabled", true);
 
-                	}
-            	}).done(function(result){self.doneFunction(result);});
+                	},
+                	error: function(value){
+            		stopSpinner();
+            	 	$( "#progressbar" ).progressbar( "option", "value", 0 );
+        		 	$(".progress-label").text( "" );
+        		 	$("#guardarPrograma").dialog("close");
+        		 	errorData = errorConverter(value);
+     				if(errorData.errorDto != undefined && value.errorDto){
+     					alert(errorConverter(value).message);
+     				}else{
+     					alert("Se produjo un error el servidor");
+     				}
+            	}
+            	}).done( function(result){
+
+                    if(result.success!=undefined)
+                    {
+                        if(result.success===false)
+                        {
+                            // error
+                            $.each(result, function(key, val){
+                                 // check error if any
+                                if(val.error!=undefined)
+                                {
+                                    $show_warning_(val.error);
+                                    return false;
+                                }
+                            });
+                        }
+                        else
+                        {
+                        	if(result.comment_id!=null)	// edit mode
+                        	{
+                        		var item = $('#posted-'+result.comment_id, self.$elem);
+                        		
+                        		var item_txt = $('.posted-comment-txt:hidden', item);
+                        		item_txt.html(result.text);
+                        		item_txt.toggle();
+
+                        		var item_form_edit = $('.posted-comment-form-edit', item);
+                        		item_form_edit.toggle();
+
+                        	}
+                        	else
+                        	{
+                            	result.fullname = self.user_info_.fullname;
+                            	result.picture = pagePath+self.user_info_.picture;
+
+                            	// add new itemlist
+        						var itemlist = self.buildItemList_( result );
+
+        						if(result.parent_id===undefined)
+        	                    	self.$rootlist.prepend(itemlist);
+        	                    else
+        	                    {
+        	                    	if(result.parent_id==0)
+        		                    	self.$rootlist.prepend(itemlist);
+        	                    	else
+        	                    	{
+        		                    	var id = 'posted-comment-child-'+result.parent_id;
+
+        		                    	//prepend the new comment
+        		                    	var the_child = $('ul[id="'+id+'"]', self.$elem).prepend(itemlist);
+
+        		                    	// hide the form post
+        		                    	$('div.posted-comments-postbox:visible', the_child).hide();
+        	                    	}
+        	                    }
+
+                            	// update total comment
+                            	self.total_comment++;
+                            	self.$total_comment.html(self.total_comment+' '+self.options.title);
+                        	}
+
+                        	// clear and enable textarea
+                            $('textarea', self.$elem).val('');                    	
+                            $('textarea', self.$elem).attr("disabled", false);  	                    
+                        }
+                    }                   
+
+
+                }
+            			);
 			
     	  	}
 		},
-		doneFunction :  function(result){
-
-            if(result.success!=undefined)
-            {
-                if(result.success===false)
-                {
-                    // error
-                    $.each(result, function(key, val){
-                         // check error if any
-                        if(val.error!=undefined)
-                        {
-                            $show_warning_(val.error);
-                            return false;
-                        }
-                    });
-                }
-                else
-                {
-                	if(comment_id!=null)	// edit mode
-                	{
-                		var item = $('#posted-'+comment_id, self.$elem);
-                		
-                		var item_txt = $('.posted-comment-txt:hidden', item);
-                		item_txt.html(result.text);
-                		item_txt.toggle();
-
-                		var item_form_edit = $('.posted-comment-form-edit', item);
-                		item_form_edit.toggle();
-
-                	}
-                	else
-                	{
-                    	result.fullname = self.user_info_.fullname;
-                    	result.picture = self.user_info_.picture;
-
-                    	// add new itemlist
-						var itemlist = self.buildItemList_( result );
-
-						if(result.parent_id===undefined)
-	                    	self.$rootlist.prepend(itemlist);
-	                    else
-	                    {
-	                    	if(result.parent_id==0)
-		                    	self.$rootlist.prepend(itemlist);
-	                    	else
-	                    	{
-		                    	var id = 'posted-comment-child-'+result.parent_id;
-
-		                    	//prepend the new comment
-		                    	var the_child = $('ul[id="'+id+'"]', self.$elem).prepend(itemlist);
-
-		                    	// hide the form post
-		                    	$('div.posted-comments-postbox:visible', the_child).hide();
-	                    	}
-	                    }
-
-                    	// update total comment
-                    	self.total_comment++;
-                    	self.$total_comment.html(self.total_comment+' '+self.options.title);
-                	}
-
-                	// clear and enable textarea
-                    $('textarea', self.$elem).val('');                    	
-                    $('textarea', self.$elem).attr("disabled", false);  	                    
-                }
-            }                   
-
-
-        },
+		
 		buildPostBox_: function(parent_id){
 			var self = this;
 			
@@ -257,11 +338,11 @@ if ( typeof Object.create !== 'function' ) {
 
 			//self.user_info_
 			var img_elem = $('<img/>');
-			img_elem.attr('src', pagePath+"/"+self.user_info_.picture);
+			img_elem.attr('src', pagePath+self.user_info_.picture);
 			img_elem.attr('border', 0);
 			img_elem.addClass('ui-corner-all');
 			img_elem.addClass('curr-user-photo');
-
+			
 			var avatar = $('<div></div>');
 			avatar.addClass('avatar').addClass('pull-left');
 			avatar.append(img_elem);
@@ -357,14 +438,14 @@ if ( typeof Object.create !== 'function' ) {
 
 			var item = $( self.options.wrapEachWith );
 
-			item.attr('id', 'posted-'+comment_info.comment_id);
+			item.attr('id', 'posted-'+comment_info.element_id);
 
 			// avatar-image
 			var avatar = $('<div></div>');
 			avatar.addClass('avatar').addClass('pull-left');
 
 			var img_elem = $('<img/>');
-			img_elem.attr('src', comment_info.picture);
+			img_elem.attr('src', comment_info.picture.indexOf(pagePath)== 0 ?comment_info.picture : pagePath+comment_info.picture);
 			img_elem.attr('border', 0);
 			img_elem.addClass('ui-corner-all');
 
@@ -391,7 +472,7 @@ if ( typeof Object.create !== 'function' ) {
 			post_head.append(username);
 
 			// in reply-to
-			if(comment_info.parent_id!=0)
+			if(comment_info.parent_id!==null && comment_info.parent_id!=0)
 			{
 				// in-reply-to
 				var in_reply_to = $('<span></span>');
@@ -469,6 +550,9 @@ if ( typeof Object.create !== 'function' ) {
 				var edit = $('<a>Editar</a>');
 				edit.attr('href','#');
 				edit.attr('title','Edit');
+				edit.css('color','#0088cc');
+				edit.css('text-decoration','none');
+				
 
 				edit_container.append(edit);
 
@@ -528,7 +612,9 @@ if ( typeof Object.create !== 'function' ) {
 
 				var reply = $('<a>Responder</a>');
 				reply.attr('href','#');
-				reply.attr('title', 'Reply');
+				reply.attr('title', 'Responder');
+				reply.css('color','#0088cc');
+				reply.css('text-decoration','none');
 
 				reply_container.append(reply);
 
@@ -547,12 +633,12 @@ if ( typeof Object.create !== 'function' ) {
 
 			var ul_child_elem = $('<ul></ul>');
 			ul_child_elem.addClass('posted-comment-childs');
-			ul_child_elem.attr('id', 'posted-comment-child-'+comment_info.comment_id);
+			ul_child_elem.attr('id', 'posted-comment-child-'+comment_info.element_id);
 
 			// postbox reply will be toggled show/hide by reply event
 			if(self.user_info_.is_add_allowed)
 			{
-				var postbox = self.buildPostBox_(comment_info.comment_id);
+				var postbox = self.buildPostBox_(comment_info.element_id);
 				postbox.hide();
 				ul_child_elem.append(postbox);
 
@@ -560,12 +646,13 @@ if ( typeof Object.create !== 'function' ) {
 				reply.on('click', function(e){
 					e.preventDefault();
 					postbox.toggle();
+					$('#accordion .button').button();
 				});				
 
 			}
 
 			// check if has childrens
-			if(comment_info.childrens.length>0)
+			if(comment_info.childrens!==null && comment_info.childrens.length>0)
 			{
 				for(var i=0;i<comment_info.childrens.length;i++)
 				{
