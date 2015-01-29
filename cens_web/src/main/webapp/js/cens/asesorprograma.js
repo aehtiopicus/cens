@@ -87,6 +87,15 @@ jQuery(document).ready(function () {
        auto_refresh: false,
        refresh: 10000,
        transition: 'slideToggle',
+       uploadProgress: function(data){    	   
+    		     if(parseInt(data.loaded / data.total * 100, 10)<100){
+    		    	 if(!$('body').hasClass('loading')){
+    		    		 startSpinner();
+    		    	 }
+    		     }else{
+    		    	 stopSpinner();
+    		     }    		        		
+       }
      });
 });
 

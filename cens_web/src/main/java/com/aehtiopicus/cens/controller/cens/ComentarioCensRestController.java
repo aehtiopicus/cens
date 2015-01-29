@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
+import com.aehtiopicus.cens.dto.cens.ComentarioDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestWrapperDto;
 import com.aehtiopicus.cens.dto.cens.ComentariosDto;
@@ -47,9 +49,17 @@ public class ComentarioCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST,UrlConstant.COMENTARIO_CENS_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ProgramaDto uploadPrograma(@PathVariable("id") Long comentarioId, 
+	public @ResponseBody ComentariosDto uploadComentario(@PathVariable("id") Long comentarioId, 
 			@RequestPart("comentarioRequest") ComentarioRequestDto comentarioRequestDto,
-			@RequestPart("properties")  String programaDto, @RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
+			@RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
+		ComentarioCens cc = mapper.getDataForComentarioCens(comentarioRequestDto);
+		return null;       
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_NO_FILE_REST,UrlConstant.COMENTARIO_CENS_NO_FILE_REST+"/{comentarioId}"}, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentariosDto uploadComentarioSinArchivo(@PathVariable("id") Long comentarioId, 
+			@RequestBody ComentarioRequestDto comentarioRequestDto) throws Exception{		
 
 		return null;       
 	}

@@ -56,7 +56,8 @@ if ( typeof Object.create !== 'function' ) {
 			textarea.attr('name', 'text');
 			textarea.attr('placeHolder', 'Dejar mensaje...');
 			textarea.css('overflow', 'hidden');
-			textarea.attr("id","comentarios");
+			textarea.attr("id","txtComentarios");
+			textarea.attr("rows","5");
 			textarea.autogrow();
 
 //			textarea.on('keypress', function(e){
@@ -79,8 +80,8 @@ if ( typeof Object.create !== 'function' ) {
 			fileAcceptButton.attr("class","button");
 			fileAcceptButton.attr("id","comentarioPost");
 			fileAcceptButton.attr("type","submit");
-			fileAcceptButton.css("height","32px");
-			fileAcceptButton.css("top","-1px");
+			fileAcceptButton.css("font-size","10px");	
+			fileAcceptButton.css("right","5px");
 			fileAcceptButton.on("click",function(e){
 				e.preventDefault();
 				self.submitForm_(comment_id, form_elem.serialize());
@@ -90,9 +91,8 @@ if ( typeof Object.create !== 'function' ) {
 			fileInputButton.attr("class","button");
 			fileInputButton.attr("id","uploadComment");
 			fileInputButton.attr("type","button");
-			fileInputButton.css("height","32px");
-			fileInputButton.css("top","-1px");
-			
+			fileInputButton.css("font-size","10px");
+			fileInputButton.css("margin-right","12px");
 			var fileInput = $('<input/>');
 			fileInput.attr("id","fileUpload");
 			fileInput.attr("title","Seleccionar Archivo");
@@ -116,29 +116,29 @@ if ( typeof Object.create !== 'function' ) {
 		submitForm_: function(comment_id, form_data){
 			var self = this;
 
-			var url_input = self.options.url_input;
+			var url_input = self.options.url_input+"{nf}";
 
 			if(comment_id!=null) 	// form edit mode
 				url_input = self.options.url_input+'/'+comment_id;
 
 		     	  	
 
-    	  	if( $('#fileUploadUsed').val()==="true"){
-    	  		var data = fileUploadData;
+    	  	if( $('#fileUploadComentarioUsed').val()==="true"){
+    	  		var data = fileUploadComentarioData;
     			var formData = new FormData();
-        	  	formData.append("file",data.files[0]);    	  
-        	  	formData.append('properties', new Blob([form_data], { type: "application/json" }));
+        	  	formData.append("file",data.files[0]);    	          	  	
+        	  	self.options.arguments.mensaje = $('#txtComentarios').val();
         	  	formData.append('comentarioRequest',new Blob([JSON.stringify(self.options.arguments)],{type:"application/json"}));
     	  		return $.ajax({
-    	  		url:  url_input,
+    	  		url:  url_input.replace("{nf}",""),
     	    		type:  "POST",//post si o si sino no funciona
     	    	data: formData,
     	    	processData: false,  // tell jQuery not to process the data
     	    	contentType: false,   // tell jQuery not to set contentType
     	    	xhr: function() {  // Custom XMLHttpRequest
                 	var myXhr = $.ajaxSettings.xhr();
-                	if(myXhr.upload){ // Check if upload property exists
-                    	myXhr.upload.addEventListener('progress',progress, false); // For handling the progress of the upload
+                	if(myXhr.upload && self.options.uploadProgress!=null){ // Check if upload property exists
+                    	myXhr.upload.addEventListener('progress',self.options.uploadProgress, false); // For handling the progress of the upload
                 	}
                 	return myXhr;
             	},
@@ -163,12 +163,14 @@ if ( typeof Object.create !== 'function' ) {
     	  		self.doneFunction(result);
     	  		}); 
     	  }else{
-
+    			self.options.arguments.mensaje = $('#txtComentarios').val();
+    			
     	  		return $.ajax({
-					url: url_input,
-					data: form_data,
-					type: 'post',
+    	  			type:"POST",
+					url: url_input.replace("{nf}","nf"),
+					data: JSON.stringify(self.options.arguments),
 					dataType: 'json',
+					contentType: 'application/json',
                 	beforeSend: function(xhr, opts){
 
                     	$('textarea', self.$elem).attr("disabled", true);
@@ -582,7 +584,7 @@ if ( typeof Object.create !== 'function' ) {
 
 			if(self.$total_comment===undefined)
 			{
-				self.$total_comment = $('<div></div>');
+				self.$total_comment = $('<div style="display:none;"></div>'); //lo saco porque no me gusta
 				self.$total_comment.addClass('comment-length');
 			}
 			
@@ -745,7 +747,10 @@ if ( typeof Object.create !== 'function' ) {
 		auto_refresh: true,
 		refresh: null,
 		onComplete: null,
+		uploadProgress : null,
 		transition: 'fadeToggle',
 	};
 
 })(jQuery, window, document);
+
+

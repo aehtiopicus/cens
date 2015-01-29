@@ -1,4 +1,4 @@
-var fileUploadData;
+var fileUploadComentarioData;
 function fileUploadAssemble(){
 $(function () {
 	 
@@ -22,15 +22,14 @@ $(function () {
           
           add: function (e, data) {
         	  closeAllErrors()        	  
-              $('#fileUploadUsed').val("false");
-              $('#fileUploadData').val("");
+              $('#fileUploadComentarioUsed').val("false");
              
               if(!(/(\.|\/)(xlsx|xls|doc|docx|ppt|pptx|pps|ppsx|pdf)$/i).test(data.files[0].name)){
             	 alert("Tipo no Soportado");
             	  return false;
               }              
-              $('#fileUploadUsed').val("true");
-              fileUploadData = data;                            
+              $('#fileUploadComentarioUsed').val("true");
+              fileUploadComentarioData = data;                            
             
           },
           submit: function(event,data){
@@ -45,7 +44,7 @@ $(function () {
           cache: false,
           autoUpload: false,
    
-          dropZone: $('body') 
+          dropZone: $('#uploadComment') 
     }).on('always', function (e, data) {
         var currentFile = data.files[data.index];
         if (data.files.error && currentFile.error) {
@@ -54,33 +53,4 @@ $(function () {
         }
       });        
     });
-}
-function progress (data) {
-    var progress = parseInt(data.loaded / data.total * 100, 10);
-    $( "#progressbar" ).progressbar( "option", "value", progress );
-};
-function guardarPrograma(){
-	if( $('#fileUploadUsed').val()==="true"){
-		 $( "#progressbar" ).progressbar( "option", "value", 0 );
-		 $(".progress-label").text( "" );		
-		$("#guardarPrograma").dialog("open");
-	}else{
-		guardarSinArchivo();
-	}
-};
-
-function cargarData(){	
-	var model = {
-  			comentario: $('#nombre').val().length===0 ? null : $('#nombre').val(),
-  			cantCartillas:  $('#cantCartillas').val().length===0 ? null : $('#cantCartillas').val(),
-  			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
-  			profesorId : profesorId
-  			
-  		};
-	
-	var post =$('#id').length == 0;
-  	if(!post){
-  		model.id = $('#id').val().length===0 ? null : $('#id').val();
-  	}
-  	return JSON.stringify(model);
 }

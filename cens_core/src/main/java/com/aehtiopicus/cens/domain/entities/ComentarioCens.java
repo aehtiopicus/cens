@@ -38,8 +38,10 @@ public class ComentarioCens implements Serializable{
 	
 	@Column(length=1000)
 	private String comentario;
-	
+	//PROGRAMA,MATERIAL...
 	private Long tipoId;
+	
+	private Boolean primero = false;
 	
 	@Enumerated(EnumType.STRING)
 	private ComentarioType tipoComentario;
@@ -152,6 +154,14 @@ public class ComentarioCens implements Serializable{
 
 	public void setChildren(List<ComentarioCens> children) {
 		this.children = children;
+	}
+
+	public Boolean getPrimero() {
+		return primero;
+	}
+
+	public void setPrimero(Boolean primero) {
+		this.primero = primero;
 	}
 
 

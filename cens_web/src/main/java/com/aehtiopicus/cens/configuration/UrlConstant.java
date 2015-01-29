@@ -169,4 +169,5 @@ public class UrlConstant {
 	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";
 	/*Comentarios*/
 	public static final String COMENTARIO_CENS_REST="/comentario/{id}/comments/list";
+	public static final String COMENTARIO_CENS_NO_FILE_REST="/comentario/{id}/comments/listnf";
 }

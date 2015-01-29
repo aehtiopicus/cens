@@ -5,10 +5,10 @@ import java.util.List;
 
 public class ComentarioDescriptionDto {
 
-	private String comment_id;
-	private String parent_id;
-	private String in_reply_to;
-	private String element_id;
+	private Long comment_id;
+	private Long parent_id;
+	private Long in_reply_to;
+	private Long element_id;
 	private String created_by;
 	private String fullname;
 	private String picture;
@@ -17,28 +17,29 @@ public class ComentarioDescriptionDto {
 	private List<CommentarioAttachmentDto> attachments = null;
 	private List<ComentarioDescriptionDto> childrens = new ArrayList<ComentarioDescriptionDto>();
 	
-	public String getComment_id() {
+	
+	public Long getComment_id() {
 		return comment_id;
 	}
-	public void setComment_id(String comment_id) {
+	public void setComment_id(Long comment_id) {
 		this.comment_id = comment_id;
 	}
-	public String getParent_id() {
+	public Long getParent_id() {
 		return parent_id;
 	}
-	public void setParent_id(String parent_id) {
+	public void setParent_id(Long parent_id) {
 		this.parent_id = parent_id;
 	}
-	public String getIn_reply_to() {
+	public Long getIn_reply_to() {
 		return in_reply_to;
 	}
-	public void setIn_reply_to(String in_reply_to) {
+	public void setIn_reply_to(Long in_reply_to) {
 		this.in_reply_to = in_reply_to;
 	}
-	public String getElement_id() {
+	public Long getElement_id() {
 		return element_id;
 	}
-	public void setElement_id(String element_id) {
+	public void setElement_id(Long element_id) {
 		this.element_id = element_id;
 	}
 	public String getCreated_by() {

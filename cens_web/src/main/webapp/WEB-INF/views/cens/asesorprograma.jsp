@@ -53,8 +53,7 @@ var profesorId;
 					onclick="window.location='<%=request.getContextPath()%>/mvc/profesor/asignaturaList'">Cancelar</button>
 			</div>
 
-			<input type="hidden" id="fileUploadUsed" />
-			<input type="hidden" id="fileUploadData" />
+			<input type="hidden" id="fileUploadComentarioUsed" />
 			<input type="hidden" id="asesorId" />			
 			<input type="hidden" id="asesorName" />
 			<input type="hidden" id="btnGuardarPrograma" />

@@ -11,7 +11,7 @@
 }
 
 .comments-display{
-padding-left: 148px;
+
 }
 
 .comments-display .dot{
@@ -56,7 +56,7 @@ ul.posted-comments li {
 }
 
 .posted-comments-postbox .avatar{
-
+width: 10%;
 }
 
 .posted-comments-postbox .form{

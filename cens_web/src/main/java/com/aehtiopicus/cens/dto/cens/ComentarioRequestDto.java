@@ -9,6 +9,10 @@ public class ComentarioRequestDto {
 	private Long tipoId;
 	private Long usuarioId;
 	private PerfilTrabajadorCensType usuarioTipo;
+	private String mensaje;
+	private Long id;
+	private Long parentId;
+	
 	
 	public ComentarioType getTipoType() {
 		return tipoType;
@@ -33,6 +37,24 @@ public class ComentarioRequestDto {
 	}
 	public void setUsuarioTipo(PerfilTrabajadorCensType usuarioTipo) {
 		this.usuarioTipo = usuarioTipo;
+	}
+	public String getMensaje() {
+		return mensaje;
+	}
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 	
 	
