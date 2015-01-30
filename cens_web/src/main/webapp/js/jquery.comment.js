@@ -102,12 +102,13 @@ if ( typeof Object.create !== 'function' ) {
 			fileInputButton.css("font-size","10px");
 			fileInputButton.css("margin-right","12px");
 			var fileInput = $('<input/>');
-			fileInput.attr("id","fileUpload");
+			fileInput.attr("id","fileUpload"+randomIdGenerated);
 			fileInput.attr("title","Seleccionar Archivo");
 			fileInput.attr("type","file");
 			fileInput.attr("class","custom-file-input");
 			fileInput.attr("name","file");
 			fileInput.css("width","50px");
+			fileInput.addClass("fileInputClass");
 			fileInput.attr("accept",".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf");
 			
 			fileInputButton.append(fileInput);
@@ -176,6 +177,7 @@ if ( typeof Object.create !== 'function' ) {
             	}
     	  	}).done( function(result){
 
+    	  	  $('#fileUploadComentarioUsed').val("false");
                 if(result.success!=undefined)
                 {
                     if(result.success===false)
@@ -192,7 +194,7 @@ if ( typeof Object.create !== 'function' ) {
                     }
                     else
                     {
-                    	if(result.comment_id!=null)	// edit mode
+                    	if(result.comment_id_original!=null)	// edit mode
                     	{
                     		var item = $('#posted-'+result.comment_id, self.$elem);
                     		
@@ -200,9 +202,21 @@ if ( typeof Object.create !== 'function' ) {
                     		item_txt.html(result.text);
                     		item_txt.toggle();
 
-                    		var item_form_edit = $('.posted-comment-form-edit', item);
+                    		var item_form_edit = $('.posted-comment-form-edit:visible', item);
+                    		var item_delete_attachment = $('.eliminar-archivo:visible', item);
+                    		item_delete_attachment.toggle();
                     		item_form_edit.toggle();
-
+                    		if(item_form_edit.parent().children('.linkTextDiv').children().length == 0){
+                    			link_text_div = item_form_edit.parent().children('.linkTextDiv');
+                    			link_text_file_remove =  $("<label class='eliminar-archivo' style='display:none;'></label>");
+                				link_text_file_remove.on("click",function(){
+                					self.removeAttachment(self.options.url_remove_attachment,result.element_id);
+                				});
+                				link_text ='<a download ="'+result.attachments+'"class="comments-link bold" href="'+self.options.url_open_attachment.replace("{id}",result.element_id)+'">Archivo Adjunto</a>';
+                				link_text_div.append(link_text);
+                				link_text_div.append(link_text_file_remove);	
+                    		}
+                    		
                     	}
                     	else
                     	{
@@ -292,7 +306,7 @@ if ( typeof Object.create !== 'function' ) {
                         }
                         else
                         {
-                        	if(result.comment_id!=null)	// edit mode
+                        	if(result.comment_id_original!=null)	// edit mode
                         	{
                         		var item = $('#posted-'+result.comment_id, self.$elem);
                         		
@@ -300,7 +314,9 @@ if ( typeof Object.create !== 'function' ) {
                         		item_txt.html(result.text);
                         		item_txt.toggle();
 
-                        		var item_form_edit = $('.posted-comment-form-edit', item);
+                        		var item_form_edit = $('.posted-comment-form-edit:visible', item);
+                        		var item_delete_attachment = $('.eliminar-archivo:visible', item);
+                        		item_delete_attachment.toggle();
                         		item_form_edit.toggle();
 
                         	}
@@ -542,9 +558,21 @@ if ( typeof Object.create !== 'function' ) {
 			post_txt.html(comment_info.text);			
 			post_body.append(post_txt);
 			
+			var link_text_div =$('<div class="linkTextDiv"></div>');
+			var link_text;
+			var link_text_file_remove;
 			if(comment_info.attachments!==null){
-				post_body.append('<p><a download ="'+comment_info.attachments+'"class="comments-link" href="'+self.options.url_open_attachment.replace("{id}",comment_info.element_id)+'">Archivo Adjunto</a>');
+				
+				link_text_file_remove =  $("<label class='eliminar-archivo' style='display:none;'></label>");
+				link_text_file_remove.on("click",function(){
+					self.removeAttachment(self.options.url_remove_attachment,comment_info.element_id);
+				});
+				link_text ='<a download ="'+comment_info.attachments+'"class="comments-link bold" href="'+self.options.url_open_attachment.replace("{id}",comment_info.element_id)+'">Archivo Adjunto</a>';
+				link_text_div.append(link_text);
+				link_text_div.append(link_text_file_remove);				
 			}
+			
+			post_body.append(link_text_div);
 
 			
 			post_container.append(post_body);
@@ -572,8 +600,7 @@ if ( typeof Object.create !== 'function' ) {
 				var edit = $('<a>Editar</a>');
 				edit.attr('href','#');
 				edit.attr('title','Edit');
-				edit.css('color','#0088cc');
-				edit.css('text-decoration','none');
+				edit.addClass('comments-link');
 				
 
 				edit_container.append(edit);
@@ -590,12 +617,19 @@ if ( typeof Object.create !== 'function' ) {
 				edit.on('click', function(e){
 					e.preventDefault();
 					post_txt.toggle();
-
+				
+					
+					if(link_text_div.children().length != 0){
+						link_text_div.children('label').toggle();		
+					}
+							
 					form_edit_container.toggle();
 					var textarea = $('textarea', form_edit_container);
 					textarea.val(post_txt.html());
 					textarea.autogrow();
 					textarea.focus();
+					$('#accordion .button').button();
+					fileUploadAssemble();
 				});				
 			}
 
@@ -608,8 +642,8 @@ if ( typeof Object.create !== 'function' ) {
 				var delete_ = $('<a>Borrar</a>');
 				delete_.attr('href','#');
 				delete_.attr('title','Delete');
-				delete_.css('color','#0088cc');
-				delete_.css('text-decoration','none');
+				delete_.addClass('comments-link');
+				
 
 				delete_container.append(delete_);
 
@@ -637,8 +671,7 @@ if ( typeof Object.create !== 'function' ) {
 				var reply = $('<a>Responder</a>');
 				reply.attr('href','#');
 				reply.attr('title', 'Responder');
-				reply.css('color','#0088cc');
-				reply.css('text-decoration','none');
+				reply.addClass('comments-link');
 
 				reply_container.append(reply);
 
@@ -671,6 +704,7 @@ if ( typeof Object.create !== 'function' ) {
 					e.preventDefault();
 					postbox.toggle();
 					$('#accordion .button').button();
+					fileUploadAssemble();
 				});				
 
 			}
@@ -773,7 +807,8 @@ if ( typeof Object.create !== 'function' ) {
 
 				var p = $('<p></p>');
 			
-				var message = $('<span>¿Desea eliminar este mensaje?</span>');
+				var message = $('<span></span>');
+				message.html('&iquest;Desea eliminar este mensaje?');
 
 			
 				p.append(message);
@@ -785,7 +820,7 @@ if ( typeof Object.create !== 'function' ) {
 		        autoOpen: true,
 		        modal: true,
 		        buttons: {
-		            Si: function () {
+		            Ok: function () {
 		            	var form_data = { 'comment_id': comment_id };
 						
 						$.ajax({
@@ -830,6 +865,86 @@ if ( typeof Object.create !== 'function' ) {
 
 		limit_: function( obj, count ) {
 			return obj.slice( 0, count );
+		},
+		removeAttachment:function(url,commentId){
+			
+			$.ajax({
+				url: url.replace("{id}",commentId),											
+				type: 'DELETE',
+				dataType: 'json',
+			}).done( function(result){
+
+                if(result.success!=undefined)
+                {
+                    if(result.success===false)
+                    {
+                        // error
+                        $.each(result, function(key, val){
+                             // check error if any
+                            if(val.error!=undefined)
+                            {
+                                $show_warning_(val.error);
+                                return false;
+                            }
+                        });
+                    }
+                    else
+                    {
+                    	if(result.comment_id_original!=null)	// edit mode
+                    	{
+                    		var item = $('#posted-'+result.comment_id, self.$elem);
+                    		
+                    		var item_txt = $('.posted-comment-txt:hidden', item);
+                    		item_txt.html(result.text);
+                    		item_txt.toggle();
+
+                    		var item_form_edit = $('.posted-comment-form-edit:visible', item);                    		                    		
+                    		item_form_edit.toggle();                    		
+                    		if(item_form_edit.parent().children('.linkTextDiv').children().length != 0){
+                    			item_form_edit.parent().children('.linkTextDiv').empty();
+                    		}
+
+                    	}
+                    	else
+                    	{
+                        	result.fullname = self.user_info_.fullname;
+                        	result.picture = pagePath+self.user_info_.picture;
+
+                        	// add new itemlist
+    						var itemlist = self.buildItemList_( result );
+
+    						if(result.parent_id===undefined)
+    	                    	self.$rootlist.prepend(itemlist);
+    	                    else
+    	                    {
+    	                    	if(result.parent_id==0)
+    		                    	self.$rootlist.prepend(itemlist);
+    	                    	else
+    	                    	{
+    		                    	var id = 'posted-comment-child-'+result.parent_id;
+
+    		                    	//prepend the new comment
+    		                    	var the_child = $('ul[id="'+id+'"]', self.$elem).prepend(itemlist);
+
+    		                    	// hide the form post
+    		                    	$('div.posted-comments-postbox:visible', the_child).hide();
+    	                    	}
+    	                    }
+
+                        	// update total comment
+                        	self.total_comment++;
+                        	self.$total_comment.html(self.total_comment+' '+self.options.title);
+                    	}
+
+                    	// clear and enable textarea
+                        $('textarea', self.$elem).val('');                    	
+                        $('textarea', self.$elem).attr("disabled", false);  	                    
+                    }
+                }                   
+
+
+            }
+        			);
 		}
 	};
 
@@ -849,6 +964,7 @@ if ( typeof Object.create !== 'function' ) {
 		url_get: '#',
 		url_input: '#',
 		url_delete: '#',
+		url_remove_attachment:null,
 		wrapEachWith: '<li></li>',
 		arguments: null,
 		limit: 10,

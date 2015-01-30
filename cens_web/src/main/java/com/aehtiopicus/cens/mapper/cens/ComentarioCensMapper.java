@@ -131,10 +131,12 @@ public class ComentarioCensMapper {
 				if(CollectionUtils.isNotEmpty(cc.getChildrens())){
 					childrens = new ArrayList<ComentarioDescriptionDto>();
 					for(ComentarioCens ccInterno : cc.getChildrens()){
-						ComentarioDescriptionDto ccChildren = createInternalComentarios(ccInterno);
-						ccChildren.setParent_id(ccInterno.getId());
-						ccChildren.setIn_reply_to(cc.getFullName());
-						childrens.add(ccChildren);
+						if(!ccInterno.getBaja()){
+							ComentarioDescriptionDto ccChildren = createInternalComentarios(ccInterno);
+							ccChildren.setParent_id(ccInterno.getId());
+							ccChildren.setIn_reply_to(cc.getFullName());
+							childrens.add(ccChildren);
+						}
 					}
 					dto.setChildrens(childrens);
 				

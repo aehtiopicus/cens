@@ -18,54 +18,7 @@ var profesorId;
 			<h3 id="titulo">Revisi&oacute;n de Programa <span class="cursoFont"> ${asignatura}</span></h3>
 	</div>
 			
-			
-		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
-		
-			<div>
-				<label for="estado">Estado:</label>
-				 <select id="estado">
-			   <option value=""/> 
-		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >
-		         	<c:if test="${estado.equals(estadoRevision) }">
-		           	<option value="${estadoRevision}" selected> ${estadoRevision} </option>
-		           </c:if>
-		           <option value="${estadoRevision}"> ${estadoRevision} </option>
-		        </c:forEach>
-	        </select>
-			</div>
-			
-			
-			<div>
-				<label for="visualizarPrograma" style="float: left;">Programa:</label>
-				<button class="button" type="button"
-					style="width: 457px;left: 3px;" id="btnVisualizar" onclick="openPrograma();" >Visualizar Programa Adjunto</button>
-			</div>
-		<h3 class="subtitulo">Comentarios</h3>
-	
-			<div id="accordion" style="height: 100%;">
-				
-			</div>
-
-			<div class="footerForm">
-				<button class="button" type="button" onclick="guardarPrograma();" disabled>Guardar</button>
-
-				<button id="cancelar" class="button" type="button"
-					onclick="window.location='<%=request.getContextPath()%>/mvc/profesor/asignaturaList'">Cancelar</button>
-			</div>
-
-			<input type="hidden" id="fileUploadComentarioUsed" />
-			<input type="hidden" id="asesorId" />			
-			<input type="hidden" id="asesorName" />
-			<input type="hidden" id="btnGuardarPrograma" />
-			<c:if test="${id != null}">
-				<input type="hidden" id="id" value="${id}" />
-			</c:if>
-		
-</fieldset>
-
-<div id="estadoPrograma" class="dialog" title="Estado del Programa">
-<fieldset>
-	
+			<h3 class="subtitulo">Datos del Programa</h3>
 			<div>
 				<label for="nombre">Nombre:</label> <input type="text" id="nombre"
 					placeholder="Nombre del programa" readonly/>
@@ -84,12 +37,50 @@ var profesorId;
 					type="text" id="cantCartillas" maxlength="2" class="entero" readonly/>
 			</div>
 			<div>
-				<label for="programaadjunto">Programa Adjunto:</label>
-				<a id="downloadPrograma"><input type="text" id="programaadjunto"
-					readonly="readonly" placeholder="No existe archivo"/></a>
+				<label for="downloadPrograma">Programa Adjunto:</label>
+				<a id="downloadPrograma" class="comments-link bold"></a>
 			</div>
-</fieldset>			
-</div>
+		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
+		
+			<div>
+				<label for="estado">Estado:</label>
+				 <select id="estado">			   
+		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >
+		         	<c:if test="${estado.equals(estadoRevision) }">
+		           	<option value="${estadoRevision}" selected> ${estadoRevision} </option>
+		           </c:if>
+		           <option value="${estadoRevision}"> ${estadoRevision} </option>
+		        </c:forEach>
+	        </select>
+			</div>
+
+			
+			<div class="footerForm">
+				<button class="button" type="button" onclick="guardarPrograma();" disabled>Guardar</button>
+
+				<button id="cancelar" class="button" type="button"
+					onclick="window.location='<%=request.getContextPath()%>/mvc/profesor/asignaturaList'">Cancelar</button>
+			</div>
+			
+		<h3 class="subtitulo">Comentarios</h3>
+	
+			<div id="accordion" style="height: 100%;">
+				
+			</div>
+
+			
+
+			<input type="hidden" id="fileUploadComentarioUsed" />
+			<input type="hidden" id="asesorId" />			
+			<input type="hidden" id="asesorName" />
+			<input type="hidden" id="btnGuardarPrograma" />
+			<c:if test="${id != null}">
+				<input type="hidden" id="id" value="${id}" />
+			</c:if>
+		
+</fieldset>
+
+
 
 
 

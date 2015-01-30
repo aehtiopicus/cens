@@ -190,4 +190,15 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 		ftpComentarioCensService.leerComentario(fileLocationPath,os);
 		
 	}
+
+
+	@Override
+	@Transactional
+	public ComentarioCens deleteAttachment(Long comentarioId) {
+		ComentarioCens cc =comentarioCensRepository.findOne(comentarioId);		
+		fileCensService.deleteFileCensInfo(cc.getFileCensInfo());
+		comentarioCensRepository.removeFileInfo(cc);
+		cc.setFileCensInfo(null);
+		return cc;
+	}
 }

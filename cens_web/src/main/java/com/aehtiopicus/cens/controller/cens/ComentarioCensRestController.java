@@ -97,7 +97,9 @@ public class ComentarioCensRestController extends AbstractRestController{
 		cc = comentarioCensService.saveComentario(cc,file);
 		
 		ComentarioDescriptionDto dto =mapper.mapSingleComentario(cc);
-		dto.setComment_id(comentarioId);
+		if(comentarioId!=null){
+			dto.setComment_id_original(comentarioId);
+		}
 		return dto;
 		
 	
@@ -134,6 +136,17 @@ public class ComentarioCensRestController extends AbstractRestController{
 		}
 	    
 	    
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST+"/{id}/attachment"}, method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto deleteAttachment(@PathVariable("id") Long comentarioId) throws Exception{	
+						
+		ComentarioCens cc = comentarioCensService.deleteAttachment(comentarioId);		
+		ComentarioDescriptionDto dto =mapper.mapSingleComentario(cc);
+		dto.setSuccess(true);
+		dto.setComment_id(comentarioId);
+		return dto;
 	}
 	
 	

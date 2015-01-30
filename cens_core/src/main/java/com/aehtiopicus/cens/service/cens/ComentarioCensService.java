@@ -27,4 +27,6 @@ public interface ComentarioCensService {
 
 	public void getArchivoAdjunto(String string, OutputStream baos) throws CensException;
 
+	public ComentarioCens deleteAttachment(Long comentarioId);
+
 }

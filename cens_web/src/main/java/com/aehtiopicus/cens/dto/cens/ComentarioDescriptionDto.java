@@ -6,7 +6,8 @@ import java.util.List;
 public class ComentarioDescriptionDto {
 
 	private boolean success;
-	private Long comment_id;	
+	private Long comment_id;
+	private Long comment_id_original;
 	private Long parent_id;
 	private String in_reply_to;
 	private Long element_id;
@@ -91,6 +92,12 @@ public class ComentarioDescriptionDto {
 	}
 	public void setAttachments(String attachments) {
 		this.attachments = attachments;
+	}
+	public Long getComment_id_original() {
+		return comment_id_original;
+	}
+	public void setComment_id_original(Long comment_id_original) {
+		this.comment_id_original = comment_id_original;
 	}
 
 	

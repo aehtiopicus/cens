@@ -101,3 +101,16 @@ ul.posted-comment-childs .avatar img{
 .pull-left{
 	float:left;
 }
+
+.eliminar-archivo{
+	padding-top: 1px;
+margin-top: 0px;
+margin-left: 5px;
+display: inline-block;
+width: auto;
+height: 11px;
+background-position: 14% 85%;
+background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png');
+}
+
+

@@ -8,6 +8,7 @@ html,body{
 html,body,table{
 	font-size: 12px;
 	font-family: "arial", sans-serif;
+	font-family: cursive;
 }
 
 .sinPermisos{
@@ -996,7 +997,17 @@ padding-right: 40px;
     font-size: 10px !important;
   }
 }
+
+
 .comments-link{
-	color:#0088cc;
+	color: #005577;
 	text-decoration:none;
+}
+
+.bold{
+	font-weight: 900;
+}
+
+#accordion{
+	
 }

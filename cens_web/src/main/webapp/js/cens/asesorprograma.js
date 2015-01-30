@@ -2,30 +2,39 @@
 jQuery(document).ready(function () {
 	
 
-   $( "#estadoPrograma" ).dialog({
-		autoOpen: false,
-		width: 700,			
-		modal:true,
-		resizable:false,
-		buttons: [
-			{
-				text: "Ok",
-				click: function() {
-					$('#btnGuardarPrograma').trigger("click");
-				}
+
+	if(!isNaN(pageId())){
+		startSpinner();
+		$.ajax({
+			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
+			type: "GET",	    	    
+			contentType :'application/json',
+			dataType: "json",    
+			success : function(result){
+				$('#id').val(result.id);
+				$('#nombre').val(result.nombre);
+				$('#descripcion').val(result.descripcion);
+				$('#cantCartillas').val(result.cantCartillas);
+				$('#profesor').val(result.profesorData);
+				profesorId = result.profesorId;
+									
+				$('#downloadPrograma').prop("download",result.programaAdjunto);
+				$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");
+				$('#downloadPrograma').html("Descargar el programa "+result.programaAdjunto);
+				stopSpinner();				
 			},
-			{
-				text: "Cancelar",
-				click: function() {
-					$( this ).dialog( "close" );	
-					$( "#progressbar" ).progressbar( "option", "value", 0 );
-					 $(".progress-label").text( "" );
-					
+			error: function(value){
+				errorData = errorConverter(value);
+				if(errorData.errorDto != undefined && value.errorDto){
+					alert(errorConverter(value).message);
+				}else{
+					alert("Se produjo un error el servidor");
 				}
-			}
-		]
-	});
-   
+				stopSpinner();
+			}		
+		});
+	}
+	  
   
 
    $('#accordion').comment({
@@ -34,6 +43,7 @@ jQuery(document).ready(function () {
        url_input: pagePath+'/comentario/comments/list',
        url_delete: pagePath+'/comentario/comments/list',
        url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
+       url_remove_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
        arguments:{tipoType:"PROGRAMA",tipoId:programaId,usuarioId:asesorId,usuarioTipo:"ASESOR"},
        limit: 10,
        auto_refresh: false,
@@ -52,39 +62,8 @@ jQuery(document).ready(function () {
 });
 
 
-function openPrograma(){
-	if(!isNaN(pageId())){
-		startSpinner();
-		$.ajax({
-			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
-			type: "GET",	    	    
-			contentType :'application/json',
-			dataType: "json",    
-			success : function(result){
-				$('#id').val(result.id);
-				$('#nombre').val(result.nombre);
-				$('#descripcion').val(result.descripcion);
-				$('#cantCartillas').val(result.cantCartillas);
-				$('#profesor').val(result.profesorData);
-				profesorId = result.profesorId;
-				$('#programaadjunto').val(result.programaAdjunto);					
-				$('#downloadPrograma').prop("download",result.programaAdjunto);
-				$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");					
-				stopSpinner();
-				$('#estadoPrograma').dialog('open');
-			},
-			error: function(value){
-				errorData = errorConverter(value);
-				if(errorData.errorDto != undefined && value.errorDto){
-					alert(errorConverter(value).message);
-				}else{
-					alert("Se produjo un error el servidor");
-				}
-				stopSpinner();
-			}		
-		});
-	}
-}
+
+
 
 
 

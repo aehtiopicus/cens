@@ -2,7 +2,7 @@ var fileUploadComentarioData;
 function fileUploadAssemble(){
 $(function () {
 	 
-    $('#fileUpload').fileupload({
+    $('.fileInputClass').fileupload({
     	
     	  url:null,
     	  

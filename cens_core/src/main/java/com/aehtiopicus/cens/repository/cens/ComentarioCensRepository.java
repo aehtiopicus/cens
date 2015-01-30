@@ -24,4 +24,8 @@ public interface ComentarioCensRepository extends JpaRepository<ComentarioCens, 
 	@Query("UPDATE ComentarioCens cc SET baja = true WHERE cc.id = :comentarioId")
 	public int softDelete(@Param("comentarioId")Long comentarioId);
 
+	@Modifying
+	@Query("UPDATE ComentarioCens cc SET fileCensInfo = null WHERE cc = :comentario")
+	public int removeFileInfo(@Param("comentario")ComentarioCens cc);
+
 }
