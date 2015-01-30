@@ -15,7 +15,7 @@ public class ComentarioDescriptionDto {
 	private String picture;
 	private String posted_date;
 	private String text;
-	private List<CommentarioAttachmentDto> attachments = null;
+	private String attachments;
 	private List<ComentarioDescriptionDto> childrens = new ArrayList<ComentarioDescriptionDto>();
 	
 	
@@ -73,12 +73,7 @@ public class ComentarioDescriptionDto {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public List<CommentarioAttachmentDto> getAttachments() {
-		return attachments;
-	}
-	public void setAttachments(List<CommentarioAttachmentDto> attachments) {
-		this.attachments = attachments;
-	}
+	
 	public List<ComentarioDescriptionDto> getChildrens() {
 		return childrens;
 	}
@@ -90,6 +85,12 @@ public class ComentarioDescriptionDto {
 	}
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+	public String getAttachments() {
+		return attachments;
+	}
+	public void setAttachments(String attachments) {
+		this.attachments = attachments;
 	}
 
 	

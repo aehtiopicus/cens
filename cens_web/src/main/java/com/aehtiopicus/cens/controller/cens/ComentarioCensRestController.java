@@ -1,6 +1,10 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -101,6 +105,35 @@ public class ComentarioCensRestController extends AbstractRestController{
 	
 	private MiembroCens findMiembroCens(ComentarioRequestDto comentarioRequestDto)throws CensException{
 		return comentarioCensService.getMiembroCensByPerfilTypeAndRealId(comentarioRequestDto.getUsuarioTipo(), comentarioRequestDto.getUsuarioId());
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = {UrlConstant.COMENTARIO_CENS_REST+"/{comentarioId}"}, method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ComentarioDescriptionDto delete(@PathVariable("comentarioId") Long comentarioId) throws Exception{	
+		ComentarioDescriptionDto dto = new ComentarioDescriptionDto();
+				
+		comentarioCensService.delete(comentarioId);
+		dto.setSuccess(true);
+		return dto;
+	}
+	
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.COMENTARIO_CENS_REST+"/{id}/attachment", method = RequestMethod.GET)
+	public void downloadArchivoComentario(@PathVariable("id") Long comentarioId, HttpServletResponse response) throws CensException {
+		ComentarioCens cc = comentarioCensService.findById(comentarioId);
+		if(cc.getFileCensInfo()!=null){
+			try{
+				OutputStream baos =  response.getOutputStream();
+				comentarioCensService.getArchivoAdjunto(cc.getFileCensInfo().getFileLocationPath()+cc.getFileCensInfo().getRealFileName(),baos);
+	    		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+	    		response.setHeader("Content-Disposition", "attachment; filename="+cc.getFileCensInfo().getFileName());
+			}catch(IOException e){
+				throw new CensException("Error al obtener la cadena de salida");
+			}
+		}
+	    
+	    
 	}
 	
 	

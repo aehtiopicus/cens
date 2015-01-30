@@ -4,7 +4,8 @@ public enum FileCensInfoType {
 
 	PROGRAMA,
 	MATERIAL,
-	SUGERENCE,
+	SUGERENCIA,
+	COMENTARIO,
 	FOTO,
 	CV;
 }

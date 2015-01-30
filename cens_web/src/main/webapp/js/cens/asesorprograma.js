@@ -1,17 +1,5 @@
 
 jQuery(document).ready(function () {
-
-
-	$("#progressbar").progressbar({
-     value: 0,
-     change: function() {
-    	 $(".progress-label").text($("#progressbar").progressbar( "value" ) + "%" );
-     },
-     complete: function() {
-    	 $(".progress-label").text( "Carga completa!" );
-    	 startSpinner();
-     }
-   });
 	
 
    $( "#estadoPrograma" ).dialog({
@@ -38,50 +26,14 @@ jQuery(document).ready(function () {
 		]
 	});
    
-   $( "#comentariosPrograma" ).dialog({
-		autoOpen: false,
-		width: 700,
-		modal:true,
-		resizable:false,
-		buttons: [
-			{
-				text: "Ok",
-				click: function() {
-					 $.ajax({
-						    url:  $('#downloadPrograma').prop("href"),
-						    type: 'DELETE',						    
-						    dataType:"json",
-							contentType:"application/json", 
-						    success : function(result){    		 
-								 location.href = location.href;
-						    },
-						    error: function(value){
-						    	$( this ).dialog( "close" );	
-						    	 errorData = errorConverter(value);
-									if(errorData.errorDto != undefined && value.errorDto){
-										alert(errorConverter(value).message);
-									}else{
-										 alert("Se produjo un error el servidor");
-									}
-						    }
-						  });  
-				}
-			},
-			{
-				text: "Cancelar",
-				click: function() {
-					$( this ).dialog( "close" );	
-					
-				}
-			}
-		]
-	});
+  
 
    $('#accordion').comment({
        title: 'Comentarios',
        url_get: pagePath+'/comentario/comments/list',
        url_input: pagePath+'/comentario/comments/list',
-       url_delete: pagePath+'/comentario/id/1/comments/delete',
+       url_delete: pagePath+'/comentario/comments/list',
+       url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
        arguments:{tipoType:"PROGRAMA",tipoId:programaId,usuarioId:asesorId,usuarioTipo:"ASESOR"},
        limit: 10,
        auto_refresh: false,

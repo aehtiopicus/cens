@@ -70,7 +70,8 @@ width: 10%;
 
 .posted-comment-container{
 	margin-left: 10px;
-	min-width:85%;
+	min-width:75%;
+	width: 90%;
 }
 
 .posted-comment-container .posted-comment-head{

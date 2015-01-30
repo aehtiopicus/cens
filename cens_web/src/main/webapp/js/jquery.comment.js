@@ -34,7 +34,7 @@ if ( typeof Object.create !== 'function' ) {
 			var self = this;
 			
 			var form_elem = $('<form></form>');
-			form_elem.attr("id","formId"+(parent_id!==null ? parent_id :'')+(comment_id!==null ? comment_id :''));
+			form_elem.attr("id","formId"+randomId());
 
 			if(comment_id!=null)
 				form_elem.attr('action', self.options.url_input+'/'+comment_id);
@@ -52,11 +52,12 @@ if ( typeof Object.create !== 'function' ) {
 				form_elem.append(parent_id_field);
 			}
 
+			randomIdGenerated = randomId();
 			var textarea = $('<textarea></textarea>');
 			textarea.attr('name', 'text');
 			textarea.attr('placeHolder', 'Dejar mensaje...');
 			textarea.css('overflow', 'hidden');
-			textarea.attr("id","txtComentarios"+(parent_id!==null ? parent_id :'')+(comment_id!==null ? comment_id :''));
+			textarea.attr("id","txtComentarios"+randomIdGenerated);
 			textarea.attr("rows","5");
 			textarea.autogrow();
 
@@ -78,14 +79,21 @@ if ( typeof Object.create !== 'function' ) {
 			
 			var fileAcceptButton = $('<button>Dejar Comentario</button>');
 			fileAcceptButton.attr("class","button");
-			fileAcceptButton.attr("id","comentarioPost");
+			fileAcceptButton.attr("id","comentarioPost"+randomIdGenerated);
 			fileAcceptButton.attr("type","submit");
 			fileAcceptButton.css("font-size","10px");	
 			fileAcceptButton.css("right","5px");
 			fileAcceptButton.on("click",function(e){
 				e.preventDefault();
-				self.submitForm_(comment_id, parent_id);
+				self.submitForm_(comment_id, parent_id,$(e.currentTarget).attr("id").replace("comentarioPost",""));
 			})
+			var fileBorrarArchivo = $('<button>Eliminar Archivo</button>');
+			fileBorrarArchivo.attr("class","button");
+			fileBorrarArchivo.attr("id","comentarioPost"+randomIdGenerated);
+			fileBorrarArchivo.attr("type","submit");
+			fileBorrarArchivo.css("font-size","10px");	
+			fileBorrarArchivo.css("right","5px");
+			fileBorrarArchivo.css("display","none");
 			
 			var fileInputButton = $('<button>Archivo</button>');
 			fileInputButton.attr("class","button");
@@ -103,6 +111,7 @@ if ( typeof Object.create !== 'function' ) {
 			fileInput.attr("accept",".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf");
 			
 			fileInputButton.append(fileInput);
+			fileInputMainDiv.append(fileBorrarArchivo);
 			fileInputMainDiv.append(fileInputButton);
 			fileInputMainDiv.append(fileAcceptButton);
 			fileInputArchivos.append(fileInputMainDiv);
@@ -113,7 +122,7 @@ if ( typeof Object.create !== 'function' ) {
 			return form_elem;
 		},
 
-		submitForm_: function(comment_id, form_data){
+		submitForm_: function(comment_id, form_data,randomIdGenerated){
 			var self = this;
 
 			var url_input = self.options.url_input+"{nf}";
@@ -127,7 +136,12 @@ if ( typeof Object.create !== 'function' ) {
     	  		var data = fileUploadComentarioData;
     			var formData = new FormData();
         	  	formData.append("file",data.files[0]);    	          	  	        	  	
-        	  	self.options.arguments.mensaje = $('#txtComentarios'+(form_data!==null ? form_data :'')+(comment_id!==null ? comment_id :'')).val();
+        	  	self.options.arguments.mensaje = $('#txtComentarios'+randomIdGenerated).val();
+        	  	if(self.options.arguments.mensaje.length===0){
+       	  		 alert("Deje un mensaje");
+       	  		 return false;
+       	  	}
+        	  	
     			self.options.arguments.parentId =form_data;
         	  	formData.append('comentarioRequest',new Blob([JSON.stringify(self.options.arguments)],{type:"application/json"}));
     	  		return $.ajax({
@@ -231,8 +245,12 @@ if ( typeof Object.create !== 'function' ) {
             }
     	  			); 
     	  }else{
-    			self.options.arguments.mensaje = $('#txtComentarios'+(form_data!==null ? form_data :'')+(comment_id!==null ? comment_id :'')).val();
+    			self.options.arguments.mensaje = $('#txtComentarios'+randomIdGenerated).val();
     			self.options.arguments.parentId =form_data;
+    			if(self.options.arguments.mensaje.length===0){
+        	  		 alert("Deje un mensaje");
+        	  		 return false;
+        	  	}
     	  		return $.ajax({
     	  			type:"POST",
 					url: url_input.replace("{nf}","nf"),
@@ -521,9 +539,13 @@ if ( typeof Object.create !== 'function' ) {
 			// posted-comment-txt
 			var post_txt = $('<div></div>');
 			post_txt.addClass('posted-comment-txt');
-			post_txt.html(comment_info.text);
-
+			post_txt.html(comment_info.text);			
 			post_body.append(post_txt);
+			
+			if(comment_info.attachments!==null){
+				post_body.append('<p><a download ="'+comment_info.attachments+'"class="comments-link" href="'+self.options.url_open_attachment.replace("{id}",comment_info.element_id)+'">Archivo Adjunto</a>');
+			}
+
 			
 			post_container.append(post_body);
 
@@ -586,6 +608,8 @@ if ( typeof Object.create !== 'function' ) {
 				var delete_ = $('<a>Borrar</a>');
 				delete_.attr('href','#');
 				delete_.attr('title','Delete');
+				delete_.css('color','#0088cc');
+				delete_.css('text-decoration','none');
 
 				delete_container.append(delete_);
 
@@ -748,12 +772,10 @@ if ( typeof Object.create !== 'function' ) {
 				delete_confirm.attr('title', 'Confirmar');
 
 				var p = $('<p></p>');
-
-				var icon_alert = $('<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>');
-
+			
 				var message = $('<span>¿Desea eliminar este mensaje?</span>');
 
-				p.append(icon_alert);
+			
 				p.append(message);
 				delete_confirm.append(p);
 				delete_confirm.hide().appendTo('body');
@@ -763,13 +785,12 @@ if ( typeof Object.create !== 'function' ) {
 		        autoOpen: true,
 		        modal: true,
 		        buttons: {
-		            Yes: function () {
+		            Si: function () {
 		            	var form_data = { 'comment_id': comment_id };
 						
 						$.ajax({
-							url: self.options.url_delete,
-							data: form_data,
-							type: 'post',
+							url: self.options.url_delete+"/"+form_data.comment_id,											
+							type: 'DELETE',
 							dataType: 'json',
 			            }).done( function(result){
 
@@ -800,7 +821,7 @@ if ( typeof Object.create !== 'function' ) {
 			                }                   
 			            });
 		            },
-		            No: function () {
+		            Cancelar: function () {
 		                delete_confirm.dialog("close");
 		            }
 		        }

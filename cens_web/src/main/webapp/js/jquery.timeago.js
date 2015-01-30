@@ -43,19 +43,19 @@
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
-        suffixAgo: "ago",
-        suffixFromNow: "from now",
-        seconds: "less than a minute",
-        minute: "about a minute",
-        minutes: "%d minutes",
-        hour: "about an hour",
-        hours: "about %d hours",
-        day: "a day",
-        days: "%d days",
-        month: "about a month",
-        months: "%d months",
-        year: "about a year",
-        years: "%d years",
+        suffixAgo: "atras",
+        suffixFromNow: "Desde ahora",
+        seconds: "hace menos de un minuto",
+        minute: "hace casi un minuto",
+        minutes: "%d minutos",
+        hour: "casi hace una hora",
+        hours: "alreadedor de hace %d horas",
+        day: "un d&iacute;a",
+        days: "%d d&iacute;s",
+        month: "alrededor de hace un mes",
+        months: "%d meses",
+        year: "alrededor de hace a&ntilde;o",
+        years: "%d a&ntilde;os",
         wordSeparator: " ",
         numbers: []
       }
@@ -103,7 +103,7 @@
       var s = $.trim(iso8601);
       s = s.replace(/\.\d+/,""); // remove milliseconds
       s = s.replace(/-/,"/").replace(/-/,"/");
-      s = s.replace(/T/," ").replace(/Z/," UTC");
+      s = s.replace(/T/," ").replace(/Z/," UTC-03:00");
       s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
       return new Date(s);
     },

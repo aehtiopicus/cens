@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,12 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
+import com.aehtiopicus.cens.domain.entities.FileCensInfo;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Preceptor;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.enumeration.cens.FileCensInfoType;
+import com.aehtiopicus.cens.enumeration.cens.MaterialDidacticoUbicacionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.ComentarioCensRepository;
+import com.aehtiopicus.cens.service.cens.ftp.FTPComentarioCensService;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
@@ -42,6 +48,12 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	
 	@Autowired
 	private ComentarioCensRepository comentarioCensRepository;
+	
+	@Autowired
+	private FTPComentarioCensService ftpComentarioCensService;
+	
+	@Autowired
+	private FileCensService fileCensService;
 	
 	
 	@Override
@@ -91,21 +103,39 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 		}
 		logger.info("Guardando comentario");
 		cc = validateData(cc);
-		if(cc.getParent()!=null){
-			comentarioCensRepository.save(cc.getParent());
-		}else{
-			cc = comentarioCensRepository.save(cc);
-		}
+		
+		cc = comentarioCensRepository.save(cc);
+	
 		if(file!=null){
-//			p.setFileInfo(handleFtp(file, p));	
-//			p.setEstadoRevisionType(EstadoRevisionType.LISTO);
-//			return programaCensRepository.save(p);
-			return cc;
+			cc.setFileCensInfo(handleFtp(file, cc));	
+			return comentarioCensRepository.save(cc);			
 		}else{
 			return cc;
 		}
 	}
 	
+	private FileCensInfo handleFtp(MultipartFile file, ComentarioCens cc) throws CensException {
+		FileCensInfo fci = null;
+		if(file!=null ){
+			
+			String filePath = ftpComentarioCensService.getRutaComentario();
+			String fileName = new Date().getTime()+file.getOriginalFilename();
+			if(cc.getFileCensInfo()!=null){
+				fileCensService.deleteFileCensInfo(cc.getFileCensInfo());
+			}
+			if(cc.getProfesor()!=null){
+				fci = fileCensService.createNewFileCensService(file,cc.getProfesor().getId(),PerfilTrabajadorCensType.PROFESOR,filePath,fileName, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.COMENTARIO);
+			}else{
+				fci = fileCensService.createNewFileCensService(file,cc.getAsesor().getId(),PerfilTrabajadorCensType.ASESOR,filePath,fileName, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.COMENTARIO);
+			}
+			logger.info("iniciando ftp upload del comentario");
+			ftpComentarioCensService.guardarPrograma(file,(filePath+fileName));
+			logger.info("comentario subido. ruta = "+filePath+fileName);						
+		}
+		return fci;
+	}
+
+
 	private ComentarioCens validateData(ComentarioCens cc){
 		if(cc.getId()!=null){
 			String newComment = cc.getComentario();
@@ -124,7 +154,7 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 				}
 				
 				cc.getParent().getChildrens().add(cc);
-			}
+			}			
 		}
 		return cc;
 	}
@@ -139,4 +169,25 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	 public  Sort sortByFechaAsc() {
 	        return new Sort(Sort.Direction.ASC, "fecha");
 	    }
+
+
+	@Override
+	@Transactional
+	public void delete(Long comentarioId){
+		comentarioCensRepository.softDelete(comentarioId);
+		
+	}
+
+
+	@Override
+	public ComentarioCens findById(Long commentarioId) {
+		return comentarioCensRepository.findOne(commentarioId);
+	}
+
+
+	@Override
+	public void getArchivoAdjunto(String fileLocationPath, OutputStream os)throws CensException {
+		ftpComentarioCensService.leerComentario(fileLocationPath,os);
+		
+	}
 }

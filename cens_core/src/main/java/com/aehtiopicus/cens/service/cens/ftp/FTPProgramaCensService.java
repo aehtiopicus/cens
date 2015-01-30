@@ -9,10 +9,10 @@ import com.aehtiopicus.cens.utils.CensException;
 
 public interface FTPProgramaCensService {
 
-	public void guardarPrograma(Asignatura asignatura, MultipartFile file,String filePath)
+	public void guardarPrograma(MultipartFile file,String filePath)
 			throws CensException;
 
-	public String getRutaPrograma(Asignatura asignatura, MultipartFile file);
+	public String getRutaPrograma(Asignatura asignatura);
 
 	public void leerPrograma(String fileLocationPath, OutputStream os) throws CensException;
 

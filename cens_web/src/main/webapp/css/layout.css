@@ -996,3 +996,7 @@ padding-right: 40px;
     font-size: 10px !important;
   }
 }
+.comments-link{
+	color:#0088cc;
+	text-decoration:none;
+}

@@ -32,7 +32,7 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 
 
 	@Override
-	public void guardarPrograma(Asignatura asignatura, MultipartFile file,String filePath)
+	public void guardarPrograma( MultipartFile file,String filePath)
 			throws CensException {
 		try {			
 			uploadFile(file.getInputStream(), filePath);			
@@ -43,7 +43,7 @@ public class FTPProgramaCensServiceImpl extends AbstractFtpCensService
 	}
 	
 	@Override
-	public String getRutaPrograma(Asignatura asignatura, MultipartFile file){
+	public String getRutaPrograma(Asignatura asignatura){
 		StringBuilder sb = new StringBuilder();
 		sb.append(asignatura.getCurso().getId());
 		sb.append(cursoAsignaturaRoot);

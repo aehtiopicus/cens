@@ -95,6 +95,7 @@ public class ComentarioCensMapper {
 		ComentarioDescriptionDto dto =comentarioDescriptionDto(cc);
 		dto.setParent_id(cc.getParent()!=null ? cc.getParent().getId() : 0l);
 		dto.setSuccess(true);
+		dto.setIn_reply_to(cc.getParent()!=null ? cc.getParent().getFullName() : "");
 		return dto;
 	}
 	public void addComments(ComentariosDto dto, ComentarioCens cc) {
@@ -163,8 +164,13 @@ public class ComentarioCensMapper {
 			dto.setIn_reply_to(null);
 			dto.setParent_id(null);
 			dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
-			dto.setPosted_date(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(cc.getFecha()));
+			dto.setPosted_date(new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(cc.getFecha()));
 			dto.setText(cc.getComentario());
+			if(cc.getFileCensInfo()!=null){
+				
+				dto.setAttachments(cc.getFileCensInfo().getFileName());
+			}
+			
 		}
 		return dto;
 	}

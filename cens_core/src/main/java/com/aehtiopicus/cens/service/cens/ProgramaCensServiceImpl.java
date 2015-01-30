@@ -69,7 +69,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		FileCensInfo fci = null;
 		if(file!=null ){
 			
-			String filePath =ftpProgramaCensService.getRutaPrograma(p.getAsignatura(), file);
+			String filePath =ftpProgramaCensService.getRutaPrograma(p.getAsignatura());
 			String fileName = new Date().getTime()+file.getOriginalFilename();
 			if(p.getFileInfo()!=null){
 				fileCensService.deleteFileCensInfo(p.getFileInfo());
@@ -77,7 +77,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			fci = fileCensService.createNewFileCensService(file,p.getProfesor().getId(),PerfilTrabajadorCensType.PROFESOR,filePath,fileName, MaterialDidacticoUbicacionType.FTP,FileCensInfoType.PROGRAMA);
 			
 			logger.info("iniciando ftp upload del programa");
-			ftpProgramaCensService.guardarPrograma(p.getAsignatura(), file,filePath);
+			ftpProgramaCensService.guardarPrograma(file,(filePath+fileName));
 			logger.info("programa subido. ruta = "+filePath);						
 		}
 		return fci;

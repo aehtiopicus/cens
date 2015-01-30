@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.io.OutputStream;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,5 +20,11 @@ public interface ComentarioCensService {
 
 	public List<ComentarioCens> findAllParentcomments(Long tipoId,
 			ComentarioType tipoType);
+
+	public void delete(Long comentarioId);
+
+	public ComentarioCens findById(Long programaId);
+
+	public void getArchivoAdjunto(String string, OutputStream baos) throws CensException;
 
 }
