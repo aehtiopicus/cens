@@ -1,7 +1,6 @@
 package com.aehtiopicus.cens.controller.cens.mvc;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,9 +40,8 @@ public class AsesorCensController extends AbstractController{
 		mav.addObject("estado",estado);
 		mav.addObject("asignaturaId",asignaturaId);
 		mav.addObject("programaId",programaId);
-		List<EstadoRevisionType> type = new ArrayList<EstadoRevisionType>(Arrays.asList(EstadoRevisionType.values()));
-		type.remove(EstadoRevisionType.INEXISTENTE);
-		type.remove(EstadoRevisionType.NUEVO);
+		List<EstadoRevisionType> type = Arrays.asList(EstadoRevisionType.LISTO,EstadoRevisionType.ASIGNADO,EstadoRevisionType.CAMBIOS,EstadoRevisionType.ACEPTADO,EstadoRevisionType.RECHAZADO);
+	
 		mav.addObject("estadosPosibles",type);
 		return mav;
 	}

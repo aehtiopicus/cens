@@ -27,4 +27,8 @@ public interface ProgramaCensRepository extends JpaRepository<Programa,Long>{
 	@Query("SELECT p FROM Programa p INNER JOIN p.asignatura a WHERE a.vigente = true")
 	public List<Programa> findProgramaByAsignaturaVigente();
 
+	@Modifying
+	@Query("UPDATE Programa p SET p.estadoRevisionType = :nuevo WHERE p.id = :programaId")
+	public void updateProgramaStatus(@Param("programaId")Long programaId,@Param("nuevo") EstadoRevisionType type);
+
 }

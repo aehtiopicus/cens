@@ -123,5 +123,12 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	public List<Programa> getProgramas() {
 		return programaCensRepository.findProgramaByAsignaturaVigente();
 	}
+
+	@Override
+	@Transactional
+	public void updateProgramaStatus(Long programaId, EstadoRevisionType type) {
+		programaCensRepository.updateProgramaStatus(programaId,type);
+		
+	}
 	
 }

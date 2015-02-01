@@ -33,9 +33,7 @@
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script> 
-        <script src="<%=request.getContextPath() %>/js/jquery.timeago.js"></script>
-   		 <script src="<%=request.getContextPath() %>/js/jquery.autogrow-textarea.js"></script>
-    	<script src="<%=request.getContextPath() %>/js/jquery.comment.js"></script>       
+
     
 	
 

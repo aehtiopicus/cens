@@ -4,6 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
 <script src="<%=request.getContextPath()%>/js/cens/asignaturaprogramaabm.js"></script>
+
+<script src="<%=request.getContextPath()%>/js/cens/comentarios.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.timeago.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.autogrow-textarea.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.comment.js"></script>   
+    	
 <script>
 var pagePath="<%=request.getContextPath()%>";
 var profesorId = ${profesorId};
@@ -37,31 +43,13 @@ var asignaturaId = ${asignaturaId};
 				<label for="cantCartillas">Cantidad de Cartillas:</label> <input
 					type="text" id="cantCartillas" maxlength="2" class="entero" readonly/>
 			</div>
-			<div>
-				<label for="programaadjunto">Programa Adjunto:</label>
-				<button class="button" type="button"
-					style="height: 32px; top: -1px;" id="btnEliminarPrograma" disabled>Eliminar
-					Archivo</button>
-				<a id="downloadPrograma"><input type="text" id="programaadjunto"
-					readonly="readonly" placeholder="No existe archivo"
-					style="width: 302px;" /></a>
+			<div id="programaAdjuntado" style="display:none;">
+				<label for="downloadPrograma">Programa Adjunto:</label>
+				<div style="display: inline-flex; width: 458px;">
+					<a id="downloadPrograma" class="comments-link bold">No existe un programa adjunto</a>					
+				</div>
 			</div>
-			<archivos>
-			<div id="fileUp">
-				<label for="fileupload">Adjuntar Programa:</label>
-				<button class="button" type="button"
-					style="height: 32px; top: -1px;" disabled>
-					Insertar Archivo <input id="fileupload"
-						title="Seleccionar Programa" type="file" class="custom-file-input"
-						name="file"
-						accept=".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf" />
-				</button>
-				<input type="text" readonly="readonly" id="fileUploadName"
-					style="width: 302px; margin-left: 7px;" />
-			</div>
-
-
-			</archivos>
+			
 
 			<div class="footerForm">
 				<button class="button" type="button" onclick="guardarPrograma();" disabled>Guardar</button>
@@ -90,18 +78,16 @@ var asignaturaId = ${asignaturaId};
 				<label for="cantCartillas">Cantidad de Cartillas:</label> <input
 					type="text" id="cantCartillas" maxlength="2" class="entero" />
 			</div>
-			<div>
-				<label for="programaadjunto">Programa Adjunto:</label>
-				<button class="button" type="button"
-					style="height: 32px; top: -1px;" id="btnEliminarPrograma">Eliminar
-					Archivo</button>
-				<a id="downloadPrograma"><input type="text" id="programaadjunto"
-					readonly="readonly" placeholder="No existe archivo"
-					style="width: 302px;" /></a>
+			<div id="programaAdjuntado" style="display:none;">
+				<label for="downloadPrograma">Programa Adjunto:</label>
+				<div style="display: inline-flex; width: 458px;">
+					<a id="downloadPrograma" class="comments-link bold">No existe un programa adjunto</a>
+					<label id="eliminarProgramaAdjunto" class='eliminar-archivo' style='display:none;'></label>
+				</div>
 			</div>
 			<archivos>
 			<div id="fileUp">
-				<label for="fileupload">Adjuntar Programa:</label>
+				<label for="fileupload">Programa Adjunto:</label>
 				<button class="button" type="button"
 					style="height: 32px; top: -1px;">
 					Insertar Archivo <input id="fileupload"
@@ -130,6 +116,12 @@ var asignaturaId = ${asignaturaId};
 			</c:if>
 		</c:otherwise>
 	</c:choose>
+	
+	<h3 class="subtitulo" id="comentariosTitulo" style="display: none;">Comentarios</h3>
+	
+			<div id="accordion" style="height: 100%;">
+				
+			</div>
 </fieldset>
 
 <div id="guardarPrograma" class="dialog" title="Confirmar">

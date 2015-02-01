@@ -50,12 +50,12 @@
         minutes: "%d minutos",
         hour: "casi hace una hora",
         hours: "alreadedor de hace %d horas",
-        day: "un d&iacute;a",
-        days: "%d d&iacute;s",
+        day: "un d\xEDa",
+        days: "%d d\xEDas",
         month: "alrededor de hace un mes",
         months: "%d meses",
-        year: "alrededor de hace a&ntilde;o",
-        years: "%d a&ntilde;os",
+        year: "alrededor de hace a\xF1o",
+        years: "%d a\xF1os",
         wordSeparator: " ",
         numbers: []
       }

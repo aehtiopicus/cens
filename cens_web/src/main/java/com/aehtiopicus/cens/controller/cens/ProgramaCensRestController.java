@@ -131,4 +131,19 @@ public class ProgramaCensRestController extends AbstractRestController{
 		return dto;
 	    
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.PROGRAMA_CENS_REST+"/{programaId}/estado", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RestSingleResponseDto updateProgramaEstado(@PathVariable(value="id")Long asignaturaId,@PathVariable(value="programaId")Long programaId,@RequestBody  ProgramaDto programaDto) throws Exception{		
+
+		programaCensValidator.validateCambioEstado(programaDto.getEstadoRevisionType());
+		
+		programaCensService.updateProgramaStatus(programaId,programaDto.getEstadoRevisionType());		
+		
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+		dto.setId(programaId);
+		dto.setMessage("Estado actualizado correctamente");
+		
+		return dto;
+	}
 }

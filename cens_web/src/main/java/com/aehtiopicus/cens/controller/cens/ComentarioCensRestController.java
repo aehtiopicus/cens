@@ -49,6 +49,7 @@ public class ComentarioCensRestController extends AbstractRestController{
 	   ComentarioRequestDto comentarioRequestDto = wrapperDto.getDto();		
 	   List<ComentarioCens> comentarioList = comentarioCensService.findAllParentcomments(comentarioRequestDto.getTipoId(),comentarioRequestDto.getTipoType());
 	   ComentariosDto dto = mapper.createCommentariosDto(comentarioRequestDto.getUsuarioId(),findMiembroCens(comentarioRequestDto));
+	   dto.getResults().getUser().setFullname(comentarioRequestDto.getUsuarioTipo().name()+" "+dto.getResults().getUser().getFullname());
 	   mapper.addComments(dto, comentarioList);
 		return dto;
 		
@@ -93,7 +94,7 @@ public class ComentarioCensRestController extends AbstractRestController{
 		ComentarioCens cc = mapper.getDataForComentarioCens(comentarioRequestDto);
 		cc.setId(comentarioId);
 		MiembroCens mc= findMiembroCens(comentarioRequestDto);
-		cc.setFullName(mc.getApellido().toUpperCase()+", "+mc.getNombre()+" ("+mc.getDni()+")");
+		cc.setFullName(comentarioRequestDto.getUsuarioTipo().name()+" "+mc.getApellido().toUpperCase()+", "+mc.getNombre()+" ("+mc.getDni()+")");
 		cc = comentarioCensService.saveComentario(cc,file);
 		
 		ComentarioDescriptionDto dto =mapper.mapSingleComentario(cc);
@@ -145,7 +146,9 @@ public class ComentarioCensRestController extends AbstractRestController{
 		ComentarioCens cc = comentarioCensService.deleteAttachment(comentarioId);		
 		ComentarioDescriptionDto dto =mapper.mapSingleComentario(cc);
 		dto.setSuccess(true);
-		dto.setComment_id(comentarioId);
+		if(comentarioId!=null){
+			dto.setComment_id_original(comentarioId);
+		}
 		return dto;
 	}
 	

@@ -163,11 +163,11 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	@Override
 	public List<ComentarioCens> findAllParentcomments(Long tipoId,
 			ComentarioType tipoType) {
-		return comentarioCensRepository.findByTipoIdAndTipoComentarioAndBajaFalseAndParentIsNull(tipoId,tipoType,sortByFechaAsc());
+		return comentarioCensRepository.findByTipoIdAndTipoComentarioAndBajaFalseAndParentIsNull(tipoId,tipoType,sortByFechaDesc());
 	}
 	
-	 public  Sort sortByFechaAsc() {
-	        return new Sort(Sort.Direction.ASC, "fecha");
+	 public  Sort sortByFechaDesc() {
+	        return new Sort(Sort.Direction.DESC, "fecha");
 	    }
 
 

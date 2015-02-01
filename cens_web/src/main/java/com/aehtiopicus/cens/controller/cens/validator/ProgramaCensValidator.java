@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.dto.cens.ProgramaDto;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Component
@@ -36,6 +37,25 @@ public class ProgramaCensValidator {
 
 		if (!errorMap.isEmpty()) {
 			throw new CensException("Error al guardar Programa de la Asignatura", errorMap);
+		}
+	}
+
+	public void validateCambioEstado(EstadoRevisionType type)throws CensException {
+		if(type==null ){
+			throw new CensException("El estado del programa debe existir");
+		}
+		
+		switch(type){
+		case INEXISTENTE:
+			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.INEXISTENTE);
+		case LISTO:
+			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.LISTO);
+			
+		case NUEVO:
+			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.NUEVO);
+		default:
+			break;
+		
 		}
 	}
 

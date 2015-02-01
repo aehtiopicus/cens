@@ -87,13 +87,7 @@ if ( typeof Object.create !== 'function' ) {
 				e.preventDefault();
 				self.submitForm_(comment_id, parent_id,$(e.currentTarget).attr("id").replace("comentarioPost",""));
 			})
-			var fileBorrarArchivo = $('<button>Eliminar Archivo</button>');
-			fileBorrarArchivo.attr("class","button");
-			fileBorrarArchivo.attr("id","comentarioPost"+randomIdGenerated);
-			fileBorrarArchivo.attr("type","submit");
-			fileBorrarArchivo.css("font-size","10px");	
-			fileBorrarArchivo.css("right","5px");
-			fileBorrarArchivo.css("display","none");
+
 			
 			var fileInputButton = $('<button>Archivo</button>');
 			fileInputButton.attr("class","button");
@@ -112,7 +106,6 @@ if ( typeof Object.create !== 'function' ) {
 			fileInput.attr("accept",".pttx,.ppt,.xlsx,.xls,.doc,.docx,.pps,.ppsx,.pdf");
 			
 			fileInputButton.append(fileInput);
-			fileInputMainDiv.append(fileBorrarArchivo);
 			fileInputMainDiv.append(fileInputButton);
 			fileInputMainDiv.append(fileAcceptButton);
 			fileInputArchivos.append(fileInputMainDiv);
@@ -163,8 +156,7 @@ if ( typeof Object.create !== 'function' ) {
                 	$('textarea', self.$elem).attr("disabled", true);
 
             	},
-            	error: function(value){
-            		stopSpinner();
+            	error: function(value){            		
             	 	$( "#progressbar" ).progressbar( "option", "value", 0 );
         		 	$(".progress-label").text( "" );
         		 	$("#guardarPrograma").dialog("close");
@@ -276,8 +268,7 @@ if ( typeof Object.create !== 'function' ) {
                     	$('textarea', self.$elem).attr("disabled", true);
 
                 	},
-                	error: function(value){
-            		stopSpinner();
+                	error: function(value){            		
             	 	$( "#progressbar" ).progressbar( "option", "value", 0 );
         		 	$(".progress-label").text( "" );
         		 	$("#guardarPrograma").dialog("close");

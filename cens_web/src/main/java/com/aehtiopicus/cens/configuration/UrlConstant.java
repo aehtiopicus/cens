@@ -161,12 +161,12 @@ public class UrlConstant {
 	public static final String PROGRAMA_CENS_MVC="/mvc/asignatura/{id}/programa";
 	public static final String PROGRAMA_CENS_REST ="/asignatura/{id}/programa";
 	public static final String PROGRAMA_CENS_NO_FILE_REST ="/asignatura/{id}/programanf";
-	public static final String PROGRAMA_CENS_FILE_REST ="/asignatura/{id}/programa/{programaId}/archivo";
+	public static final String PROGRAMA_CENS_FILE_REST ="/asignatura/{id}/programa/{programaId}/archivo";	
 	/*Aesor*/
 	public static final String ASESOR_CENS_REST="/asesor";
 	public static final String ASESOR_CENS_CURSO_ASIGNATURAS_REST=ASESOR_CENS_REST+"/{id}/dashboard";
 	public static final String ASESOR_CENS_DASHBOARD_MVC="/mvc/asesor/dashboard";
-	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";
+	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";	
 	/*Comentarios*/
 	public static final String COMENTARIO_CENS_REST="/comentario/comments/list";
 	public static final String COMENTARIO_CENS_NO_FILE_REST="/comentario/comments/listnf";
