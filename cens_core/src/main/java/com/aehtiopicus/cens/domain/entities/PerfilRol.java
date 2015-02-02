@@ -8,6 +8,10 @@ import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 public class PerfilRol implements  Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2234199087013246371L;
 	private Long perfilId;
 	private PerfilTrabajadorCensType perfilType;
 	

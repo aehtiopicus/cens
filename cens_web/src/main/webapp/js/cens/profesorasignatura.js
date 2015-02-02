@@ -62,7 +62,7 @@ function datosAsignatura(value,currentDiv,asignatura){
 	var list ='<ul>{programa}{cartillas}{sugerencias}';	
 	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico (No Existe)</a></li>';
 	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias (No Existe)</a></li></ul>';	
-	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',itemCartillas).replace('{sugerencias}',itemSugerencias);
+	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',datosMaterial(value,asignatura)).replace('{sugerencias}',itemSugerencias);
 	
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
@@ -70,11 +70,50 @@ function datosAsignatura(value,currentDiv,asignatura){
 	currentPorlet = $(currentPorlet.children()[1]).append(list.replace("{id}",asignatura.id).replace("{id}",asignatura.id).replace("{id}",asignatura.id));
 	
 }	
-
+function datosMaterial(value,asignatura){
+	var itemCartillas=$('<li></li>');
+	var itemCartillasLink=$('<a></a>');
+	itemCartillasLink.html("Material Did&aacute;ctico");
+	if(asignatura.programa!==null && asignatura.programa.estadoRevisionType === "ACEPTADO"){
+		itemCartillasLink.attr("href",pagePath+"/mvc/asignatura/"+asignatura.id+"/material");
+		itemCartillas.append(itemCartillasLink);
+		itemCartillas.append("&nbsp;");
+		if(asignatura.programa.materialDidactico !== null){
+			
+			for (i = 0; i < asignatura.programa.cantCartillas; i++) {
+				itemCartillaNumeroLink = $('<a></a>')			
+				itemCartillaNumero=$('<span></span>');
+				itemCartillaNumero.addClass("estadoMaterial");
+				itemCartillaNumero.html(i+1+" ");
+				used=false;
+				$.each(asignatura.programa.materialDidactico,function(index,value){
+					if(value.nro === i){
+						itemCartillaNumeroLink.attr("href",pagePath+"mvc/asignatura/"+asignatura.id+"/material/"+value.id)						
+						itemCartillaNumero.addClass(value.estadoRevisionType.toLowerCase());
+						used=true;
+					}					
+					
+				});
+				if(used===false){
+					itemCartillaNumero.addClass("inexistente");
+				}
+				itemCartillaNumeroLink.append(itemCartillaNumero);
+				itemCartillas.append(itemCartillaNumeroLink);
+				
+			}
+			
+		}
+	}else{
+		itemCartillas.append(itemCartillasLink);
+	}
+	
+	return itemCartillas.prop('outerHTML');
+	
+}
 function datosPrograma(value,asignatura){
 	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <span class="estadoMaterial {subClass}">({estado})</span></a></li>';
 	if(asignatura.programa!==null){
-		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO"){
+		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO" || asignatura.programa.estadoRevisionType ==="CAMBIOS" || asignatura.programa.estadoRevisionType ==="RECHAZADO"){
 			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
 		}else{
 			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&disabled=true");

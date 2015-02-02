@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.dto.cens;
 
+import java.util.List;
+
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 
 
@@ -15,6 +17,7 @@ public class ProgramaDto {
 	private String programaAdjunto;
 	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
 	private String asignatura;
+	private List<MaterialDidacticoDto> materialDidactico;
 	
 	
 	
@@ -79,6 +82,13 @@ public class ProgramaDto {
 	public void setProfesorData(String profesorData) {
 		this.profesorData = profesorData;
 	}
+	public List<MaterialDidacticoDto> getMaterialDidactico() {
+		return materialDidactico;
+	}
+	public void setMaterialDidactico(List<MaterialDidacticoDto> materialDidactico) {
+		this.materialDidactico = materialDidactico;
+	}
+	
 	
 	
 }

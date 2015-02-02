@@ -1,16 +1,22 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 
@@ -46,7 +52,13 @@ public class Programa implements Serializable{
 	private FileCensInfo fileInfo;
 	
 	@Enumerated(EnumType.STRING)
-	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO; 
+	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
+	
+	@OneToMany(mappedBy="programa",fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	private List <MaterialDidactico> materialDidactico;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -110,6 +122,14 @@ public class Programa implements Serializable{
 
 	public void setEstadoRevisionType(EstadoRevisionType estadoRevisionType) {
 		this.estadoRevisionType = estadoRevisionType;
+	}
+
+	public List<MaterialDidactico> getMaterialDidactico() {
+		return materialDidactico;
+	}
+
+	public void setMaterialDidactico(List<MaterialDidactico> materialDidactico) {
+		this.materialDidactico = materialDidactico;
 	}
 
 	
