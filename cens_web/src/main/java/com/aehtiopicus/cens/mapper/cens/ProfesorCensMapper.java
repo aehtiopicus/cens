@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Curso;
-import com.aehtiopicus.cens.domain.entities.MaterialDidactico;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.dto.cens.AsignaturasDelCursoDto;
@@ -121,9 +120,9 @@ public class ProfesorCensMapper {
 			if(p.getAsignatura().getId().equals(a.getId())){
 				dto = programaCensMapper.convertProgramaToDto(p);
 				if(CollectionUtils.isNotEmpty(dto.getMaterialDidactico()))
-				for(MaterialDidacticoDto mdDto : dto.getMaterialDidactico()){
-					mdDto.setPrograma(null);
-				}
+					for(MaterialDidacticoDto mdDto : dto.getMaterialDidactico()){
+						mdDto.setProgramaId(p.getId());
+					}
 				pIterator.remove();
 				break;
 			}
@@ -132,24 +131,6 @@ public class ProfesorCensMapper {
 		return dto;
 	}
 	
-	private List<MaterialDidacticoDto> convertToMaterialDidacticoDelPrograma(Programa p,List<MaterialDidactico> materialList){
-		List<MaterialDidacticoDto> dtoList = null;
-		if(CollectionUtils.isNotEmpty(materialList)){
-			dtoList = new ArrayList<MaterialDidacticoDto>();
-			for(MaterialDidactico md : materialList){
-				MaterialDidacticoDto dto = new MaterialDidacticoDto();
-				dto.setDescripcion(md.getDescripcion());
-				dto.setEstadoRevisionType(md.getEstadoRevisionType());
-				dto.setId(md.getId());
-				dto.setNombre(md.getNombre());
-				dto.setNro(md.getNro());
-				dto.setPrograma(programaCensMapper.convertProgramaToDto(p));
-				dtoList.add(dto);
-			}
-		}
-		
-		return dtoList;
-		
-	}
+	
 	
 }

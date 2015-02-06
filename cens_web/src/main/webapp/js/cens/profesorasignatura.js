@@ -75,7 +75,7 @@ function datosMaterial(value,asignatura){
 	var itemCartillasLink=$('<a></a>');
 	itemCartillasLink.html("Material Did&aacute;ctico");
 	if(asignatura.programa!==null && asignatura.programa.estadoRevisionType === "ACEPTADO"){
-		itemCartillasLink.attr("href",pagePath+"/mvc/asignatura/"+asignatura.id+"/material");
+		itemCartillasLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/material?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
 		itemCartillas.append(itemCartillasLink);
 		itemCartillas.append("&nbsp;");
 		if(asignatura.programa.materialDidactico !== null){
@@ -88,7 +88,7 @@ function datosMaterial(value,asignatura){
 				used=false;
 				$.each(asignatura.programa.materialDidactico,function(index,value){
 					if(value.nro === i){
-						itemCartillaNumeroLink.attr("href",pagePath+"mvc/asignatura/"+asignatura.id+"/material/"+value.id)						
+						itemCartillaNumeroLink.attr("href",pagePath+"mvc/programa/"+asignatura.programa.id+"/material/"+value.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");						
 						itemCartillaNumero.addClass(value.estadoRevisionType.toLowerCase());
 						used=true;
 					}					

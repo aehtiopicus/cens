@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
 	if(!isNaN(pageId())){
 		startSpinner();
 		$.ajax({
-			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
+			url: pagePath+"/programa/"+programaId+"/material/"+pageId(),
 			type: "GET",	    	    
 			contentType :'application/json',
 			dataType: "json",    
@@ -11,17 +11,17 @@ jQuery(document).ready(function () {
 				$('#id').val(result.id);
 				$('#nombre').val(result.nombre);
 				$('#descripcion').val(result.descripcion);
-				$('#cantCartillas').val(result.cantCartillas);
-				if(result.programaAdjunto!=null){
-					$('#programaAdjuntado').toggle();
+				$('#divisionPeriodoType').val(result.divisionPeriodoType);
+				if(result.cartillaAdjunta!=null){
+					$('#cartillaAdjuntado').toggle();
 					$('#fileUp').toggle();
-					$('#downloadPrograma').prop("download",result.programaAdjunto);
-					$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");					
+					$('#downloadcartilla').prop("download",result.programaAdjunto);
+					$('#downloadcartilla').prop("href",pagePath+"/programa/"+programaId+"/material/"+result.id+"/archivo");					
 					
-					$('#downloadPrograma').html('Descargar el programa \"'+result.programaAdjunto+'\"');
-					link_text_file_remove =  $("#eliminarProgramaAdjunto");
+					$('#downloadcartilla').html('Descargar la cartilla \"'+result.cartillaAdjunta+'\"');
+					link_text_file_remove =  $("#eliminarCartillaAdjunto");
     				link_text_file_remove.on("click",function(){
-    					$( '#borrarPrograma').dialog('open');
+    					$( '#borrarCartilla').dialog('open');
     				});
     				link_text_file_remove.toggle();
     				
@@ -46,7 +46,7 @@ jQuery(document).ready(function () {
 		       url_delete: pagePath+'/comentario/comments/list',
 		       url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
 		       url_remove_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
-		       arguments:{tipoType:"PROGRAMA",tipoId:pageId(),usuarioId:profesorId,usuarioTipo:"PROFESOR"},
+		       arguments:{tipoType:"MATERIAL",tipoId:pageId(),usuarioId:profesorId,usuarioTipo:"PROFESOR"},
 		       limit: 10,
 		       auto_refresh: false,
 		       refresh: 10000,
@@ -61,32 +61,8 @@ jQuery(document).ready(function () {
 		    		     }    		        		
 		       }
 		     });
-	}else{
-		$('#btnEliminarPrograma').prop("disabled",true);
 	}
-	$("#cantCartillas").spinner({
-	    min : 1,
-	    max : 12,   
-	    showOn : 'both',
-	    numberFormat: "n",    
-	    	
-	});
-	$('#cantCartillas').val(1);
-	$("#cantCartillas").focus(function(a) {
-		  $( this ).parent().addClass('spanFocus');
-	});
-	$("#cantCartillas").focusout(function(a) {
-			val = $('#cantCartillas').val();
-			if(isNaN(val)){
-				$('#cantCartillas').val(new Date().getFullYear());
-			}else{
-				if(parseInt(val)>$("#cantCartillas").spinner("option","max") || parseInt(val)< $("#cantCartillas").spinner("option","min")){
-					$('#cantCartillas').val(new Date().getFullYear());
-				}
-			}
-		  $( this ).parent().removeClass('spanFocus');
-	});
-	
+		
 
 	$("#progressbar").progressbar({
      value: 0,
@@ -100,7 +76,7 @@ jQuery(document).ready(function () {
    });
 	
    
-   $( "#guardarPrograma" ).dialog({
+   $( "#guardarCartilla" ).dialog({
 		autoOpen: false,
 		width: 400,
 		modal:true,
@@ -108,7 +84,7 @@ jQuery(document).ready(function () {
 			{
 				text: "Ok",
 				click: function() {
-					$('#btnGuardarPrograma').trigger("click");
+					$('#btnGuardarCartilla').trigger("click");
 				}
 			},
 			{
@@ -123,7 +99,7 @@ jQuery(document).ready(function () {
 		]
 	});
    
-   $( "#borrarPrograma" ).dialog({
+   $( "#borrarCartilla" ).dialog({
 		autoOpen: false,
 		width: 400,
 		modal:true,
@@ -132,7 +108,7 @@ jQuery(document).ready(function () {
 				text: "Ok",
 				click: function() {
 					 $.ajax({
-						    url:  $('#downloadPrograma').prop("href"),
+						    url:  $('#downloadCartilla').prop("href"),
 						    type: 'DELETE',						    
 						    dataType:"json",
 							contentType:"application/json", 
@@ -160,8 +136,11 @@ jQuery(document).ready(function () {
 			}
 		]
 	});
-
+   $('#divisionPeriodoType option:eq(0)').attr("selected","true");
 });
+function guardarCartilla(){
+	$('#guardarCartilla').dialog("open");
+}
 
 $(function () {
 	 
@@ -195,8 +174,8 @@ $(function () {
               $('#fileUploadName').val(data.files[0].name);
               $('#fileUploadUsed').val("true");
              
-              $("#btnGuardarPrograma").off();
-              $("#btnGuardarPrograma").click(function () {
+              $("#btnGuardarCartilla").off();
+              $("#btnGuardarCartilla").click(function () {
             	  data.process().done(function () {            		  
             		  data.submit();
                   });
@@ -216,7 +195,7 @@ $(function () {
         	  	var post =$('#id').length == 0;
 
         	  $.ajax({
-        	    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programa" : (pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
+        	    url:  post ? pagePath+"/programa/"+programaId+"/material" : (pagePath+"/programa/"+programaId+"/material/"+$('#id').val()),
         	    type:  "POST",//post si o si sino no funciona
         	    data: formData,
         	    processData: false,  // tell jQuery not to process the data
@@ -232,14 +211,14 @@ $(function () {
         	    	stopSpinner();
         	    $("#progressbar" ).progressbar( "option", "value", 0 );
            		 $(".progress-label").text( "" );
-           		 $("#guardarPrograma").dialog("close"); 
+           		 $("#guardarCartilla").dialog("close"); 
            		 $('#cancelar').trigger("click");
         	    },
                 error: function(value){
                 	stopSpinner();
                 	 $( "#progressbar" ).progressbar( "option", "value", 0 );
             		 $(".progress-label").text( "" );
-            		 $("#guardarPrograma").dialog("close");
+            		 $("#guardarCartilla").dialog("close");
             		 errorData = errorConverter(value);
          			if(errorData.errorDto != undefined && value.errorDto){
          				alert(errorConverter(value).message);
@@ -277,7 +256,7 @@ function guardarPrograma(){
 	if( $('#fileUploadUsed').val()==="true"){
 		 $( "#progressbar" ).progressbar( "option", "value", 0 );
 		 $(".progress-label").text( "" );		
-		$("#guardarPrograma").dialog("open");
+		$("#guardarCartilla").dialog("open");
 	}else{
 		guardarSinArchivo();
 	}
@@ -291,7 +270,7 @@ function guardarSinArchivo(){
  	var post =$('#id').length == 0;
   	
   $.ajax({
-    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
+    url:  post ? pagePath+"/programa/"+programaId+"/cartillanf" : (pagePath+"/programa/"+programaId+"/cartillanf/"+$('#id').val()),
     type: post ? "POST" : "PUT",
     data: cargarData(),
     dataType:"json",
@@ -313,7 +292,7 @@ function guardarSinArchivo(){
 function cargarData(){	
 	var model = {
   			nombre: $('#nombre').val().length===0 ? null : $('#nombre').val(),
-  			cantCartillas:  $('#cantCartillas').val().length===0 ? null : $('#cantCartillas').val(),
+  			divisionPeriodoType:  $('#divisionPeriodoType').val(),
   			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
   			profesorId : profesorId
   			

@@ -86,6 +86,7 @@ public class VistasConstant {
 	/*Asesor*/
 	public static final String ASESOR_DASHBOARD_LIST_VIEW ="cens/asesordashboard";
 	public static final String ASESOR_ASIGNATURA_VIEW ="cens/asesorprograma";
-	
-	
+	/*Material*/
+	public final static String MATERIAL_LIST_VIEW = "cens/material";
+	public static final String MATERIAL_ABM_VIEW = "cens/materialabm";
 }

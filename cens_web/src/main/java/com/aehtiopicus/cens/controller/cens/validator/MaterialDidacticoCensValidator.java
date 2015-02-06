@@ -8,19 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.aehtiopicus.cens.dto.cens.ProgramaDto;
+import com.aehtiopicus.cens.dto.cens.MaterialDidacticoDto;
+import com.aehtiopicus.cens.enumeration.cens.DivisionPeriodoType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Component
-public class ProgramaCensValidator {
+public class MaterialDidacticoCensValidator {
 
 	@Autowired
 	private FileUploadCensValidator fileUploadCensValidator;
 
-	public void validate(ProgramaDto dto,MultipartFile mf) throws CensException {
+	public void validate(MaterialDidacticoDto dto,MultipartFile mf) throws CensException {
 		if (dto == null) {
-			throw new CensException("No hay datos del programa");
+			throw new CensException("No hay datos del profesor");
 		}
 		if(mf!=null ){
 			fileUploadCensValidator.validate(mf);
@@ -31,18 +32,26 @@ public class ProgramaCensValidator {
 		if (StringUtils.isEmpty(dto.getNombre())) {
 			errorMap.put("nombre", "Nombre es requerido");
 		}
-		if (dto.getCantCartillas()== null ||dto.getCantCartillas() <=0 || dto.getCantCartillas() >12 ) {
-			errorMap.put("cantCartillas", "La cantidad de cartillas debe estar entre 1-12");
-		}		
+		if(StringUtils.isEmpty(dto.getDivisionPeriodoName())&& dto.getDivisionPeriodoType()==null){
+			errorMap.put("divisionPeriodoType", "Debe indicarse un per&iacute;odo para el material");
+		}
+		if(StringUtils.isNotEmpty(dto.getDivisionPeriodoName())){
+			DivisionPeriodoType dpt =DivisionPeriodoType.getDivisionByPeriodoName(dto.getDivisionPeriodoName());
+			if(dpt==null){
+				errorMap.put("divisionPeriodoType", "El tipo de per&iacute;odo no es correcto");	
+			}else{
+				dto.setDivisionPeriodoType(dpt);
+			}
+		}
 
 		if (!errorMap.isEmpty()) {
-			throw new CensException("Error al guardar Programa de la Asignatura", errorMap);
+			throw new CensException("Error al guardar el material did&aacute;ctico de la Asignatura", errorMap);
 		}
 	}
 
 	public void validateCambioEstado(EstadoRevisionType type)throws CensException {
 		if(type==null ){
-			throw new CensException("El estado del programa debe existir");
+			throw new CensException("El estado de la cartilla debe existir");
 		}
 		
 		switch(type){
@@ -58,5 +67,4 @@ public class ProgramaCensValidator {
 		
 		}
 	}
-
 }

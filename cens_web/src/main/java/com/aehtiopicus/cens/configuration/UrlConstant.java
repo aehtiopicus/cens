@@ -170,4 +170,10 @@ public class UrlConstant {
 	/*Comentarios*/
 	public static final String COMENTARIO_CENS_REST="/comentario/comments/list";
 	public static final String COMENTARIO_CENS_NO_FILE_REST="/comentario/comments/listnf";
+	/*MaterialDidactico*/
+	public static final String MATERIAL_DIDACTICO_CENS_MVC="/mvc/programa/{id}/material";
+	public static final String MATERIAL_DIDACTICO_CENS_ABM_MVC="/mvc/programa/{programaId}/materialABM";
+	public static final String MATERIAL_DIDACTICO_CENS_REST ="/programa/{id}/material";	
+	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST ="/programa/{id}/programanf";
+	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST ="/programa/{id}/material/{materialId}/archivo";	
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.aehtiopicus.cens.enumeration.cens.DivisionPeriodoType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 
 @Entity
@@ -40,6 +41,9 @@ public class MaterialDidactico implements Serializable{
 	private String descripcion;
 	
 	private int nro;	
+	
+	@Enumerated(EnumType.STRING)
+	private DivisionPeriodoType divisionPeriodoType;
 	
 	@OneToOne(optional=true)
 	private FileCensInfo fileInfo;
@@ -110,6 +114,14 @@ public class MaterialDidactico implements Serializable{
 
 	public void setNro(int nro) {
 		this.nro = nro;
+	}
+
+	public DivisionPeriodoType getDivisionPeriodoType() {
+		return divisionPeriodoType;
+	}
+
+	public void setDivisionPeriodoType(DivisionPeriodoType divisionPeriodoType) {
+		this.divisionPeriodoType = divisionPeriodoType;
 	} 
 
 	
