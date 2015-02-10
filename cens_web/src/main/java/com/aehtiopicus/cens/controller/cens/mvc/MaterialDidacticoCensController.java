@@ -31,30 +31,32 @@ public class MaterialDidacticoCensController extends AbstractController{
 		ModelAndView mav = new ModelAndView(VistasConstant.MATERIAL_LIST_VIEW);				
 		//check model
 		mav.addObject("asignatura",asigntaura);
-		mav.addObject("programaId", programaId);
+		mav.addObject("programaId", programaId);		
 		return mav;
 	}
 	
 	
 	@RequestMapping(value=UrlConstant.MATERIAL_DIDACTICO_CENS_ABM_MVC+"/{materialId}", method= RequestMethod.GET)
 	public ModelAndView getMaterialDidacticoABM(Model model, Principal principal, @RequestParam("asignatura") String asigntaura, 
-			@PathVariable("programaId")Long programaId, @PathVariable("materialId") Long materialId){
+			@PathVariable("programaId")Long programaId, @PathVariable("materialId") Long materialId,@RequestParam("nro") Integer nro){
 		ModelAndView mav = new ModelAndView(VistasConstant.MATERIAL_ABM_VIEW);				
 		//check model
 		mav.addObject("asignatura",asigntaura);
 		mav.addObject("programaId", programaId);
 		mav.addObject("materialId",materialId);
+		mav.addObject("nro",nro);
 		mav.addObject("division",materialDidacticoCensMapper.convertToDto(materialDidacticoCensService.listDivisionPeriodo()));
 		return mav;
 	}
 	
 	@RequestMapping(value=UrlConstant.MATERIAL_DIDACTICO_CENS_ABM_MVC, method= RequestMethod.GET)
 	public ModelAndView getMaterialDidacticoAlta(Model model, Principal principal, @RequestParam("asignatura") String asigntaura, 
-			@PathVariable("programaId")Long programaId){
+			@PathVariable("programaId")Long programaId,@RequestParam("nro") Integer nro){
 		ModelAndView mav = new ModelAndView(VistasConstant.MATERIAL_ABM_VIEW);				
 		//check model
 		mav.addObject("asignatura",asigntaura);
-		mav.addObject("programaId", programaId);		
+		mav.addObject("programaId", programaId);
+		mav.addObject("nro",nro);
 		mav.addObject("division",materialDidacticoCensMapper.convertToDto(materialDidacticoCensService.listDivisionPeriodo()));
 		return mav;
 	}

@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Curso;
+import com.aehtiopicus.cens.domain.entities.MaterialDidactico;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.dto.cens.AsesorDashboardDto;
 import com.aehtiopicus.cens.dto.cens.AsesorDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaAsesorDashboardDto;
 import com.aehtiopicus.cens.dto.cens.CursoAsesorDashboardDto;
+import com.aehtiopicus.cens.dto.cens.MaterialDidacticoDashboardDto;
 import com.aehtiopicus.cens.dto.cens.ProfesorAsesorDashboardDto;
 import com.aehtiopicus.cens.dto.cens.ProgramaAsesorDashboardDto;
 import com.aehtiopicus.cens.util.Utils;
@@ -72,6 +74,7 @@ public class AsesosorCensMapper {
 					dto = new ProgramaAsesorDashboardDto();
 					dto.setId(p.getId());
 					dto.setEstadoRevisionType(p.getEstadoRevisionType());
+					dto.setMaterialDidactico(createMaterialDidacticoDashboardList(p.getMaterialDidactico()));
 					programaIterator.remove();
 				}
 			}
@@ -79,6 +82,18 @@ public class AsesosorCensMapper {
 		}
 		
 		return dto;
+	}
+
+	private List<MaterialDidacticoDashboardDto> createMaterialDidacticoDashboardList(
+			List<MaterialDidactico> materialDidactico) {
+		List<MaterialDidacticoDashboardDto> resultList = null;
+		if(CollectionUtils.isNotEmpty(materialDidactico)){
+			resultList = new ArrayList<MaterialDidacticoDashboardDto>();
+			for(MaterialDidactico md : materialDidactico){
+				resultList.add(Utils.getMapper().map(md, MaterialDidacticoDashboardDto.class));
+			}
+		}
+		return resultList;
 	}
 
 	private ProfesorAsesorDashboardDto createProfesorAsesorDashboardDto(

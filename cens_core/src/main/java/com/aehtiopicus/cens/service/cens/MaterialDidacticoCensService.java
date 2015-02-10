@@ -31,4 +31,6 @@ public interface MaterialDidacticoCensService {
 	public void updateMaterialDidacticoStatus(Long materialId,
 			EstadoRevisionType estadoRevisionType);
 
+	public void removeMaterialDidacticoCompleto(Long materialId)  throws CensException;
+
 }

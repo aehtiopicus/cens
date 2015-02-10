@@ -86,16 +86,17 @@ function datosMaterial(value,asignatura){
 				itemCartillaNumero.addClass("estadoMaterial");
 				itemCartillaNumero.html(i+1+" ");
 				used=false;
-				$.each(asignatura.programa.materialDidactico,function(index,value){
-					if(value.nro === i){
-						itemCartillaNumeroLink.attr("href",pagePath+"mvc/programa/"+asignatura.programa.id+"/material/"+value.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");						
-						itemCartillaNumero.addClass(value.estadoRevisionType.toLowerCase());
+				$.each(asignatura.programa.materialDidactico,function(index,mdValue){
+					if(mdValue.nro === i+1){
+						itemCartillaNumeroLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/materialABM/"+mdValue.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+(i+1));						
+						itemCartillaNumero.addClass(mdValue.estadoRevisionType.toLowerCase());
 						used=true;
 					}					
 					
 				});
 				if(used===false){
 					itemCartillaNumero.addClass("inexistente");
+					itemCartillaNumeroLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/materialABM?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+(i+1));
 				}
 				itemCartillaNumeroLink.append(itemCartillaNumero);
 				itemCartillas.append(itemCartillaNumeroLink);

@@ -8,8 +8,9 @@ jQuery(document).ready(function () {
 
 	
     jQuery("#projectTable").jqGrid({    	
-    		url:pagePath+"/material",    		
+    		url:pagePath+"/programa/"+programaId+"/material",    		
             datatype: "json",
+            hidegrid:false,
             contentType :'application/json',
             jsonReader: {
                 repeatitems: false,
@@ -25,7 +26,7 @@ jQuery(document).ready(function () {
                 {name:'nombre',index:'Nombre',sortable: false},
                 {name:'nro',index:'N&uacute,mero',sortable: false},
                 {name:'divisionPeriodoName',index:'Semestre',sortable: false},
-                {name:'material',index:'Material',sortable: false},
+                {name:'cartillaAdjunta',index:'Material',sortable: false,formatter:cartillaAdjunta},
                 {name:'estadoRevisionType',index:'Estado',sortable: false,formatter:estadoFormatter},
                 { 	
         			name: 'id',   
@@ -93,6 +94,19 @@ jQuery(document).ready(function () {
 		});
         fixTable();
     });
+
+ function cartillaAdjunta(cellValue,options,rowObject){
+	 itemDownloadLink =$('<a></a>');
+	 itemDownloadLink.addClass("comments-link");
+	 itemDownloadLink.addClass("bold");
+	 itemDownloadLink.html(cellValue);
+	 itemDownloadLink.prop("download",cellValue),
+	 itemDownloadLink.prop("href",pagePath+"/programa/"+programaId+"/material/"+rowObject.id+"/archivo");
+	 itemDownloadLink.css("display", "block");
+	 itemDownloadLink.css("text-align", "-webkit-center");
+	 return itemDownloadLink.prop('outerHTML');
+ }
+ 
  function estadoFormatter(cellvalue,options,rowObject){
 	 itemCartilla=$('<span></span>');
 	 itemCartilla.addClass("estadoMaterial");
@@ -106,7 +120,7 @@ jQuery(document).ready(function () {
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='"+pagePath+"/materialABM/{ENTITY_ID}?asignatura="+asignatura+"&programaId="+programaId+"' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='"+pagePath+"/mvc/programa/"+programaId+"/materialABM/{ENTITY_ID}?asignatura="+asignatura+"&programaId="+programaId+"' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -158,7 +172,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/material",
+       		url:pagePath+"/programa/"+programaId+"/material",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -187,7 +201,34 @@ function deleteMaterial_dialog(materialId){
 	materialIdToRemove = materialId;
 	$("#remMaterial").dialog("open");
 }
-
+function crearMaterialDidacticto(URL){
+	var nro = [];
+	for(i = 1; i< $('#projectTable tr').length ; i++){		
+		nro.push(parseInt($('#projectTable tr:eq('+i+') td:eq(1)').html()));		
+	}
+	
+	var anterior = 1;
+	var changed = false;
+	if(nro.length > 0){
+		anterior = nro[0];
+		for (i = 1 ; i < nro.length; i++){
+			
+			if(((anterior+1)) < nro[i]){
+				anterior++;
+				changed = true;
+				break;
+			}else{
+				anterior++;
+			}
+		}
+	}
+	if(!changed){
+		anterior++;
+	}
+	window.location = URL+"&nro="+anterior;
+	
+	
+}
 function deleteMaterial(){
 	var materialId = materialIdToRemove;
 	
@@ -199,7 +240,7 @@ function deleteMaterial(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/material/"+materialId,
+		url:pagePath+"/programa/"+programaId+"/material/"+materialId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

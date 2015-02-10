@@ -3,32 +3,30 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
-<script src="<%=request.getContextPath()%>/js/cens/asesorprograma.js"></script>
-		<script src="<%=request.getContextPath()%>/js/cens/comentarios.js"></script>
-        <script src="<%=request.getContextPath() %>/js/jquery.timeago.js"></script>
-   		 <script src="<%=request.getContextPath() %>/js/jquery.autogrow-textarea.js"></script>
-    	<script src="<%=request.getContextPath() %>/js/jquery.comment.js"></script>       
+<script src="<%=request.getContextPath()%>/js/cens/asesormaterial.js"></script>
+
+<script src="<%=request.getContextPath()%>/js/cens/comentarios.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.timeago.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.autogrow-textarea.js"></script>
+<script src="<%=request.getContextPath() %>/js/jquery.comment.js"></script>   
+    	
 <script>
 var pagePath="<%=request.getContextPath()%>";
-var programaId = ${programaId};
 var asesorId = ${asesorId};
+var programaId = ${programaId};
+var materialId = ${materialId};
 var asignaturaId = ${asignaturaId};
-var profesorId;
+var nro = ${nro};
 </script>
 
 <fieldset>
 	<div class="tituloForm">
-			<h3 id="titulo">Revisi&oacute;n de Programa <span class="cursoFont"> ${asignatura}</span></h3>
+			<h3 id="titulo">Planificaci&oacute;n del Material Didactico para <span class="cursoFont"> ${asignatura}</span></h3>
 	</div>
 			
-			<h3 class="subtitulo">Datos del Programa</h3>
 			<div>
 				<label for="nombre">Nombre:</label> <input type="text" id="nombre"
-					placeholder="Nombre del programa" readonly/>
-			</div>
-			<div>
-				<label for="profesor">Profesor:</label> <input type="text" id="profesor"
-					placeholder="Nombre del profesor" readonly/>
+					placeholder="Nombre del material did&aacute;ctico" readonly/>
 			</div>
 			<div>
 				<label for="descripcion" style="float: left;">Descripci&oacute;n:</label>
@@ -36,15 +34,22 @@ var profesorId;
 					style="margin-left: 3px;" placeholder="Breve descripci&oacute;n" readonly></textarea>
 			</div>
 			<div>
-				<label for="cantCartillas">Cantidad de Cartillas:</label> <input
-					type="text" id="cantCartillas" maxlength="2" class="entero" readonly/>
+				<label for="divisionPeriodoType">Semestre:</label>
+				 <select id="divisionPeriodoType" disabled>			   
+		        	 <c:forEach items="${division}" var="divisionType" >		         			         		
+		         		<option value="${divisionType.divisionPeriodoType}" selected> ${divisionType.divisionPeriodoType.periodoName} </option>		         				         			         		           
+		        	</c:forEach>
+	        	</select>
 			</div>
-			<div>
-				<label for="downloadPrograma">Programa Adjunto:</label>				
+			
+			<div id="cartillaAdjuntado" style="display:none;">
+				<label for="downloadCartillaAdjunta">Cartilla Adjunta:</label>
 				<div style="display: inline-flex; width: 458px;">
-					<a id="downloadPrograma" class="comments-link bold"></a>					
+					<a id="downloadCartillaAdjunta" class="comments-link bold">No existe una cartilla adjunta</a>					
 				</div>
 			</div>
+			
+			
 		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
 		
 			<div>
@@ -85,8 +90,8 @@ var profesorId;
 			<input type="hidden" id="asesorName" />
 			<input type="hidden" id="btnGuardarPrograma" />
 			<input type="hidden" id="estadoActual" value="${estado}">
-			<c:if test="${id != null}">
-				<input type="hidden" id="id" value="${id}" />
+			<c:if test="${materialId != null}">
+				<input type="hidden" id="id" value="${materialId}" />
 			</c:if>
 		
 </fieldset>

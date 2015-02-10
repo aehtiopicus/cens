@@ -15,10 +15,10 @@ jQuery(document).ready(function () {
 				if(result.cartillaAdjunta!=null){
 					$('#cartillaAdjuntado').toggle();
 					$('#fileUp').toggle();
-					$('#downloadcartilla').prop("download",result.programaAdjunto);
-					$('#downloadcartilla').prop("href",pagePath+"/programa/"+programaId+"/material/"+result.id+"/archivo");					
+					$('#downloadCartillaAdjunta').prop("download",result.cartillaAdjunta);
+					$('#downloadCartillaAdjunta').prop("href",pagePath+"/programa/"+programaId+"/material/"+result.id+"/archivo");					
 					
-					$('#downloadcartilla').html('Descargar la cartilla \"'+result.cartillaAdjunta+'\"');
+					$('#downloadCartillaAdjunta').html('Descargar la cartilla \"'+result.cartillaAdjunta+'\"');
 					link_text_file_remove =  $("#eliminarCartillaAdjunto");
     				link_text_file_remove.on("click",function(){
     					$( '#borrarCartilla').dialog('open');
@@ -30,8 +30,11 @@ jQuery(document).ready(function () {
 			},
 			error: function(value){
 				errorData = errorConverter(value);
-				if(errorData.errorDto != undefined && value.errorDto){
-					alert(errorConverter(value).message);
+				if(errorData.errorDto != undefined && errorData.errorDto){
+					if(validationError(errorData)){
+				  		alert($('<div/>').html(errorData.message).text() );
+					}
+					
 				}else{
 					alert("Se produjo un error el servidor");
 				}
@@ -108,18 +111,22 @@ jQuery(document).ready(function () {
 				text: "Ok",
 				click: function() {
 					 $.ajax({
-						    url:  $('#downloadCartilla').prop("href"),
+						    url:  $('#downloadCartillaAdjunta').prop("href"),
 						    type: 'DELETE',						    
 						    dataType:"json",
 							contentType:"application/json", 
 						    success : function(result){    		 
-								 location.href = location.href;
+						    	$('#cartillaAdjuntado').toggle();
+						    	$('#fileUp').toggle();
+						    	$('#borrarCartilla').dialog("close");
 						    },
 						    error: function(value){
 						    	$( this ).dialog( "close" );	
 						    	 errorData = errorConverter(value);
-									if(errorData.errorDto != undefined && value.errorDto){
-										alert(errorConverter(value).message);
+									if(errorData.errorDto != undefined && errorData.errorDto){
+										if(validationError(errorData)){
+									  		alert($('<div/>').html(errorData.message).text() );
+										}
 									}else{
 										 alert("Se produjo un error el servidor");
 									}
@@ -138,9 +145,6 @@ jQuery(document).ready(function () {
 	});
    $('#divisionPeriodoType option:eq(0)').attr("selected","true");
 });
-function guardarCartilla(){
-	$('#guardarCartilla').dialog("open");
-}
 
 $(function () {
 	 
@@ -149,7 +153,7 @@ $(function () {
     	  url:null,
     	  
           done: function (e, data) {
-              alert("done"); 
+              alert("listo"); 
           },
           
           // The regular expression for allowed file types, matches
@@ -208,11 +212,13 @@ $(function () {
                     return myXhr;
                 },
         	    success : function(result){
-        	    	stopSpinner();
+        	    
+        	    $('#cancelar').trigger("click");
         	    $("#progressbar" ).progressbar( "option", "value", 0 );
            		 $(".progress-label").text( "" );
            		 $("#guardarCartilla").dialog("close"); 
-           		 $('#cancelar').trigger("click");
+           		
+           		
         	    },
                 error: function(value){
                 	stopSpinner();
@@ -220,8 +226,10 @@ $(function () {
             		 $(".progress-label").text( "" );
             		 $("#guardarCartilla").dialog("close");
             		 errorData = errorConverter(value);
-         			if(errorData.errorDto != undefined && value.errorDto){
-         				alert(errorConverter(value).message);
+         			if(errorData.errorDto != undefined && errorData.errorDto){
+         				if(validationError(errorData)){
+    				  		alert($('<div/>').html(errorData.message).text() );
+    					}
          			}else{
          				 alert("Se produjo un error el servidor");
          			}
@@ -252,7 +260,7 @@ function progress (data) {
     $( "#progressbar" ).progressbar( "option", "value", progress );
 };
 
-function guardarPrograma(){
+function guardarCartilla(){
 	if( $('#fileUploadUsed').val()==="true"){
 		 $( "#progressbar" ).progressbar( "option", "value", 0 );
 		 $(".progress-label").text( "" );		
@@ -270,7 +278,7 @@ function guardarSinArchivo(){
  	var post =$('#id').length == 0;
   	
   $.ajax({
-    url:  post ? pagePath+"/programa/"+programaId+"/cartillanf" : (pagePath+"/programa/"+programaId+"/cartillanf/"+$('#id').val()),
+    url:  post ? pagePath+"/programa/"+programaId+"/materialnf" : (pagePath+"/programa/"+programaId+"/materialnf/"+$('#id').val()),
     type: post ? "POST" : "PUT",
     data: cargarData(),
     dataType:"json",
@@ -280,8 +288,10 @@ function guardarSinArchivo(){
     },
     error: function(value){
     	 errorData = errorConverter(value);
-			if(errorData.errorDto != undefined && value.errorDto){
-				alert(errorConverter(value).message);
+			if(errorData.errorDto != undefined && errorData.errorDto){
+				if(validationError(errorData)){
+			  		alert($('<div/>').html(errorData.message).text() );
+				}
 			}else{
 				 alert("Se produjo un error el servidor");
 			}
@@ -294,7 +304,9 @@ function cargarData(){
   			nombre: $('#nombre').val().length===0 ? null : $('#nombre').val(),
   			divisionPeriodoType:  $('#divisionPeriodoType').val(),
   			descripcion: $('#descripcion').val().length===0 ? null : $('#descripcion').val(),
-  			profesorId : profesorId
+  			profesorId : profesorId,
+  			programaId : programaId,
+  			nro:nro,
   			
   		};
 	

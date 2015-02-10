@@ -20,6 +20,7 @@ public class MaterialDidacticoCensMapper {
 	public MaterialDidacticoDto convertMaterialDidacticoToDto(MaterialDidactico materialDidactico){
 		MaterialDidacticoDto dto = Utils.getMapper().map(materialDidactico, MaterialDidacticoDto.class);
 		dto.setProgramaId(materialDidactico.getPrograma().getId());
+		dto.setCartillaAdjunta(materialDidactico.getFileInfo()!=null ? materialDidactico.getFileInfo().getFileName() : null);
 		dto.setProfesorId(materialDidactico.getProfesor().getId());
 		return dto;
 		

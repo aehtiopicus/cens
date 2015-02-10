@@ -60,6 +60,7 @@ var asignaturaId = ${asignaturaId};
 
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="btnGuardarPrograma" />
+			<input type="hidden" id="fileUploadComentarioUsed"/>
 			<c:if test="${id != null}">
 				<input type="hidden" id="id" value="${id}" />
 			</c:if>
@@ -111,6 +112,7 @@ var asignaturaId = ${asignaturaId};
 
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="btnGuardarPrograma" />
+			<input type="hidden" id="fileUploadComentarioUsed"/>
 			<c:if test="${id != null}">
 				<input type="hidden" id="id" value="${id}" />
 			</c:if>

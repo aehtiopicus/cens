@@ -167,6 +167,7 @@ public class UrlConstant {
 	public static final String ASESOR_CENS_CURSO_ASIGNATURAS_REST=ASESOR_CENS_REST+"/{id}/dashboard";
 	public static final String ASESOR_CENS_DASHBOARD_MVC="/mvc/asesor/dashboard";
 	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";	
+	public static final String ASESOR_CENS_MATERIAL_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}/material/{materialId}";
 	/*Comentarios*/
 	public static final String COMENTARIO_CENS_REST="/comentario/comments/list";
 	public static final String COMENTARIO_CENS_NO_FILE_REST="/comentario/comments/listnf";
@@ -174,6 +175,6 @@ public class UrlConstant {
 	public static final String MATERIAL_DIDACTICO_CENS_MVC="/mvc/programa/{id}/material";
 	public static final String MATERIAL_DIDACTICO_CENS_ABM_MVC="/mvc/programa/{programaId}/materialABM";
 	public static final String MATERIAL_DIDACTICO_CENS_REST ="/programa/{id}/material";	
-	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST ="/programa/{id}/programanf";
+	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST ="/programa/{id}/materialnf";
 	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST ="/programa/{id}/material/{materialId}/archivo";	
 }

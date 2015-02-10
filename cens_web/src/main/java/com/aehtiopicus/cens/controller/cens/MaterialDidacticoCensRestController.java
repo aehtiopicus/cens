@@ -73,10 +73,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody MaterialDidacticoDto uploadMaterial(@PathVariable(value="id")Long programaId,@RequestPart("properties")  MaterialDidacticoDto mdDto, @RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
+	public @ResponseBody MaterialDidacticoDto uploadMaterial(@RequestPart("properties")  MaterialDidacticoDto mdDto, @RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
 
 		materialDidacticoValidator.validate(mdDto, file); 
-		mdDto.setProgramaId(programaId);
 		MaterialDidactico md = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
 		
 		md = materialDidacticoCensService.saveMaterialDidactico(md,file);
@@ -86,11 +85,10 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST+"/{materialId}", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody MaterialDidacticoDto updateMaterialDidactico(@PathVariable(value="id")Long programaId,@PathVariable(value="materialId")Long materialId,@RequestPart("properties")  MaterialDidacticoDto mdDto, @RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
+	public @ResponseBody MaterialDidacticoDto updateMaterialDidactico(@PathVariable(value="materialId")Long materialId,@RequestPart("properties")  MaterialDidacticoDto mdDto, @RequestPart(value="file",required=true)   MultipartFile file) throws Exception{		
 
 		materialDidacticoValidator.validate(mdDto, file);
-		mdDto.setId(materialId);
-		mdDto.setProgramaId(programaId);		
+		mdDto.setId(materialId);	
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
 		
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,file);
@@ -100,10 +98,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_NO_FILE_REST, method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody MaterialDidacticoDto uploadPrograma(@PathVariable(value="id")Long programaId,@RequestBody  MaterialDidacticoDto mdDto)  throws Exception{		
+	public @ResponseBody MaterialDidacticoDto uploadPrograma(@RequestBody  MaterialDidacticoDto mdDto)  throws Exception{		
 
 		materialDidacticoValidator.validate(mdDto, null); 
-		mdDto.setProgramaId(programaId);
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
 		
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,null);
@@ -112,12 +109,11 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = UrlConstant.PROGRAMA_CENS_NO_FILE_REST+"/{materialId}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody MaterialDidacticoDto updateMaterial(@PathVariable(value="id")Long programaId,@PathVariable(value="materialId")Long materialId,@RequestBody  MaterialDidacticoDto mdDto) throws Exception{		
+	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_NO_FILE_REST+"/{materialId}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody MaterialDidacticoDto updateMaterial(@PathVariable(value="materialId")Long materialId,@RequestBody  MaterialDidacticoDto mdDto) throws Exception{		
 
 		materialDidacticoValidator.validate(mdDto, null);
-		mdDto.setId(materialId);
-		mdDto.setProgramaId(programaId);		
+		mdDto.setId(materialId);	
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
 		
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,null);
@@ -127,7 +123,7 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST+"/{materialId}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody MaterialDidacticoDto getPrograma(@PathVariable(value="id")Long programaId,@PathVariable(value="materialId")Long materialId) throws Exception{				
+	public @ResponseBody MaterialDidacticoDto getPrograma(@PathVariable(value="materialId")Long materialId) throws Exception{				
 		
 		return mapper.convertMaterialDidacticoToDto(materialDidacticoCensService.findById(materialId));        
 	}
@@ -163,15 +159,25 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST+"/{materialId}",method = RequestMethod.DELETE)
+	public @ResponseBody RestSingleResponseDto deleteMaterialDidactico(@PathVariable("materialId") Long materialId ) throws Exception{
+		
+		materialDidacticoCensService.removeMaterialDidacticoCompleto(materialId);
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+		dto.setId(materialId);
+		dto.setMessage("Material Did&aactue;ctico Eliminado ");
+		return dto;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST+"/{materialId}/estado", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody RestSingleResponseDto updateMaterialDidacticoEstado(@PathVariable(value="id")Long programaId,@PathVariable(value="materialId")Long materialId,@RequestBody  MaterialDidacticoDto mdDto) throws Exception{		
+	public @ResponseBody RestSingleResponseDto updateMaterialDidacticoEstado(@PathVariable(value="materialId")Long materialId,@RequestBody  MaterialDidacticoDto mdDto) throws Exception{		
 
 		materialDidacticoValidator.validateCambioEstado(mdDto.getEstadoRevisionType());
 		
 		materialDidacticoCensService.updateMaterialDidacticoStatus(materialId,mdDto.getEstadoRevisionType());		
 		
-		RestSingleResponseDto dto = new RestSingleResponseDto();
-		dto.setId(programaId);
+		RestSingleResponseDto dto = new RestSingleResponseDto();	
 		dto.setMessage("Estado actualizado correctamente");
 		
 		return dto;

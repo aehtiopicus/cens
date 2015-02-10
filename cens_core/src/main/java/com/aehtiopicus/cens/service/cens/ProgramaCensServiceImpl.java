@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,11 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			throw new CensException("Ya existe un programa para esta asignatura");
 		}
 		if(p!=null && p.getFileInfo()!=null){
+			if(CollectionUtils.isNotEmpty(p.getMaterialDidactico())){
+				if(p.getCantCartillas() > programa.getCantCartillas() && p.getMaterialDidactico().size() > programa.getCantCartillas() ){
+					throw new CensException("La cantiad de cartillas asociadas al programa es mayor a la cantidad de cartillas indicadas.");
+				}
+			}
 			programa.setFileInfo(p.getFileInfo());
 			programa.setEstadoRevisionType(p.getEstadoRevisionType());
 		}

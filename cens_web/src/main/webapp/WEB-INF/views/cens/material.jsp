@@ -21,7 +21,7 @@
     <div class="floatLeftDiv">
     <h3 >Material Did&aacute;ctico de la asignatura ${asignatura}</h3>
     	<div class="acciones" style="padding-bottom: 10px;">
-    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/programa/${programaId}/materialABM?asignatura=${asignatura}'">Nuevo Material Did&aacute;ctico</button>
+    		<button class="button" type="button" onclick="crearMaterialDidacticto('<%=request.getContextPath() %>/mvc/programa/${programaId}/materialABM?asignatura=${asignatura}')">Nuevo Material Did&aacute;ctico</button>
     	</div>
     	<div></div>
 		<!--    Tabla a llenar  -->

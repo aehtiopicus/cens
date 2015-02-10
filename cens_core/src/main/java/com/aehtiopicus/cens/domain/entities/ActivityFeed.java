@@ -14,9 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.aehtiopicus.cens.enumeration.cens.FeedType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
-import com.aehtiopicus.cens.enumeration.cens.Activity;
-import com.aehtiopicus.cens.enumeration.cens.ActivitySubType;
+
 
 @Entity
 @Table(name="cens_activity_feed")
@@ -58,17 +58,11 @@ public class ActivityFeed implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="ultima_notificacion")
 	private Date lastTimeNotified;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name="tipo_actividad")
-	private ActivityType activityType;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="sub_tipo_actividad")
-	private ActivitySubType activitySubType;
-	public Long getId() {
-		return id;
-	}
+	@Column(name="tipo_de_fuente")
+	private FeedType feedType;
+
 
 	public void setId(Long id) {
 		this.id = id;

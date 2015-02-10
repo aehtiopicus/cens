@@ -137,7 +137,9 @@ jQuery(document).ready(function () {
 						    dataType:"json",
 							contentType:"application/json", 
 						    success : function(result){    		 
-								 location.href = location.href;
+						    	$('#programaAdjuntado').toggle();
+						    	$('#fileUp').toogle();
+						    	$('#borrarPrograma').dialog("close");
 						    },
 						    error: function(value){
 						    	$( this ).dialog( "close" );	
@@ -229,11 +231,11 @@ $(function () {
                     return myXhr;
                 },
         	    success : function(result){
-        	    	stopSpinner();
-        	    $("#progressbar" ).progressbar( "option", "value", 0 );
-           		 $(".progress-label").text( "" );
-           		 $("#guardarPrograma").dialog("close"); 
-           		 $('#cancelar').trigger("click");
+        	    	$('#cancelar').trigger("click");        	    
+        	    	$("#progressbar" ).progressbar( "option", "value", 0 );
+           		 	$(".progress-label").text( "" );
+           		 	$("#guardarPrograma").dialog("close"); 
+           		 
         	    },
                 error: function(value){
                 	stopSpinner();

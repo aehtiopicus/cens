@@ -14,6 +14,7 @@
 var pagePath="<%=request.getContextPath()%>";
 var profesorId = ${profesorId};
 var programaId = ${programaId};
+var nro = ${nro};
 </script>
 
 <fieldset>
@@ -49,9 +50,9 @@ var programaId = ${programaId};
 			</div>
 			
 			<div id="cartillaAdjuntado" style="display:none;">
-				<label for="downloadcartilla">Cartilla Adjunta:</label>
+				<label for="downloadCartillaAdjunta">Cartilla Adjunta:</label>
 				<div style="display: inline-flex; width: 458px;">
-					<a id="downloadCartilla" class="comments-link bold">No existe una cartilla adjunta</a>					
+					<a id="downloadCartillaAdjunta" class="comments-link bold">No existe una cartilla adjunta</a>					
 				</div>
 			</div>
 			
@@ -65,8 +66,9 @@ var programaId = ${programaId};
 
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="btnGuardarCartilla" />
-			<c:if test="${id != null}">
-				<input type="hidden" id="id" value="${id}" />
+			<input type="hidden" id="fileUploadComentarioUsed" />
+			<c:if test="${materialId != null}">
+				<input type="hidden" id="id" value="${materialId}" />
 			</c:if>
 		</c:when>
 		<c:otherwise>
@@ -89,9 +91,9 @@ var programaId = ${programaId};
 			</div>
 			
 			<div id="cartillaAdjuntado" style="display:none;">
-				<label for="downloadCartilla">Cartilla Adjunta:</label>
+				<label for="downloadCartillaAdjunta">Cartilla Adjunta:</label>
 				<div style="display: inline-flex; width: 458px;">
-					<a id="downloadCartilla" class="comments-link bold">No existe una cartilla adjunta</a>	
+					<a id="downloadCartillaAdjunta" class="comments-link bold">No existe una cartilla adjunta</a>	
 					<label id="eliminarCartillaAdjunto" class='eliminar-archivo' style='display:none;'></label>
 				</div>
 			</div>
@@ -116,13 +118,14 @@ var programaId = ${programaId};
 				<button class="button" type="button" onclick="guardarCartilla();">Guardar</button>
 
 				<button id="cancelar" class="button" type="button"
-					onclick="window.location='<%=request.getContextPath()%>/mvc/programa/${programaId}/material?asignatura=${asignatura}'">Cancelar</button>
+					onclick=" location.href = document.referrer;">Cancelar</button>
 			</div>
 
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="btnGuardarCartilla" />
-			<c:if test="${id != null}">
-				<input type="hidden" id="id" value="${id}" />
+			<input type="hidden" id="fileUploadComentarioUsed" />
+			<c:if test="${materialId != null}">
+				<input type="hidden" id="id" value="${materialId}" />
 			</c:if>
 		</c:otherwise>
 	</c:choose>

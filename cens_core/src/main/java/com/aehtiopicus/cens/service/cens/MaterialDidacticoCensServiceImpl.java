@@ -46,7 +46,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 	private MaterialDidacticoCensRepository materialDidacticoCensRepository;		
 			
 	@Autowired
-	private ProgramaCensServiceImpl programaCensServiceImpl;
+	private ProgramaCensService programaCensServiceImpl;
 	
 	@Autowired
 	private ProfesorCensRepository profesorCensRepository;
@@ -146,11 +146,12 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 	private MaterialDidactico validate(MaterialDidactico materialDidactico) throws CensException{
 		
 		Specifications<MaterialDidactico> mdSpecification = Specifications.where(MaterialDidacticoSpecification.programaEquals(materialDidactico.getPrograma().getId()));
-		long cantidad = materialDidacticoCensRepository.count(mdSpecification);
+		long cantidad = materialDidacticoCensRepository.count(mdSpecification);		
 		MaterialDidactico md = materialDidacticoCensRepository.findByProgramaAndNombre(materialDidactico.getPrograma(),materialDidactico.getNombre());
 		if(md!=null && (materialDidactico.getId()==null || !md.getId().equals(materialDidactico.getId()))){
-			throw new CensException("Ya existe un material did&aacute;ctico para este programa","nombre","Nombre duplicado");
+			throw new CensException("Ya existe material did&aacute;ctico para este programa","nombre","Nombre duplicado");
 		}
+//		materialDidactico.setNro(md!=null ? md.getNro() :(int)cantidad+1);
 		if(md!=null && md.getFileInfo()!=null){
 			materialDidactico.setFileInfo(md.getFileInfo());
 			materialDidactico.setEstadoRevisionType(md.getEstadoRevisionType());
@@ -190,6 +191,19 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 	public void updateMaterialDidacticoStatus(Long materialId,
 			EstadoRevisionType estadoRevisionType) {
 		materialDidacticoCensRepository.updateMaterialDidacticoStatus(materialId,estadoRevisionType);
+		
+	}
+
+
+	@Override
+	public void removeMaterialDidacticoCompleto(Long materialId) throws CensException{
+		MaterialDidactico md = findById(materialId);
+		if(!md.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)){
+			fileCensService.deleteFileCensInfo(md.getFileInfo());
+			materialDidacticoCensRepository.delete(md);
+		}else{
+			throw new CensException("No se puede eliminar el Material didáctico ya que fue ACEPTADO por asesor&iacute;a");
+		}
 		
 	}
 }

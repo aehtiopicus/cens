@@ -60,9 +60,10 @@ function datosAsignatura(value,currentDiv,asignatura){
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
 	
-	var list ='<ul>{profesor}{programa}</ul>';		
+	var list ='<ul>{profesor}{programa}{material}</ul>';		
 	list = list.replace('{profesor}',datosProfesor(value,asignatura.profe,asignatura.profeSuplente));
 	list = list.replace('{programa}',datosPrograma(value,asignatura));
+	list = list.replace('{material}',datosMaterial(value,asignatura));
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
 	currentPorlet = currentPorlet.append(divPorletContet);
@@ -89,6 +90,37 @@ function datosPrograma(value,asignatura){
 	
 	return itemPrograma.replace("{link}",itemLink.replace("{text}",itemText));
 }
+function datosMaterial(value,asignatura){
+
+	var itemMaterial=$('<li></li>');
+	itemMaterial.append("Material Did&aacute;ctico: ");	
+	if(asignatura.programa!==null && asignatura.programa !== undefined && asignatura.programa.materialDidactico !== null && asignatura.programa.materialDidactico.length >0){
+			$.each(asignatura.programa.materialDidactico.sort(function(a,b){
+				  return a.nro-b.nro;
+			}), function(index,md){
+				if(estadoRevision(md)){
+					itemCartillaNumeroLink = $('<a></a>');
+					itemMaterialInterno = $('<span></span>');
+					itemMaterialInterno.addClass("estadoMaterial");
+					itemMaterialInterno.html(md.nro+" ");
+					itemMaterialInterno.addClass(md.estadoRevisionType.toLowerCase());
+					
+					itemCartillaNumeroLink.attr("href",pagePath+"/mvc/asesor/"+asesorId+"/asignatura/"+asignatura.id+"/programa/"+asignatura.programa.id+"/material/"+md.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+md.nro+"&estado="+md.estadoRevisionType);
+					itemCartillaNumeroLink.append(itemMaterialInterno);
+					itemMaterial.append(itemCartillaNumeroLink);
+				}
+			});
+		
+	}else{
+		itemMaterialInterno = $('<span></span>');
+		itemMaterialInterno.addClass("estadoMaterial");
+		itemMaterialInterno.html("(No Existe)");
+		itemMaterialInterno.addClass("inexistente");
+		itemMaterial.append(itemMaterialInterno);
+	}
+	return itemMaterial.prop('outerHTML');
+}
+
 function datosProfesor(value,profe,suplente){
 	var itemProfesor='<li>{nombreProfe}: <span class="estadoMaterial {subClass}">{profesor}</span></li>';
 	itemProfesor = itemProfesor.replace("{nombreProfe}","Profesor");
