@@ -55,7 +55,8 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	private FileCensService fileCensService;
 	
 	@Autowired
-	 private CacheManager cacheManager;
+	private CacheManager cacheManager;
+		
 	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
@@ -239,7 +240,7 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		return programaCensService.getProgramasForAsignatura(id);
 	}
 
-	@Cacheable(value="asignaturaProfesor")
+	@Cacheable(value="cursoProfesor")
 	@Override
 	public List<Curso> listarAsignaturasByProfesor(Long id) {
 		return assembleCursoList(asignaturaCensRepository.findByProfesorId(id));

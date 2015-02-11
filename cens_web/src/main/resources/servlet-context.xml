@@ -62,6 +62,7 @@
 	<context:property-placeholder location="classpath:/consolidado.properties, classpath:/empresa.properties" />
 	<util:properties id="censProperties" location="classpath:/cens.properties"/>
 	<util:properties id="restRequestProperties" location="classpath:/rest.request.properties"/>
+	<util:properties id="cacheProperties" location="classpath:/cache.properties"/>
 
 	
 </beans:beans>

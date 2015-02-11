@@ -15,6 +15,7 @@
     <jpa:repositories base-package="com.aehtiopicus.cens.repository" />
 	
 	<!-- Aspect -->
+	<bean id="cacheAspect" class="com.aehtiopicus.cens.aspect.cens.CacheAspect" />
 	<bean id="comentarioAspect" class="com.aehtiopicus.cens.aspect.cens.ComentarioAspect" />
 	<bean id="informeMensualAspect" class="com.aehtiopicus.cens.aspect.InformeMensualAspect" />
 	<bean id="informeConsolidadoAspect" class="com.aehtiopicus.cens.aspect.InformeConsolidadoAspect" />
