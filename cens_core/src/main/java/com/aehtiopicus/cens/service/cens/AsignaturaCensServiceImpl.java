@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
@@ -51,6 +53,9 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	
 	@Autowired
 	private FileCensService fileCensService;
+	
+	@Autowired
+	 private CacheManager cacheManager;
 	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
@@ -234,6 +239,7 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		return programaCensService.getProgramasForAsignatura(id);
 	}
 
+	@Cacheable(value="asignaturaProfesor")
 	@Override
 	public List<Curso> listarAsignaturasByProfesor(Long id) {
 		return assembleCursoList(asignaturaCensRepository.findByProfesorId(id));

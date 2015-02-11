@@ -74,7 +74,7 @@ function datosMaterial(value,asignatura){
 	var itemCartillas=$('<li></li>');
 	var itemCartillasLink=$('<a></a>');
 	itemCartillasLink.html("Material Did&aacute;ctico");
-	if(asignatura.programa!==null && asignatura.programa.estadoRevisionType === "ACEPTADO"){
+	if(asignatura.programa!==undefined && asignatura.programa!==null && asignatura.programa.estadoRevisionType === "ACEPTADO"){
 		itemCartillasLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/material?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
 		itemCartillas.append(itemCartillasLink);
 		itemCartillas.append("&nbsp;");
@@ -113,7 +113,7 @@ function datosMaterial(value,asignatura){
 }
 function datosPrograma(value,asignatura){
 	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <span class="estadoMaterial {subClass}">({estado})</span></a></li>';
-	if(asignatura.programa!==null){
+	if(asignatura.programa!=undefined && asignatura.programa!==null){
 		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO" || asignatura.programa.estadoRevisionType ==="CAMBIOS" || asignatura.programa.estadoRevisionType ==="RECHAZADO"){
 			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
 		}else{

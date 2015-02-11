@@ -34,11 +34,11 @@ function cargarDatos(data){
 			
 	currentDiv =($('#yearContent').append('<div class="censaccordion"></div>')).children();
 	
-	if(data.cursoDto!==null){
+	if(data.cursoDto!=null){
 		$.each(data.cursoDto,function(index,value){		
 		
 			currentDiv=datosCurso(currentDiv,value);
-			if(value.asignaturas!==null){
+			if(value.asignaturas!=null){
 				$.each(value.asignaturas,function(index,asignatura){	
 					datosAsignatura(value,currentDiv,asignatura);						
 				});
@@ -75,7 +75,7 @@ function datosPrograma(value,asignatura){
 	var itemPrograma='<li>{link}</li>';
 	var itemLink = '<a href="'+pagePath+'/mvc/asesor/'+asesorId+'/asignatura/{id}/programa{existente}{nombreAsignatura}">{text}</a>';
 	var itemText ='Programa: <span class="estadoMaterial {subClass}">({estado})</span>';
-	if(asignatura.programa!==null && estadoRevision(asignatura.programa)){
+	if(asignatura.programa!=null && estadoRevision(asignatura.programa)){
 	
 			itemLink = itemLink.replace("{existente}","/"+asignatura.programa.id).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&estado="+asignatura.programa.estadoRevisionType);
 			itemText = itemText.replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase());
@@ -94,7 +94,7 @@ function datosMaterial(value,asignatura){
 
 	var itemMaterial=$('<li></li>');
 	itemMaterial.append("Material Did&aacute;ctico: ");	
-	if(asignatura.programa!==null && asignatura.programa !== undefined && asignatura.programa.materialDidactico !== null && asignatura.programa.materialDidactico.length >0){
+	if(asignatura.programa!=null && asignatura.programa != undefined && asignatura.programa.materialDidactico != null && asignatura.programa.materialDidactico.length >0){
 			$.each(asignatura.programa.materialDidactico.sort(function(a,b){
 				  return a.nro-b.nro;
 			}), function(index,md){
@@ -124,9 +124,9 @@ function datosMaterial(value,asignatura){
 function datosProfesor(value,profe,suplente){
 	var itemProfesor='<li>{nombreProfe}: <span class="estadoMaterial {subClass}">{profesor}</span></li>';
 	itemProfesor = itemProfesor.replace("{nombreProfe}","Profesor");
-	if(suplente!==null){		
+	if(suplente!==undefined && suplente!=null){		
 		return itemProfesor.replace("{profesor}",suplente.apellido.toUpperCase()+", ("+suplente.dni+")").replace("{subClass}","nuevo");
-	}else if(profe!==null){
+	}else if(profe !==undefined && profe!=null){
 		return itemProfesor.replace("{profesor}",profe.apellido.toUpperCase()+", ("+profe.dni+")").replace("{subClass}","nuevo");
 	}else{
 		return itemProfesor.replace("{profesor}","No Asignado").replace("{subClass}","rechazado");

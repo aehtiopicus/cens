@@ -148,7 +148,8 @@ public class ProfesorCensServiceImpl implements ProfesorCensService{
 		asignaturaCensService.removeProfesorFromAsignaturas(this.findById(profesorId));		
 	}
 
-	@Override
+	
+	@Override	
 	public List<Curso> listCursoAsignaturaByProfesor(Profesor profesor) {
 		return asignaturaCensService.listarAsignaturasByProfesor(profesor.getId());
 	}
