@@ -10,8 +10,8 @@
 		<intercept-url pattern="/inicializar/**" access="ROLE_ANONYMOUS"  />
 		<intercept-url pattern="/login/**" access="ROLE_ANONYMOUS"  />
 		<intercept-url pattern="/loginfailed/**" access="ROLE_ANONYMOUS"  />
-		<intercept-url pattern="/css/midasUI-theme/images/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR,ROLE_ASESOR, ROLE_RRHH, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/adjuntos/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_RRHH, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
+		<intercept-url pattern="/css/midasUI-theme/images/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />
+		<intercept-url pattern="/adjuntos/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 
 		
 		<intercept-url pattern="/usuarios" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
@@ -19,27 +19,28 @@
 		<intercept-url pattern="/usuariosgrilla**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 		<intercept-url pattern="/removeusuario**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 		
-		<intercept-url pattern="/empleado" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_RRHH, ROLE_ADMINISTRACION"  />
+		<intercept-url pattern="/empleado" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 
-		<intercept-url pattern="/cliente" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/cliente/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
+		<intercept-url pattern="/cliente" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/cliente/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 		
-		<intercept-url pattern="/clientes/beneficios" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/clientes/beneficiosgrilla**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/clientes/removebeneficiocliente**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/clientes/beneficios/changeestado**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
-		<intercept-url pattern="/clientes/beneficio/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION"  />
+		<intercept-url pattern="/clientes/beneficios" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/clientes/beneficiosgrilla**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/clientes/removebeneficiocliente**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/clientes/beneficios/changeestado**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/clientes/beneficio/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 
 
-		<intercept-url pattern="/operacion/informemensual/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_ADMINISTRACION, ROLE_GTEOPERACION, ROLE_JEFEOPERACION" />
-		<intercept-url pattern="/operacion/informemensualexceldata/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_ADMINISTRACION, ROLE_GTEOPERACION, ROLE_JEFEOPERACION" />
-		<intercept-url pattern="/operacion/informemensualexcelexport**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_ADMINISTRACION, ROLE_GTEOPERACION, ROLE_JEFEOPERACION" />
+		<intercept-url pattern="/operacion/informemensual/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
+		<intercept-url pattern="/operacion/informemensualexceldata/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
+		<intercept-url pattern="/operacion/informemensualexcelexport**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
 		
-		<intercept-url pattern="/operacion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_GTEOPERACION, ROLE_JEFEOPERACION"  />
-		<intercept-url pattern="/administracion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_ADMINISTRACION"  />
+		<intercept-url pattern="/operacion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
+		<intercept-url pattern="/administracion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
 								
+		
 		 
-		<intercept-url pattern="/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_RRHH, ROLE_GTEOPERACION, ROLE_JEFEOPERACION, ROLE_ADMINISTRACION" />
+		<intercept-url pattern="/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
 
 		
 		<form-login 

@@ -68,6 +68,8 @@ public class VistasConstant {
 	
 	
 	/**********/
+	/*MAIN*/
+	public static final String MAIN ="cens/main";
 	/*404*/
 	public static final String NOT_FOUND = "cens/404";
 	
