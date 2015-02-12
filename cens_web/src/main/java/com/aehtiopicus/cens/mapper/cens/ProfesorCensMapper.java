@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
@@ -55,7 +56,7 @@ public class ProfesorCensMapper {
 		}
 		return profesorList;
 	}
-
+	@Cacheable(value="profesorDashboardMapper",key="#profesor.id")
 	public ProfesorAsignaturaDto convertCursoListIntoProfesorAsignaturaDto(
 			List<Curso> cursoList,Profesor profesor, List<Programa> programaList) {
 		ProfesorAsignaturaDto dto = new ProfesorAsignaturaDto();

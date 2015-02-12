@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
@@ -157,6 +158,7 @@ public class CursoCensServiceImpl implements CursoCensService{
 	}
 
 	@Override
+	@Cacheable("cursoAsesor")
 	public List<Curso> listCursoAsignatura() {
 		List<Curso> cursoList = cursoCensRepository.findDistinctCursoByAsignaturaAndAsignatura();
 		if(CollectionUtils.isNotEmpty(cursoList)){

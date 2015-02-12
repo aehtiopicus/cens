@@ -172,7 +172,7 @@ if ( typeof Object.create !== 'function' ) {
     	  	  $('#fileUploadComentarioUsed').val("false");
                 if(result.success!=undefined)
                 {
-                    if(result.success===false)
+                    if(result.success==false)
                     {
                         // error
                         $.each(result, function(key, val){
@@ -497,7 +497,7 @@ if ( typeof Object.create !== 'function' ) {
 			post_head.append(username);
 
 			// in reply-to
-			if(comment_info.parent_id!==null && comment_info.parent_id!=0)
+			if(comment_info.parent_id!=null && comment_info.parent_id!=0)
 			{
 				// in-reply-to
 				var in_reply_to = $('<span></span>');
@@ -552,7 +552,7 @@ if ( typeof Object.create !== 'function' ) {
 			var link_text_div =$('<div class="linkTextDiv"></div>');
 			var link_text;
 			var link_text_file_remove;
-			if(comment_info.attachments!==null){
+			if(comment_info.attachments!=null){
 				
 				link_text_file_remove =  $("<label class='eliminar-archivo' style='display:none;'></label>");
 				link_text_file_remove.on("click",function(){
@@ -701,7 +701,7 @@ if ( typeof Object.create !== 'function' ) {
 			}
 
 			// check if has childrens
-			if(comment_info.childrens!==null && comment_info.childrens.length>0)
+			if(comment_info.childrens!=null && comment_info.childrens.length>0)
 			{
 				for(var i=0;i<comment_info.childrens.length;i++)
 				{

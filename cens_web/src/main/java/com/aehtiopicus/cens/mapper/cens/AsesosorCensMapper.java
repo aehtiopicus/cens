@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.Asesor;
@@ -25,6 +26,7 @@ import com.aehtiopicus.cens.util.Utils;
 @Component
 public class AsesosorCensMapper {
 
+	@Cacheable(value="asesorDashboardMapper",key="#asesorId")
 	public AsesorDashboardDto convertToAsesorDashboardDto(List<Curso> cursoList,Long asesorId, List<Programa> programas) {
 		AsesorDashboardDto dto = new AsesorDashboardDto();
 		dto.setId(asesorId);
