@@ -8,7 +8,7 @@
 		
  		<fieldset>
 			<div class="center">
-				<img src="css/midasUI-theme/images/logo_cens.png">
+				<img src="<%=request.getContextPath()%>/css/midasUI-theme/images/logo_cens.png">
 			</div>
 	
 			<div>

@@ -9,38 +9,25 @@
 	<http auto-config="true" access-denied-page="/accesodenegado">
 		<intercept-url pattern="/inicializar/**" access="ROLE_ANONYMOUS"  />
 		<intercept-url pattern="/login/**" access="ROLE_ANONYMOUS"  />
-		<intercept-url pattern="/loginfailed/**" access="ROLE_ANONYMOUS"  />
+		<intercept-url pattern="/loginfailed/**" access="ROLE_ANONYMOUS"  />											
+		
+				
+		<intercept-url pattern="/mvc/asesor/**" access="ROLE_ASESOR" />
+		<intercept-url pattern="/asesor/**" access="ROLE_ASESOR" />
+		
+		<intercept-url pattern="/mvc/curso**" access="ROLE_PRECEPTOR" />
+		<intercept-url pattern="/curso/**" access="ROLE_PRECEPTOR" />
+		
+		<intercept-url pattern="/asignatura/**" access="ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR" />
+		<intercept-url pattern="/programa/**" access="ROLE_ASESOR, ROLE_PROFESOR" />
+		
+		<intercept-url pattern="/css/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />
+		<intercept-url pattern="/js/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />
+		<intercept-url pattern="/comentario/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />		
 		<intercept-url pattern="/css/midasUI-theme/images/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />
-		<intercept-url pattern="/adjuntos/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-
+		<intercept-url pattern="/mvc/main" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />
 		
-		<intercept-url pattern="/usuarios" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/usuario/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/usuariosgrilla**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/removeusuario**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		
-		<intercept-url pattern="/empleado" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-
-		<intercept-url pattern="/cliente" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/cliente/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		
-		<intercept-url pattern="/clientes/beneficios" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/clientes/beneficiosgrilla**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/clientes/removebeneficiocliente**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/clientes/beneficios/changeestado**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/clientes/beneficio/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-
-
-		<intercept-url pattern="/operacion/informemensual/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
-		<intercept-url pattern="/operacion/informemensualexceldata/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
-		<intercept-url pattern="/operacion/informemensualexcelexport**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
-		
-		<intercept-url pattern="/operacion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-		<intercept-url pattern="/administracion/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR"  />
-								
-		
-		 
-		<intercept-url pattern="/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR" />
+		<intercept-url pattern="/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO" />
 
 		
 		<form-login 

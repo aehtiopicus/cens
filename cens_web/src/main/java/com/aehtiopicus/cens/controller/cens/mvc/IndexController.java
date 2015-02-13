@@ -57,7 +57,7 @@ public class IndexController extends AbstractController{
 		return mav;
 	}
     
-    @RequestMapping(value = {"/main",UrlConstant.MAIN_URL}, method = RequestMethod.GET)
+    @RequestMapping(value = {UrlConstant.MAIN_URL}, method = RequestMethod.GET)
     public ModelAndView start(Locale locale, Model model, Principal principal) {
         logger.info("Configuracion correcta.");
         
