@@ -6,7 +6,7 @@
                     http://www.springframework.org/schema/security 
                     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<http auto-config="true" access-denied-page="/accesodenegado">
+	<http auto-config="true" access-denied-page="/errors/401">
 		<intercept-url pattern="/inicializar/**" access="ROLE_ANONYMOUS"  />
 		<intercept-url pattern="/login/**" access="ROLE_ANONYMOUS"  />
 		<intercept-url pattern="/loginfailed/**" access="ROLE_ANONYMOUS"  />											

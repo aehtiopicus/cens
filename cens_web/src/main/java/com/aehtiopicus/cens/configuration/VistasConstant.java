@@ -70,8 +70,9 @@ public class VistasConstant {
 	/**********/
 	/*MAIN*/
 	public static final String MAIN ="cens/main";
-	/*404*/
+	/*40x*/
 	public static final String NOT_FOUND = "cens/404";
+	public static final String UNAUTHORIZED = "cens/401";
 	
 	/*Miembro*/
 	public final static String MIEMBRO_LIST_VIEW = "cens/miembrocens";
@@ -92,4 +93,6 @@ public class VistasConstant {
 	/*Material*/
 	public final static String MATERIAL_LIST_VIEW = "cens/material";
 	public static final String MATERIAL_ABM_VIEW = "cens/materialabm";
+
+	
 }

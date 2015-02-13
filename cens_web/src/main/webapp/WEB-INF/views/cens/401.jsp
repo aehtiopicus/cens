@@ -14,7 +14,7 @@
 <div class="centreDiv">
   
     <div class="statusError">
-			<h3>P&aacute;gina Solicitada Inexistente</h3>
+			<h3>Recurso Inhabilitado para el usuario</h3>
 			
 	
 	        

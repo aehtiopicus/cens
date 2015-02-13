@@ -1011,3 +1011,11 @@ padding-right: 40px;
 #accordion{
 	
 }
+
+.statusError{
+	text-align: center;
+position: absolute;
+top: 30%;
+left: 42%;
+}
+}
