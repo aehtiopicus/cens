@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
 	if(!isNaN(pageId())){
 		startSpinner();
 		$.ajax({
-			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
+			url: pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+pageId(),
 			type: "GET",	    	    
 			contentType :'application/json',
 			dataType: "json",    
@@ -24,7 +24,7 @@ jQuery(document).ready(function () {
 				profesorId = result.profesorId;
 									
 				$('#downloadPrograma').prop("download",result.programaAdjunto);
-				$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");
+				$('#downloadPrograma').prop("href",pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");
 				$('#downloadPrograma').html("Descargar el programa \""+result.programaAdjunto+"\"");
 					
 			},
@@ -64,11 +64,11 @@ jQuery(document).ready(function () {
 
     $('#accordion').comment({
        title: 'Comentarios',
-       url_get: pagePath+'/comentario/comments/list',
-       url_input: pagePath+'/comentario/comments/list',
-       url_delete: pagePath+'/comentario/comments/list',
-       url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
-       url_remove_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
+       url_get: pagePath+'/api/comentario/comments/list',
+       url_input: pagePath+'/api/comentario/comments/list',
+       url_delete: pagePath+'/api/comentario/comments/list',
+       url_open_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
+       url_remove_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
        arguments:{tipoType:"PROGRAMA",tipoId:programaId,usuarioId:asesorId,usuarioTipo:"ASESOR"},
        limit: 10,
        auto_refresh: false,
@@ -108,7 +108,7 @@ function cambiarEstado(){
 function dejarComentario(){
 	
 	$.ajax({
-	    url:  pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()+"/estado",
+	    url:  pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+$('#id').val()+"/estado",
 	    type: "PUT",
 	    data: JSON.stringify({estadoRevisionType: $("#estado").val()}),
 	    dataType:"json",

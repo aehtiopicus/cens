@@ -50,7 +50,7 @@ function checkDivNoExist(value){
 }
 
 function checkDate(datevalue){
-	  re = /^\d{4}\-\d{2}\-\d{2}$/;	  
+	  re = /^\d{2}\-\d{2}\-\d{4}$/;	  
 	  if(datevalue === '' || !datevalue.match(re)) {	    
 	    return false;
 	  }
@@ -60,15 +60,16 @@ function checkDate(datevalue){
 function cargarMensaje(data,ok){
 	//cargo mensaje en pantalla
 	if(ok){
-		$('#message').text(data.message)
+		$('#message').text($('<div/>').html(data.message).text())
 	}else{
 		if(data.errorDto != undefined && data.errorDto){
-			$('#message').text(data.message)
+			$('#message').text($('<div/>').html(data.message).text())
 		}else{
 			$('#message').text("Se produjo un error en el servidor");
 		}
 	}
 	setTimeout("$('#message').text('')", 5000);
+	
 }
 
 function fixTable(){

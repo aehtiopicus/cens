@@ -3,14 +3,14 @@ jQuery(document).ready(function () {
 
 	if(!isNaN(pageId())){
 	$.ajax({
-		url: pagePath+"/miembro/"+pageId(),
+		url: pagePath+"/api/miembro/"+pageId(),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
 		success: function(data){
 			$('#id').val(data.id);
 			$('#usuarioid').val(data.usuario.id);
-			$('#fechaNac').val(convertDate(data.fechaNac));
+			$('#fechaNac').datepicker( "setDate", new Date(data.fechaNac+(60*60*1000) ));//val(convertDate(data.fechaNac));
 			$('#username').val(data.usuario.username);
 			$('#nombre').val(data.nombre);
 			$('#apellido').val(data.apellido);
@@ -64,7 +64,7 @@ function submitMiembro(){
 	if(checkForm(post)){		
 	$.ajax({
 		  type: post ? "POST" : "PUT",
-		  url: post? pagePath+"/miembro" :(pagePath+"/miembro"+"/"+ $('#id').val()),
+		  url: post? pagePath+"/api/miembro" :(pagePath+"/api/miembro"+"/"+ $('#id').val()),
 		  data: prepareData(post),
 		  dataType:"json",
 		  contentType:"application/json", 
@@ -111,7 +111,7 @@ function prepareData(post){
 		
 		var usuario='{"id":'+($("#usuarioid").length == 0 ? null : $("#usuarioid").val())+',"username":"'+$('#username').val()+'","password":"'+$('#password').val()+'","passwordConfirm":"'+$('#passwordConfirm').val()+'","perfil":['+tipo+']}';		
 		var postData = '[{post}]';
-		var miembroCens ='{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').val().replace("/","-")+'","usuario":'+usuario+'}';
+		var miembroCens ='{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').datepicker("getDate").toISOString()+'","usuario":'+usuario+'}';
 		if(post){
 			miembroCens = postData.replace('{post}',miembroCens);
 		}
@@ -139,7 +139,7 @@ function deleteAsignaturas(){
 
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/profesor/"+$('#profesorId').val()+"/removerasignaturas",
+		url:pagePath+"/api/profesor/"+$('#profesorId').val()+"/removerasignaturas",
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

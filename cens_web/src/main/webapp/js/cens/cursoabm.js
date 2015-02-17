@@ -26,7 +26,7 @@ $("#yearCurso").focusout(function(a) {
 
 if(!isNaN(pageId())){
 	$.ajax({
-		url: pagePath+"/curso/"+pageId(),
+		url: pagePath+"/api/curso/"+pageId(),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
@@ -55,7 +55,7 @@ function submitCurso(){
 			
 	$.ajax({
 		  type: post ? "POST" : "PUT",
-		  url: post? pagePath+"/curso" :(pagePath+"/curso/"+ $('#id').val()),
+		  url: post? pagePath+"/api/curso" :(pagePath+"/api/curso/"+ $('#id').val()),
 		  data: prepareData(post),
 		  dataType:"json",
 		  contentType:"application/json", 

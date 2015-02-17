@@ -13,6 +13,6 @@ public class ComentarioAspect {
 			pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.saveComentario(..))", 
 			returning = "comentario")
 	public void saveNotification(JoinPoint joinPoint, ComentarioCens comentario){
-		System.out.println("aaaa");
+		
 	}
 }

@@ -22,28 +22,28 @@
 
 			<div>
 				<label for="nombre">Nombre:</label>
-				<input type="text" id="nombre"/>
+				<input type="text" id="nombre" placeholder="Ingrese Nombre de Asignatura"/>
 			</div>
 			<div>
 				<label for="modalidad">Modalidad:</label>
-				<input type="text" id="modalidad"/>
+				<input type="text" id="modalidad" placeholder="Ingrese Modalidad de Asignatura"/>
 			</div>
 			<div>
 				<label for="horarios">Horarios:</label>
-				<input type="text" id="horarios"/>
+				<input type="text" id="horarios" placeholder="Ingrese Horarios de Asignatura"/>
 			</div>					
 			<div>
 				<label for="profesor">Profesor:</label>
-				<input type="text" id="profesor"/>
+				<input type="text" id="profesor" placeholder="Ingrese Profesor de Asignatura"/>
 			</div>	
 			<div>
 				<label for="profesorSuplente">Profesor Suplente:</label>
-				<input type="text" id="profesorSuplente"/>
+				<input type="text" id="profesorSuplente" placeholder="Ingrese Suplente de Asignatura"/>
 			</div>	
 			
 			<div>
 				<label for="curso">Curso:</label>
-				<input type="text" id="curso"/>
+				<input type="text" id="curso" placeholder="Ingrese Curso de Asignatura"/>
 			</div>
 			<div>
 				<label for="vigente">vigente:</label>

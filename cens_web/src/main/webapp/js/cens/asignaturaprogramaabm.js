@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
 	if(!isNaN(pageId())){
 		startSpinner();
 		$.ajax({
-			url: pagePath+"/asignatura/"+asignaturaId+"/programa/"+pageId(),
+			url: pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+pageId(),
 			type: "GET",	    	    
 			contentType :'application/json',
 			dataType: "json",    
@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
 					$('#programaAdjuntado').toggle();
 					$('#fileUp').toggle();
 					$('#downloadPrograma').prop("download",result.programaAdjunto);
-					$('#downloadPrograma').prop("href",pagePath+"/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");					
+					$('#downloadPrograma').prop("href",pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");					
 					
 					$('#downloadPrograma').html('Descargar el programa \"'+result.programaAdjunto+'\"');
 					link_text_file_remove =  $("#eliminarProgramaAdjunto");
@@ -41,11 +41,11 @@ jQuery(document).ready(function () {
 		$('#comentariosTitulo').toggle();
 		$('#accordion').comment({
 		       title: 'Comentarios',
-		       url_get: pagePath+'/comentario/comments/list',
-		       url_input: pagePath+'/comentario/comments/list',
-		       url_delete: pagePath+'/comentario/comments/list',
-		       url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
-		       url_remove_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
+		       url_get: pagePath+'/api/comentario/comments/list',
+		       url_input: pagePath+'/api/comentario/comments/list',
+		       url_delete: pagePath+'/api/comentario/comments/list',
+		       url_open_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
+		       url_remove_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
 		       arguments:{tipoType:"PROGRAMA",tipoId:pageId(),usuarioId:profesorId,usuarioTipo:"PROFESOR"},
 		       limit: 10,
 		       auto_refresh: false,
@@ -218,7 +218,7 @@ $(function () {
         	  	var post =$('#id').length == 0;
 
         	  $.ajax({
-        	    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programa" : (pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
+        	    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programa" : (pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
         	    type:  "POST",//post si o si sino no funciona
         	    data: formData,
         	    processData: false,  // tell jQuery not to process the data
@@ -293,7 +293,7 @@ function guardarSinArchivo(){
  	var post =$('#id').length == 0;
   	
   $.ajax({
-    url:  post ? pagePath+"/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
+    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
     type: post ? "POST" : "PUT",
     data: cargarData(),
     dataType:"json",

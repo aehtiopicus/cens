@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
 	
     jQuery("#projectTable").jqGrid({    	
-    		url:pagePath+"/programa/"+programaId+"/material",    		
+    		url:pagePath+"/api/programa/"+programaId+"/material",    		
             datatype: "json",
             hidegrid:false,
             contentType :'application/json',
@@ -101,7 +101,7 @@ jQuery(document).ready(function () {
 	 itemDownloadLink.addClass("bold");
 	 itemDownloadLink.html(cellValue);
 	 itemDownloadLink.prop("download",cellValue),
-	 itemDownloadLink.prop("href",pagePath+"/programa/"+programaId+"/material/"+rowObject.id+"/archivo");
+	 itemDownloadLink.prop("href",pagePath+"/api/programa/"+programaId+"/material/"+rowObject.id+"/archivo");
 	 itemDownloadLink.css("display", "block");
 	 itemDownloadLink.css("text-align", "-webkit-center");
 	 return itemDownloadLink.prop('outerHTML');
@@ -120,7 +120,7 @@ jQuery(document).ready(function () {
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='"+pagePath+"/mvc/programa/"+programaId+"/materialABM/{ENTITY_ID}?asignatura="+asignatura+"&programaId="+programaId+"' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='"+pagePath+"/mvc/programa/"+programaId+"/materialABM/{ENTITY_ID}?asignatura="+asignatura+"&programaId="+programaId+"&nro="+rowObject.nro+"' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -172,7 +172,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/programa/"+programaId+"/material",
+       		url:pagePath+"/api/programa/"+programaId+"/material",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -240,7 +240,7 @@ function deleteMaterial(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/programa/"+programaId+"/material/"+materialId,
+		url:pagePath+"/api/programa/"+programaId+"/material/"+materialId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

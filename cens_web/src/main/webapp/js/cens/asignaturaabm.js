@@ -13,6 +13,10 @@ jQuery(document).ready(function () {
 			   $( "#profesorName" ).val(ui.item.label);
 			return false;
 			},
+			 focus: function (event, ui) {
+			        this.value = ui.item.label;
+			        event.preventDefault(); // Prevent the default focus behavior.
+			  },
 			change : function(event,ui){
 				if(ui.item != null){
 					$( "#profesor" ).val(ui.item.label);	
@@ -43,6 +47,10 @@ jQuery(document).ready(function () {
 			   $( "#profesorSuplenteName" ).val(ui.item.label);
 			return false;
 			},
+			 focus: function (event, ui) {
+			        this.value = ui.item.label;
+			        event.preventDefault(); // Prevent the default focus behavior.
+			  },
 			change : function(event,ui){
 				if(ui.item != null){
 					$( "#profesorSuplente" ).val(ui.item.label);	
@@ -65,7 +73,11 @@ jQuery(document).ready(function () {
 		   minLength: 4,
 		   source : function(request,response){
 			   cargarDatos('curso',request.term,'curso',response);
-		   },
+		   },		 
+		   focus: function (event, ui) {
+		        this.value = ui.item.label;
+		        event.preventDefault(); // Prevent the default focus behavior.
+		  },
 		  
 		   select : function(event,ui){
 			   $( "#curso" ).val(ui.item.label);		
@@ -93,7 +105,7 @@ jQuery(document).ready(function () {
 
 if(!isNaN(pageId())){
 	$.ajax({
-		url: pagePath+"/asignatura/"+pageId(),
+		url: pagePath+"/api/asignatura/"+pageId(),
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
@@ -132,7 +144,7 @@ if(!isNaN(pageId())){
 
 function cargarDatos(field,value,url,response){
 	$.ajax({
-		url: pagePath+"/"+url,
+		url: pagePath+"/api/"+url,
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",
@@ -189,7 +201,7 @@ function submitAsignatura(){
 			
 	$.ajax({
 		  type: post ? "POST" : "PUT",
-		  url: post? pagePath+"/asignatura" :(pagePath+"/asignatura/"+ $('#id').val()),
+		  url: post? pagePath+"/api/asignatura" :(pagePath+"/api/asignatura/"+ $('#id').val()),
 		  data: JSON.stringify(prepareData(post)),
 		  dataType:"json",
 		  contentType:"application/json", 

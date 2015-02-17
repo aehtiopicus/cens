@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
 	if(!isNaN(pageId())){
 		startSpinner();
 		$.ajax({
-			url: pagePath+"/programa/"+programaId+"/material/"+pageId(),
+			url: pagePath+"/api/programa/"+programaId+"/material/"+pageId(),
 			type: "GET",	    	    
 			contentType :'application/json',
 			dataType: "json",    
@@ -24,7 +24,7 @@ jQuery(document).ready(function () {
 					$('#cartillaAdjuntado').toggle();
 					$('#fileUp').toggle();
 					$('#downloadCartillaAdjunta').prop("download",result.cartillaAdjunta);
-					$('#downloadCartillaAdjunta').prop("href",pagePath+"/programa/"+programaId+"/material/"+result.id+"/archivo");					
+					$('#downloadCartillaAdjunta').prop("href",pagePath+"/api/programa/"+programaId+"/material/"+result.id+"/archivo");					
 					
 					$('#downloadCartillaAdjunta').html('Descargar la cartilla \"'+result.cartillaAdjunta+'\"');
 					link_text_file_remove =  $("#eliminarCartillaAdjunto");
@@ -75,11 +75,11 @@ jQuery(document).ready(function () {
 
     $('#accordion').comment({
        title: 'Comentarios',
-       url_get: pagePath+'/comentario/comments/list',
-       url_input: pagePath+'/comentario/comments/list',
-       url_delete: pagePath+'/comentario/comments/list',
-       url_open_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
-       url_remove_attachment: pagePath+'/comentario/comments/list/{id}/attachment',
+       url_get: pagePath+'/api/comentario/comments/list',
+       url_input: pagePath+'/api/comentario/comments/list',
+       url_delete: pagePath+'/api/comentario/comments/list',
+       url_open_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
+       url_remove_attachment: pagePath+'/api/comentario/comments/list/{id}/attachment',
        arguments:{tipoType:"MATERIAL",tipoId:materialId,usuarioId:asesorId,usuarioTipo:"ASESOR"},
        limit: 10,
        auto_refresh: false,
@@ -119,7 +119,7 @@ function cambiarEstado(){
 function dejarComentario(){
 	
 	$.ajax({
-	    url:  pagePath+"/programa/"+programaId+"/material/"+$('#id').val()+"/estado",
+	    url:  pagePath+"/api/programa/"+programaId+"/material/"+$('#id').val()+"/estado",
 	    type: "PUT",
 	    data: JSON.stringify({estadoRevisionType: $("#estado").val()}),
 	    dataType:"json",

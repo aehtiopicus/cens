@@ -2,8 +2,7 @@ package com.aehtiopicus.cens.configuration;
 
 public class UrlConstant {
 
-	public final static String MAIN_URL = "/mvc/main";
-	public final static String UNAUTHORIZED_URL = "/unauthorized";
+	
 	
 	//usuarios
 	public final static String USUARIO_URL = "/usuario";
@@ -129,52 +128,58 @@ public class UrlConstant {
 	public final static String MOTIVOS_BAJA_GRILLA_URL = "/motivosbajagrilla";
 	public final static String MOTIVO_BAJA_DELETE_URL = "/removemotivobaja";
 	
-	/****/
-	public static final String ASESOR_LIST_URL = "/asesoresList";
+	/****/	
+		 
+	/*API*/
+	private static final String API="/api/";	
+	/*MVC*/
+	private static final String MVC="/mvc/";
 	
-	public static final String USUARIO_LIST_URL = "/usuariocens"; 
+	public final static String MAIN_URL = MVC+"main";
+	public final static String UNAUTHORIZED_URL = "/unauthorized";
+	
 	/*Perfil*/
-	public static final String ROL ="/rol";
+	public static final String ROL =API+"rol";
 	
-	public static final String MIEMBRO_CENS_REST ="/miembro";
-	public static final String MIEMBRO_CENS ="/mvc/miembroList";
-	public static final String MIEMBRO_CENS_ABM="/mvc/miembroABM";
+	public static final String MIEMBRO_CENS_REST =API+"miembro";
+	public static final String MIEMBRO_CENS =MVC+"miembroList";
+	public static final String MIEMBRO_CENS_ABM=MVC+"miembroABM";
 	
 	/*Usuario*/
-	public static final String USUARIO_CENS_REST ="/usuario";
+	public static final String USUARIO_CENS_REST =API+"usuario";
 	public static final String USUARIO_CENS_REST_PASSWORD =USUARIO_CENS_REST+"/{id}/reset";
-	public final static String RESET_PASSWORD_MVC = "/mvc/resetpassword";
+	public final static String RESET_PASSWORD_MVC = MVC+"resetpassword";
 	/*Curso*/
-	public static final String CURSO_CENS_MVC="/mvc/cursoList";
-	public static final String CURSO_CENS_ABM_MVC="/mvc/cursoABM";
-	public static final String CURSO_CENS_REST = "/curso";
+	public static final String CURSO_CENS_MVC=MVC+"cursoList";
+	public static final String CURSO_CENS_ABM_MVC=MVC+"cursoABM";
+	public static final String CURSO_CENS_REST = API+"curso";
 	/*Asignatura*/
-	public static final String ASIGNATURA_CENS_REST ="/asignatura";	
-	public static final String ASIGNATURA_CENS_MVC="/mvc/asignaturaList";
-	public static final String ASIGNATURA_CENS_ABM_MVC="/mvc/asignaturaABM";	
+	public static final String ASIGNATURA_CENS_REST =API+"asignatura";	
+	public static final String ASIGNATURA_CENS_MVC=MVC+"asignaturaList";
+	public static final String ASIGNATURA_CENS_ABM_MVC=MVC+"asignaturaABM";	
 	/*Profesor*/
-	public static final String PROFESOR_CENS_REST="/profesor";
+	public static final String PROFESOR_CENS_REST=API+"profesor";
 	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";
-	public static final String PROFESOR_CENS_ASIGNATURAS_MVC="/mvc/profesor/asignaturaList";
+	public static final String PROFESOR_CENS_ASIGNATURAS_MVC=MVC+"profesor/asignaturaList";
 	public static final String PROFESOR_CENS_CURSO_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/curso/asignatura";
 	/*Programa*/
-	public static final String PROGRAMA_CENS_MVC="/mvc/asignatura/{id}/programa";
-	public static final String PROGRAMA_CENS_REST ="/asignatura/{id}/programa";
-	public static final String PROGRAMA_CENS_NO_FILE_REST ="/asignatura/{id}/programanf";
-	public static final String PROGRAMA_CENS_FILE_REST ="/asignatura/{id}/programa/{programaId}/archivo";	
+	public static final String PROGRAMA_CENS_MVC=MVC+"asignatura/{id}/programa";
+	public static final String PROGRAMA_CENS_REST =API+"asignatura/{id}/programa";
+	public static final String PROGRAMA_CENS_NO_FILE_REST =API+"asignatura/{id}/programanf";
+	public static final String PROGRAMA_CENS_FILE_REST =API+"asignatura/{id}/programa/{programaId}/archivo";	
 	/*Aesor*/
-	public static final String ASESOR_CENS_REST="/asesor";
+	public static final String ASESOR_CENS_REST=API+"asesor";
 	public static final String ASESOR_CENS_CURSO_ASIGNATURAS_REST=ASESOR_CENS_REST+"/{id}/dashboard";
-	public static final String ASESOR_CENS_DASHBOARD_MVC="/mvc/asesor/dashboard";
-	public static final String ASESOR_CENS_ASIGNATURA_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";	
-	public static final String ASESOR_CENS_MATERIAL_MVC="/mvc/asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}/material/{materialId}";
+	public static final String ASESOR_CENS_DASHBOARD_MVC=MVC+"asesor/dashboard";
+	public static final String ASESOR_CENS_ASIGNATURA_MVC=MVC+"asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}";	
+	public static final String ASESOR_CENS_MATERIAL_MVC=MVC+"asesor/{id}/asignatura/{asignaturaId}/programa/{programaId}/material/{materialId}";
 	/*Comentarios*/
-	public static final String COMENTARIO_CENS_REST="/comentario/comments/list";
-	public static final String COMENTARIO_CENS_NO_FILE_REST="/comentario/comments/listnf";
+	public static final String COMENTARIO_CENS_REST=API+"comentario/comments/list";
+	public static final String COMENTARIO_CENS_NO_FILE_REST=API+"comentario/comments/listnf";
 	/*MaterialDidactico*/
-	public static final String MATERIAL_DIDACTICO_CENS_MVC="/mvc/programa/{id}/material";
-	public static final String MATERIAL_DIDACTICO_CENS_ABM_MVC="/mvc/programa/{programaId}/materialABM";
-	public static final String MATERIAL_DIDACTICO_CENS_REST ="/programa/{id}/material";	
-	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST ="/programa/{id}/materialnf";
-	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST ="/programa/{id}/material/{materialId}/archivo";	
+	public static final String MATERIAL_DIDACTICO_CENS_MVC=MVC+"programa/{id}/material";
+	public static final String MATERIAL_DIDACTICO_CENS_ABM_MVC=MVC+"programa/{programaId}/materialABM";
+	public static final String MATERIAL_DIDACTICO_CENS_REST =API+"programa/{id}/material";	
+	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST =API+"programa/{id}/materialnf";
+	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST =API+"programa/{id}/material/{materialId}/archivo";	
 }

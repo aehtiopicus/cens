@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
 	
     jQuery("#projectTable").jqGrid({    	
-    		url:pagePath+"/curso",    		
+    		url:pagePath+"/api/curso",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -93,7 +93,7 @@ jQuery(document).ready(function () {
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='cursoABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='"+pagePath+"/mvc/cursoABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -151,7 +151,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/curso",
+       		url:pagePath+"/api/curso",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -193,7 +193,7 @@ function deleteUsuario(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/curso/"+cursoId,
+		url:pagePath+"/api/curso/"+cursoId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

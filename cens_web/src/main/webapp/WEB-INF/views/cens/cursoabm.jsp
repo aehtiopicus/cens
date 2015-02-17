@@ -22,7 +22,7 @@
 
 			<div>
 				<label for="nombre">Nombre de curso:</label>
-				<input type="text" id="nombre"/>
+				<input type="text" id="nombre" placeholder="Ingrese Nombre del Curso"/>
 			</div>				
 			<div>
 				<label for="yearCurso">A&ntilde;o:</label>

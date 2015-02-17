@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 	var apellido = jQuery("#apellido").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:pagePath+"/miembro",    		
+    		url:pagePath+"/api/miembro",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
  function resetPasswordCurrencyFmatter (cellvalue, options, rowObject)
  {
 	 
-	var template = "<a onclick=\"resetPassword('"+pagePath+"/usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
+	var template = "<a onclick=\"resetPassword('"+pagePath+"/api/usuario/{ENTITY_ID}/reset')\" title='Resetear Password'><span class='ui-icon ui-icon-locked'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -180,7 +180,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/miembro",
+       		url:pagePath+"/api/miembro",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -222,7 +222,7 @@ function deleteUsuario(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/miembro/"+usuarioId,
+		url:pagePath+"/api/miembro/"+usuarioId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
@@ -250,10 +250,9 @@ function resetPassword(url){
 		url:url,
 		contentType :'application/json',
 		dataType:"json",
-		success: function(data){
-			gridReload($('.ui-pg-input').val());
+		success: function(data){			
 			$('#message').addClass('msgSuccess');
-			cargarMensaje(data,true);
+			cargarMensaje(data,true);			
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	

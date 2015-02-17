@@ -153,7 +153,7 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 		materialDidacticoCensService.removeMaterialDidactico(materialId);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(materialId);
-		dto.setMessage("Material Did&aactue;ctico Eliminado ");
+		dto.setMessage("Material Did&aacute;ctico Eliminado ");
 		return dto;
 	    
 	}
@@ -165,7 +165,7 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 		materialDidacticoCensService.removeMaterialDidacticoCompleto(materialId);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(materialId);
-		dto.setMessage("Material Did&aactue;ctico Eliminado ");
+		dto.setMessage("Material Did&aacute;ctico Eliminado ");
 		return dto;
 	}
 	

@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
 	var year = jQuery("#year").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:pagePath+"/asignatura",    		
+    		url:pagePath+"/api/asignatura",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -112,7 +112,7 @@ jQuery(document).ready(function () {
  
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='asignaturaABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
+	var template = "<a href='"+pagePath+"/mvc/asignaturaABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
 	 
     return template.replace("{ENTITY_ID}",cellvalue);
  }
@@ -181,7 +181,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/asignatura",
+       		url:pagePath+"/api/asignatura",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -223,7 +223,7 @@ function deleteAsignatura(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/asignatura/"+asignaturaId,
+		url:pagePath+"/api/asignatura/"+asignaturaId,
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){

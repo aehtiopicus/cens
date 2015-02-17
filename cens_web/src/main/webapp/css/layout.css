@@ -245,7 +245,7 @@ div.padding{
 }
 
 .messageDiv{
-	text-align: right;
+	text-align: left;
 	font-weight: bold;
 	height: 5px;
 	margin-top: 7px;

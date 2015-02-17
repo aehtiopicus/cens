@@ -10,7 +10,7 @@ jQuery(document).ready(function () {
 carruselIds = [];
 	$.ajax({
 		type:"GET",
-		url:pagePath+"/asesor/"+asesorId+"/dashboard",
+		url:pagePath+"/api/asesor/"+asesorId+"/dashboard",
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){			

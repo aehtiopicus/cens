@@ -50,7 +50,7 @@
 					yearRange: "-100:+0",
 					changeMonth: true,
 				    changeYear: true,
-				    dateFormat: "yy-mm-dd"
+				    dateFormat: "dd-mm-yy"
 				});
 				
 				$( ".menu" ).menu({

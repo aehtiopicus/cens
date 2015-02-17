@@ -23,38 +23,38 @@
 
 			<div>
 				<label for="nombre">Nombre:</label>
-				<form:input  path="nombre"/>
+				<input type="text" id="nombre" placeholder="Ingrese Nombre"/>
 			</div>
 
 			<div>
 				<label for="apellido">Apellido:</label>
-				<form:input  path="apellido"/>
+				<input type="text"  id="apellido" placeholder="Ingrese Apellido"/>
 			</div>	
 			
 			<div>
 				<label for="dni">DNI:</label>
-				<form:input  path="dni" class="entero" maxlength="8"/>
+				<form:input  path="dni" class="entero" maxlength="8" placeholder="Ingrese DNI sin puntos, ni comas"/>
 			</div>
 			<div>
 				<label for="fechaNac">Fecha de Nacimiento:</label>
-				<form:input  path="fechaNac" class="hasdatepicker" maxlength="10"/>
+				<form:input  path="fechaNac" class="hasdatepicker" maxlength="10" placeholder ="Ingrese Fecha de Nacimiento"/>
 			</div>			
 			<c:choose>
 			<c:when test="${id == null}">
 				<div>
 					<label for="usuario.username">Nombre de Usuario:</label>
-					<form:input  path="usuario.username" id="username"/>
+					<form:input  path="usuario.username" id="username" placeholder =" Ingrese nombre de usuario"/>
 				</div>
 				
 			
 				<div>
 					<label for="usuario.password">Contraseña:</label>
-					<form:password  path="usuario.password" id="password"/>					
+					<form:password  path="usuario.password" id="password" placeholder = "Ingrese contraseña"/>					
 				</div>
 				
 				<div>
 					<label for="usuario.passwordConfirm">Confirmar Contraseña:</label>
-					<form:password  path="usuario.passwordConfirm" id="passwordConfirm"/>					 
+					<form:password  path="usuario.passwordConfirm" id="passwordConfirm" placeholder ="Confirme contraseña"/>					 
 				</div>
 			</c:when>
 			</c:choose>

@@ -10,7 +10,7 @@ jQuery(document).ready(function () {
 carruselIds = [];
 	$.ajax({
 		type:"GET",
-		url:pagePath+"/profesor/"+profesorId+"/curso/asignatura",
+		url:pagePath+"/api/profesor/"+profesorId+"/curso/asignatura",
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){			
@@ -19,8 +19,8 @@ carruselIds = [];
 			loadCarrousel();
 		},
 		error: function(data){
-			$('#message').addClass('msgError');	
-			cargarMensaje(errorConverter(data));						
+			$('#message').addClass('msgError');			
+			cargarMensaje($('<div/>').html(errorConverter(data)).text());						
 		}								
 
 		}

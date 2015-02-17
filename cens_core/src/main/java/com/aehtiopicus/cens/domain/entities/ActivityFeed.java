@@ -1,36 +1,21 @@
 package com.aehtiopicus.cens.domain.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.aehtiopicus.cens.enumeration.cens.FeedType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 
-@Entity
-@Table(name="cens_activity_feed")
-public class ActivityFeed implements Serializable{
+@Embeddable
+public class ActivityFeed {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1809224692264618901L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
+		
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="fecha_creacion")
 	private Date dateCreated;
@@ -58,15 +43,6 @@ public class ActivityFeed implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="ultima_notificacion")
 	private Date lastTimeNotified;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(name="tipo_de_fuente")
-	private FeedType feedType;
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Date getDateCreated() {
 		return dateCreated;
@@ -131,7 +107,7 @@ public class ActivityFeed implements Serializable{
 	public void setLastTimeNotified(Date lastTimeNotified) {
 		this.lastTimeNotified = lastTimeNotified;
 	}
-	
-	
+
+
 	
 }
