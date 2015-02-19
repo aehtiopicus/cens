@@ -7,12 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="cens_comentario_feed")
-public class ComentarioFeed implements Serializable{
+public class ComentarioCensFeed implements Serializable{
 
 	
 	/**
@@ -26,9 +25,8 @@ public class ComentarioFeed implements Serializable{
 	
 	@Embedded
 	private ActivityFeed activityFeed;
-	
-	@OneToOne
-	private ComentarioCens comentarioCens;
+		
+	private Long comentarioCensId;
 
 	public Long getId() {
 		return id;
@@ -46,14 +44,15 @@ public class ComentarioFeed implements Serializable{
 		this.activityFeed = activityFeed;
 	}
 
-	public ComentarioCens getComentarioCens() {
-		return comentarioCens;
+	public Long getComentarioCensId() {
+		return comentarioCensId;
 	}
 
-	public void setComentarioCens(ComentarioCens comentarioCens) {
-		this.comentarioCens = comentarioCens;
+	public void setComentarioCensId(Long comentarioCensId) {
+		this.comentarioCensId = comentarioCensId;
 	}
-	
+
+		
 	
 	
 }
