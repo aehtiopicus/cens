@@ -13,7 +13,14 @@
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven>
+		<message-converters>
+			<beans:bean class="org.springframework.http.converter.json.GsonHttpMessageConverter">		
+				<beans:property name="gson" value="#{T(com.aehtiopicus.cens.util.Utils).getSon()}"></beans:property>
+			</beans:bean>
+		</message-converters>
+	</annotation-driven>
+	
 
 	<context:component-scan base-package="com.aehtiopicus.cens" />
 	

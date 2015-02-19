@@ -30,6 +30,14 @@ public class ErrorController extends AbstractController{
 		return mav;
 	}
 	
+
+	@RequestMapping(value={"/errors/403"}, method=RequestMethod.GET)
+	public ModelAndView forbidden(HttpServletResponse response) throws PageNotFoundException{
+		ModelAndView mav =new ModelAndView("redirect:/mvc/displayError");
+		mav.addObject("code", HttpStatus.FORBIDDEN.value());
+		return mav;
+	}
+	
 	@RequestMapping(value="/mvc/displayError", method=RequestMethod.GET)
 	public ModelAndView displayError(@RequestParam("code")int code) {
 		ModelAndView mav = new ModelAndView(VistasConstant.MAIN);
@@ -39,6 +47,9 @@ public class ErrorController extends AbstractController{
 			break;
 		case UNAUTHORIZED:
 			mav.setViewName(VistasConstant.UNAUTHORIZED);
+			break;
+		case FORBIDDEN:
+			mav.setViewName(VistasConstant.FORBIDDEN);
 			break;
 		default:
 			break;

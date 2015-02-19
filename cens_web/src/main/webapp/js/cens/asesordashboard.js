@@ -18,9 +18,8 @@ carruselIds = [];
 			loadPorlet();
 			loadCarrousel();			
 		},
-		error: function(data){
-			$('#message').addClass('msgError');	
-			cargarMensaje(errorConverter(data));						
+		error: function(data){						
+			location.href=pagePath+"/errors/"+data.error().status;
 		}								
 
 		}

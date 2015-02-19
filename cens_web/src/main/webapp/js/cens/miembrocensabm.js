@@ -10,7 +10,7 @@ jQuery(document).ready(function () {
 		success: function(data){
 			$('#id').val(data.id);
 			$('#usuarioid').val(data.usuario.id);
-			$('#fechaNac').datepicker( "setDate", new Date(data.fechaNac+(60*60*1000) ));//val(convertDate(data.fechaNac));
+			$('#fechaNac').datepicker( "setDate", new Date(new Date(data.fechaNac).getTime()+3*(60*60*1000) ));//val(convertDate(data.fechaNac));
 			$('#username').val(data.usuario.username);
 			$('#nombre').val(data.nombre);
 			$('#apellido').val(data.apellido);

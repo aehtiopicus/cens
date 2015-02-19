@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,7 +50,19 @@ public class AbstractRestController {
 		ex.printStackTrace();
 		ErrorDto errorDto = new ErrorDto();
 		errorDto.setErrorDto(false);
-		errorDto.setStatusCode(HttpStatus.BAD_REQUEST);
+		errorDto.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+		errorDto.setMessage(ex.getMessage());
+		return errorDto;
+	}
+	
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler({ AccessDeniedException.class })
+	public @ResponseBody ErrorDto handleFormAccessDeniedException(AccessDeniedException ex) {
+		logger.error(ex.getMessage());
+		ex.printStackTrace();
+		ErrorDto errorDto = new ErrorDto();
+		errorDto.setErrorDto(false);
+		errorDto.setStatusCode(HttpStatus.FORBIDDEN);
 		errorDto.setMessage(ex.getMessage());
 		return errorDto;
 	}

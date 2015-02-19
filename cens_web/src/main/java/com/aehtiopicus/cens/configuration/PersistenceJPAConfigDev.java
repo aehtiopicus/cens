@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -24,7 +24,8 @@ import com.aehtiopicus.profiles.Development;
 
 @Configuration
 @EnableTransactionManagement
-@ImportResource("classpath*:*spring-data-config.xml")
+//@ImportResource("classpath*:*spring-data-config.xml")
+@EnableJpaRepositories(basePackages="com.aehtiopicus.cens.repository")
 @Development
 public class PersistenceJPAConfigDev {
 
@@ -44,7 +45,7 @@ public class PersistenceJPAConfigDev {
 	@Value(BASE_PASS) private String baseClave;// = "ejb35592";
 
 
-	@Bean
+	@Bean(name ="entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 		factoryBean.setDataSource(restDataSource());
@@ -66,7 +67,7 @@ public class PersistenceJPAConfigDev {
 		return factoryBean;
 	}
 
-	@Bean(name = "dataSource")
+	@Bean(name = "censDataSource")
 	public DataSource restDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");

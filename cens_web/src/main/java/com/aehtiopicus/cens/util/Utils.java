@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.util;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -115,10 +116,14 @@ public class Utils {
 			public Date deserialize(JsonElement json, Type typeOfT,
 					JsonDeserializationContext context)
 					throws JsonParseException {
-				return new Date(json.getAsJsonPrimitive().getAsLong());
+				try {
+					return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(json.getAsJsonPrimitive().getAsString());
+				} catch (ParseException e) {
+					throw new JsonParseException(e);					
+				}
 			}
 		});		
-		builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 		return builder.create();
 	}
 	

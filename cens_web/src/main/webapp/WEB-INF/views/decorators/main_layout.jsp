@@ -1,5 +1,5 @@
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 <!DOCTYPE html>  
 <html lang="es">  
     <head>  
@@ -103,18 +103,18 @@
     	
     		<div class="menuPanel" id="menuPanel">
     			<!-- INSERTAR MENU.JSP -->
-    			<security:authorize ifAnyGranted="ROLE_ADMINISTRADOR,ROLE_ASESOR">
+    			<sec:authorize ifAnyGranted="ROLE_ADMINISTRADOR,ROLE_ASESOR">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
-				</security:authorize>
-    			<security:authorize ifAllGranted="ROLE_PROFESOR" ifNotGranted="ROLE_ASESOR">
+				</sec:authorize>
+    			<sec:authorize ifAllGranted="ROLE_PROFESOR" ifNotGranted="ROLE_ASESOR">
 	    			<jsp:include page="includes/profesor_menu.jsp"></jsp:include>
-				</security:authorize>
-<%--     			<security:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION"> --%>
+				</sec:authorize>
+<%--     			<sec:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION"> --%>
 <%-- 	    			<jsp:include page="includes/menu_gte_operacion.jsp"></jsp:include> --%>
-<%-- 				</security:authorize> --%>
-<%--     			<security:authorize ifAllGranted="ROLE_ADMINISTRACION"> --%>
+<%-- 				</sec:authorize> --%>
+<%--     			<sec:authorize ifAllGranted="ROLE_ADMINISTRACION"> --%>
 <%-- 	    			<jsp:include page="includes/menu_administracion.jsp"></jsp:include> --%>
-<%-- 				</security:authorize> --%>
+<%-- 				</sec:authorize> --%>
 				
     		</div>
     	
