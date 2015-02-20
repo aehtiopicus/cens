@@ -33,8 +33,11 @@ public class ComentarioCensFeedMapper {
 		
 		Map<String,Object> activityFeedData = new HashMap<String, Object>();
 		userData(comentarioCens, activityFeedData, originalInitializer, originalPtct);
-		aFeed.setFromId(fromId);		
-		
+		aFeed.setFromId(activityFeedData.get(FROM_ID) != null ? (Long)activityFeedData.get(FROM_ID) : null);
+		aFeed.setFromPerfil(activityFeedData.get(FROM_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(FROM_PERFIL) : null);
+		aFeed.setToId(activityFeedData.get(TO_ID) != null ? (Long)activityFeedData.get(TO_ID) : null);
+		aFeed.setToPerfil(activityFeedData.get(TO_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(TO_PERFIL) : null);
+		feed.setActivityFeed(aFeed);
 		return feed;
 	}
 	

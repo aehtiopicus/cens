@@ -14,6 +14,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	@Autowired
 	private ComentarioCensFeedRepository repository;
 	
+	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
 	public void save(ComentarioCensFeed comentarioFeed){
 		repository.save(comentarioFeed);
