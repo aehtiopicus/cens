@@ -218,7 +218,7 @@ $(function () {
         	  	var post =$('#id').length == 0;
 
         	  $.ajax({
-        	    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programa" : (pagePath+"/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
+        	    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programa" : (pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+$('#id').val()),
         	    type:  "POST",//post si o si sino no funciona
         	    data: formData,
         	    processData: false,  // tell jQuery not to process the data
@@ -293,7 +293,7 @@ function guardarSinArchivo(){
  	var post =$('#id').length == 0;
   	
   $.ajax({
-    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
+    url:  post ? pagePath+"/api/asignatura/"+asignaturaId+"/programanf" : (pagePath+"/api/asignatura/"+asignaturaId+"/programanf/"+$('#id').val()),
     type: post ? "POST" : "PUT",
     data: cargarData(),
     dataType:"json",
