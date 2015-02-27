@@ -37,7 +37,7 @@ public class MailConfig {
 	private static final String MAIL_SMTP_STARTTLS = GET_PROPFILE + MAIL_PROPERTIES_NAME + GET_PROP_START + "smtp.starttls.enable" + GET_PROP_END;
 	
 	private static final String MAIL_FROM = GET_PROPFILE + MAIL_PROPERTIES_NAME + GET_PROP_START + "mail.from" + GET_PROP_END;
-	private static final String MAIL_TO = GET_PROPFILE + MAIL_PROPERTIES_NAME + GET_PROP_START + "mail.to" + GET_PROP_END;
+	
 
 	private static final String VELICITY_TEMPLATES = GET_PROPFILE + MAIL_PROPERTIES_NAME + GET_PROP_START + "velocity.templates.path" + GET_PROP_END;
 
@@ -48,8 +48,7 @@ public class MailConfig {
 	@Value(MAIL_PASSWORD) private String password;
 	@Value(MAIL_SMTP_AUTH) private String smtpAuth;
 	@Value(MAIL_SMTP_STARTTLS) private String smtpStarttls;
-	@Value(MAIL_FROM) private String mailFrom;
-	@Value(MAIL_TO) private String mailTo;
+	@Value(MAIL_FROM) private String mailFrom;	
 	@Value(VELICITY_TEMPLATES) private String velocityTemplatesPath;
 
 
@@ -93,8 +92,7 @@ public class MailConfig {
 		
 		bean.setMailSender(getMailSenderBean());
 		bean.setVelocityEngine(getVelocityEngineBean().createVelocityEngine());
-		bean.setFrom(mailFrom);
-		bean.setListaDirecciones(mailTo);
+		bean.setFrom(mailFrom);		
 		bean.setPathTemplates(velocityTemplatesPath);
 		return bean;
 	}
