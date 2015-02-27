@@ -148,6 +148,7 @@ public class UrlConstant {
 	/*Usuario*/
 	public static final String USUARIO_CENS_REST =API+"usuario";
 	public static final String USUARIO_CENS_REST_PASSWORD =USUARIO_CENS_REST+"/{id}/reset";
+	public static final String USUARIO_CENS_REST_CHANGE_PASSWORD = USUARIO_CENS_REST+"/{id}/change";
 	public final static String RESET_PASSWORD_MVC = MVC+"resetpassword";
 	/*Curso*/
 	public static final String CURSO_CENS_MVC=MVC+"cursoList";

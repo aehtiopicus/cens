@@ -40,7 +40,7 @@
 	    
 	    function logout(){
 	    	deleteAllCookies();
-	    	window.location = '<%=request.getContextPath() %>/j_spring_security_logout';
+	    	window.location = mainPagePath+'/logout';
 	    }
 	    
 	    jQuery(window).load(function () {

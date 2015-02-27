@@ -29,7 +29,7 @@ var miembroId=${miembroId};
 					</div>
 					<div>
 						<label for="cambiarPass">Contrase&ntilde;a:</label> 
-						<span id="cambiarPass" class="comments-link bold">Cambiar contrase&ntilde;a</span>
+						<span id="cambiarPass" class="comments-link bold" style="text-transform: uppercase;">Cambiar contrase&ntilde;a</span>
 					</div>				
 				</div>
 			</div>
@@ -62,28 +62,13 @@ var miembroId=${miembroId};
 			
 
 			<input type="hidden" id="fileUploadUsed" />
-			<input type="hidden" id="btnGuardarCartilla" />
+			<input type="hidden" id="id" />
+			<input type="hidden" id="usuarioid" />						
 			
 </fieldset>
 
 <div id="cambiarPassword" class="dialog" title="Cambio de Contrase&ntilde;a">
-			<fieldset style="width: auto;">				
-			<div class="passreset">
-				<div>
-					<label for="usuario.password">Contrase&ntilde;a Actual:</label>
-					<input type="password" id="passwordOld" placeholder = "Ingrese contrase&ntilde;a"/>					
-				</div>
-				<div>
-					<label for="usuario.password">Nueva Contrase&ntilde;a:</label>
-					<input type="password" id="passwordNew" placeholder = "Ingrese contrase&ntilde;a"/>					
-				</div>
-				
-				<div>
-					<label for="usuario.passwordConfirm">Confirmar Contrase&ntilde;a:</label>
-					<input type="password" id="passwordNewConfirm" placeholder ="Confirme contrase&ntilde;a"/>					 
-				</div>
-			</div>
-		</fieldset>
+			<jsp:include page="resetpass.jsp"/>
 	<div>
 		<div id="progressbar" style="border: none;">
 			<div class="progress-label"></div>

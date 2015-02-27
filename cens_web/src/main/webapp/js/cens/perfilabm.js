@@ -44,10 +44,10 @@ jQuery(document).ready(function () {
 			{
 				text: "Guardar",
 				click: function() {
-					cambiarPass(function(){
+					changePassword(function(){
 						$( "#cambiarPassword" ).dialog( "close" );
-					});
-					deleteAsignaturas();
+					reiniciar();	
+					},$('#usuarioid').val());					
 				}
 			},
 			{
@@ -60,10 +60,6 @@ jQuery(document).ready(function () {
 	});
 });
 
-function cambiarPass(cambiarAsignatura){
-	cambiarAsignatura();
-	
-}
 
 function submitMiembro(){
 	
@@ -105,7 +101,7 @@ function submitMiembro(){
 	}
 }	
 
-cambiar aca para ver si sale del pass o no
+//cambiar aca para ver si sale del pass o no
 function prepareData(){
 		var tipo =[];
 		$.each($('#perfilList li input') ,function(index,val) {

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.aehtiopicus.cens.service.cens.LoginCensService;
 
@@ -52,7 +53,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
      				.permitAll()
      				    			
      			.and()
-     				.logout().logoutSuccessUrl("/login")
+     				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
      				.permitAll()
      		 	.and()
      		 		.exceptionHandling().accessDeniedPage("/errors/401")     		 		

@@ -6,26 +6,29 @@ function jsonConverter(data){
 	return JSON.parse(data);
 }
 
-function errorDivs(errorDiv,field,value){	
+function errorDivs(errorDiv,field,value,dialog){	
 	if(checkDivNoExist(errorDiv)){
 		var templateDiv = $('<div></div>');
 		var templateLabel1 = $('<label class="ui-state-error"></label>');
 		var templateLabel2 = $('<label class="ui-state-error-img"></label>');
+		if(dialog){
+			templateLabel1.addClass("dialog");
+			templateLabel2.addClass("dialog");
+		}
 		templateDiv.attr("id",errorDiv);
 		templateLabel1.attr("for",field);
 		templateLabel1.html(value);		               
 		templateLabel2.on("click",function(){closeError(errorDiv.toString());});
 		templateDiv.append(templateLabel1);
-		templateDiv.append(templateLabel2);
-		template.replace('{replace}',value).replace('{replaceFor}',field).replace('{replaceDivId}',errorDiv).replace('{replaceDivId}',errorDiv)
+		templateDiv.append(templateLabel2);		
 		return templateDiv;
 
 	}
 }
 
-function addError(field,value){
+function addError(field,value,dialog){
 	var errorDiv = field+"ErrorDiv";
-	getErrorParenter($('#'+field)).append(errorDivs(errorDiv,field,value));
+	getErrorParenter($('#'+field)).append(errorDivs(errorDiv,field,value,dialog));
 }
 
 function getErrorParenter(field){
@@ -37,18 +40,18 @@ function getErrorParenter(field){
 	}
 }
 
-function validationError (error){
+function validationError (error,dialog){
 	if(error.errorDto != undefined && error.errorDto){
 		for(var key in error.errors) {
-			addError(key,error.errors[key]);
+			addError(key,error.errors[key],dialog);
 		}
 		return true;
 	}
 	return false;
 }
 function closeAllErrors(){
-	$('.ui-state-error-img').remove();
-	$('.ui-state-error').remove();
+	$('.ui-state-error-img').parent().remove();
+	
 	
 }
 function closeError(value){
