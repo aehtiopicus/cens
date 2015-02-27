@@ -940,6 +940,40 @@ padding-right: 40px;
 
 
 
+.perfilheader{
+	display: inline-block;
+min-height: 114px;
+min-width: 150px;
+background-size: contain;
+background-position: -70% 36%;
+background-image: url('midasUI-theme/images/user_blank_picture.png');
+background-repeat: no-repeat;
+}
+.perfil div input[type=text]{
+	max-width: 320px;	
+}
+
+.perfil div input[type=password]{
+	max-width: 320px;	
+}
+.perfil div label{
+	max-width: 100px;	
+}
+.perfil .data{
+	display: inline-block;
+vertical-align: inherit;
+margin-left: 29px;
+}
+
+.passreset div input[type=password]{
+	max-width: 200px;	
+}
+.passreset div label{
+	max-width: 150px;	
+}
+.censaccordion .portletLine{
+	margin: 15px 15px 10px 40px;
+}
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;
@@ -1019,3 +1053,4 @@ top: 30%;
 left: 42%;
 }
 }
+

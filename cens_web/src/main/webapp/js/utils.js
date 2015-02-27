@@ -8,8 +8,18 @@ function jsonConverter(data){
 
 function errorDivs(errorDiv,field,value){	
 	if(checkDivNoExist(errorDiv)){
-		var template ='<div id="{replaceDivId}"><label for="{replaceFor}" class="ui-state-error">{replace}</label><label class="ui-state-error-img" onclick="closeError(\'{replaceDivId}\')"></label></div>';		
-		return template.replace('{replace}',value).replace('{replaceFor}',field).replace('{replaceDivId}',errorDiv).replace('{replaceDivId}',errorDiv);	
+		var templateDiv = $('<div></div>');
+		var templateLabel1 = $('<label class="ui-state-error"></label>');
+		var templateLabel2 = $('<label class="ui-state-error-img"></label>');
+		templateDiv.attr("id",errorDiv);
+		templateLabel1.attr("for",field);
+		templateLabel1.html(value);		               
+		templateLabel2.on("click",function(){closeError(errorDiv.toString());});
+		templateDiv.append(templateLabel1);
+		templateDiv.append(templateLabel2);
+		template.replace('{replace}',value).replace('{replaceFor}',field).replace('{replaceDivId}',errorDiv).replace('{replaceDivId}',errorDiv)
+		return templateDiv;
+
 	}
 }
 
@@ -55,6 +65,14 @@ function checkDate(datevalue){
 	    return false;
 	  }
 	  return true;
+}
+
+function checkEmail(dataValue){
+	re = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+	 if(dataValue === '' || !dataValue.match(re)) {	    
+		    return false;
+		  }
+		  return true;
 }
 
 function cargarMensaje(data,ok){

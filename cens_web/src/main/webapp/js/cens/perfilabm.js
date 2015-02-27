@@ -1,9 +1,7 @@
 jQuery(document).ready(function () {
-		
-
-	if(!isNaN(pageId())){
+	startSpinner();		
 	$.ajax({
-		url: pagePath+"/api/miembro/"+pageId(),
+		url: pagePath+"/api/miembro/"+miembroId,
 		type: "GET",
 		contentType :'application/json',
 		dataType: "json",		
@@ -15,17 +13,18 @@ jQuery(document).ready(function () {
 			$('#nombre').val(data.nombre);
 			$('#apellido').val(data.apellido);
 			$('#dni').val(data.dni);
-			$.each($('#perfilList li input') ,function(index,val) {
-				$.each($(data.usuario.perfil),function(index2,val2){					
-					 if($(val).val()===val2.perfilType)
-					  {
-						 $(val).prop("checked",true);
-					  }
+			
+			perfiles="";
+			$.each($(data.usuario.perfil),function(index,val){					
+				perfiles = perfiles +val.perfilType+", ";
 								 
-				});
 			});
+			$('#perfilUsuario').html( perfiles.substring(0,perfiles.length-2));
+			stopSpinner();
+			
 		},
 		error: function(data){
+			stopSpinner();
 			errorData = errorConverter(data);
 			if(errorData.errorDto != undefined && data.errorDto){
 				alert(errorConverter(data).message);
@@ -34,38 +33,45 @@ jQuery(document).ready(function () {
 			}
 		}
 	});
-	}
-	$( "#remAsignaturas" ).dialog({
+	
+	$( "#cambiarPass" ).on("click",function(){
+		$( "#cambiarPassword" ).dialog("open");
+	});
+	$( "#cambiarPassword" ).dialog({
 		autoOpen: false,
-		width: 400,
+		width: 450,
 		buttons: [
 			{
-				text: "Ok",
+				text: "Guardar",
 				click: function() {
-					$( this ).dialog( "close" );
+					cambiarPass(function(){
+						$( "#cambiarPassword" ).dialog( "close" );
+					});
 					deleteAsignaturas();
 				}
 			},
 			{
 				text: "Cancelar",
 				click: function() {
-					$( this ).dialog( "close" );
-					$('#profesorId').val("");
+					$( this ).dialog( "close" );					
 				}
 			}
 		]
 	});
 });
 
+function cambiarPass(cambiarAsignatura){
+	cambiarAsignatura();
+	
+}
 
 function submitMiembro(){
-
-	var post =$('#id').length == 0;
+	
 	if(checkForm(post)){		
 	$.ajax({
-		  type: post ? "POST" : "PUT",
-		  url: post? pagePath+"/api/miembro" :(pagePath+"/api/miembro"+"/"+ $('#id').val()),
-		  data: prepareData(post),
+		  type: "PUT",
+		  url: pagePath+"/api/miembro"+"/"+ $('#id').val(),
+		  data: prepareData(),
 		  dataType:"json",
 		  contentType:"application/json", 
 		  success: function(value){
@@ -99,8 +105,8 @@ function submitMiembro(){
 	}
 }	
 
-
-function prepareData(post){
+cambiar aca para ver si sale del pass o no
+function prepareData(){
 		var tipo =[];
 		$.each($('#perfilList li input') ,function(index,val) {
 			  if($(val).prop("checked"))
@@ -125,36 +131,10 @@ function checkForm(post){
 		addError('fechaNac',"Fecha invalida");
 		error = false;
 	}
-	
-	if(post && (($('#password').val().length !=$('#passwordConfirm').val().length) || ($('#password').val()!==$('#passwordConfirm').val()))){
-		addError('password',"Contraseña invalida");
-		error = false;
-	}
+		
 	return error;
  
 }
 
-function deleteAsignaturas(){	
-	
 
-	$.ajax({
-		type:"DELETE",
-		url:pagePath+"/api/profesor/"+$('#profesorId').val()+"/removerasignaturas",
-		contentType :'application/json',
-		dataType:"json",
-		success: function(data){
-			submitMiembro();
-		},
-		error: function(data){			
-			var errorData =errorConverter(data);
-			if(errorData.errorDto===false){
-				alert("Se produjo un error el servidor")
-			}
-		}								
-
-		}
-		
-	);
-	
-} 
 

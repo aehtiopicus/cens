@@ -181,5 +181,9 @@ public class UrlConstant {
 	public static final String MATERIAL_DIDACTICO_CENS_ABM_MVC=MVC+"programa/{programaId}/materialABM";
 	public static final String MATERIAL_DIDACTICO_CENS_REST =API+"programa/{id}/material";	
 	public static final String MATERIAL_DIDACTICO_CENS_NO_FILE_REST =API+"programa/{id}/materialnf";
-	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST =API+"programa/{id}/material/{materialId}/archivo";	
+	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST =API+"programa/{id}/material/{materialId}/archivo";
+	/*Perfil*/
+	public static final String PERFIL_CENS_MVC = MVC+"perfil";
+	public static final String CONTACTO_CENS_MVC = MVC+"contacto";	
+		
 }

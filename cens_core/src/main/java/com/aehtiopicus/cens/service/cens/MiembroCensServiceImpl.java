@@ -137,9 +137,13 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	}
 	
 	@Override
-	public MiembroCens getMiembroCens(Long id){
+	public MiembroCens getMiembroCens(Long id) throws CensException{
 		logger.info("Obteniendo miembro "+id);
-		return miembroCensRepository.findOne(id);
+		MiembroCens miembroCens = miembroCensRepository.findOne(id);
+		if(miembroCens==null){
+			throw new CensException("No existe el miembro con identificador "+id);
+		}
+		return miembroCens;
 	}
 
 
@@ -185,5 +189,10 @@ public class MiembroCensServiceImpl implements MiembroCensService {
     public  Sort sortByApellidoAsc() {
         return new Sort(Sort.Direction.ASC, "apellido");
     }
+
+	@Override
+	public MiembroCens getMiembroCensByUsername(String username) {
+		return miembroCensRepository.findByUsername(username);
+	}
 	
 }

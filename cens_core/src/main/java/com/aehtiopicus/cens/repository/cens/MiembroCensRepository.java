@@ -22,4 +22,7 @@ public interface MiembroCensRepository extends JpaRepository<MiembroCens,Long>,J
 
 	public MiembroCens findByDni(String dni);
 
+	@Query("SELECT mc FROM MiembroCens mc WHERE mc.usuario.username =?1")
+	public MiembroCens findByUsername(String username);
+
 }

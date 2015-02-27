@@ -16,12 +16,12 @@
     	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/chosen.css">
 
 
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery.fileupload.css">    
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/jquery.comment.css"/>
-    
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery.fileupload.css">    
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/slick/slick.css"/>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/jquery.comment.css"/>
+        
         <script src="<%=request.getContextPath() %>/js/jquery-1.10.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery.numeric.js" type="text/javascript"></script>
@@ -32,66 +32,12 @@
 	    <script type="text/javascript" src="<%=request.getContextPath() %>/js/slick.min.js"></script>	    
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>
-        <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script> 
+        <script src="<%=request.getContextPath() %>/js/jquery.inputmask.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
+        
+        <script src="<%=request.getContextPath() %>/js/cens/layout/mainlayout.js" type="text/javascript"></script>  
 
-    
-	
 
-		<script>
-	        var marginWidthGrid = 20;
-    	    var marginHeightGrid = 370;
-    	    var marginHeightGridFull = 345;
-
-    	    $(document).ready(function() {
-				$( ".button" ).button();
-				
-				$( ".hasdatepicker" ).datepicker({
-					inline: true,
-					yearRange: "-100:+0",
-					changeMonth: true,
-				    changeYear: true,
-				    dateFormat: "dd-mm-yy"
-				});
-				
-				$( ".menu" ).menu({
-	                position: {at: "left bottom"}
-	            });
-		        
-				$( ".chosen-select" ).chosen({
-					allow_single_deselect: true
-				});
-				
-		        $(".entero").numeric();
-		        $(".decimal").numeric(","); 
-		        $(".decimalConPunto").numeric("."); 
-		        
-    	    });
-
-    	    
-    	    function deleteAllCookies() {
-    	        var cookies = document.cookie.split(";");
-
-    	        for (var i = 0; i < cookies.length; i++) {
-    	        	var cookie = cookies[i];
-    	        	var eqPos = cookie.indexOf("=");
-    	        	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    	        	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    	        }
-    	    }
-    	    
-   	    
-    	    function logout(){
-    	    	deleteAllCookies();
-    	    	window.location = '<%=request.getContextPath() %>/j_spring_security_logout';
-    	    }
-    	    
-    	    jQuery(window).load(function () {
-    	       $('#mainPanel').show();
-    	       
-    	    });
-    	    
-    	  
-		</script>
     </head>
       
     <body marginheight="0px" marginwidth="0px" style="margin-top: 0px; margin-left: 0px;"> 

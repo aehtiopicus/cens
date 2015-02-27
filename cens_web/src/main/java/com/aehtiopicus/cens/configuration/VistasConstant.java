@@ -94,6 +94,9 @@ public class VistasConstant {
 	/*Material*/
 	public final static String MATERIAL_LIST_VIEW = "cens/material";
 	public static final String MATERIAL_ABM_VIEW = "cens/materialabm";
+	/*Perfil*/
+	public static final String PERFIL_VIEW = "cens/perfilabm";
+	public static final String CONTACTO_VIEW = "cens/contactoabm";
 
 	
 

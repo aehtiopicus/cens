@@ -18,7 +18,7 @@ public interface MiembroCensService {
 	public List<MiembroCens> listMiembrosCens(RestRequest restRequest);
 
 
-	public MiembroCens getMiembroCens(Long id);
+	public MiembroCens getMiembroCens(Long id)  throws CensException;
 
 
 	public Long getTotalUsersFilterByProfile(RestRequest rr);
@@ -28,4 +28,7 @@ public interface MiembroCensService {
 
 
 	public void updateCurrentUserFromMiembro(MiembroCens miembroCensDto);
+
+
+	public MiembroCens getMiembroCensByUsername(String username);
 }
