@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 				$('#cantCartillas').val(result.cantCartillas);
 				if(result.programaAdjunto!=null){
 					$('#programaAdjuntado').toggle();
-					$('#fileUp').toggle();
+					$('#fileUpPrograma').toggle();
 					$('#downloadPrograma').prop("download",result.programaAdjunto);
 					$('#downloadPrograma').prop("href",pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");					
 					
@@ -138,7 +138,7 @@ jQuery(document).ready(function () {
 							contentType:"application/json", 
 						    success : function(result){    		 
 						    	$('#programaAdjuntado').toggle();
-						    	$('#fileUp').toogle();
+						    	$('#fileUpPrograma').toggle();
 						    	$('#borrarPrograma').dialog("close");
 						    },
 						    error: function(value){
@@ -232,9 +232,6 @@ $(function () {
                 },
         	    success : function(result){
         	    	$('#cancelar').trigger("click");        	    
-        	    	$("#progressbar" ).progressbar( "option", "value", 0 );
-           		 	$(".progress-label").text( "" );
-           		 	$("#guardarPrograma").dialog("close"); 
            		 
         	    },
                 error: function(value){

@@ -213,11 +213,7 @@ $(function () {
                 },
         	    success : function(result){
         	    
-        	    $('#cancelar').trigger("click");
-        	    $("#progressbar" ).progressbar( "option", "value", 0 );
-           		 $(".progress-label").text( "" );
-           		 $("#guardarCartilla").dialog("close"); 
-           		
+        	    $('#cancelar').trigger("click");           	
            		
         	    },
                 error: function(value){

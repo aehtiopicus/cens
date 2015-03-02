@@ -1,5 +1,13 @@
+$(document).ajaxStart(function() {
+	startSpinner();
+});
+$(document).ajaxStop(function() {
+	stopSpinner();	
+});
+
+
 jQuery(document).ready(function () {
-	startSpinner();		
+			
 	$.ajax({
 		url: pagePath+"/api/miembro/"+miembroId,
 		type: "GET",
@@ -10,6 +18,7 @@ jQuery(document).ready(function () {
 			$('#usuarioid').val(data.usuario.id);
 			$('#fechaNac').datepicker( "setDate", new Date(new Date(data.fechaNac).getTime()+3*(60*60*1000) ));//val(convertDate(data.fechaNac));
 			$('#username').val(data.usuario.username);
+			$('#cambiarUsername').append(data.usuario.username);
 			$('#nombre').val(data.nombre);
 			$('#apellido').val(data.apellido);
 			$('#dni').val(data.dni);
@@ -20,11 +29,9 @@ jQuery(document).ready(function () {
 								 
 			});
 			$('#perfilUsuario').html( perfiles.substring(0,perfiles.length-2));
-			stopSpinner();
 			
 		},
 		error: function(data){
-			stopSpinner();
 			errorData = errorConverter(data);
 			if(errorData.errorDto != undefined && data.errorDto){
 				alert(errorConverter(data).message);
@@ -37,17 +44,18 @@ jQuery(document).ready(function () {
 	$( "#cambiarPass" ).on("click",function(){
 		$( "#cambiarPassword" ).dialog("open");
 	});
-	$( "#cambiarPassword" ).dialog({
+	$("#cambiarUsername").on("click",function(){
+		$( "#cambiarUser" ).dialog("open");
+	});
+	$( "#cambiarUser" ).dialog({
 		autoOpen: false,
 		width: 450,
+		modal: true,
 		buttons: [
 			{
 				text: "Guardar",
 				click: function() {
-					changePassword(function(){
-						$( "#cambiarPassword" ).dialog( "close" );
-					reiniciar();	
-					},$('#usuarioid').val());					
+					changeUsername($('#usuarioid').val());					
 				}
 			},
 			{
@@ -58,16 +66,195 @@ jQuery(document).ready(function () {
 			}
 		]
 	});
+	$( "#cambiarPassword" ).dialog({
+		autoOpen: false,
+		width: 450,
+		modal: true,
+		buttons: [
+			{
+				text: "Guardar",
+				click: function() {
+					changePassword($('#usuarioid').val());					
+				}
+			},
+			{
+				text: "Cancelar",
+				click: function() {
+					$( this ).dialog( "close" );					
+				}
+			}
+		]
+	});
+	$( "#cambiarImagen" ).dialog({
+		autoOpen: false,
+		width: 250,
+		modal: true,
+		resizable: false,
+		buttons: [
+			{
+				text: "Guardar",
+				click: function() {
+					$('#btnGuardarImagen').trigger("click");								
+				}
+			},
+			{
+				text: "Cancelar",
+				click: function() {
+					$( this ).dialog( "close" );					
+				}
+			}
+		]
+	});
+	
+	$('#fileupload').fileupload({
+    	
+  	  url:null,
+  	  
+        done: function (e, data) {
+            alert("done"); 
+        },
+        
+        // The regular expression for allowed file types, matches
+        // against either file type or file name:
+        //acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,          
+        // The maximum allowed file size in bytes:
+        maxFileSize: 10000000, // 10 MB
+        // The minimum allowed file size in bytes:
+        minFileSize: undefined, // No minimal file size
+        // The limit of files to be uploaded:
+        maxNumberOfFiles: 1,
+        
+        add: function (e, data) {
+      	  closeAllErrors()
+            $('#fileUploadUsed').val("false");
+            $('#userImg').hide();
+            if(!(/(\.|\/)(jpg|png|gif)$/i).test(data.files[0].name)){
+          	  addError('fileupload',"Tipo no Soportado");
+          	  return false;
+            }
+            startSpinner();
+            $('#userImg').show("fast","linear",function(){
+            	$("#cambiarImagen").dialog("open");	
+            	stopSpinner();
+            });
+            $('#fileUploadUsed').val("true");
+           
+            $("#btnGuardarImagen").off();
+            $("#btnGuardarImagen").click(function () {
+          	  data.process().done(function () {            		  
+          		  data.submit();
+                });
+            })              
+          
+        },
+        submit: function(event,data){
+      	  var formData = new FormData();
+      	  	formData.append("file",data.files[0]);        	  	      	  	
+
+      	  $.ajax({
+      	    url:  pagePath+"/api/usuario"+"/"+$('#usuarioid').val()+"/changepicture",
+      	    type:  "POST",//post si o si sino no funciona
+      	    data: formData,
+      	    processData: false,  // tell jQuery not to process the data
+      	    contentType: false,   // tell jQuery not to set contentType
+      	    xhr: function() {  // Custom XMLHttpRequest
+                  var myXhr = $.ajaxSettings.xhr();
+                  if(myXhr.upload){ // Check if upload property exists
+                      myXhr.upload.addEventListener('progress',progress, false); // For handling the progress of the upload
+                  }
+                  return myXhr;
+              },
+      	    success : function(result){
+      	    	$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture/"+result.message.split(",")[1]);
+      	    	$('#currentImg').show();
+      	    	$( "#cambiarImagen" ).dialog("close");    	    
+         		 
+      	    },
+              error: function(value){
+              	stopSpinner();
+              	 $( "#progressbar" ).progressbar( "option", "value", 0 );
+          		 $(".progress-label").text( "" );
+          		 $("#cambiarImagen").dialog("close");
+          		 errorData = errorConverter(value);
+       			if(errorData.errorDto != undefined && value.errorDto){
+       				alert(errorConverter(value).message);
+       			}else{
+       				 alert("Se produjo un error el servidor");
+       			}
+              }
+      	  });        	  
+        },          
+        send: function(e,data){
+      	  return false;
+      	  
+        },
+        processData: false,
+        contentType: false,
+        cache: false,
+        autoUpload: false,
+ 
+        dropZone: $('body') 
+  }).on('always', function (e, data) {
+      var currentFile = data.files[data.index];
+      if (data.files.error && currentFile.error) {
+        // there was an error, do something about it
+        console.log(currentFile.error);
+      }
+    }); 
+	
+	function readURL(input) {
+
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {	        	
+	            $('#userImg').attr('src', e.target.result);
+	        }
+
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+
+	$("#fileupload").change(function(){
+	    readURL(this);
+	});
 });
 
 
-function submitMiembro(){
+function changeUsername(id){
+	closeAllErrors();
+	$.ajax({
+		  type: "POST",
+		  url: pagePath+"/api/usuario"+"/"+id+"/changeusername",
+		  data: JSON.stringify({id:id, username:$('#username').val()}),
+		  dataType:"json",
+		  contentType:"application/json", 
+		  success: function(value){			 		 
+			 logout();
+		  },
+		  error:function(value){
+			  dataError = errorConverter(value);
+			  if(dataError.errorDto != undefined && dataError.errorDto){
+					if(!validationError(dataError,true)){				  					  	  	  
+			  	  		alert("Se produjo un error el servidor");
+			  	  	}
+				  
+			  }else{
+		  	  		alert("Se produjo un error el servidor");
+		  	  }
+			  
+		  }
+		  
 	
-	if(checkForm(post)){		
+	});
+}
+
+function submitMiembro(){
+			
 	$.ajax({
 		  type: "PUT",
 		  url: pagePath+"/api/miembro"+"/"+ $('#id').val(),
-		  data: prepareData(),
+		  data: JSON.stringify(preparePerfilData()),
 		  dataType:"json",
 		  contentType:"application/json", 
 		  success: function(value){
@@ -76,47 +263,41 @@ function submitMiembro(){
 		  error:function(value){
 			  dataError = errorConverter(value);
 			  if(dataError.errorDto != undefined && dataError.errorDto){
-				  var asignatura = false;
-				  
-				  for(var key in dataError.errors) {
-						if(key==="profesorId"){
-							$('#profesorId').val(dataError.errors[key]);
-							asignatura = true;
-							break;
-						}					
-					}
-				  if(asignatura){
-					  $("#remAsignaturas").dialog("open");
-				  }else{
-					  if(validationError(dataError)){
-				  		alert(dataError.message );
-			  	  	  }else{
+					if(!validationError(dataError)){				  					  	  	  
 			  	  		alert("Se produjo un error el servidor");
 			  	  	}
-				  }
+			  }else{
+				  alert("Se produjo un error el servidor");	  
 			  }
+			  
 		  }
 		  
 		});
-	}
+	
 }	
 
-//cambiar aca para ver si sale del pass o no
-function prepareData(){
+function preparePerfilData(){
 		var tipo =[];
-		$.each($('#perfilList li input') ,function(index,val) {
-			  if($(val).prop("checked"))
-			  {
-				  tipo.push('{"perfilType":"'+($(val).prop('value'))+'"}'); 
-			  }
-			});
+		$.each($('#perfilUsuario').html().split(","),function(index,val){
+			tipo.push({perfilType :val.trim()});
+		});
+	
 		
-		var usuario='{"id":'+($("#usuarioid").length == 0 ? null : $("#usuarioid").val())+',"username":"'+$('#username').val()+'","password":"'+$('#password').val()+'","passwordConfirm":"'+$('#passwordConfirm').val()+'","perfil":['+tipo+']}';		
-		var postData = '[{post}]';
-		var miembroCens ='{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').datepicker("getDate").toISOString()+'","usuario":'+usuario+'}';
-		if(post){
-			miembroCens = postData.replace('{post}',miembroCens);
-		}
+		var usuario={ 
+				id:($("#usuarioid").length == 0 ? null : $("#usuarioid").val()),
+				username:$('#username').val(),			
+				perfil:tipo
+		};
+				
+		var miembroCens ={
+				id:($("#id").length == 0 ? null : $("#id").val()),
+				nombre:$('#nombre').val(),
+				apellido:$('#apellido').val(),
+				dni:$('#dni').val(),
+				fechaNac:$('#fechaNac').datepicker("getDate").toISOString(),
+				usuario:usuario
+				};
+		
 		return miembroCens;
 }
 
@@ -131,6 +312,11 @@ function checkForm(post){
 	return error;
  
 }
+
+function progress (data) {
+    var progress = parseInt(data.loaded / data.total * 100, 10);
+    $( "#progressbar" ).progressbar( "option", "value", progress );
+};
 
 
 

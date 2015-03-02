@@ -44,19 +44,11 @@
 				<div>
 					<label for="usuario.username">Nombre de Usuario:</label>
 					<form:input  path="usuario.username" id="username" placeholder =" Ingrese nombre de usuario"/>
-				</div>
-				
-			
-				<div>
-					<label for="usuario.password">Contraseña:</label>
-					<form:password  path="usuario.password" id="password" placeholder = "Ingrese contraseña"/>					
-				</div>
-				
-				<div>
-					<label for="usuario.passwordConfirm">Confirmar Contraseña:</label>
-					<form:password  path="usuario.passwordConfirm" id="passwordConfirm" placeholder ="Confirme contraseña"/>					 
-				</div>
+				</div>											
 			</c:when>
+			<c:otherwise>
+				<input type="hidden" id="username"/> 
+			</c:otherwise>
 			</c:choose>
 			<div >
 				<label for="">PERFILES:</label>

@@ -9,6 +9,7 @@ public class UsuariosDto {
 	protected String username;
 	protected String password;
 	protected String passwordConfirm;
+	private String avatarImg;
 	protected Boolean enabled = true;		
 	private List<PerfilDto> perfil ;
 	public Long getId() {
@@ -46,6 +47,12 @@ public class UsuariosDto {
 	}
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+	public String getAvatarImg() {
+		return avatarImg;
+	}
+	public void setAvatarImg(String avatarImg) {
+		this.avatarImg = avatarImg;
 	}
 	
 	

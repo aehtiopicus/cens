@@ -87,7 +87,7 @@ var asignaturaId = ${asignaturaId};
 				</div>
 			</div>
 			<archivos>
-			<div id="fileUp">
+			<div id="fileUpPrograma">
 				<label for="fileupload">Programa Adjunto:</label>
 				<button class="button" type="button"
 					style="height: 32px; top: -1px;">

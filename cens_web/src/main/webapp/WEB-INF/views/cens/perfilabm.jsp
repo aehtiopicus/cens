@@ -16,12 +16,19 @@ var miembroId=${miembroId};
 			<h3 class="subtitulo" >Datos de Usuario</h3>
 			<div class="perfil">
 				
-				<div class="perfilheader" onclick="alert('hola')">
+				<div class="perfilheader" id="perfilImg">
+				<archivos>
+				<input id="fileupload"
+						title="Seleccionar Programa" type="file" class="custom-file-input"
+						name="file"
+						accept=".jpg,.png,.gif" />
+				<img id="currentImg" src="#" style="width: 100%; height: 100%;"/>						
+				</archivos>
 				</div>
 				<div class="data">
 					<div>
 						<label for="username">Usuario:</label> 
-						<input type="text" id="username" placeholder="Ingrese Nombre de Usuario" />
+						<span id="cambiarUsername" class="comments-link bold"></span>
 					</div>
 					<div>
 						<label for="perfilUsuario">Perfil:</label> 
@@ -54,13 +61,14 @@ var miembroId=${miembroId};
 			</div>
 					
 			<div class="footerForm">
-				<button class="button" type="button" onclick="guardarCartilla();">Guardar</button>
+				<button class="button" type="button" onclick="submitMiembro();">Guardar</button>
 
 				<button id="cancelar" class="button" type="button"
 					onclick=" location.href = document.referrer;">Cancelar</button>
 			</div>
 			
 
+			<input type="hidden" id="btnGuardarImagen" />
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="id" />
 			<input type="hidden" id="usuarioid" />						
@@ -69,6 +77,27 @@ var miembroId=${miembroId};
 
 <div id="cambiarPassword" class="dialog" title="Cambio de Contrase&ntilde;a">
 			<jsp:include page="resetpass.jsp"/>
+</div>
+
+<div id="cambiarUser" class="dialog" title="Cambio de Nombre de Usuario">
+	<fieldset style="width: auto;">				
+			<div class="passreset">
+				<div>
+					<label for="username">Nombre de Usuario:</label>
+					<input type="text" id="username" placeholder = "Ingrese nombre de usuario"/>					
+				</div>				
+			</div>
+	</fieldset>
+</div>
+
+<div id="cambiarImagen" class="dialog" title="Cambio de Imagen del Usuario">
+	<fieldset style="width: auto;">
+		<div class="passreset">				
+			
+			<img id="userImg" src="#" alt="Imagen" style="width: 100%; height: 100%; display:none;"/>
+	
+		</div>
+	</fieldset>
 	<div>
 		<div id="progressbar" style="border: none;">
 			<div class="progress-label"></div>
@@ -76,8 +105,4 @@ var miembroId=${miembroId};
 		</div>
 	</div>
 </div>
-
-<div id="borrarCartilla" class="dialog" title="Confirmar">
-	<p>Se eliminar&aacute; la cartilla adjunta. ¿Desea continuar?</p>
-
-</div>
+	

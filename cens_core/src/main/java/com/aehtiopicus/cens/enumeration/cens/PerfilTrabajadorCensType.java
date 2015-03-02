@@ -7,7 +7,8 @@ public enum PerfilTrabajadorCensType {
 	ASESOR("ROLE_ASESOR",1),
 	PROFESOR("ROLE_PROFESOR",2),
 	ALUMNO("ROLE_ALUMNO",2),
-	PRECEPTOR("ROLE_PRECEPTOR",2);
+	PRECEPTOR("ROLE_PRECEPTOR",2),
+	USUARIO("ROLE_USUARIO",2); //rol inexistente
 	
 	protected final String nombre;
 	

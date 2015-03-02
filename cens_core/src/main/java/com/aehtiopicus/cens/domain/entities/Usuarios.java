@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -27,6 +28,8 @@ public class Usuarios implements Serializable {
 	protected String username;
 	protected String password;
 	protected Boolean enabled = true;
+	@OneToOne(optional=true)
+	private FileCensInfo fileInfo;
 	
 	@OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -70,6 +73,14 @@ public class Usuarios implements Serializable {
 
 	public void setPerfil(List<Perfil> perfil) {
 		this.perfil = perfil;
+	}
+
+	public FileCensInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(FileCensInfo fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 	
 	

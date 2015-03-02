@@ -148,7 +148,10 @@ public class UrlConstant {
 	/*Usuario*/
 	public static final String USUARIO_CENS_REST =API+"usuario";
 	public static final String USUARIO_CENS_REST_PASSWORD =USUARIO_CENS_REST+"/{id}/reset";
-	public static final String USUARIO_CENS_REST_CHANGE_PASSWORD = USUARIO_CENS_REST+"/{id}/change";
+	public static final String USUARIO_CENS_REST_CHANGE_PASSWORD = USUARIO_CENS_REST+"/{id}/changepass";
+	public static final String USUARIO_CENS_REST_CHANGE_USERNAME = USUARIO_CENS_REST+"/{id}/changeusername";
+	public static final String USUARIO_CENS_REST_CHANGE_PICTURE = USUARIO_CENS_REST+"/{id}/changepicture";
+	public static final String USUARIO_CENS_REST_PICTURE = USUARIO_CENS_REST+"/{id}/picture/{picture}";
 	public final static String RESET_PASSWORD_MVC = MVC+"resetpassword";
 	/*Curso*/
 	public static final String CURSO_CENS_MVC=MVC+"cursoList";

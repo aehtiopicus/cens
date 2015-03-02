@@ -15,23 +15,18 @@ $(document).ready(function(){
 	});
 });	
 
-function reiniciar(){
-	$("#reinicio").dialog("open");
-	setTimeout(function(){ logout(); }, 5000);
-}
-function changePassword(callback,id){
+function changePassword(id){
 	startSpinner();
 	closeAllErrors();
 	$.ajax({
-		  type: "PUT",
-		  url: pagePath+"/api/usuario"+"/"+id+"/change",
+		  type: "POST",
+		  url: pagePath+"/api/usuario"+"/"+id+"/changepass",
 		  data: prepareData(),
 		  dataType:"json",
 		  contentType:"application/json", 
 		  success: function(value){
-			 $('#cancelar').trigger("onclick");
-			 stopSpinner();
-			 callback();
+			 $('#cancelar').trigger("onclick");			 
+			 logout();
 		  },
 		  error:function(value){
 			  dataError = errorConverter(value);

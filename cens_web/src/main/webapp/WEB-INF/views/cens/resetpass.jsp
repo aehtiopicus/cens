@@ -20,8 +20,3 @@
 				</div>
 			</div>
 </fieldset>
-
-<div id="reinicio" class="dialog" title="Reinicio">
-	<p>Contrase&ntilde;a actualizada. Inicie sesi&oacute;n nuevamente</p>
-
-</div>

@@ -48,7 +48,7 @@ public class MiembroCensValidator {
 				
 			}
 			try{
-				usuarioCensValidator.validate(miembro.getUsuario());
+				usuarioCensValidator.validate(miembro.getUsuario(),true);
 			}catch(CensException e){
 				errorMap.putAll(e.getError());
 			}

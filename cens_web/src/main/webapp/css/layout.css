@@ -788,6 +788,19 @@ cursor: pointer;
 width: 117px;
 }
 
+.perfil archivos .custom-file-input{
+padding: 0px;
+top: initial !important;
+right: inherit !important;
+width: 11%;
+height: 47%;
+position: absolute;
+margin: 0;
+opacity: 0;
+font-size: inherit;
+}
+
+
 archivos .table{
 	
   border-spacing: 0;
@@ -975,6 +988,9 @@ margin-left: 29px;
 }
 
 .passreset div input[type=password]{
+	max-width: 200px;	
+}
+.passreset div input[type=text]{
 	max-width: 200px;	
 }
 .passreset div label{

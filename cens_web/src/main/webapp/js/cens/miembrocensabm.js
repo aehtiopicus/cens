@@ -105,17 +105,30 @@ function prepareData(post){
 		$.each($('#perfilList li input') ,function(index,val) {
 			  if($(val).prop("checked"))
 			  {
-				  tipo.push('{"perfilType":"'+($(val).prop('value'))+'"}'); 
+				  tipo.push({
+					  perfilType:($(val).prop('value'))
+					  }); 
 			  }
 			});
 		
-		var usuario='{"id":'+($("#usuarioid").length == 0 ? null : $("#usuarioid").val())+',"username":"'+$('#username').val()+'","password":"'+$('#password').val()+'","passwordConfirm":"'+$('#passwordConfirm').val()+'","perfil":['+tipo+']}';		
-		var postData = '[{post}]';
-		var miembroCens ='{"id":'+($("#id").length == 0 ? null : $("#id").val())+',"nombre":"'+$('#nombre').val()+'","apellido":"'+$('#apellido').val()+'","dni":"'+$('#dni').val()+'","fechaNac":"'+$('#fechaNac').datepicker("getDate").toISOString()+'","usuario":'+usuario+'}';
+		var usuario={
+				id:($("#usuarioid").length == 0 ? null : $("#usuarioid").val()),
+				username:$('#username').length ? $('#username').val() : null,
+				perfil:tipo
+				};		
+		
+		var miembroCens ={
+				id:($("#id").length == 0 ? null : $("#id").val()),
+				nombre:$('#nombre').val(),
+				apellido:$('#apellido').val(),
+				dni:$('#dni').val(),
+				fechaNac:$('#fechaNac').datepicker("getDate").toISOString(),
+				usuario:usuario
+		};
 		if(post){
-			miembroCens = postData.replace('{post}',miembroCens);
+			miembroCens = [miembroCens];
 		}
-		return miembroCens;
+		return JSON.stringify(miembroCens);
 }
 
 
@@ -126,10 +139,7 @@ function checkForm(post){
 		error = false;
 	}
 	
-	if(post && (($('#password').val().length !=$('#passwordConfirm').val().length) || ($('#password').val()!==$('#passwordConfirm').val()))){
-		addError('password',"Contraseña invalida");
-		error = false;
-	}
+	
 	return error;
  
 }
