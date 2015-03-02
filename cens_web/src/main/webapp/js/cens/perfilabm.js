@@ -22,6 +22,12 @@ jQuery(document).ready(function () {
 			$('#nombre').val(data.nombre);
 			$('#apellido').val(data.apellido);
 			$('#dni').val(data.dni);
+			if(data.usuario.avatarImg){
+				$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture");      	    	
+  	    		$('#currentImg').show();
+			}else{
+				$('#currentImg').hide();	
+			}
 			
 			perfiles="";
 			$.each($(data.usuario.perfil),function(index,val){					
@@ -165,8 +171,10 @@ jQuery(document).ready(function () {
                   return myXhr;
               },
       	    success : function(result){
-      	    	$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture/"+result.message.split(",")[1]);
-      	    	$('#currentImg').show();
+      	    	if(result.message){
+      	    		$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture");      	    	
+      	    		$('#currentImg').show();
+      	    	}
       	    	$( "#cambiarImagen" ).dialog("close");    	    
          		 
       	    },

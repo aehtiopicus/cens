@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import com.aehtiopicus.cens.dto.cens.ComentarioRequestWrapperDto;
 import com.aehtiopicus.cens.dto.cens.ComentariosDto;
 import com.aehtiopicus.cens.mapper.cens.ComentarioCensMapper;
 import com.aehtiopicus.cens.service.cens.ComentarioCensService;
+import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Controller
@@ -40,15 +43,19 @@ public class ComentarioCensRestController extends AbstractRestController{
 	@Autowired
 	private ComentarioCensService comentarioCensService;
 	
+	@Autowired
+	private UsuarioCensService usuarioCensService;
+	
 
 	
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.COMENTARIO_CENS_REST, method=RequestMethod.GET)
-	public ComentariosDto listComentarios(@RequestParam("value") ComentarioRequestWrapperDto wrapperDto) throws Exception{				
+	public ComentariosDto listComentarios(@RequestParam("value") ComentarioRequestWrapperDto wrapperDto) throws Exception{
+		
 	   ComentarioRequestDto comentarioRequestDto = wrapperDto.getDto();		
 	   List<ComentarioCens> comentarioList = comentarioCensService.findAllParentcomments(comentarioRequestDto.getTipoId(),comentarioRequestDto.getTipoType());
-	   ComentariosDto dto = mapper.createCommentariosDto(comentarioRequestDto.getUsuarioId(),findMiembroCens(comentarioRequestDto));
+	   ComentariosDto dto = mapper.createCommentariosDto(comentarioRequestDto.getUsuarioId(),usuarioCensService.findUsuarioByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()),findMiembroCens(comentarioRequestDto));
 	   dto.getResults().getUser().setFullname(comentarioRequestDto.getUsuarioTipo().name()+" "+dto.getResults().getUser().getFullname());
 	   mapper.addComments(dto, comentarioList);
 		return dto;

@@ -9,12 +9,14 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asesor;
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Preceptor;
 import com.aehtiopicus.cens.domain.entities.Profesor;
+import com.aehtiopicus.cens.domain.entities.Usuarios;
 import com.aehtiopicus.cens.dto.cens.ComentarioDescriptionDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestDto;
@@ -24,24 +26,28 @@ import com.aehtiopicus.cens.dto.cens.ComentariosDto;
 @Component
 public class ComentarioCensMapper {
 
-	public ComentariosDto createCommentariosDto(Long usuarioId, MiembroCens mc) {
+	public ComentariosDto createCommentariosDto(Long perfiledUserId,Usuarios usuario, MiembroCens mc) {
 		ComentariosDto dto = new ComentariosDto();		
-		dto.setResults(createComentarioDto(usuarioId,mc));
+		dto.setResults(createComentarioDto(perfiledUserId,usuario,mc));
 		return dto;
 	}
 
-	private ComentarioDto createComentarioDto(Long usuarioId, MiembroCens mc) {
+	private ComentarioDto createComentarioDto(Long perfiledUserId,Usuarios usuario, MiembroCens mc) {
 		ComentarioDto dto = new ComentarioDto();
-		dto.setUser(createComentarioUserDto(usuarioId,mc));
+		dto.setUser(createComentarioUserDto(perfiledUserId,usuario,mc));
 		return dto;
 	}
 
-	private ComentarioUserDto createComentarioUserDto(Long usuarioId,
+	private ComentarioUserDto createComentarioUserDto(Long perfiledUserId,Usuarios usuario,
 			MiembroCens mc) {
 		ComentarioUserDto dto = new ComentarioUserDto();
 		dto.setFullname(mc.getApellido().toUpperCase()+", "+mc.getNombre()+" ("+mc.getDni()+")");
-		dto.setUser_id(usuarioId);
-		dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+		dto.setUser_id(perfiledUserId);
+		if(usuario.getFileInfo()==null){
+			dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+		}else{
+			dto.setPicture(UrlConstant.USUARIO_CENS_REST_PICTURE.replace("{id}", String.valueOf(usuario.getId())));
+		}
 		dto.setIs_add_allowed(true);
 		dto.setIs_edit_allowed(true);		
 		return dto;
@@ -156,16 +162,23 @@ public class ComentarioCensMapper {
 		if(cc!=null){
 			dto = new ComentarioDescriptionDto();
 			dto.setComment_id(cc.getId());
+			Usuarios u = null;
 			if(cc.getAsesor()!=null){
 				dto.setCreated_by(cc.getAsesor().getId());
+				u = cc.getAsesor().getMiembroCens().getUsuario();
 			}else if(cc.getProfesor()!=null){
 				dto.setCreated_by(cc.getProfesor().getId());
+				u = cc.getProfesor().getMiembroCens().getUsuario();
 			}
 			dto.setElement_id(cc.getId());
 			dto.setFullname(cc.getFullName());
 			dto.setIn_reply_to(null);
 			dto.setParent_id(null);
-			dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+			if(u.getFileInfo()!=null){
+				dto.setPicture(UrlConstant.USUARIO_CENS_REST_PICTURE.replace("{id}", String.valueOf(u.getId())));
+			}else{
+				dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+			}
 			dto.setPosted_date(new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(cc.getFecha()));
 			dto.setText(cc.getComentario());
 			if(cc.getFileCensInfo()!=null){

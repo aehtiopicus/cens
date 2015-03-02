@@ -20,7 +20,7 @@ public class MiembroCensMapper {
 	public MiembroCensDto convertMiembroCensToDto(MiembroCens miembroCens){
 		MiembroCensDto mcDto = Utils.getMapper().map(miembroCens, MiembroCensDto.class);
 		if(miembroCens.getUsuario().getFileInfo()!=null){
-			mcDto.getUsuario().setAvatarImg(miembroCens.getUsuario().getFileInfo().getFileName()+","+miembroCens.getUsuario().getFileInfo().getFileLocationPath()+miembroCens.getUsuario().getFileInfo().getRealFileName());
+			mcDto.getUsuario().setAvatarImg(miembroCens.getUsuario().getFileInfo().getRealFileName());
 		}
 		return mcDto;
 		

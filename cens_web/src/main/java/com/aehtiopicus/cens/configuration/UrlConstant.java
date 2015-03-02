@@ -151,7 +151,7 @@ public class UrlConstant {
 	public static final String USUARIO_CENS_REST_CHANGE_PASSWORD = USUARIO_CENS_REST+"/{id}/changepass";
 	public static final String USUARIO_CENS_REST_CHANGE_USERNAME = USUARIO_CENS_REST+"/{id}/changeusername";
 	public static final String USUARIO_CENS_REST_CHANGE_PICTURE = USUARIO_CENS_REST+"/{id}/changepicture";
-	public static final String USUARIO_CENS_REST_PICTURE = USUARIO_CENS_REST+"/{id}/picture/{picture}";
+	public static final String USUARIO_CENS_REST_PICTURE = USUARIO_CENS_REST+"/{id}/picture";
 	public final static String RESET_PASSWORD_MVC = MVC+"resetpassword";
 	/*Curso*/
 	public static final String CURSO_CENS_MVC=MVC+"cursoList";

@@ -91,17 +91,19 @@ public class UsuarioCensRestController extends AbstractRestController{
 		usuarioCensService.updateImage(user,file);
 		RestSingleResponseDto rsDto = new RestSingleResponseDto();
 		rsDto.setId(usuarioId);
-		rsDto.setMessage(user.getFileInfo().getFileName()+","+user.getFileInfo().getFileLocationPath()+user.getFileInfo().getRealFileName());
+		rsDto.setMessage(user.getFileInfo().getRealFileName());
 		return rsDto;
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping( value = UrlConstant.USUARIO_CENS_REST_PICTURE, method = RequestMethod.GET )
-	public void getPicturePreview( @PathVariable(value="id")Long usuarioId,@PathVariable(value="picture") String picturePath,HttpServletResponse response ) throws Exception{
+	public void getPicturePreview( @PathVariable(value="id")Long usuarioId,HttpServletResponse response ) throws Exception{
 		Usuarios user = usuarioCensService.findUsuarioById(usuarioId);
-		OutputStream baos = response.getOutputStream();
-		usuarioCensService.getAvatar(picturePath,baos);
-		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-		response.setHeader("Content-Disposition", "attachment; filename="+user.getFileInfo().getFileName());	        
+		if(user.getFileInfo()!=null){					
+			OutputStream baos = response.getOutputStream();
+			usuarioCensService.getAvatar(user.getFileInfo().getFileLocationPath()+user.getFileInfo().getRealFileName(),baos);
+			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+			response.setHeader("Content-Disposition", "attachment; filename="+user.getFileInfo().getFileName());
+		}
 	}
 }
