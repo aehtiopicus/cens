@@ -48,9 +48,9 @@ function cargarDatos(data){
 
 function datosCurso(currentDiv,value){
 	var title = $('<h3 class="subtitulo"></h3>');
-	var titleSpan = $('<span class="cursoFont></span>');
-	titleSpan.html((value.nombre.toUpperCase()+" ("+value.yearCurso+")</span>"));
-	title.append("ASIGNATURAS DEL CURSO");
+	var titleSpan = $('<span class="cursoFont"></span>');
+	titleSpan.html((value.nombre.toUpperCase()+" ("+value.yearCurso+")"));
+	title.append("ASIGNATURAS DEL CURSO ");
 	title.append(titleSpan);
 	currentDiv.append(title);
 	currentDiv.append($('<hr class="portletLine">'));

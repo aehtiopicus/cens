@@ -188,6 +188,8 @@ public class UrlConstant {
 	public static final String MATERIAL_DIDACTICO_CENS_FILE_REST =API+"programa/{id}/material/{materialId}/archivo";
 	/*Perfil*/
 	public static final String PERFIL_CENS_MVC = MVC+"perfil";
-	public static final String CONTACTO_CENS_MVC = MVC+"contacto";	
+	public static final String CONTACTO_CENS_MVC = MVC+"contacto";
+	/*Contacto email*/
+	public static final String MIEMBRO_CONTACTO_EMAIL_REST = API+"miembro/{miembroId}/contacto/email";	
 		
 }

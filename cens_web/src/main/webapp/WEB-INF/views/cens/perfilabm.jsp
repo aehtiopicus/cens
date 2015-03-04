@@ -22,7 +22,7 @@ var miembroId=${miembroId};
 						title="Seleccionar Programa" type="file" class="custom-file-input"
 						name="file"
 						accept=".jpg,.png,.gif" />
-				<img id="currentImg" src="#" style="width: 100%; height: 100%;"/>						
+				<img id="currentImg" src="#" class="avatarimg" style="display:none;"/>						
 				</archivos>
 				</div>
 				<div class="data">

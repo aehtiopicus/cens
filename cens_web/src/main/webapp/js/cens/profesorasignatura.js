@@ -49,6 +49,7 @@ function cargarDatos(data){
 function datosCurso(currentDiv,value){
 	var title = '<h3 class="subtitulo">{cursoName}</h3>';
 	currentDiv.append(title.replace("{cursoName}","ASIGNATURAS DEL CURSO <span class='cursoFont'>"+(value.nombre.toUpperCase()+"("+value.yearCurso+")</span>")));
+	currentDiv.append($('<hr class="portletLine">'));
 	currentDiv = currentDiv.append("<div id='curso"+value.id+"' class='curso'></div>");
 	 $('#curso'+value.id).append("<div class='censmaterias' id='porletcontainer"+value.id+"'></div>");
 	 return currentDiv;

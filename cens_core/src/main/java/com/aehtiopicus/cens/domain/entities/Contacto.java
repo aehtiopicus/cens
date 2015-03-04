@@ -31,6 +31,8 @@ public class Contacto implements Serializable{
 	
 	@OneToOne
 	private MiembroCens miembroCens;
+	
+	private String datoContacto;
 
 	public Long getId() {
 		return id;
@@ -54,6 +56,14 @@ public class Contacto implements Serializable{
 
 	public void setMiembroCens(MiembroCens miembroCens) {
 		this.miembroCens = miembroCens;
+	}
+
+	public String getDatoContacto() {
+		return datoContacto;
+	}
+
+	public void setDatoContacto(String datoContacto) {
+		this.datoContacto = datoContacto;
 	}
 
 	

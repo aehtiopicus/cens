@@ -7,8 +7,7 @@
 	<script>var pagePath="<%=request.getContextPath() %>"</script>
 	<script>var asesorId="${asesorId}"</script>
     <script src="<%=request.getContextPath() %>/js/cens/asesordashboard.js"></script>
-
-	<h3>Informaci&oacute;n de las Asignaturas</h3>	
+	
   	<div id="yearContent"></div>
   	
 
