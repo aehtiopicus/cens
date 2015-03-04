@@ -23,6 +23,7 @@ jQuery(document).ready(function () {
 			$('#apellido').val(data.apellido);
 			$('#dni').val(data.dni);
 			if(data.usuario.avatarImg){
+				$('#perfilImg').toggleClass("has-image");
 				$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture");      	    	
   	    		$('#currentImg').show();
 			}else{
@@ -47,6 +48,16 @@ jQuery(document).ready(function () {
 		}
 	});
 	
+	$("#progressbar").progressbar({
+	     value: 0,
+	     change: function() {
+	    	 $(".progress-label").text($("#progressbar").progressbar( "value" ) + "%" );
+	     },
+	     complete: function() {
+	    	 $(".progress-label").text( "Carga completa!" );
+	    	 startSpinner();
+	     }
+	   });
 	$( "#cambiarPass" ).on("click",function(){
 		$( "#cambiarPassword" ).dialog("open");
 	});
@@ -140,6 +151,8 @@ jQuery(document).ready(function () {
             }
             startSpinner();
             $('#userImg').show("fast","linear",function(){
+            	$( "#progressbar" ).progressbar( "option", "value", 0 );
+				 $(".progress-label").text( "" );
             	$("#cambiarImagen").dialog("open");	
             	stopSpinner();
             });
@@ -174,6 +187,7 @@ jQuery(document).ready(function () {
       	    	if(result.message){
       	    		$('#currentImg').attr("src",pagePath+"/api/usuario/"+$('#usuarioid').val()+"/picture");      	    	
       	    		$('#currentImg').show();
+      	    		$('#perfilImg').toggleClass("has-image");
       	    	}
       	    	$( "#cambiarImagen" ).dialog("close");    	    
          		 

@@ -974,6 +974,9 @@ background-image: url('midasUI-theme/images/user_blank_picture.png');
 background-repeat: no-repeat;
 overflow: hidden;
 }
+.has-image{
+background-image: none;	
+}
 .perfil div input[type=text]{
 	max-width: 320px;	
 }

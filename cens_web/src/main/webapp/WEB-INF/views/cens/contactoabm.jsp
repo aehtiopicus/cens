@@ -25,8 +25,8 @@ $(document).ready(function(){
 				<label for="email">Email:</label>
 				<input type="text" id="email" placeholder="cens@cens.com"/>
 			</div>
-			
-
+			<input type="hidden" id="emailOriginal"/>
+			<input type="hidden" id="emailId" />
 			<input type="hidden" id="fileUploadUsed" />
 			<input type="hidden" id="btnGuardarCartilla" />
 			

@@ -7,7 +7,7 @@ public class ContactoDto {
 	private Long id;	
 	private ContactoType tipoContacto;
 	private String datoContacto;
-	private MiembroCensDto miembro;
+	private MiembroCensDto miembroCens;
 	
 	public Long getId() {
 		return id;
@@ -27,12 +27,13 @@ public class ContactoDto {
 	public void setDatoContacto(String datoContacto) {
 		this.datoContacto = datoContacto;
 	}
-	public MiembroCensDto getMiembro() {
-		return miembro;
+	public MiembroCensDto getMiembroCens() {
+		return miembroCens;
 	}
-	public void setMiembro(MiembroCensDto miembro) {
-		this.miembro = miembro;
+	public void setMiembroCens(MiembroCensDto miembroCens) {
+		this.miembroCens = miembroCens;
 	}
+	
 	
 	
 	
