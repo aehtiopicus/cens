@@ -127,7 +127,7 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	}
 
 	@Override
-	public List<String> getUsuarioActivoByUserName() {
+	public List<Object[]> getUsuarioActivoByUserName() {
 		return usuariosCensRepository.findUsernameActivos();
 	}
 	

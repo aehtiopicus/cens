@@ -83,13 +83,13 @@ public class SchedulerConfiguration {
 	
 	@Bean
 	public SchedulerFactoryBean getScheduler(){
-		if(enabled){
+		
 			SchedulerFactoryBean sfb =new SchedulerFactoryBean();
+			if(enabled){
 			sfb.setTriggers(getNightModification().getObject(),getMorningNotification().getObject(),getNoonModification().getObject());
+			}
 			return sfb;
-		}else{
-			return null;
-		}
+		
 	}
 }
 
