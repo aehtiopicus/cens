@@ -43,12 +43,12 @@ public class ComentarioAspect {
 			switch (comentarioCens.getTipoComentario()) {
 			case MATERIAL:
 				originalInitializerId = materialDidacticoCensService.findById(
-						comentarioCens.getTipoId()).getId();
+						comentarioCens.getTipoId()).getProfesor().getMiembroCens().getId();
 				ptct = PerfilTrabajadorCensType.PROFESOR;
 				break;
 			case PROGRAMA:
 				originalInitializerId = programaCensService.findById(
-						comentarioCens.getTipoId()).getId();
+						comentarioCens.getTipoId()).getProfesor().getMiembroCens().getId();
 				ptct = PerfilTrabajadorCensType.PROFESOR;
 				break;
 			default:
@@ -59,7 +59,7 @@ public class ComentarioAspect {
 					originalInitializerId, ptct);
 			censFeedService.save(ccf);
 		} catch (Exception e) {
-			logger.error("Comentaerio Feed Error ", e);
+			logger.error("Comentario Feed Error ", e);
 		}
 	}
 }

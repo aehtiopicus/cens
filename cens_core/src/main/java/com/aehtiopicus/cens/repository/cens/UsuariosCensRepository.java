@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.repository.cens;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +22,8 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 	@Modifying
 	@Query("UPDATE Usuarios u SET u.password = :password WHERE u.id = :id")
 	public int resetPassword(@Param("id")Long usuarioId,@Param("password") String defaulPassword);
+
+	@Query(value="SELECT username FROM cens_usuarios WHERE enabled = true",nativeQuery=true)
+	public List<String> findUsernameActivos();
 
 }

@@ -45,7 +45,7 @@ public class ComentarioCensFeedMapper {
 		
 		loadCurrentData(FROM_ID,FROM_PERFIL,comentarioCens,activityFeedData);
 		if(comentarioCens.getParent()!=null){
-			loadCurrentData(TO_ID,TO_PERFIL,comentarioCens,activityFeedData);
+			loadCurrentData(TO_ID,TO_PERFIL,comentarioCens.getParent(),activityFeedData);
 		}else{
 			if(((PerfilTrabajadorCensType)activityFeedData.get(FROM_PERFIL)).equals(PerfilTrabajadorCensType.PROFESOR)){
 				activityFeedData.put(TO_PERFIL, PerfilTrabajadorCensType.ASESOR);//broadcast message
@@ -59,10 +59,10 @@ public class ComentarioCensFeedMapper {
 	
 	private void loadCurrentData(String id,String perfil,ComentarioCens comentarioCens, Map<String,Object> activityFeedData){
 		if(comentarioCens.getProfesor()!=null){
-			activityFeedData.put(id,comentarioCens.getProfesor().getId());
+			activityFeedData.put(id,comentarioCens.getProfesor().getMiembroCens().getId());
 			activityFeedData.put(perfil,PerfilTrabajadorCensType.PROFESOR);
 		}else if(comentarioCens.getAsesor()!=null){
-			activityFeedData.put(id,comentarioCens.getAsesor().getId());
+			activityFeedData.put(id,comentarioCens.getAsesor().getMiembroCens().getId());
 			activityFeedData.put(perfil,PerfilTrabajadorCensType.ASESOR);
 		}
 	}

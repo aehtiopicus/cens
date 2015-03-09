@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.aehtiopicus.cens.enumeration.ContactoType;
+import com.aehtiopicus.cens.enumeration.cens.ContactoType;
 
 @Entity
 @Table(name = "CENS_CONTACTO")

@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.dto.cens.ContactoDto;
-import com.aehtiopicus.cens.enumeration.ContactoType;
+import com.aehtiopicus.cens.enumeration.cens.ContactoType;
 import com.aehtiopicus.cens.util.Utils;
 import com.aehtiopicus.cens.utils.CensException;
 

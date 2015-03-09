@@ -128,7 +128,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	}
 
 	@Override
-	@Cacheable("programaAsesor")
+//	@Cacheable("programaAsesor")
 	public List<Programa> getProgramas() {
 		return programaCensRepository.findProgramaByAsignaturaVigente();
 	}

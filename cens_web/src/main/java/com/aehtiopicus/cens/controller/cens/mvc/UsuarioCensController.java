@@ -17,9 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.configuration.VistasConstant;
-import com.aehtiopicus.cens.domain.Usuario;
-import com.aehtiopicus.cens.dto.ResetPasswordDto;
-import com.aehtiopicus.cens.mapper.UsuarioMapper;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 
 @Controller

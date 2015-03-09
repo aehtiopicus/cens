@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,6 +124,11 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	public void getAvatar(String picturePath,OutputStream baos) throws CensException {
 		ftpUsuarioCensService.leerAvatar(picturePath,baos);
 		
+	}
+
+	@Override
+	public List<String> getUsuarioActivoByUserName() {
+		return usuariosCensRepository.findUsernameActivos();
 	}
 	
 

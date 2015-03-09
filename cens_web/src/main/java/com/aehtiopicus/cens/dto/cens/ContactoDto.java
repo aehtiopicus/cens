@@ -1,6 +1,6 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import com.aehtiopicus.cens.enumeration.ContactoType;
+import com.aehtiopicus.cens.enumeration.cens.ContactoType;
 
 public class ContactoDto {
 

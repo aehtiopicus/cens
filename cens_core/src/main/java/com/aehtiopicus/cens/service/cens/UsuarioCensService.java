@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,4 +23,6 @@ public interface UsuarioCensService {
 	public void updateImage(Usuarios user, MultipartFile file) throws CensException;
 
 	public void getAvatar(String picturePath, OutputStream baos) throws Exception;
+
+	public List<String> getUsuarioActivoByUserName();
 }
