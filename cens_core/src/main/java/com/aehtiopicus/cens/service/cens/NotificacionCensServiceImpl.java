@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
@@ -20,6 +21,10 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 
 	@Autowired
 	private ComentarioCensFeedService comentarioCensFeedService;
+	
+	@Autowired
+	@Qualifier(value="emailService")
+	private EmailCensService emailCensService;
 	
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username) throws CensException{
@@ -48,6 +53,13 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 				return 0;
 			}
 		}
+		
+	}
+
+	@Override
+	public void sendEmailNotification(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
+			String email) {
+		emailCensService.enviarNotificacionEmail(new HashMap<String,String>(), email);
 		
 	}
 }

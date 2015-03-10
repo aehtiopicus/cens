@@ -63,8 +63,7 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 			try{
 				if(CollectionUtils.isNotEmpty(usernameList)){
 					for(Object[] username : usernameList){
-						System.out.print(notificacionService.getNotificationForUser(username[0].toString()));
-						System.out.print(username[1]);
+						notificacionService.sendEmailNotification(notificacionService.getNotificationForUser(username[0].toString()),username[1].toString());
 					}
 				}
 			}catch(Exception e){

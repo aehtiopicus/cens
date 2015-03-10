@@ -11,8 +11,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 
-import com.aehtiopicus.cens.service.EmailService;
-import com.aehtiopicus.cens.service.EmailServiceImpl;
+import com.aehtiopicus.cens.service.cens.EmailCensService;
+import com.aehtiopicus.cens.service.cens.EmailCensServiceImpl;
 import com.aehtiopicus.profiles.Development;
 
 @Configuration
@@ -82,8 +82,8 @@ public class MailConfigDev {
 	}
 	
 	@Bean(name="emailService")
-	public EmailService getEmailServiceBean() throws VelocityException, IOException {
-		EmailServiceImpl bean = new EmailServiceImpl();
+	public EmailCensService getEmailServiceBean() throws VelocityException, IOException {
+		EmailCensServiceImpl bean = new EmailCensServiceImpl();
 		
 		bean.setMailSender(getMailSenderBean());
 		bean.setVelocityEngine(getVelocityEngineBean().getObject());

@@ -1,0 +1,111 @@
+ <html>
+<body>
+<table width="100%" height="100%" bgcolor="#ffffff" style="background-color:#ffffff">
+	<tbody>
+    	<tr>
+        	<td>
+            	<table align="center" border="0" cellpadding="0" cellspacing="0" width="510" height="auto">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>                          
+                            <td align="left">
+                            	<img src="cid:logo">
+                            </td>
+							<td align="right">
+                           	<span style="color: rgb(0, 85, 119);display: block;font-family: cursive;font-size: 18px;font-style: italic;font-weight: bold;">Notificaci&oacute;n de Actividad </span>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#fafafa">
+                                    <tbody>
+									<tr>
+                                        <td colspan="4" height="5" style="background-color:rgb(0, 85, 119);"></td>
+                                    </tr>
+									<tr>
+                                        <td colspan="4" height="5"></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="10" width="20">&nbsp;</td>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274;font-weight:bold"><span style="text-transform:uppercase">VEGA HISSI, FRANCISCO JA</span>,</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274">Se le informa que tiene las siguientes notificaciones:</td><td><br>
+                                    </td></tr>
+                                    <tr>
+                                        <td style="font-size:7px">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb">
+                                                <tbody>
+                                                	<tr>
+                                                    	<td style="font-size:5px">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
+                                                        	Comenterarios realizados: 
+																<table>
+																	<tbody>
+																		<tr>
+																			<td>&nbsp;</td>
+																		</tr>
+																		<tr>
+																			<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																				Programas:
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+                                                        </td>
+                                                    </tr>
+													
+                                                    <tr>
+                                                    	<td style="font-size:5px">&nbsp;</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                   
+                                </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+							<td colspan="4" height="5" style="background-color:rgb(0, 85, 119);"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                	<tbody><tr>
+                                    	<td style="font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666666;margin:0">Por favor no responda este mensaje ya que ha sido enviado desde una casilla autom&aacute;tica. Si usted NO desea recibir esta informaci&oacute;n en el futuro, por favor elimine su direcci&oacute;n de Email desde las opciones de 'Mi Perfil' del Sistema de <span style="font-weight: bold;">Gesti&oacute;n de Material Did&aacute;ctico</span> Para mayor informaci&oacute;n comun&iacute;quese comuniquese con el &aacute;rea de asesoria del CENS </td>
+                                    </tr>
+                                    <tr>
+                                    	<td>&nbsp;</td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" height="30">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
