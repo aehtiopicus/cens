@@ -1,11 +1,13 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Map;
 
+import javax.activation.DataSource;
+import javax.activation.URLDataSource;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.util.Base64;
@@ -65,13 +67,16 @@ public class EmailCensServiceImpl implements EmailCensService {
 
 	
 	public MimeMessageHelper getMessage() throws MessagingException{
-		return new MimeMessageHelper(this.mailSender.createMimeMessage(), false);
+		MimeMessage mm = this.mailSender.createMimeMessage();
+		return new MimeMessageHelper(mm, true);
 	}
 	
 	public void send(MimeMessageHelper message, String template, Map model){
 		try{
 			String content = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, pathTemplates + template , "utf-8", model);
 			message.setText(content, true);
+			message.addInline("logo", getDataHandler(LOGO));
+			message.getMimeMultipart();
 			this.mailSender.send(message.getMimeMessage());
 		}catch(MailException me){
 			logger.error("Mail Exception tratando de enviar el mail", me);
@@ -121,11 +126,6 @@ public class EmailCensServiceImpl implements EmailCensService {
 	
 	@Override
 	public void enviarNotificacionEmail(Map<String,String> model,String toEmail){
-		
-			model.put("logo", "https://drive.google.com/file/d/0B3xNHQYPX96qWnRZOUZ2V0llTG8/view?usp=sharing");
-		
-		
-		
 		try{
 			MimeMessageHelper message = this.getMessage();
 			message.setFrom(this.getFrom());			
@@ -150,6 +150,14 @@ public class EmailCensServiceImpl implements EmailCensService {
 		}catch(Exception e){
 			throw new CensException("Error al cargar el logo");
 		}
+		
+	}
+	
+	private DataSource getDataHandler(String imgPath) throws CensException{
+		
+	
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			return new URLDataSource(classLoader.getResource(imgPath));
 		
 		
 	}

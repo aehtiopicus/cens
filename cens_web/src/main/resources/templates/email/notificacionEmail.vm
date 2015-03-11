@@ -11,7 +11,7 @@
                         </tr>
                         <tr>                          
                             <td align="left">
-                            	<img src="$logo"/>
+                            	<img src="cid:logo" alt="Cens"/>
                             </td>
 							<td align="right">
                            	<span style="color: rgb(0, 85, 119);display: block;font-family: cursive;font-size: 18px;font-style: italic;font-weight: bold;">Notificaci&oacute;n de Actividad </span>
