@@ -121,11 +121,10 @@ public class EmailCensServiceImpl implements EmailCensService {
 	
 	@Override
 	public void enviarNotificacionEmail(Map<String,String> model,String toEmail){
-		try{
-			model.put("logo", encodeBase64Img(LOGO));
-		}catch(CensException e){
-			model.put("logo", "..");
-		}
+		
+			model.put("logo", "https://drive.google.com/file/d/0B3xNHQYPX96qWnRZOUZ2V0llTG8/view?usp=sharing");
+		
+		
 		
 		try{
 			MimeMessageHelper message = this.getMessage();
@@ -144,9 +143,9 @@ public class EmailCensServiceImpl implements EmailCensService {
 		
 		try{
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			FileInputStream fis = new FileInputStream(new File(classLoader.getResource(imgPath).getFile()));
+			
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			IOUtils.copy(fis, bos);
+			IOUtils.copy(classLoader.getResourceAsStream(imgPath), bos);
 			return  Base64.encodeBase64String(bos.toByteArray());
 		}catch(Exception e){
 			throw new CensException("Error al cargar el logo");
