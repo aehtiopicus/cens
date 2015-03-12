@@ -29,7 +29,7 @@
                                     </tr>
                                     <tr>
                                         <td rowspan="10" width="20">&nbsp;</td>
-                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274;font-weight:bold"><span style="text-transform:uppercase">VEGA HISSI, FRANCISCO JA</span>,</td>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274;font-weight:bold"><span style="text-transform:uppercase">$nombre</span>,</td>
 
                                     </tr>
                                     <tr>
@@ -45,23 +45,38 @@
                                                 	<tr>
                                                     	<td style="font-size:5px">&nbsp;</td>
                                                     </tr>
-                                                    <tr>
-                                                    	<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
-                                                        	Comenterarios realizados: 
-																<table>
-																	<tbody>
-																		<tr>
-																			<td>&nbsp;</td>
-																		</tr>
-																		<tr>
-																			<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
-																				Programas:
-																			</td>
-																		</tr>
-																	</tbody>
-																</table>
-                                                        </td>
-                                                    </tr>
+                                                     #if ( $comentario)
+                                                    	<tr>                                                    
+                                                    		<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
+                                                        		Comenterarios realizados: 
+																	<table>
+																		<tbody>
+																			#foreach( $key in $comentario.keySet() )	
+																																			
+																				#if ($key == 'PROGRAMA')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Programas:
+																							<table>
+																								<tbody>																									
+																									#foreach( $programa in $comentario.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span>$programa.Curso ($programa.Year)</span>,Asignatura <span>$programa.Asignatura</span>, Programa <span>$programa.Programa</span> &nbsp; #$programa.Cantidad Fecha <span>$programa.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																			#end
+																		</tbody>
+																	</table>
+                                                        	</td>
+                                                    	</tr>
+                                                    #end
 													
                                                     <tr>
                                                     	<td style="font-size:5px">&nbsp;</td>

@@ -10,12 +10,12 @@ import com.aehtiopicus.cens.utils.CensException;
 
 public interface ComentarioCensFeedService {
 
-	public void save(ComentarioCensFeed comentarioFeed);
+	public ComentarioCensFeed save(ComentarioCensFeed comentarioFeed);
 
 	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName)
 			throws CensException;
 
 	public void obtenerFuenteDeComentarios(
-			Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve);
+			Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) throws CensException;
 
 }

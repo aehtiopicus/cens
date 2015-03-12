@@ -14,6 +14,6 @@ public interface NotificacionCensService {
 
 	public void sendEmailNotification(
 			Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
-			String email);
+			String email,String nombreMiembroCens)throws CensException;
 
 }

@@ -12,7 +12,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,14 +30,14 @@ import com.aehtiopicus.cens.utils.CensException;
 @Service
 public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
-	public static final String COMENTARIO_CURSO ="curso";
-	public static final String COMENTARIO_CURSO_YEAR ="year";
-	public static final String COMENTARIO_ASIGNATURA ="asignatura";
-	public static final String COMENTARIO_PROGRAMA ="programa";
-	public static final String COMENTARIO_MATERIAL ="material";
+	public static final String COMENTARIO_CURSO ="Curso";
+	public static final String COMENTARIO_CURSO_YEAR ="Year";
+	public static final String COMENTARIO_ASIGNATURA ="Asignatura";
+	public static final String COMENTARIO_PROGRAMA ="Programa";
+	public static final String COMENTARIO_MATERIAL ="Material";
 	public static final String COMENTARIO_SEPARATOR =",";
 	
-	
+	private static final Logger logger = LoggerFactory.getLogger(ComentarioCensFeedServiceImpl.class);
 	@Autowired
 	private ComentarioCensFeedRepository repository;
 	
@@ -46,8 +49,9 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
-	public void save(ComentarioCensFeed comentarioFeed){
-		repository.save(comentarioFeed);
+	public ComentarioCensFeed save(ComentarioCensFeed comentarioFeed){
+		 comentarioFeed = repository.save(comentarioFeed);
+		 return comentarioFeed;
 	}
 	
 	@Override
@@ -84,44 +88,52 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	}
 
 	@Override
-	public void obtenerFuenteDeComentarios(Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) {
-		if(!informationToRetrieve.isEmpty()){
-			Query q = null;
+	public void obtenerFuenteDeComentarios(Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) throws CensException{
+		if(!informationToRetrieve.isEmpty()) {
+			
 			Set<Entry<ComentarioTypeComentarioIdKey,String>> entrySet = informationToRetrieve.entrySet();
-			for(Entry<ComentarioTypeComentarioIdKey,String> value : entrySet){
-				
-				switch(value.getKey().getComentarioType()){
-				
-				case MATERIAL:
-					q = entityManager.createNativeQuery("SELECT cp.nombre, ca.nombre, cc.nombre, cc.yearcurso, cmm.nombre FROM cens_material_didactico cmm  "
-							+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
-							+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
-							+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
-							+ "WHERE cmm.id = :id").setParameter("id", value.getKey().getTipoId());
-					break;
-				case PROGRAMA:
-					q = entityManager.createNativeQuery("SELECT cp.nombre, ca.nombre, cc.nombre, cc.yearcurso FROM cens_programa cp "
-							+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
-							+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
-							+ "WHERE cp.id = :id").setParameter("id", value.getKey().getTipoId());
-					break;				
-				
-				}
-				Object[] result = (Object[]) q.getSingleResult();
-				StringBuilder sb = new StringBuilder();
-				sb.append(COMENTARIO_CURSO).append(result[0]).append(COMENTARIO_SEPARATOR).
-				append(COMENTARIO_CURSO_YEAR).append(result[1]).append(COMENTARIO_SEPARATOR).
-				append(COMENTARIO_ASIGNATURA).append(result[2]).append(COMENTARIO_SEPARATOR).
-				append(COMENTARIO_PROGRAMA).append(result[3]).append(COMENTARIO_SEPARATOR);
-				if(result.length==5){
-					sb.append(COMENTARIO_MATERIAL).append(result[4]);
-				}
-				informationToRetrieve.put(value.getKey(), sb.toString());
-				
+			for(Entry<ComentarioTypeComentarioIdKey,String> value : entrySet){								
+				informationToRetrieve.put(value.getKey(), getCommentSource(value.getKey()));				
 				
 			}
 		}
 		
+	}
+	
+	@Cacheable(value="commentSource",key="#ctik.comentarioType#ctick.tipoId")
+	private String getCommentSource(ComentarioTypeComentarioIdKey ctik) throws CensException {
+		try{
+			Query q = null;
+			switch(ctik.getComentarioType()){		
+			case MATERIAL:
+				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, cmm.nombre as cmmnombre FROM cens_material_didactico cmm  "
+						+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
+						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
+						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
+						+ "WHERE cmm.id = :id").setParameter("id", ctik.getTipoId());
+				break;
+			case PROGRAMA:
+				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso FROM cens_programa cp "
+						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
+						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
+						+ "WHERE cp.id = :id").setParameter("id", ctik.getTipoId());
+				break;				
+		
+			}
+			Object[] result = (Object[]) q.getSingleResult();
+			StringBuilder sb = new StringBuilder();
+			sb.append(COMENTARIO_PROGRAMA).append(COMENTARIO_SEPARATOR).append(result[0]).append(COMENTARIO_SEPARATOR).
+			append(COMENTARIO_ASIGNATURA).append(COMENTARIO_SEPARATOR).append(result[1]).append(COMENTARIO_SEPARATOR).
+			append(COMENTARIO_CURSO).append(COMENTARIO_SEPARATOR).append(result[2]).append(COMENTARIO_SEPARATOR).
+			append(COMENTARIO_CURSO_YEAR).append(COMENTARIO_SEPARATOR).append(result[3]);
+			if(result.length==5){	
+				sb.append(COMENTARIO_SEPARATOR).append(COMENTARIO_MATERIAL).append(result[4]);
+			}
+			return sb.toString();
+		}catch(Exception e){
+				logger.error("Error ",e);
+				throw new CensException ("No se puede extraer la información de notificaci&oacute;n de comentarios");
+		}
 	}
 
 }

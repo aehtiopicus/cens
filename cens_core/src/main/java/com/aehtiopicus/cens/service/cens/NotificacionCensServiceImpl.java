@@ -48,14 +48,19 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void sendEmailNotification(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
-			String email) {
+			String email,String nombreMiembroCens) throws CensException{
+		Map<String,Object> data = new HashMap<>();
 		if(notificationForUser.containsKey(NotificacionType.COMENTARIO)){			
 			Map<ComentarioType,List<NotificacionComentarioFeed>>  sortedComentarios = notificacionCensMapper.comentarioMapper((List<NotificacionComentarioFeed>) notificationForUser.get(NotificacionType.COMENTARIO));
 			Map<ComentarioTypeComentarioIdKey,String> informationToRetrieve = notificacionCensMapper.mapNotificationSorted(sortedComentarios);
-			comentarioCensFeedService.obtenerFuenteDeComentarios(informationToRetrieve);//ponerle cache
-		}s
+			comentarioCensFeedService.obtenerFuenteDeComentarios(informationToRetrieve);
+			notificacionCensMapper.convertToNotificacion(sortedComentarios,informationToRetrieve);
+			
+			data.put("comentario", notificacionCensMapper.convertToNotificacionData(sortedComentarios));
+		}
+		data.put("nombre", nombreMiembroCens);
 		
-		emailCensService.enviarNotificacionEmail(new HashMap<String,Object>(), email);
+		emailCensService.enviarNotificacionEmail(data, email);
 		
 	}
 }

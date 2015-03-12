@@ -202,7 +202,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 			fileCensService.deleteFileCensInfo(md.getFileInfo());
 			materialDidacticoCensRepository.delete(md);
 		}else{
-			throw new CensException("No se puede eliminar el Material didáctico ya que fue ACEPTADO por asesor&iacute;a");
+			throw new CensException("No se puede eliminar el Material did&aacute;ctico ya que fue ACEPTADO por asesor&iacute;a");
 		}
 		
 	}

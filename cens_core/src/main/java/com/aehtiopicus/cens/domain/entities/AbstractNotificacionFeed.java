@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -24,6 +25,10 @@ public abstract class AbstractNotificacionFeed {
 	private Boolean notificado;
 		
 	private Long feedId;
+	
+	private Map<String,String> displayTextMap;
+	
+	private int cantidad;
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
@@ -64,6 +69,25 @@ public abstract class AbstractNotificacionFeed {
 	public void setFeedId(Long feedId) {
 		this.feedId = feedId;
 	}
+
+	
+
+	public Map<String, String> getDisplayTextMap() {
+		return displayTextMap;
+	}
+
+	public void setDisplayTextMap(Map<String, String> displayTextMap) {
+		this.displayTextMap = displayTextMap;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+	
 	
 	
 }

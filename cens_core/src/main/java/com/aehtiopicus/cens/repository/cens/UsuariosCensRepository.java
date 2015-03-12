@@ -23,7 +23,7 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 	@Query("UPDATE Usuarios u SET u.password = :password WHERE u.id = :id")
 	public int resetPassword(@Param("id")Long usuarioId,@Param("password") String defaulPassword);
 
-	@Query(value="SELECT u.username, c.datocontacto FROM cens_usuarios u "
+	@Query(value="SELECT u.username, c.datocontacto, mc.apellido, mc.nombre, mc.dni FROM cens_usuarios u "
 			+ "INNER JOIN cens_miembros_cens mc ON u.id = mc.usuario_id "
 			+ "INNER JOIN cens_contacto c ON c.miembrocens_id = mc.id  "
 			+ "WHERE u.enabled = true "

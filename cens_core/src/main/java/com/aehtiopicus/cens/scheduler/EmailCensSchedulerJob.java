@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.scheduler;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.quartz.JobExecutionContext;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
+import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 
@@ -63,7 +66,11 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 			try{
 				if(CollectionUtils.isNotEmpty(usernameList)){
 					for(Object[] username : usernameList){
-						notificacionService.sendEmailNotification(notificacionService.getNotificationForUser(username[0].toString()),username[1].toString());
+						Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser =notificacionService.getNotificationForUser(username[0].toString());
+						if(!notificationForUser.isEmpty()){
+							notificacionService.sendEmailNotification(notificationForUser,username[1].toString(),username[2].toString()+", "+username[3].toString()+", DNI: "+username[4].toString());
+						}
+						
 					}
 				}
 			}catch(Exception e){

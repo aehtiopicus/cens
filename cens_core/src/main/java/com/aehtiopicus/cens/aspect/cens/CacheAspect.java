@@ -1,11 +1,19 @@
 package com.aehtiopicus.cens.aspect.cens;
 
+
+
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
+
+import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
+import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 
 @Component
 @Aspect
@@ -25,7 +33,11 @@ public class CacheAspect {
 	private static final String PROGRAMA_ASESOR_CACHE = "#{cacheProperties['programa_asesor']}";
 	
 	private static final String ASESOR_DASHBOARD_MAPPER_CACHE = "#{cacheProperties['asesor_dashboard_mapper']}";
+
+	private static final String COMMENT_SOURCE_CACHE = "#{cacheProperties['comment_source']}";
 	
+	@Value(COMMENT_SOURCE_CACHE)
+	private String comentarioCache;
 	
 	@Value(CURSO_ASESOR_CACHE)
 	private String cursoAsesor;
@@ -98,6 +110,19 @@ public class CacheAspect {
 	@After(value = "execution(* com.aehtiopicus.cens.service.cens.MaterialDidacticoCensService.removeMaterialDidacticoCompleto(..))")
 	public void removeMaterialCompletoCacheSave() {
 		cleanProgramaProfesor();
+	}
+
+	
+	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.save(..))",returning = "ccf")
+	public void removeComentarioCache(JoinPoint joinPoint, ComentarioCensFeed ccf){
+		if(cacheManager.getCache(comentarioCache)!=null){
+			Cache c = cacheManager.getCache(comentarioCache);
+			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getComentarioCensId());
+			if(c.get(ctcik)!=null){
+				c.evict(ctcik);
+			}
+			
+		}
 	}
 
 	private void cleanCursoProfesor() {
