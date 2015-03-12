@@ -20,6 +20,8 @@ public class NotificacionComentarioFeed extends AbstractNotificacionFeed impleme
 	@Column(name="comentariotype")
 	@Enumerated(EnumType.STRING)
 	private ComentarioType comentarioType;
+	
+	private Long tipoId;
 			
 
 	public ComentarioType getComentarioType() {
@@ -28,6 +30,14 @@ public class NotificacionComentarioFeed extends AbstractNotificacionFeed impleme
 
 	public void setComentarioType(ComentarioType comentarioType) {
 		this.comentarioType = comentarioType;
+	}
+
+	public Long getTipoId() {
+		return tipoId;
+	}
+
+	public void setTipoId(Long tipoId) {
+		this.tipoId = tipoId;
 	}
 	
 	

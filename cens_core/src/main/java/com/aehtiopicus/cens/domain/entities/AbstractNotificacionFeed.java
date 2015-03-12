@@ -22,6 +22,8 @@ public abstract class AbstractNotificacionFeed {
 	
 	@Column(name="notificado")
 	private Boolean notificado;
+		
+	private Long feedId;
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
@@ -53,6 +55,14 @@ public abstract class AbstractNotificacionFeed {
 
 	public void setNotificado(Boolean notificado) {
 		this.notificado = notificado;
+	}
+
+	public Long getFeedId() {
+		return feedId;
+	}
+
+	public void setFeedId(Long feedId) {
+		this.feedId = feedId;
 	}
 	
 	

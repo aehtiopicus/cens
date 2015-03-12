@@ -16,7 +16,7 @@ import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 public class ActivityFeed {
 
 		
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_creacion")
 	private Date dateCreated;
 	
@@ -40,7 +40,7 @@ public class ActivityFeed {
 	@Column(name="notificado")
 	private Boolean notificado = false;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="ultima_notificacion")
 	private Date lastTimeNotified;
 

@@ -125,7 +125,7 @@ public class EmailCensServiceImpl implements EmailCensService {
 	}
 	
 	@Override
-	public void enviarNotificacionEmail(Map<String,String> model,String toEmail){
+	public void enviarNotificacionEmail(Map<String,Object> model,String toEmail){
 		try{
 			MimeMessageHelper message = this.getMessage();
 			message.setFrom(this.getFrom());			
