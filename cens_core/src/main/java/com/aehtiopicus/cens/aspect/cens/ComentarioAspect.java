@@ -39,9 +39,9 @@ public class ComentarioAspect {
 	private ComentarioCensFeedMapper mapper;
 
 	
-	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.delete(..))", returning ="comentarioIds")
+	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.deleteAllComents(..))", returning ="comentarioIds")
 	public void deleteNotification(JoinPoint joinPoint, List<Long> comentarioIds){
-		Long comentarioDeletedId = (Long) joinPoint.getArgs()[0];
+		List<Long> comentarioDeletedId = (List<Long>) joinPoint.getArgs()[0];
 //		censFeedService.de
 		
 	}
