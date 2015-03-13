@@ -50,8 +50,8 @@ function emailBlur(event){
 				data:loadData(event.target.value,post),
 				success : function(data){
 					
-					$('#emailId').val(data[0].id);
-					$('#emailOriginal').val(data[0].datoContacto);
+					$('#emailId').val(data.id);
+					$('#emailOriginal').val(data.datoContacto);
 					closeAllErrors();
 				},
 				error : function(errorData){

@@ -80,7 +80,7 @@
 																									#foreach( $material in $comentario.get($key) )													
 																									<tr>
 																									<ul>
-																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,Asignatura <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span><br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>, Cartilla <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span><br/> #$material.Cantidad Fecha #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end$material.Fecha</span></td></li>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,Asignatura <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span><br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>, Cartilla <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span><br/> #$material.Cantidad Fecha #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
 																									</ul>
 																									</tr>																									
 																									#end																									

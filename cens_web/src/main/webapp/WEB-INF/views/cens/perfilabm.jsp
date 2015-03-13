@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
 <script src="<%=request.getContextPath()%>/js/cens/perfilabm.js"></script>
-
+<script src="<%=request.getContextPath()%>/js/cens/contactoabm.js"></script>
     	
 <script>
 var pagePath="<%=request.getContextPath()%>";
@@ -60,12 +60,23 @@ var miembroId=${miembroId};
 				<input  type="text"   id="fechaNac" class="hasdatepicker" maxlength="10" placeholder ="Ingrese Fecha de Nacimiento"/>
 			</div>
 					
+					
+			<h3 class="subtitulo" >Informaci&oacute;n de contacto</h3>
+			<div>
+				<label for="email">Email:</label>
+				<input type="text" id="email" placeholder="cens@cens.com"/>
+			</div>
+			<input type="hidden" id="emailOriginal"/>
+			<input type="hidden" id="emailId" />
+			
 			<div class="footerForm">
 				<button class="button" type="button" onclick="submitMiembro();">Guardar</button>
 
 				<button id="cancelar" class="button" type="button"
 					onclick=" location.href = document.referrer;">Cancelar</button>
 			</div>
+			
+			
 			
 
 			<input type="hidden" id="btnGuardarImagen" />

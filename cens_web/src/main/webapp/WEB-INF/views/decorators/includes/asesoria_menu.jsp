@@ -5,11 +5,8 @@
 <ul class="menu">
 
 	<li>
-		<a href="#">Mi Perfil</a>
-		<ul>
-			<li><a href="<%=request.getContextPath()%>/mvc/perfil">Informaci&oacute;n Personal</a></li>
-			<li><a href="<%=request.getContextPath()%>/mvc/contacto">Datos de Contacto</a></li>
-		</ul>
+		<a href="<%=request.getContextPath()%>/mvc/perfil">Mi Perfil</a>
+
 	</li>
     <li>
         <a href="<%=request.getContextPath() %>/mvc/miembroList">Administraci&oacute;n de Miembros</a>
