@@ -127,13 +127,29 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			append(COMENTARIO_CURSO).append(COMENTARIO_SEPARATOR).append(result[2]).append(COMENTARIO_SEPARATOR).
 			append(COMENTARIO_CURSO_YEAR).append(COMENTARIO_SEPARATOR).append(result[3]);
 			if(result.length==5){	
-				sb.append(COMENTARIO_SEPARATOR).append(COMENTARIO_MATERIAL).append(result[4]);
+				sb.append(COMENTARIO_SEPARATOR).append(COMENTARIO_MATERIAL).append(COMENTARIO_SEPARATOR).append(result[4]);
 			}
 			return sb.toString();
 		}catch(Exception e){
 				logger.error("Error ",e);
 				throw new CensException ("No se puede extraer la información de notificaci&oacute;n de comentarios");
 		}
+	}
+
+	@Override
+	@Transactional
+	public void markAllFeedsForUserAsNotified(String username)
+			throws CensException {
+		try{
+			entityManager.createNativeQuery("UPDATE cens_comentario_feed   SET notificado =true "
+					+ "WHERE id_dirigido in  "
+					+ "(SELECT cmc.id from cens_miembros_cens cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id WHERE cu.username = :username) "
+					+ "AND id_dirigido <> id_creador").setParameter("username", username).executeUpdate();
+		}catch(Exception e){
+			logger.error("Error ",e);
+			throw new CensException("Error al actualizar el estado de los feeds");
+		}
+		
 	}
 
 }

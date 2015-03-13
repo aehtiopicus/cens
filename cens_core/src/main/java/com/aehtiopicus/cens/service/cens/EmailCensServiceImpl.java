@@ -1,16 +1,12 @@
 package com.aehtiopicus.cens.service.cens;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 import javax.activation.DataSource;
 import javax.activation.URLDataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.net.util.Base64;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.mail.MailException;
@@ -71,7 +67,7 @@ public class EmailCensServiceImpl implements EmailCensService {
 		return new MimeMessageHelper(mm, true);
 	}
 	
-	public void send(MimeMessageHelper message, String template, Map model){
+	public void send(MimeMessageHelper message, String template, Map<String,Object> model){
 		try{
 			String content = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, pathTemplates + template , "utf-8", model);
 			message.setText(content, true);
@@ -92,45 +88,12 @@ public class EmailCensServiceImpl implements EmailCensService {
 	
 	
 	@Override
-	public void enviarEmail(Map<String, String> model, String subject){
-		try{
-			MimeMessageHelper message = this.getMessage();
-			message.setFrom(this.getFrom());
-			String[] myStringArray = this.getListaDirecciones().split(";");
-			message.setTo(myStringArray);
-			message.setSubject(subject);
-			
-			this.send(message, "shareByEmail.vm", model);
-			}catch(Exception e){
-				logger.error(e);
-			}
-	}
-
-	@Override
-	public void enviarEmail(String templateName, Map<String, String> model,	String subject) {
-
-		try{
-			MimeMessageHelper message = this.getMessage();
-			message.setFrom(this.getFrom());
-			String[] myStringArray = this.getListaDirecciones().replaceAll(" ","").split(";");
-			message.setTo(myStringArray);
-			message.setSubject(subject);
-			
-			this.send(message, templateName, model);
-			}catch(Exception e){
-				logger.error(e);
-				e.printStackTrace();
-			}
-		
-	}
-	
-	@Override
 	public void enviarNotificacionEmail(Map<String,Object> model,String toEmail){
 		try{
 			MimeMessageHelper message = this.getMessage();
 			message.setFrom(this.getFrom());			
 			message.setTo(toEmail);
-			message.setSubject("Notificaci&oacute;n de Actividad");
+			message.setSubject("Notificación de Actividad");
 			
 			this.send(message, "notificacionEmail.vm", model);
 			}catch(Exception e){
@@ -139,19 +102,19 @@ public class EmailCensServiceImpl implements EmailCensService {
 			}
 	}
 	
-	private String encodeBase64Img(String imgPath) throws CensException{
-		
-		try{
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			IOUtils.copy(classLoader.getResourceAsStream(imgPath), bos);
-			return  Base64.encodeBase64String(bos.toByteArray());
-		}catch(Exception e){
-			throw new CensException("Error al cargar el logo");
-		}
-		
-	}
+//	private String encodeBase64Img(String imgPath) throws CensException{
+//		
+//		try{
+//			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//			
+//			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//			IOUtils.copy(classLoader.getResourceAsStream(imgPath), bos);
+//			return  Base64.encodeBase64String(bos.toByteArray());
+//		}catch(Exception e){
+//			throw new CensException("Error al cargar el logo");
+//		}
+//		
+//	}
 	
 	private DataSource getDataHandler(String imgPath) throws CensException{
 		

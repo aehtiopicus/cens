@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.hibernate.mapping.Array;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
@@ -72,7 +71,7 @@ public class NotificacionCensMapper {
 		Map<ComentarioTypeComentarioIdKey,String> resultMap = new HashMap<ComentarioTypeComentarioIdKey, String>();
 		for(Entry<ComentarioType, List<NotificacionComentarioFeed>> mapEntry : sortedComentarios.entrySet()){
 			for(NotificacionComentarioFeed ncf : mapEntry.getValue()){
-				resultMap.put(new ComentarioTypeComentarioIdKey(ncf.getComentarioType(), ncf.getTipoId()), "");
+				resultMap.put(new ComentarioTypeComentarioIdKey(ncf.getComentarioType(), ncf.getTipoId(),ncf.getFechaCreacion()), "");
 			}
 		}
 		return resultMap;
@@ -90,7 +89,7 @@ public class NotificacionCensMapper {
 			while(ncfIterator.hasNext()){
 						
 				NotificacionComentarioFeed ncf = ncfIterator.next();
-				ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId());
+				ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion());
 					
 				if(count.containsKey(ctcik)){
 					count.put(ctcik, count.get(ctcik)+1);
@@ -100,7 +99,7 @@ public class NotificacionCensMapper {
 				}
 			}
 			for(NotificacionComentarioFeed ncf : sortedComentario.getValue()){
-				ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId());
+				ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion());
 				if(informationToRetrieve.containsKey(ctcik)){
 					ncf.setCantidad(count.get(ctcik));	
 					assembleMessageData(ncf,informationToRetrieve.get(ctcik));

@@ -70,6 +70,7 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 						if(!notificationForUser.isEmpty()){
 							notificacionService.sendEmailNotification(notificationForUser,username[1].toString(),username[2].toString()+", "+username[3].toString()+", DNI: "+username[4].toString());
 						}
+						notificacionService.markNotificationAsNotificated(username[0].toString());
 						
 					}
 				}

@@ -62,7 +62,25 @@
 																									#foreach( $programa in $comentario.get($key) )													
 																									<tr>
 																									<ul>
-																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span>$programa.Curso ($programa.Year)</span>,Asignatura <span>$programa.Asignatura</span>, Programa <span>$programa.Programa</span> &nbsp; #$programa.Cantidad Fecha <span>$programa.Fecha</span></td></li>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,Asignatura <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span> <br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span><br/> #$programa.Cantidad Fecha #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																				#if ($key == 'MATERIAL')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Materi&aacute;l Did&aacute;ctico:
+																							<table>
+																								<tbody>																									
+																									#foreach( $material in $comentario.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,Asignatura <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span><br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>, Cartilla <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span><br/> #$material.Cantidad Fecha #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end$material.Fecha</span></td></li>
 																									</ul>
 																									</tr>																									
 																									#end																									

@@ -117,7 +117,7 @@ public class CacheAspect {
 	public void removeComentarioCache(JoinPoint joinPoint, ComentarioCensFeed ccf){
 		if(cacheManager.getCache(comentarioCache)!=null){
 			Cache c = cacheManager.getCache(comentarioCache);
-			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getComentarioCensId());
+			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getComentarioCensId(),ccf.getActivityFeed().getDateCreated());
 			if(c.get(ctcik)!=null){
 				c.evict(ctcik);
 			}

@@ -63,4 +63,11 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		emailCensService.enviarNotificacionEmail(data, email);
 		
 	}
+
+
+	@Override
+	public void markNotificationAsNotificated(String username) throws CensException {
+			comentarioCensFeedService.markAllFeedsForUserAsNotified(username);
+		
+	}
 }

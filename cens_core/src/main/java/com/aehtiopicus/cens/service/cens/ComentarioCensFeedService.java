@@ -18,4 +18,6 @@ public interface ComentarioCensFeedService {
 	public void obtenerFuenteDeComentarios(
 			Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) throws CensException;
 
+	public void markAllFeedsForUserAsNotified(String username) throws CensException;
+
 }

@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.domain.entities;
 
+import java.util.Date;
+
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 
 public class ComentarioTypeComentarioIdKey {
@@ -7,12 +9,15 @@ public class ComentarioTypeComentarioIdKey {
 	private ComentarioType comentarioType;
 	
 	private Long tipoId;
+	
+	private Date fechaCreacion;
 
 	public ComentarioTypeComentarioIdKey(ComentarioType comentarioType,
-			Long tipoId) {
+			Long tipoId,Date fechaCreacion) {
 		super();
 		this.comentarioType = comentarioType;
 		this.tipoId = tipoId;
+		this.fechaCreacion = fechaCreacion;
 	}
 
 
@@ -27,6 +32,13 @@ public class ComentarioTypeComentarioIdKey {
 		return tipoId;
 	}
 
+	
+
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
 
 
 	@Override
@@ -35,6 +47,8 @@ public class ComentarioTypeComentarioIdKey {
 		int result = 1;
 		result = prime * result
 				+ ((comentarioType == null) ? 0 : comentarioType.hashCode());
+		result = prime * result
+				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
 		result = prime * result + ((tipoId == null) ? 0 : tipoId.hashCode());
 		return result;
 	}
@@ -50,14 +64,17 @@ public class ComentarioTypeComentarioIdKey {
 		if (getClass() != obj.getClass())
 			return false;
 		ComentarioTypeComentarioIdKey other = (ComentarioTypeComentarioIdKey) obj;
-		if(comentarioType == null || tipoId == null || other.comentarioType == null || other.tipoId == null){
+		if(comentarioType == null || tipoId == null || other.comentarioType == null || other.tipoId == null || fechaCreacion == null || other.fechaCreacion ==null){
 			return false;
 		}
-		if (comentarioType != other.comentarioType || tipoId != other.tipoId){
+		if (!comentarioType.equals(other.comentarioType) || !tipoId.equals(other.tipoId) || !fechaCreacion.equals(other.fechaCreacion)){
 			return false;
 		}		
 		return true;
 	}
+
+
+
 	
 	
 	
