@@ -152,4 +152,19 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 		
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Long> getAsesoresIdExcludingCaller(Long fromId) {
+		List<Long> miembroAsesorId = new ArrayList<>();
+		List<Object []> objList = entityManager.createNativeQuery("SELECT cmc.id FROM cens_miembros_cens as cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id "
+				+ "INNER JOIN cens_perfil_usuario_cens as cpuc  ON cpuc.usuario_id = cu.id "
+				+ "WHERE cmc.id <> :fromId AND cpuc.perfiltype = 'ROLE_ASESOR' ").setParameter("fromId", fromId).getResultList();
+		if(CollectionUtils.isNotEmpty(objList)){
+			for(Object [] obj : objList){
+				miembroAsesorId.add(((java.math.BigInteger)obj[0]).longValue());
+			}
+		}
+		return miembroAsesorId;
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,9 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	
 	@Autowired
 	private FileCensService fileCensService;
+	
+//	@PersistenceContext
+//	private EntityManager entityManager;
 	
 	
 	@Override
@@ -173,10 +177,31 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 
 	@Override
 	@Transactional
-	public void delete(Long comentarioId){
-		comentarioCensRepository.softDelete(comentarioId);
+	public List<Long> delete(Long comentarioId) throws CensException{
+		
+		List<Long> resultList = new ArrayList<>();
+		
+		for(BigInteger bi : comentarioCensRepository.listCommentsChildren(comentarioId)){
+			resultList.add(bi.longValue());	
+		}
+
+		return deleteAllComents(resultList);
 		
 	}
+	
+	@Override
+	@Transactional(rollbackFor={CensException.class})
+	public List<Long> deleteAllComents(List<Long> comentariosId) throws CensException{
+		try{
+		for(Long comentarioId : comentariosId){
+			comentarioCensRepository.softDelete(comentarioId);	
+		}
+		}catch(Exception e){
+			throw new CensException("Error al eliminar comentario");
+		}
+		return comentariosId;
+	}
+	
 
 
 	@Override

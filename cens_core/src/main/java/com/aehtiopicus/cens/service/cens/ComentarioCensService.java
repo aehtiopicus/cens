@@ -21,12 +21,14 @@ public interface ComentarioCensService {
 	public List<ComentarioCens> findAllParentcomments(Long tipoId,
 			ComentarioType tipoType);
 
-	public void delete(Long comentarioId);
+	public List<Long> delete(Long comentarioId) throws CensException;
 
 	public ComentarioCens findById(Long programaId);
 
 	public void getArchivoAdjunto(String string, OutputStream baos) throws CensException;
 
 	public ComentarioCens deleteAttachment(Long comentarioId);
+
+	public List<Long> deleteAllComents(List<Long> comentariosId) throws CensException;
 
 }

@@ -20,4 +20,6 @@ public interface ComentarioCensFeedService {
 
 	public void markAllFeedsForUserAsNotified(String username) throws CensException;
 
+	public List<Long> getAsesoresIdExcludingCaller(Long fromId);
+
 }

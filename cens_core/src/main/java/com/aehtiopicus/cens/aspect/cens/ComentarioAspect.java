@@ -1,6 +1,10 @@
 package com.aehtiopicus.cens.aspect.cens;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -34,6 +38,14 @@ public class ComentarioAspect {
 	@Autowired
 	private ComentarioCensFeedMapper mapper;
 
+	
+	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.delete(..))", returning ="comentarioIds")
+	public void deleteNotification(JoinPoint joinPoint, List<Long> comentarioIds){
+		Long comentarioDeletedId = (Long) joinPoint.getArgs()[0];
+//		censFeedService.de
+		
+	}
+	
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.saveComentario(..))", returning = "comentarioCens")
 	public void saveNotification(JoinPoint joinPoint,
 			ComentarioCens comentarioCens) {
@@ -57,7 +69,21 @@ public class ComentarioAspect {
 			}
 			ComentarioCensFeed ccf = mapper.convertComentarioToFeed(comentarioCens,
 					originalInitializerId, ptct);
-			censFeedService.save(ccf);
+			//broadcast
+			if(ccf.getActivityFeed().getToId()==null){
+				
+				List<Long> miembroAsesorIdList = censFeedService.getAsesoresIdExcludingCaller(ccf.getActivityFeed().getFromId());
+				if(CollectionUtils.isNotEmpty(miembroAsesorIdList)){
+					for(Long miembroAsesorId : miembroAsesorIdList){
+						ccf.getActivityFeed().setToId(miembroAsesorId);
+						censFeedService.save(ccf);
+					}
+				}else{
+					logger.warn("Descartando feed por ser de un asesor a si mismo");
+				}
+			}else{
+				censFeedService.save(ccf);
+			}
 		} catch (Exception e) {
 			logger.error("Comentario Feed Error ", e);
 		}

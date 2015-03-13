@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.repository.cens;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -27,5 +28,21 @@ public interface ComentarioCensRepository extends JpaRepository<ComentarioCens, 
 	@Modifying
 	@Query("UPDATE ComentarioCens cc SET fileCensInfo = null WHERE cc = :comentario")
 	public int removeFileInfo(@Param("comentario")ComentarioCens cc);
+	
+	@Query(value=" WITH    RECURSIVE "+
+	        " q AS "+
+	        " ( "+
+	        " SELECT  id "+
+	        " FROM    cens_comentario h "+
+	        " WHERE   id = :idFrom "+
+	        " UNION ALL "+
+	        " SELECT  hc.id "+
+	        " FROM    q "+
+	        " JOIN    cens_comentario hc "+
+	        " ON      hc.parent_id = q.id "+
+	        " ) "+
+	        " SELECT  id "+
+	        " FROM    q order by id desc",nativeQuery=true)
+	public List<BigInteger> listCommentsChildren(@Param("idFrom") Long idFrom);
 
 }
