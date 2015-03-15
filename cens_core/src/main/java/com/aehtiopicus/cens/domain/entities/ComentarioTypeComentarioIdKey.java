@@ -75,6 +75,13 @@ public class ComentarioTypeComentarioIdKey {
 
 
 
+	@Override
+	public String toString() {
+		return comentarioType.toString()+tipoId.toString();
+	}
+
+
+
 	
 	
 	

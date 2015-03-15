@@ -2,6 +2,10 @@ package com.aehtiopicus.cens.aspect.cens;
 
 
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
+import com.aehtiopicus.cens.service.cens.ComentarioCensService;
 
 @Component
 @Aspect
@@ -59,6 +64,10 @@ public class CacheAspect {
 	@Value(PROGRAMA_PROFESOR_CACHE)
 	private String programaProfesor;
 
+	@Autowired
+	private ComentarioCensService comentarioCensService;
+	
+	
 	@After(value = "execution(* com.aehtiopicus.cens.service.cens.AsignaturaCensService.removeProfesorFromAsignaturas(..))")
 	public void updateCursoCacheRemove() {
 		cleanCursoProfesor();
@@ -113,15 +122,32 @@ public class CacheAspect {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.save(..))",returning = "ccf")
 	public void removeComentarioCache(JoinPoint joinPoint, ComentarioCensFeed ccf){
 		if(cacheManager.getCache(comentarioCache)!=null){
 			Cache c = cacheManager.getCache(comentarioCache);
-			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getComentarioCensId(),ccf.getActivityFeed().getDateCreated());
-			if(c.get(ctcik)!=null){
-				c.evict(ctcik);
+			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getTipoId(),ccf.getActivityFeed().getDateCreated());
+			if(c.get(ctcik.toString())!=null && c.getNativeCache() instanceof ConcurrentHashMap){
+				((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(ctcik.toString());				
 			}
 			
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@After(value = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.deleteAllComentarios(..))")
+	public void removeAllComentarioCache(JoinPoint joinPoint){
+		if(cacheManager.getCache(comentarioCache)!=null){
+			List<String> keysToRemoveList = comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[0]);
+			Cache c = cacheManager.getCache(comentarioCache);
+			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
+				for(Object keysToRemove :keysToRemoveList){
+					if(((ConcurrentHashMap<String,Object>)c.getNativeCache()).contains(keysToRemove.toString())){
+						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(keysToRemove.toString());
+					}
+				}				
+			}
 		}
 	}
 

@@ -3,10 +3,14 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.aspect.cens.mappers.NotificacionCensMapper;
@@ -18,6 +22,7 @@ import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
+@Scope(value=ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class NotificacionCensServiceImpl implements NotificacionCensService{
 
 	@Autowired
@@ -52,8 +57,16 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		Map<String,Object> data = new HashMap<>();
 		if(notificationForUser.containsKey(NotificacionType.COMENTARIO)){			
 			Map<ComentarioType,List<NotificacionComentarioFeed>>  sortedComentarios = notificacionCensMapper.comentarioMapper((List<NotificacionComentarioFeed>) notificationForUser.get(NotificacionType.COMENTARIO));
-			Map<ComentarioTypeComentarioIdKey,String> informationToRetrieve = notificacionCensMapper.mapNotificationSorted(sortedComentarios);
-			comentarioCensFeedService.obtenerFuenteDeComentarios(informationToRetrieve);
+			Map<ComentarioTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted(sortedComentarios);
+
+			if(!informationToRetrieve.isEmpty()) {
+				
+				Set<Entry<ComentarioTypeComentarioIdKey,Map<String,String>>> entrySet = informationToRetrieve.entrySet();
+				for(Entry<ComentarioTypeComentarioIdKey,Map<String,String>> value : entrySet){								
+					informationToRetrieve.put(value.getKey(), comentarioCensFeedService.getCommentSource(value.getKey()));				
+					
+				}
+			}			
 			notificacionCensMapper.convertToNotificacion(sortedComentarios,informationToRetrieve);
 			
 			data.put("comentario", notificacionCensMapper.convertToNotificacionData(sortedComentarios));

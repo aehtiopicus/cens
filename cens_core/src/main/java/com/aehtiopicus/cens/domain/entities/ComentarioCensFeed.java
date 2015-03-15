@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 
@@ -31,6 +32,9 @@ public class ComentarioCensFeed implements Serializable{
 	private ActivityFeed activityFeed;
 		
 	private Long comentarioCensId;
+	
+	@Transient
+	private Long tipoId;
 	
 	@Enumerated(EnumType.STRING)	
 	private ComentarioType comentarioType;
@@ -65,6 +69,14 @@ public class ComentarioCensFeed implements Serializable{
 
 	public void setComentarioType(ComentarioType comentarioType) {
 		this.comentarioType = comentarioType;
+	}
+
+	public Long getTipoId() {
+		return tipoId;
+	}
+
+	public void setTipoId(Long tipoId) {
+		this.tipoId = tipoId;
 	}
 
 		

@@ -60,7 +60,7 @@ public class CacheConfig {
 				new ConcurrentMapCache(programaAsesor),
 				new ConcurrentMapCache(asesorDashboardMapper),
 				new ConcurrentMapCache("users"),
-				new ConcurrentMapCache("comentarioCache")));
+				new ConcurrentMapCache(comentarioCache)));
 		return cacheManager;
 
 	}

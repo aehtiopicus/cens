@@ -2,10 +2,9 @@ package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +14,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import com.aehtiopicus.cens.repository.cens.ComentarioCensFeedRepository;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
+@Scope(value=ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
 	public static final String COMENTARIO_CURSO ="Curso";
@@ -35,6 +37,12 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public static final String COMENTARIO_ASIGNATURA ="Asignatura";
 	public static final String COMENTARIO_PROGRAMA ="Programa";
 	public static final String COMENTARIO_MATERIAL ="Material";
+	public static final String COMENTARIO_ID="Comentario_id";
+	public static final String COMENTARIO_CURSO_ID="Curso_id";
+	public static final String COMENTARIO_ASIGNATURA_ID="Asignatura_id";
+	public static final String COMENTARIO_PROGRAMA_ID="Programa_id";
+	public static final String COMENTARIO_MATERIAL_ID="Material_id";
+	public static final String COMENTARIO_FEED_ID="Comentario_feed_id";
 	public static final String COMENTARIO_SEPARATOR =",";
 	
 	private static final Logger logger = LoggerFactory.getLogger(ComentarioCensFeedServiceImpl.class);
@@ -86,34 +94,28 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 		}
 		return ccfList;
 	}
-
-	@Override
-	public void obtenerFuenteDeComentarios(Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) throws CensException{
-		if(!informationToRetrieve.isEmpty()) {
-			
-			Set<Entry<ComentarioTypeComentarioIdKey,String>> entrySet = informationToRetrieve.entrySet();
-			for(Entry<ComentarioTypeComentarioIdKey,String> value : entrySet){								
-				informationToRetrieve.put(value.getKey(), getCommentSource(value.getKey()));				
-				
-			}
-		}
-		
-	}
 	
-	@Cacheable(value="commentSource",key="#ctik.comentarioType#ctick.tipoId")
-	private String getCommentSource(ComentarioTypeComentarioIdKey ctik) throws CensException {
+	
+	@Override
+	@Cacheable(value="commentSource", key="#ctik.toString()")
+	public Map<String,String> getCommentSource(ComentarioTypeComentarioIdKey ctik) throws CensException {
 		try{
 			Query q = null;
 			switch(ctik.getComentarioType()){		
 			case MATERIAL:
-				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, cmm.nombre as cmmnombre FROM cens_material_didactico cmm  "
+				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
+						+ "cp.id as cpid, ca.id as caid, cc.id as ccid "
+						+ ",cmm.nombre as cmmnombre, cmm.id as cmmid "
+						+ "FROM cens_material_didactico cmm  "
 						+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
 						+ "WHERE cmm.id = :id").setParameter("id", ctik.getTipoId());
 				break;
 			case PROGRAMA:
-				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso FROM cens_programa cp "
+				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso  "
+						+ "cp.id as cpid, ca.id as caid, cc.id as ccid "
+						+ "FROM cens_programa cp"
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
 						+ "WHERE cp.id = :id").setParameter("id", ctik.getTipoId());
@@ -121,15 +123,26 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 		
 			}
 			Object[] result = (Object[]) q.getSingleResult();
-			StringBuilder sb = new StringBuilder();
-			sb.append(COMENTARIO_PROGRAMA).append(COMENTARIO_SEPARATOR).append(result[0]).append(COMENTARIO_SEPARATOR).
-			append(COMENTARIO_ASIGNATURA).append(COMENTARIO_SEPARATOR).append(result[1]).append(COMENTARIO_SEPARATOR).
-			append(COMENTARIO_CURSO).append(COMENTARIO_SEPARATOR).append(result[2]).append(COMENTARIO_SEPARATOR).
-			append(COMENTARIO_CURSO_YEAR).append(COMENTARIO_SEPARATOR).append(result[3]);
-			if(result.length==5){	
-				sb.append(COMENTARIO_SEPARATOR).append(COMENTARIO_MATERIAL).append(COMENTARIO_SEPARATOR).append(result[4]);
+		
+			Map<String,String> resultMap = new HashMap<>();
+			resultMap.put(COMENTARIO_PROGRAMA, result[0].toString());
+			resultMap.put(COMENTARIO_PROGRAMA_ID, result[4].toString());
+			
+			resultMap.put(COMENTARIO_ASIGNATURA, result[1].toString());
+			resultMap.put(COMENTARIO_ASIGNATURA_ID, result[5].toString());
+			
+			resultMap.put(COMENTARIO_CURSO, result[2].toString());
+			resultMap.put(COMENTARIO_CURSO_ID, result[6].toString());
+			
+			resultMap.put(COMENTARIO_CURSO_YEAR, result[3].toString());
+			
+			
+														
+			if(result.length==9){	
+				resultMap.put(COMENTARIO_MATERIAL, result[7].toString());
+				resultMap.put(COMENTARIO_MATERIAL_ID, result[8].toString());
 			}
-			return sb.toString();
+			return resultMap;
 		}catch(Exception e){
 				logger.error("Error ",e);
 				throw new CensException ("No se puede extraer la información de notificaci&oacute;n de comentarios");
@@ -165,6 +178,20 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			}
 		}
 		return miembroAsesorId;
+	}
+
+	@Override
+	@Transactional(rollbackFor={CensException.class})
+	public void deleteAllComentarios(List<Long> list) throws CensException {
+		try{
+			Query q = entityManager.createNativeQuery("DELETE FROM cens_comentario_feed WHERE comentariocensid = :id");
+			for(Long id : list){
+				q.setParameter("id", id).executeUpdate();
+			}
+		}catch(Exception e){
+			throw new CensException("Error capturado al eliminar ",e);
+		}
+		
 	}
 
 }

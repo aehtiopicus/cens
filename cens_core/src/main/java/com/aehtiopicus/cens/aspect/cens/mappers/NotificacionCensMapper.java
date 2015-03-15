@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
-import com.aehtiopicus.cens.service.cens.ComentarioCensFeedServiceImpl;
 
 @Component
 public class NotificacionCensMapper {
@@ -66,12 +65,12 @@ public class NotificacionCensMapper {
 		
 	}
 
-	public Map<ComentarioTypeComentarioIdKey, String> mapNotificationSorted(
+	public Map<ComentarioTypeComentarioIdKey, Map<String,String>> mapNotificationSorted(
 			Map<ComentarioType, List<NotificacionComentarioFeed>> sortedComentarios) {
-		Map<ComentarioTypeComentarioIdKey,String> resultMap = new HashMap<ComentarioTypeComentarioIdKey, String>();
+		Map<ComentarioTypeComentarioIdKey,Map<String,String>> resultMap = new HashMap<ComentarioTypeComentarioIdKey, Map<String,String>>();
 		for(Entry<ComentarioType, List<NotificacionComentarioFeed>> mapEntry : sortedComentarios.entrySet()){
 			for(NotificacionComentarioFeed ncf : mapEntry.getValue()){
-				resultMap.put(new ComentarioTypeComentarioIdKey(ncf.getComentarioType(), ncf.getTipoId(),ncf.getFechaCreacion()), "");
+				resultMap.put(new ComentarioTypeComentarioIdKey(ncf.getComentarioType(), ncf.getTipoId(),ncf.getFechaCreacion()), new HashMap<String,String>());
 			}
 		}
 		return resultMap;
@@ -81,7 +80,7 @@ public class NotificacionCensMapper {
 
 	public void convertToNotificacion(
 			Map<ComentarioType, List<NotificacionComentarioFeed>> sortedComentarios,
-			Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) {
+			Map<ComentarioTypeComentarioIdKey, Map<String,String>> informationToRetrieve) {
 		for(Map.Entry<ComentarioType, List<NotificacionComentarioFeed>> sortedComentario : sortedComentarios.entrySet()){			
 					
 			Iterator<NotificacionComentarioFeed> ncfIterator  = sortedComentario.getValue().iterator();
@@ -109,12 +108,7 @@ public class NotificacionCensMapper {
 		
 	}
 	
-	private void assembleMessageData(NotificacionComentarioFeed ncf,String data){
-		String dataArray[] = data.split(ComentarioCensFeedServiceImpl.COMENTARIO_SEPARATOR);
-		Map<String,String> dataMap = new HashMap<>();
-		for(int i = 0; i< dataArray.length;i = i+2){
-			dataMap.put(dataArray[i], dataArray[i+1]);
-		}
+	private void assembleMessageData(NotificacionComentarioFeed ncf,Map<String,String> dataMap){	
 		dataMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaCreacion()));
 		dataMap.put("Notificado", ""+ncf.getNotificado());
 		dataMap.put("Cantidad", ""+(ncf.getCantidad() == 0 ? 1 : ncf.getCantidad()));

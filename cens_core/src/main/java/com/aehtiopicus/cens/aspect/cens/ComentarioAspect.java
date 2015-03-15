@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -19,6 +18,7 @@ import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.ComentarioCensFeedService;
 import com.aehtiopicus.cens.service.cens.MaterialDidacticoCensService;
 import com.aehtiopicus.cens.service.cens.ProgramaCensService;
+import com.aehtiopicus.cens.utils.CensException;
 
 @Component
 @Aspect
@@ -39,10 +39,14 @@ public class ComentarioAspect {
 	private ComentarioCensFeedMapper mapper;
 
 	
-	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.deleteAllComents(..))", returning ="comentarioIds")
+	@SuppressWarnings("unchecked")
+	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.delete(..))", returning ="comentarioIds")
 	public void deleteNotification(JoinPoint joinPoint, List<Long> comentarioIds){
-		List<Long> comentarioDeletedId = (List<Long>) joinPoint.getArgs()[0];
-//		censFeedService.de
+		try{
+			censFeedService.deleteAllComentarios(comentarioIds);
+		}catch(CensException e){
+			logger.error("Bulk deletion error",e);
+		}
 		
 	}
 	
@@ -69,6 +73,7 @@ public class ComentarioAspect {
 			}
 			ComentarioCensFeed ccf = mapper.convertComentarioToFeed(comentarioCens,
 					originalInitializerId, ptct);
+			ccf.setTipoId(comentarioCens.getTipoId());
 			//broadcast
 			if(ccf.getActivityFeed().getToId()==null){
 				

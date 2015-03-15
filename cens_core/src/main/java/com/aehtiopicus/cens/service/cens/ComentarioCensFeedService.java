@@ -15,11 +15,13 @@ public interface ComentarioCensFeedService {
 	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName)
 			throws CensException;
 
-	public void obtenerFuenteDeComentarios(
-			Map<ComentarioTypeComentarioIdKey, String> informationToRetrieve) throws CensException;
-
 	public void markAllFeedsForUserAsNotified(String username) throws CensException;
 
 	public List<Long> getAsesoresIdExcludingCaller(Long fromId);
+
+	public void deleteAllComentarios(List<Long> list) throws CensException;
+
+	public Map<String,String> getCommentSource(ComentarioTypeComentarioIdKey ctik)
+			throws CensException;
 
 }

@@ -31,4 +31,6 @@ public interface ComentarioCensService {
 
 	public List<Long> deleteAllComents(List<Long> comentariosId) throws CensException;
 
+	public List<String> getAllKeys(List<Long> comentarioCensId);
+
 }

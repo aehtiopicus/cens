@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -56,8 +60,8 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	@Autowired
 	private FileCensService fileCensService;
 	
-//	@PersistenceContext
-//	private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	
 	@Override
@@ -225,5 +229,22 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 		comentarioCensRepository.removeFileInfo(cc);
 		cc.setFileCensInfo(null);
 		return cc;
+	}
+
+
+	@Override
+	public List<String> getAllKeys(List<Long> comentarioCensId) {
+		
+		StringBuilder sb = new StringBuilder("select concat(tipocomentario,trim(to_char(tipoid,'99999999'))) from cens_comentario ");		
+		sb.append("WHERE id IN (");			
+		StringBuilder ids= new StringBuilder();
+		for(Long ccId : comentarioCensId){
+			ids.append(ccId).append(",");
+		}
+		sb.append(ids.toString().substring(0, ids.toString().length()-1)).append(")");
+		
+		Query q =entityManager.createNativeQuery(sb.toString());
+		
+		return q.getResultList();
 	}
 }
