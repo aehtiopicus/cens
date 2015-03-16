@@ -232,6 +232,7 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getAllKeys(List<Long> comentarioCensId) {
 		

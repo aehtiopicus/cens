@@ -9,14 +9,18 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.aspect.cens.mappers.ComentarioCensFeedMapper;
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
+import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.ComentarioCensFeedService;
 import com.aehtiopicus.cens.service.cens.MaterialDidacticoCensService;
+import com.aehtiopicus.cens.service.cens.MiembroCensService;
 import com.aehtiopicus.cens.service.cens.ProgramaCensService;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -37,9 +41,12 @@ public class ComentarioAspect {
 
 	@Autowired
 	private ComentarioCensFeedMapper mapper;
+	
+	@Autowired
+	private MiembroCensService miembroCensService;
 
 	
-	@SuppressWarnings("unchecked")
+
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.delete(..))", returning ="comentarioIds")
 	public void deleteNotification(JoinPoint joinPoint, List<Long> comentarioIds){
 		try{
@@ -93,4 +100,17 @@ public class ComentarioAspect {
 			logger.error("Comentario Feed Error ", e);
 		}
 	}
+	
+	
+	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.findAllParentcomments(..))", returning = "comentarioList")
+	public void markCommentsAsRead(JoinPoint joinPoint,
+			 List<ComentarioCens> comentarioList) {
+		try{
+			MiembroCens mc = miembroCensService.getMiembroCensByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+			censFeedService.markAllFeedsFromCommentsAsRead(mc.getId(),comentarioList);
+		}catch(Exception e){
+			logger.error("Error al marcar comentarios como leidos",e);
+		}
+	}
+	
 }

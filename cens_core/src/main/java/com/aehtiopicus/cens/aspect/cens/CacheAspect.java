@@ -3,7 +3,6 @@ package com.aehtiopicus.cens.aspect.cens;
 
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.aspectj.lang.JoinPoint;
@@ -140,6 +139,22 @@ public class CacheAspect {
 	public void removeAllComentarioCache(JoinPoint joinPoint){
 		if(cacheManager.getCache(comentarioCache)!=null){
 			List<String> keysToRemoveList = comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[0]);
+			Cache c = cacheManager.getCache(comentarioCache);
+			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
+				for(Object keysToRemove :keysToRemoveList){
+					if(((ConcurrentHashMap<String,Object>)c.getNativeCache()).contains(keysToRemove.toString())){
+						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(keysToRemove.toString());
+					}
+				}				
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@After(value = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.markAllFeedsFromCommentsAsRead(..))")
+	public void removeWatchedComments(JoinPoint joinPoint){
+		if(cacheManager.getCache(comentarioCache)!=null){
+			List<String> keysToRemoveList = comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[1]);
 			Cache c = cacheManager.getCache(comentarioCache);
 			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
 				for(Object keysToRemove :keysToRemoveList){

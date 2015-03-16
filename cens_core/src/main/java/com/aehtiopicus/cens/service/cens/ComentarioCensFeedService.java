@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.List;
 import java.util.Map;
 
+import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
@@ -23,5 +24,8 @@ public interface ComentarioCensFeedService {
 
 	public Map<String,String> getCommentSource(ComentarioTypeComentarioIdKey ctik)
 			throws CensException;
+
+	public void markAllFeedsFromCommentsAsRead(Long id,
+			List<ComentarioCens> comentarioList) throws CensException;
 
 }

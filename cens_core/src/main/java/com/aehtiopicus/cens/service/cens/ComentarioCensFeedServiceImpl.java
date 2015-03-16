@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
@@ -190,6 +191,24 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			}
 		}catch(Exception e){
 			throw new CensException("Error capturado al eliminar ",e);
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void markAllFeedsFromCommentsAsRead(Long id,
+			List<ComentarioCens> comentarioList)  throws CensException{
+		try{
+			StringBuilder sb = new StringBuilder();
+			for(ComentarioCens cc : comentarioList){
+				sb.append(cc.getId()).append(",");
+			}
+			String result = sb.toString().substring(0,sb.length()-1);
+			entityManager.createNativeQuery("UPDATE cens_comentario_feed SET visto = true WHERE id_dirigido = :idMiembroCens "
+				+ "AND comentariocensid in ("+result+")").setParameter("idMiembroCens", id).executeUpdate();
+		}catch(Exception e){
+			throw new  CensException("Error al modificar los feeds");
 		}
 		
 	}
