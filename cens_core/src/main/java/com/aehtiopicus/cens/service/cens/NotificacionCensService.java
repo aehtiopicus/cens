@@ -18,4 +18,6 @@ public interface NotificacionCensService {
 
 	public void markNotificationAsNotificated(String string) throws CensException;
 
+	public void getNotificationNoLeidasForUser();
+
 }

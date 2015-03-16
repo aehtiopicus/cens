@@ -83,4 +83,20 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			comentarioCensFeedService.markAllFeedsForUserAsNotified(username);
 		
 	}
+
+
+	@Override
+	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationNoLeidasForUser()throws CensException {
+	Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
+		
+		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getUnReadFeeds();
+		
+		if(CollectionUtils.isNotEmpty(ccfs)){
+			
+			resultNotificationByUser.put(NotificacionType.COMENTARIO, ccfs);
+		}
+		
+		return resultNotificationByUser;
+		
+	}
 }

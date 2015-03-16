@@ -130,6 +130,10 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	public List<Object[]> getUsuarioActivoByUserName() {
 		return usuariosCensRepository.findUsernameActivos();
 	}
+	@Override
+	public List<Object[]> getUsuarioAsesorActivoByUserName() {
+		return usuariosCensRepository.findAsesorActivos();
+	}
 	
 
 }

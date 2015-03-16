@@ -18,6 +18,7 @@
 	<util:properties id="censProperties" location="classpath:/cens.properties"/>
 	<util:properties id="restRequestProperties" location="classpath:/rest.request.properties"/>
 	<util:properties id="cacheProperties" location="classpath:/cache.properties"/>
+	<util:properties id="notificacionProperties" location="classpath:/notificacion.${spring.profiles.active}.properties"/>
 
 	
 </beans:beans>

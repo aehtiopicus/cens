@@ -25,4 +25,6 @@ public interface UsuarioCensService {
 	public void getAvatar(String picturePath, OutputStream baos) throws Exception;
 
 	public List<Object[]> getUsuarioActivoByUserName();
+
+	public List<Object[]> getUsuarioAsesorActivoByUserName();
 }

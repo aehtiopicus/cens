@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
@@ -32,20 +33,7 @@ import com.aehtiopicus.cens.utils.CensException;
 @Service
 @Scope(value=ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
-	
-	public static final String COMENTARIO_CURSO ="Curso";
-	public static final String COMENTARIO_CURSO_YEAR ="Year";
-	public static final String COMENTARIO_ASIGNATURA ="Asignatura";
-	public static final String COMENTARIO_PROGRAMA ="Programa";
-	public static final String COMENTARIO_MATERIAL ="Material";
-	public static final String COMENTARIO_ID="Comentario_id";
-	public static final String COMENTARIO_CURSO_ID="Curso_id";
-	public static final String COMENTARIO_ASIGNATURA_ID="Asignatura_id";
-	public static final String COMENTARIO_PROGRAMA_ID="Programa_id";
-	public static final String COMENTARIO_MATERIAL_ID="Material_id";
-	public static final String COMENTARIO_FEED_ID="Comentario_feed_id";
-	public static final String COMENTARIO_SEPARATOR =",";
-	
+		
 	private static final Logger logger = LoggerFactory.getLogger(ComentarioCensFeedServiceImpl.class);
 	@Autowired
 	private ComentarioCensFeedRepository repository;
@@ -55,6 +43,11 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
 	@Autowired
 	private MiembroCensService miembroCensService;
+	
+	private static final String MAX_DAYS_NOT_SEEN = "#{notificacionProperties['max_no_notificado']}";
+	
+	@Value(MAX_DAYS_NOT_SEEN)
+	private int days;
 	
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
@@ -126,22 +119,22 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			Object[] result = (Object[]) q.getSingleResult();
 		
 			Map<String,String> resultMap = new HashMap<>();
-			resultMap.put(COMENTARIO_PROGRAMA, result[0].toString());
-			resultMap.put(COMENTARIO_PROGRAMA_ID, result[4].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA, result[0].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA_ID, result[4].toString());
 			
-			resultMap.put(COMENTARIO_ASIGNATURA, result[1].toString());
-			resultMap.put(COMENTARIO_ASIGNATURA_ID, result[5].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA, result[1].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA_ID, result[5].toString());
 			
-			resultMap.put(COMENTARIO_CURSO, result[2].toString());
-			resultMap.put(COMENTARIO_CURSO_ID, result[6].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_CURSO, result[2].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_CURSO_ID, result[6].toString());
 			
-			resultMap.put(COMENTARIO_CURSO_YEAR, result[3].toString());
+			resultMap.put(CensServiceConstant.COMENTARIO_CURSO_YEAR, result[3].toString());
 			
 			
 														
 			if(result.length==9){	
-				resultMap.put(COMENTARIO_MATERIAL, result[7].toString());
-				resultMap.put(COMENTARIO_MATERIAL_ID, result[8].toString());
+				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[7].toString());
+				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[8].toString());
 			}
 			return resultMap;
 		}catch(Exception e){
@@ -155,10 +148,10 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public void markAllFeedsForUserAsNotified(String username)
 			throws CensException {
 		try{
-			entityManager.createNativeQuery("UPDATE cens_comentario_feed   SET notificado =true "
+			entityManager.createNativeQuery("UPDATE cens_comentario_feed   SET notificado = true AND ultima_notificacion = :ultima_notificacion"
 					+ "WHERE id_dirigido in  "
 					+ "(SELECT cmc.id from cens_miembros_cens cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id WHERE cu.username = :username) "
-					+ "AND id_dirigido <> id_creador").setParameter("username", username).executeUpdate();
+					+ "AND id_dirigido <> id_creador and ultima_notificacion is null ").setParameter("username", username).setParameter("ultima_notificacion", new java.util.Date()).executeUpdate();
 		}catch(Exception e){
 			logger.error("Error ",e);
 			throw new CensException("Error al actualizar el estado de los feeds");
@@ -211,6 +204,39 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			throw new  CensException("Error al modificar los feeds");
 		}
 		
+	}
+
+	@Override
+	public List<NotificacionComentarioFeed> getUnReadFeeds() {
+		List<NotificacionComentarioFeed> ccfList = null;
+		try{	
+			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId "
+					+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
+				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
+				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
+				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
+				+ "WHERE ccf.visto = false "
+				+ "AND ccf.ultima_notificacion is not null "
+				+ "AND ccf.ultima_notificacion + INTERVAL ':days days' <= CURRENT_DATE").setParameter("days", days).getResultList();
+			if(CollectionUtils.isNotEmpty(resultList)){
+				NotificacionComentarioFeed ncf =null;
+				ccfList = new ArrayList<>();
+				for(Object [] data : resultList){
+					ncf = new NotificacionComentarioFeed();
+					ncf.setFechaCreacion((Date)data[0]);
+					ncf.setToId(((java.math.BigInteger)data[1]).longValue());
+					ncf.setPerfilDirigido(PerfilTrabajadorCensType.getPrefilByName(data[2].toString()));
+					ncf.setComentarioType(ComentarioType.valueOf(data[3].toString()));
+					ncf.setNotificado(Boolean.valueOf(data[4].toString()));
+					ncf.setFeedId(((java.math.BigInteger)data[5]).longValue());
+					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());
+					ccfList.add(ncf);
+				}
+			}
+		}catch(Exception e){
+			throw new CensException("No se pueden leer los comentarios");
+		}
+		return ccfList;
 	}
 
 }

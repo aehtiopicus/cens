@@ -12,14 +12,12 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
+import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 
 public class EmailCensSchedulerJob  extends QuartzJobBean{
 
-	public static final String NOTIFICACION_CENS_SERVICE = "notificacionCensService";
-
-	public static final String USUARIO_CENS_SERVICE = "	usuarioCensService";
 	
 	private NotificacionCensService notificacionService;
 	
@@ -31,8 +29,8 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 	@Override
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
-		notificacionService = (NotificacionCensService) context.getJobDetail().getJobDataMap().get(NOTIFICACION_CENS_SERVICE);
-		usuarioCensService = (UsuarioCensService) context.getJobDetail().getJobDataMap().get(USUARIO_CENS_SERVICE);
+		notificacionService = (NotificacionCensService) context.getJobDetail().getJobDataMap().get(CensServiceConstant.NOTIFICACION_CENS_SERVICE);
+		usuarioCensService = (UsuarioCensService) context.getJobDetail().getJobDataMap().get(CensServiceConstant.USUARIO_CENS_SERVICE);
 	
 			List<Object[]> usernameList = usuarioCensService.getUsuarioActivoByUserName();
 			int init = 0;

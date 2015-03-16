@@ -29,5 +29,15 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 			+ "WHERE u.enabled = true "
 			+ "AND c.tipocontacto = 'MAIL' ",nativeQuery=true)
 	public List<Object[]> findUsernameActivos();
+	
+	
+	@Query(value="SELECT u.username, c.datocontacto, mc.apellido, mc.nombre, mc.dni FROM cens_usuarios u "
+			+ "INNER JOIN cens_miembros_cens mc ON u.id = mc.usuario_id "
+			+ "INNER JOIN cens_contacto c ON c.miembrocens_id = mc.id  "
+			+ "INNER JOIN cens_perfil_usuario_cens cpuc ON u.id = cpuc "
+			+ "WHERE u.enabled = true "
+			+ "AND cpuc.perfiltype ='ROLE_ASESOR' "
+			+ "AND c.tipocontacto = 'MAIL' ",nativeQuery=true)
+	public List<Object[]> findAsesorActivos();
 
 }
