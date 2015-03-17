@@ -33,7 +33,7 @@
 
                                     </tr>
                                     <tr>
-                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274">Se le informa que las siguientes notificaciones no han sido leidas en m&aacute;s de $dias d&iacute;s :</td><td><br>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274">Se le informa que las siguientes notificaciones no han sido leidas en m&aacute;s de $dias d&iacute;as :</td><td><br>
                                     </td></tr>
                                     <tr>
                                         <td style="font-size:7px">&nbsp;</td>
@@ -62,7 +62,7 @@
 																									#foreach( $programa in $comentario.get($key) )													
 																									<tr>
 																									<ul>
-																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span> <br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span><br/> Nro de Mensajes : $programa.Cantidad Fecha #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span><br/>, Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$programa.Cantidad</span>, Fecha: #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
 																									</ul>
 																									</tr>																									
 																									#end																									
@@ -80,7 +80,7 @@
 																									#foreach( $material in $comentario.get($key) )													
 																									<tr>
 																									<ul>
-																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span><br/> Programa <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span><br/> Nro de Mensajes : $material.Cantidad Fecha #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/> Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$material.Cantidad</span>, Fecha: #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
 																									</ul>
 																									</tr>																									
 																									#end																									
