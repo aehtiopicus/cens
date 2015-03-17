@@ -211,13 +211,13 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public List<NotificacionComentarioFeed> getUnReadFeeds() throws CensException {
 		List<NotificacionComentarioFeed> ccfList = null;
 		try{	
-			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId,trim(replace((replace(concat((CURRENT_DATE - (ultima_notificacion + INTERVAL '7 days'))),'days','')),'day',''))  "
+			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId,trim(replace((replace(concat((CURRENT_DATE - (ultima_notificacion + INTERVAL '7 days'))),'days','')),'day','')) , ccf.fecha_notificacion "
 					+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
 				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
 				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
 				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
 				+ "WHERE ccf.visto = false "
-				+ "AND ccf.ultima_notificacion is not null "
+				+ "AND ccf.ultima_notificacion is not null AND ccf.notificado = true "
 				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' <= CURRENT_DATE").getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionComentarioFeed ncf =null;
@@ -232,6 +232,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 					ncf.setFeedId(((java.math.BigInteger)data[5]).longValue());
 					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());
 					ncf.setDaysAgo(Long.parseLong(data[7].toString()));
+					ncf.setFechaNotificacion((Date)data[8]);
 					ccfList.add(ncf);
 				}
 			}

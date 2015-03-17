@@ -11,6 +11,8 @@ import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public abstract class AbstractNotificacionFeed {
 
+	private Date fechaNotificacion;
+	
 	@Column(name="fecha_creacion")
 	private Date fechaCreacion;
 	
@@ -29,6 +31,8 @@ public abstract class AbstractNotificacionFeed {
 	private Map<String,String> displayTextMap;
 	
 	private int cantidad;
+	
+	private Long daysAgo;
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
@@ -88,6 +92,21 @@ public abstract class AbstractNotificacionFeed {
 		this.cantidad = cantidad;
 	}
 	
+	public Long getDaysAgo() {
+		return daysAgo;
+	}
+
+	public void setDaysAgo(Long daysAgo) {
+		this.daysAgo = daysAgo;
+	}
+
+	public Date getFechaNotificacion() {
+		return fechaNotificacion;
+	}
+
+	public void setFechaNotificacion(Date fechaNotificacion) {
+		this.fechaNotificacion = fechaNotificacion;
+	}
 	
 	
 }

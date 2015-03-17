@@ -112,6 +112,12 @@ public class NotificacionCensMapper {
 		dataMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaCreacion()));
 		dataMap.put("Notificado", ""+ncf.getNotificado());
 		dataMap.put("Cantidad", ""+(ncf.getCantidad() == 0 ? 1 : ncf.getCantidad()));
+		if(ncf.getDaysAgo()!=null){
+			dataMap.put("Nro Days", ""+ncf.getDaysAgo());
+		}
+		if(ncf.getFechaNotificacion() !=null){
+			dataMap.put("Fecha Notificado", new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaNotificacion()));
+		}
 		ncf.setDisplayTextMap(dataMap);
 	}
 

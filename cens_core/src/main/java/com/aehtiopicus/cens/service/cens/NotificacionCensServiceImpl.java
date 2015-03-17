@@ -3,8 +3,8 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,10 @@ import com.aehtiopicus.cens.aspect.cens.mappers.NotificacionCensMapper;
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
+import com.aehtiopicus.cens.domain.entities.Perfil;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
@@ -34,6 +36,9 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	
 	@Autowired
 	private NotificacionCensMapper notificacionCensMapper;
+	
+	@Autowired
+	private MiembroCensService miembroCensService;
 	
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username) throws CensException{
@@ -120,5 +125,34 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			data.put("comentario", notificacionCensMapper.convertToNotificacionData(sortedComentarios));
 		}
 		return data;
+	}
+
+
+
+	@Override
+	public Map<String, Object> getNotificacionesForUser(Long miembroId) throws CensException {
+		String username = miembroCensService.getMiembroCens(miembroId).getUsuario().getUsername();
+		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationForUser(username);
+		Map<String,Object> data = null;
+		if(!resultMap.isEmpty()){
+			data = generateNotifacionComentario(resultMap);
+		}
+		return data;
+	}
+	
+	@Override
+	public Map<String, Object> getNotificacionesUnReadForUser(Long miembroId) throws CensException {
+		for(Perfil ptct :miembroCensService.getMiembroCens(miembroId).getUsuario().getPerfil()){
+			if(ptct.getPerfilType().equals(PerfilTrabajadorCensType.ASESOR)){
+				Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationNoLeidasForUser();
+				Map<String,Object> data = null;
+				if(!resultMap.isEmpty()){
+					data = generateNotifacionComentario(resultMap);
+				}
+				return data;
+			}
+		}
+		throw new CensException("El usuario no puede realizar esta petici&oacute;n");
+		
 	}
 }

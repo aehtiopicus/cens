@@ -24,4 +24,10 @@ public interface NotificacionCensService {
 			Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
 			Map<String, String> asesoresMap) throws CensException;
 
+	public Map<String, Object> getNotificacionesForUser(
+			Long miembroId) throws CensException;
+
+	public Map<String, Object> getNotificacionesUnReadForUser(Long miembroId)
+			throws CensException;
+
 }

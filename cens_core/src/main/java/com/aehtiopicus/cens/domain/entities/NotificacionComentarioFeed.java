@@ -22,8 +22,6 @@ public class NotificacionComentarioFeed extends AbstractNotificacionFeed impleme
 	private ComentarioType comentarioType;
 	
 	private Long tipoId;
-	
-	private Long daysAgo;
 			
 
 	public ComentarioType getComentarioType() {
@@ -42,13 +40,7 @@ public class NotificacionComentarioFeed extends AbstractNotificacionFeed impleme
 		this.tipoId = tipoId;
 	}
 
-	public Long getDaysAgo() {
-		return daysAgo;
-	}
-
-	public void setDaysAgo(Long daysAgo) {
-		this.daysAgo = daysAgo;
-	}
+	
 	
 	
 	
