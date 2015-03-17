@@ -18,6 +18,10 @@ public interface NotificacionCensService {
 
 	public void markNotificationAsNotificated(String string) throws CensException;
 
-	public void getNotificationNoLeidasForUser();
+	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationNoLeidasForUser()throws CensException ;
+
+	public void sendEmailNoReadNotification(
+			Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
+			Map<String, String> asesoresMap) throws CensException;
 
 }

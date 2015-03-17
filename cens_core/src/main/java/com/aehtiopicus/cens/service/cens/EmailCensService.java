@@ -5,6 +5,7 @@ import java.util.Map;
 
 
 
+
 import javax.mail.MessagingException;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,5 +22,8 @@ public interface EmailCensService {
 
 	
 	public void enviarNotificacionEmail(Map<String, Object> model, String toEmail);
+
+	public void enviarNotificacionEmailNoLeido(Map<String, Object> data,
+			String key);
 	
 }

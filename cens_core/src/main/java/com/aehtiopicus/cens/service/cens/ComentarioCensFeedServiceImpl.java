@@ -107,9 +107,9 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 						+ "WHERE cmm.id = :id").setParameter("id", ctik.getTipoId());
 				break;
 			case PROGRAMA:
-				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso  "
+				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
 						+ "cp.id as cpid, ca.id as caid, cc.id as ccid "
-						+ "FROM cens_programa cp"
+						+ "FROM cens_programa cp "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
 						+ "WHERE cp.id = :id").setParameter("id", ctik.getTipoId());
@@ -148,7 +148,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public void markAllFeedsForUserAsNotified(String username)
 			throws CensException {
 		try{
-			entityManager.createNativeQuery("UPDATE cens_comentario_feed   SET notificado = true AND ultima_notificacion = :ultima_notificacion"
+			entityManager.createNativeQuery("UPDATE cens_comentario_feed   SET notificado = true, ultima_notificacion = :ultima_notificacion "
 					+ "WHERE id_dirigido in  "
 					+ "(SELECT cmc.id from cens_miembros_cens cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id WHERE cu.username = :username) "
 					+ "AND id_dirigido <> id_creador and ultima_notificacion is null ").setParameter("username", username).setParameter("ultima_notificacion", new java.util.Date()).executeUpdate();
@@ -206,18 +206,19 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<NotificacionComentarioFeed> getUnReadFeeds() {
+	public List<NotificacionComentarioFeed> getUnReadFeeds() throws CensException {
 		List<NotificacionComentarioFeed> ccfList = null;
 		try{	
-			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId "
+			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId,trim(replace((replace(concat((CURRENT_DATE - (ultima_notificacion + INTERVAL '7 days'))),'days','')),'day',''))  "
 					+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
 				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
 				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
 				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
 				+ "WHERE ccf.visto = false "
 				+ "AND ccf.ultima_notificacion is not null "
-				+ "AND ccf.ultima_notificacion + INTERVAL ':days days' <= CURRENT_DATE").setParameter("days", days).getResultList();
+				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' <= CURRENT_DATE").getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionComentarioFeed ncf =null;
 				ccfList = new ArrayList<>();
@@ -230,6 +231,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 					ncf.setNotificado(Boolean.valueOf(data[4].toString()));
 					ncf.setFeedId(((java.math.BigInteger)data[5]).longValue());
 					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());
+					ncf.setDaysAgo(Long.parseLong(data[7].toString()));
 					ccfList.add(ncf);
 				}
 			}

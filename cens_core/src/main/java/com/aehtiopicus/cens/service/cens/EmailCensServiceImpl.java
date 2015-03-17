@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,6 +22,12 @@ import com.aehtiopicus.cens.utils.CensException;
 public class EmailCensServiceImpl implements EmailCensService {
 	
 	private static final Logger logger = Logger.getLogger(EmailCensServiceImpl.class);
+	
+	private static final String MAX_DAYS_NOT_SEEN = "#{notificacionProperties['max_no_notificado']}";
+	
+	@Value(MAX_DAYS_NOT_SEEN)
+	private int days;
+	
 	
 	private JavaMailSender mailSender;
 	private VelocityEngine velocityEngine;
@@ -122,6 +129,24 @@ public class EmailCensServiceImpl implements EmailCensService {
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 			return new URLDataSource(classLoader.getResource(imgPath));
 		
+		
+	}
+
+	@Override
+	public void enviarNotificacionEmailNoLeido(Map<String, Object> model,
+			String toEmail) {
+		try{
+			MimeMessageHelper message = this.getMessage();
+			message.setFrom(this.getFrom());			
+			message.setTo(toEmail);
+			message.setSubject("Seguimiento de Información");
+			model.put("dias", days);
+			
+			this.send(message, "notificacionEmailNoLeido.vm", model);
+			}catch(Exception e){
+				logger.error(e);
+				e.printStackTrace();
+			}
 		
 	}
 	

@@ -28,6 +28,6 @@ public interface ComentarioCensFeedService {
 	public void markAllFeedsFromCommentsAsRead(Long id,
 			List<ComentarioCens> comentarioList) throws CensException;
 
-	public List<NotificacionComentarioFeed> getUnReadFeeds();
+	public List<NotificacionComentarioFeed> getUnReadFeeds()  throws CensException;
 
 }

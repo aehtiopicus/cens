@@ -33,22 +33,22 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 		usuarioCensService = (UsuarioCensService) context.getJobDetail().getJobDataMap().get(CensServiceConstant.USUARIO_CENS_SERVICE);
 	
 			List<Object[]> usernameList = usuarioCensService.getUsuarioActivoByUserName();
-			int init = 0;
-			int subList = usernameList.size()/threadSize;
-			boolean modulo = usernameList.size()%threadSize > 0;
-			if(subList > 0){
-				for(init = 0; init<subList; init++){
-					createThreads(usernameList.subList(init*threadSize, (1+init)*threadSize));
+			if(CollectionUtils.isNotEmpty(usernameList)){
+				int init = 0;
+				int subList = usernameList.size()/threadSize;
+				boolean modulo = usernameList.size()%threadSize > 0;
+				if(subList > 0){
+					for(init = 0; init<subList; init++){
+						createThreads(usernameList.subList(init*threadSize, (1+init)*threadSize));
+					}
+					if(modulo){
+						createThreads(usernameList.subList(init*threadSize, usernameList.size()));
+					}					
+				}else{
+					createThreads(usernameList.subList(0, usernameList.size()));
 				}
-				if(modulo){
-					createThreads(usernameList.subList(init*threadSize, usernameList.size()));
-				}
-				
-			}else{
-				createThreads(usernameList.subList(0, usernameList.size()));
-			}
 																	
-		
+			}
 	}
 	
 	private void createThreads(List<Object[]> usernameSubList){

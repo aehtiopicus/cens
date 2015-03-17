@@ -50,10 +50,58 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	}
 		
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void sendEmailNotification(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
 			String email,String nombreMiembroCens) throws CensException{
+		
+		Map<String,Object> data = generateNotifacionComentario(notificationForUser);
+		data.put("nombre", nombreMiembroCens);
+		
+		emailCensService.enviarNotificacionEmail(data, email);
+		
+	}
+
+
+	@Override
+	public void markNotificationAsNotificated(String username) throws CensException {
+			comentarioCensFeedService.markAllFeedsForUserAsNotified(username);
+		
+	}
+
+
+	@Override
+	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationNoLeidasForUser()throws CensException {
+	Map<NotificacionType,List<? extends AbstractNotificacionFeed>> allUnreadFeeds = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
+		
+		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getUnReadFeeds();
+		
+		if(CollectionUtils.isNotEmpty(ccfs)){
+			
+			allUnreadFeeds.put(NotificacionType.COMENTARIO, ccfs);
+		}
+		
+		return allUnreadFeeds;
+		
+	}
+
+
+	@Override
+	public void sendEmailNoReadNotification(
+			Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser,
+			Map<String, String> asesoresMap) throws CensException {
+		
+		Map<String,Object> data = generateNotifacionComentario(notificationForUser);
+		for(Map.Entry<String, String> asesorData : asesoresMap.entrySet()){
+			data.put("nombre", asesorData.getValue());		
+			emailCensService.enviarNotificacionEmailNoLeido(data, asesorData.getKey());
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String,Object> generateNotifacionComentario(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser) throws CensException{
+		
 		Map<String,Object> data = new HashMap<>();
 		if(notificationForUser.containsKey(NotificacionType.COMENTARIO)){			
 			Map<ComentarioType,List<NotificacionComentarioFeed>>  sortedComentarios = notificacionCensMapper.comentarioMapper((List<NotificacionComentarioFeed>) notificationForUser.get(NotificacionType.COMENTARIO));
@@ -71,32 +119,6 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			
 			data.put("comentario", notificacionCensMapper.convertToNotificacionData(sortedComentarios));
 		}
-		data.put("nombre", nombreMiembroCens);
-		
-		emailCensService.enviarNotificacionEmail(data, email);
-		
-	}
-
-
-	@Override
-	public void markNotificationAsNotificated(String username) throws CensException {
-			comentarioCensFeedService.markAllFeedsForUserAsNotified(username);
-		
-	}
-
-
-	@Override
-	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationNoLeidasForUser()throws CensException {
-	Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
-		
-		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getUnReadFeeds();
-		
-		if(CollectionUtils.isNotEmpty(ccfs)){
-			
-			resultNotificationByUser.put(NotificacionType.COMENTARIO, ccfs);
-		}
-		
-		return resultNotificationByUser;
-		
+		return data;
 	}
 }
