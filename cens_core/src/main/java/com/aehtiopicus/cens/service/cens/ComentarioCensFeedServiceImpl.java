@@ -211,7 +211,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public List<NotificacionComentarioFeed> getUnReadFeeds() throws CensException {
 		List<NotificacionComentarioFeed> ccfList = null;
 		try{	
-			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId,trim(replace((replace(concat((CURRENT_DATE - (ultima_notificacion + INTERVAL '7 days'))),'days','')),'day','')) , ccf.fecha_notificacion "
+			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId,trim(replace((replace(concat((CURRENT_DATE - (ultima_notificacion + INTERVAL '7 days'))),'days','')),'day','')) , ccf.ultima_notificacion "
 					+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
 				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
 				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
