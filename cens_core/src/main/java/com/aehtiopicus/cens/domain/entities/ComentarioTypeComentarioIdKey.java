@@ -41,6 +41,10 @@ public class ComentarioTypeComentarioIdKey {
 
 
 
+	
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -64,12 +68,18 @@ public class ComentarioTypeComentarioIdKey {
 		if (getClass() != obj.getClass())
 			return false;
 		ComentarioTypeComentarioIdKey other = (ComentarioTypeComentarioIdKey) obj;
-		if(comentarioType == null || tipoId == null || other.comentarioType == null || other.tipoId == null || fechaCreacion == null || other.fechaCreacion ==null){
+		if (comentarioType != other.comentarioType)
 			return false;
-		}
-		if (!comentarioType.equals(other.comentarioType) || !tipoId.equals(other.tipoId) || !fechaCreacion.equals(other.fechaCreacion)){
+		if (fechaCreacion.toString() == null) {
+			if (other.fechaCreacion.toString() != null)
+				return false;
+		} else if (!fechaCreacion.toString().equals(other.fechaCreacion.toString()))
 			return false;
-		}		
+		if (tipoId == null) {
+			if (other.tipoId != null)
+				return false;
+		} else if (!tipoId.equals(other.tipoId))
+			return false;
 		return true;
 	}
 

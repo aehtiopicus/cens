@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 
 @Component
 public class NotificacionCensMapper {
@@ -109,14 +110,14 @@ public class NotificacionCensMapper {
 	}
 	
 	private void assembleMessageData(NotificacionComentarioFeed ncf,Map<String,String> dataMap){	
-		dataMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaCreacion()));
-		dataMap.put("Notificado", ""+ncf.getNotificado());
-		dataMap.put("Cantidad", ""+(ncf.getCantidad() == 0 ? 1 : ncf.getCantidad()));
+		dataMap.put(CensServiceConstant.COMENTARIO_FECHA, new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaCreacion()));
+		dataMap.put(CensServiceConstant.COMENTARIO_NOTIFICADO, ""+ncf.getNotificado());
+		dataMap.put(CensServiceConstant.COMENTARIO_CANTIDAD, ""+(ncf.getCantidad() == 0 ? 1 : ncf.getCantidad()));
 		if(ncf.getDaysAgo()!=null){
-			dataMap.put("Nro Days", ""+ncf.getDaysAgo());
+			dataMap.put(CensServiceConstant.COMENTARIO_DAYS_AGO, ""+ncf.getDaysAgo());
 		}
 		if(ncf.getFechaNotificacion() !=null){
-			dataMap.put("Fecha Notificado", new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaNotificacion()));
+			dataMap.put(CensServiceConstant.COMENTARIO_FECHA_NOTIFICADO, new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaNotificacion()));
 		}
 		ncf.setDisplayTextMap(dataMap);
 	}

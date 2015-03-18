@@ -29,4 +29,16 @@ public class CensServiceConstant {
 	public static final String COMENTARIO_FEED_ID="Comentario_feed_id";
 	
 	public static final String COMENTARIO_SEPARATOR =",";
+	
+	public static final String COMENTARIO_FECHA ="Fecha";
+	
+	public static final String COMENTARIO_NOTIFICADO ="Notificado";
+	
+	public static final String COMENTARIO_CANTIDAD ="Cantidad";
+	
+	public static final String COMENTARIO_DAYS_AGO ="Dias";
+	
+	public static final String COMENTARIO_FECHA_NOTIFICADO ="Fecha Notificado";
+	
+	
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.Notificacion;
+import com.aehtiopicus.cens.dto.cens.NotificacionDto;
+import com.aehtiopicus.cens.mapper.cens.NotificacionCensControllerMapper;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -18,11 +20,15 @@ import com.aehtiopicus.cens.utils.CensException;
 public class NotificacionCensRestController extends AbstractRestController{
 	
 	@Autowired
+	private NotificacionCensControllerMapper notificacionCensMapper;
+	
+	@Autowired
 	private NotificacionCensService notificacionCensService;
 
 	@RequestMapping(value=UrlConstant.NOTIFICACION_USUARIO_MIEMBRO_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Notificacion getNotificacioneForUser(@PathVariable(value="miembroId") Long miembroId) throws CensException{
-		return notificacionCensService.getNotificacionesForUser(miembroId);		
+	public @ResponseBody NotificacionDto getNotificacioneForUser(@PathVariable(value="miembroId") Long miembroId) throws CensException{
+		NotificacionDto nDto = notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesForUser(miembroId));
+		return nDto;		
 	}
 	
 	@Secured("ROLE_ASESOR")
