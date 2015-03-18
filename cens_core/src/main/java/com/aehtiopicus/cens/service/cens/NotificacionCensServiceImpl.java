@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 import com.aehtiopicus.cens.aspect.cens.mappers.NotificacionCensMapper;
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
+import com.aehtiopicus.cens.domain.entities.Notificacion;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
-import com.aehtiopicus.cens.domain.entities.Perfil;
+import com.aehtiopicus.cens.domain.entities.PerfilRol;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
@@ -39,6 +40,9 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	
 	@Autowired
 	private MiembroCensService miembroCensService;
+	
+	@Autowired
+	private RolCensService roleCensService;
 	
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username) throws CensException{
@@ -130,29 +134,51 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 
 
 	@Override
-	public Map<String, Object> getNotificacionesForUser(Long miembroId) throws CensException {
+	public Notificacion getNotificacionesForUser(Long miembroId) throws CensException {
 		String username = miembroCensService.getMiembroCens(miembroId).getUsuario().getUsername();
+		PerfilRol pr = getMayorRol(username);
+		
 		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationForUser(username);
 		Map<String,Object> data = null;
 		if(!resultMap.isEmpty()){
 			data = generateNotifacionComentario(resultMap);
 		}
-		return data;
+		Notificacion n = new Notificacion();
+		n.setData(data);
+		n.setPerfilRol(pr);
+		return n;
 	}
 	
+	private PerfilRol getMayorRol(String username){
+		PerfilRol mayor = null;
+		for(PerfilRol roles : roleCensService.getPerfilIdBasedOnUsuario(username)){
+			if(mayor ==null){
+				mayor = roles;
+			}else if(roles.getPerfilType().getPrioridad()< mayor.getPerfilType().getPrioridad()){
+				mayor = roles;
+			}
+		}
+		return mayor;
+	}
 	@Override
-	public Map<String, Object> getNotificacionesUnReadForUser(Long miembroId) throws CensException {
-		for(Perfil ptct :miembroCensService.getMiembroCens(miembroId).getUsuario().getPerfil()){
-			if(ptct.getPerfilType().equals(PerfilTrabajadorCensType.ASESOR)){
+	public Notificacion getNotificacionesUnReadForUser(Long miembroId) throws CensException {
+		
+		PerfilRol pr = getMayorRol(miembroCensService.getMiembroCens(miembroId).getUsuario().getUsername());
+		
+			if(pr.getPerfilType().equals(PerfilTrabajadorCensType.ASESOR)){
 				Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationNoLeidasForUser();
 				Map<String,Object> data = null;
 				if(!resultMap.isEmpty()){
 					data = generateNotifacionComentario(resultMap);
 				}
-				return data;
+				Notificacion n = new Notificacion();
+				n.setData(data);
+				n.setPerfilRol(pr);
+				return n;
+			}else{
+		
+				throw new CensException("El usuario no puede realizar esta petici&oacute;n");
 			}
-		}
-		throw new CensException("El usuario no puede realizar esta petici&oacute;n");
 		
 	}
 }

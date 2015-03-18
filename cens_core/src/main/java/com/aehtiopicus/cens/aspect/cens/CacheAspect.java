@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.aspect.cens;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,6 +16,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
+import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.service.cens.ComentarioCensService;
@@ -154,7 +156,11 @@ public class CacheAspect {
 	@After(value = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.markAllFeedsFromCommentsAsRead(..))")
 	public void removeWatchedComments(JoinPoint joinPoint){
 		if(cacheManager.getCache(comentarioCache)!=null){
-			List<String> keysToRemoveList = comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[1]);
+			List<Long> comentarioIds = new ArrayList<Long>();
+			for(ComentarioCens cc :(List<ComentarioCens>)joinPoint.getArgs()[1]){
+				comentarioIds.add(cc.getId());
+			}
+			List<String> keysToRemoveList = comentarioCensService.getAllKeys(comentarioIds);
 			Cache c = cacheManager.getCache(comentarioCache);
 			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
 				for(Object keysToRemove :keysToRemoveList){
