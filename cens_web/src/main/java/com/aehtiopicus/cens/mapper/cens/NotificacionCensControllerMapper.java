@@ -112,9 +112,7 @@ public class NotificacionCensControllerMapper {
 						}
 						
 					}else{
-						if(CollectionUtils.isEmpty(pDto.getMaterial())){
-							pDto.setMaterial(null);
-						}
+						
 						setSpecificNotificationData(pDto,comentarioData);
 					}
 					}
