@@ -70,10 +70,10 @@ public class ComentarioTypeComentarioIdKey {
 		ComentarioTypeComentarioIdKey other = (ComentarioTypeComentarioIdKey) obj;
 		if (comentarioType != other.comentarioType)
 			return false;
-		if (fechaCreacion.toString() == null) {
-			if (other.fechaCreacion.toString() != null)
+		if (fechaCreacion == null) {
+			if (other.fechaCreacion != null)
 				return false;
-		} else if (!fechaCreacion.toString().equals(other.fechaCreacion.toString()))
+		} else if (!fechaCreacion.equals(other.fechaCreacion))
 			return false;
 		if (tipoId == null) {
 			if (other.tipoId != null)
@@ -87,7 +87,7 @@ public class ComentarioTypeComentarioIdKey {
 
 	@Override
 	public String toString() {
-		return comentarioType.toString()+tipoId.toString();
+		return comentarioType.toString()+tipoId.toString()+fechaCreacion;
 	}
 
 

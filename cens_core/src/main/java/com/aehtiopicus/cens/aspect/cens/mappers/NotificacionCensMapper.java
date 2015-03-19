@@ -79,6 +79,7 @@ public class NotificacionCensMapper {
 
 	}
 
+	
 	public void convertToNotificacion(
 			Map<ComentarioType, List<NotificacionComentarioFeed>> sortedComentarios,
 			Map<ComentarioTypeComentarioIdKey, Map<String,String>> informationToRetrieve) {
@@ -102,14 +103,15 @@ public class NotificacionCensMapper {
 				ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion());
 				if(informationToRetrieve.containsKey(ctcik)){
 					ncf.setCantidad(count.get(ctcik));	
-					assembleMessageData(ncf,informationToRetrieve.get(ctcik));
+					assembleMessageData(ncf, informationToRetrieve.get(ctcik));
 				}
 			}					
 		}
 		
 	}
 	
-	private void assembleMessageData(NotificacionComentarioFeed ncf,Map<String,String> dataMap){	
+	private void assembleMessageData(NotificacionComentarioFeed ncf,Map<String,String> dataMaps){
+		Map<String,String> dataMap = new HashMap<String, String>(dataMaps);
 		dataMap.put(CensServiceConstant.COMENTARIO_FECHA, new SimpleDateFormat("dd/MM/yyyy").format(ncf.getFechaCreacion()));
 		dataMap.put(CensServiceConstant.COMENTARIO_NOTIFICADO, ""+ncf.getNotificado());
 		dataMap.put(CensServiceConstant.COMENTARIO_CANTIDAD, ""+(ncf.getCantidad() == 0 ? 1 : ncf.getCantidad()));
@@ -136,4 +138,6 @@ public class NotificacionCensMapper {
 		return result;
 		
 	}
+	
+	
 }

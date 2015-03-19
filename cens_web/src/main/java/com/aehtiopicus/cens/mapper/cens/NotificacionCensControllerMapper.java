@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.Notificacion;
@@ -25,7 +26,11 @@ public class NotificacionCensControllerMapper {
 		if(notificacionesForUser != null){
 			nDto = new NotificacionDto();
 			nDto.setPerfilRol(notificacionesForUser.getPerfilRol());
-			nDto.setCurso(convertCursoList(notificacionesForUser.getData()));
+			if(notificacionesForUser.getData()!=null ){
+				nDto.setCurso(convertCursoList(notificacionesForUser.getData()));
+			}else{
+				nDto.setCurso(new HashSet<CursoNotificacionDto>());
+			}
 		}
 		return nDto;
 	}
@@ -87,6 +92,10 @@ public class NotificacionCensControllerMapper {
 					}else{
 						for(ProgramaNotificacionDto aux : aDto.getPrograma()){
 							if(aux.equals(pDto)){
+								if(CollectionUtils.isEmpty(aux.getMaterial()) && comentarioData.containsKey(CensServiceConstant.COMENTARIO_MATERIAL_ID)){
+									aDto.getPrograma().add(pDto);
+									break;
+								}
 								pDto = aux;
 								break;
 							}
@@ -103,6 +112,9 @@ public class NotificacionCensControllerMapper {
 						}
 						
 					}else{
+						if(CollectionUtils.isEmpty(pDto.getMaterial())){
+							pDto.setMaterial(null);
+						}
 						setSpecificNotificationData(pDto,comentarioData);
 					}
 					}
