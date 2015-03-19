@@ -52,7 +52,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	@Override
 	@Transactional(rollbackFor={CensException.class,Exception.class})
 	public ComentarioCensFeed save(ComentarioCensFeed comentarioFeed){
-		 comentarioFeed = repository.save(comentarioFeed);
+		 comentarioFeed = repository.save(comentarioFeed);		 
 		 return comentarioFeed;
 	}
 	
@@ -163,12 +163,12 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	@SuppressWarnings("unchecked")
 	public List<Long> getAsesoresIdExcludingCaller(Long fromId) {
 		List<Long> miembroAsesorId = new ArrayList<>();
-		List<Object []> objList = entityManager.createNativeQuery("SELECT cmc.id FROM cens_miembros_cens as cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id "
+		List<Object > objList = entityManager.createNativeQuery("SELECT cmc.id FROM cens_miembros_cens as cmc INNER JOIN cens_usuarios as cu ON cmc.usuario_id = cu.id "
 				+ "INNER JOIN cens_perfil_usuario_cens as cpuc  ON cpuc.usuario_id = cu.id "
 				+ "WHERE cmc.id <> :fromId AND cpuc.perfiltype = 'ROLE_ASESOR' ").setParameter("fromId", fromId).getResultList();
 		if(CollectionUtils.isNotEmpty(objList)){
-			for(Object [] obj : objList){
-				miembroAsesorId.add(((java.math.BigInteger)obj[0]).longValue());
+			for(Object obj : objList){
+				miembroAsesorId.add(((java.math.BigInteger)obj).longValue());
 			}
 		}
 		return miembroAsesorId;
@@ -193,10 +193,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	public void markAllFeedsFromCommentsAsRead(Long id,
 			List<ComentarioCens> comentarioList)  throws CensException{
 		try{
-			StringBuilder sb = new StringBuilder();
-			for(ComentarioCens cc : comentarioList){
-				sb.append(cc.getId()).append(",");
-			}
+			StringBuilder sb =getAllCommentsIds(comentarioList);
 			String result = sb.toString().substring(0,sb.length()-1);
 			entityManager.createNativeQuery("UPDATE cens_comentario_feed SET visto = true WHERE id_dirigido = :idMiembroCens "
 				+ "AND comentariocensid in ("+result+")").setParameter("idMiembroCens", id).executeUpdate();
@@ -204,6 +201,19 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			throw new  CensException("Error al modificar los feeds");
 		}
 		
+	}
+	
+	private StringBuilder getAllCommentsIds(List<ComentarioCens> comentarioList){
+		StringBuilder sb = new StringBuilder();
+		for(ComentarioCens cc : comentarioList){
+			sb.append(cc.getId()).append(",");
+			if(CollectionUtils.isNotEmpty(cc.getChildrens())){
+				
+				sb.append(getAllCommentsIds(cc.getChildrens()).toString());
+				
+			}
+		}
+		return sb;
 	}
 
 	@SuppressWarnings("unchecked")

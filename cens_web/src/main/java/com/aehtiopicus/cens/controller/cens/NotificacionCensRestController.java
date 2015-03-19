@@ -33,8 +33,8 @@ public class NotificacionCensRestController extends AbstractRestController{
 	
 	@Secured("ROLE_ASESOR")
 	@RequestMapping(value=UrlConstant.NOTIFICACION_NO_LEIDAS_MIEMBRO_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Notificacion getNotificacioneNoLeidas(@PathVariable(value="miembroId") Long miembroId) throws CensException{
-		return notificacionCensService.getNotificacionesUnReadForUser(miembroId);
+	public @ResponseBody NotificacionDto getNotificacioneNoLeidas(@PathVariable(value="miembroId") Long miembroId) throws CensException{
+		return notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesUnReadForUser(miembroId));
 	
 	}
 }

@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import com.aehtiopicus.cens.utils.CensException;
 
 @Component
 @Aspect
+@Order(value=600)
 public class ComentarioAspect {
 
 	private static final Logger logger = LoggerFactory
@@ -44,7 +46,6 @@ public class ComentarioAspect {
 	
 	@Autowired
 	private MiembroCensService miembroCensService;
-
 	
 
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.delete(..))", returning ="comentarioIds")
@@ -56,6 +57,7 @@ public class ComentarioAspect {
 		}
 		
 	}
+	
 	
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensService.saveComentario(..))", returning = "comentarioCens")
 	public void saveNotification(JoinPoint joinPoint,
@@ -81,6 +83,10 @@ public class ComentarioAspect {
 			ComentarioCensFeed ccf = mapper.convertComentarioToFeed(comentarioCens,
 					originalInitializerId, ptct);
 			ccf.setTipoId(comentarioCens.getTipoId());
+			//self message
+			if(ccf.getActivityFeed().getToId().equals(ccf.getActivityFeed().getFromId())){
+				return;
+			}
 			//broadcast
 			if(ccf.getActivityFeed().getToId()==null){
 				
@@ -88,7 +94,14 @@ public class ComentarioAspect {
 				if(CollectionUtils.isNotEmpty(miembroAsesorIdList)){
 					for(Long miembroAsesorId : miembroAsesorIdList){
 						ccf.getActivityFeed().setToId(miembroAsesorId);
-						censFeedService.save(ccf);
+						ComentarioCensFeed ccfAux = new ComentarioCensFeed();
+						ccfAux.setActivityFeed(ccf.getActivityFeed());
+						ccfAux.setComentarioCensId(ccf.getComentarioCensId());
+						ccfAux.setComentarioType(ccf.getComentarioType());
+						ccfAux.setId(ccf.getId());
+						ccfAux.setTipoId(ccf.getTipoId());
+
+						censFeedService.save(ccfAux);
 					}
 				}else{
 					logger.warn("Descartando feed por ser de un asesor a si mismo");
@@ -106,8 +119,10 @@ public class ComentarioAspect {
 	public void markCommentsAsRead(JoinPoint joinPoint,
 			 List<ComentarioCens> comentarioList) {
 		try{
-			MiembroCens mc = miembroCensService.getMiembroCensByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-			censFeedService.markAllFeedsFromCommentsAsRead(mc.getId(),comentarioList);
+			if(CollectionUtils.isNotEmpty(comentarioList)){
+				MiembroCens mc = miembroCensService.getMiembroCensByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+				censFeedService.markAllFeedsFromCommentsAsRead(mc.getId(),comentarioList);
+			}
 		}catch(Exception e){
 			logger.error("Error al marcar comentarios como leidos",e);
 		}

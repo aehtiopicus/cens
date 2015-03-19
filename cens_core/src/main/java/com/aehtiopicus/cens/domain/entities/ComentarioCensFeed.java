@@ -19,10 +19,12 @@ import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 public class ComentarioCensFeed implements Serializable{
 
 	
+	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3647835003686903811L;
 
 	@Id
 	@GeneratedValue(strategy  = GenerationType.AUTO)
@@ -77,6 +79,56 @@ public class ComentarioCensFeed implements Serializable{
 
 	public void setTipoId(Long tipoId) {
 		this.tipoId = tipoId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((activityFeed == null) ? 0 : activityFeed.hashCode());
+		result = prime
+				* result
+				+ ((comentarioCensId == null) ? 0 : comentarioCensId.hashCode());
+		result = prime * result
+				+ ((comentarioType == null) ? 0 : comentarioType.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((tipoId == null) ? 0 : tipoId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ComentarioCensFeed other = (ComentarioCensFeed) obj;
+		if (activityFeed == null) {
+			if (other.activityFeed != null)
+				return false;
+		} else if (!activityFeed.equals(other.activityFeed))
+			return false;
+		if (comentarioCensId == null) {
+			if (other.comentarioCensId != null)
+				return false;
+		} else if (!comentarioCensId.equals(other.comentarioCensId))
+			return false;
+		if (comentarioType != other.comentarioType)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (tipoId == null) {
+			if (other.tipoId != null)
+				return false;
+		} else if (!tipoId.equals(other.tipoId))
+			return false;
+		return true;
 	}
 
 		
