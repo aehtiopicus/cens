@@ -47,12 +47,12 @@ public class ProgramaCensValidator {
 		
 		switch(type){
 		case INEXISTENTE:
-			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.INEXISTENTE);
+			throw new CensException("El estado del programa no puede ser "+ EstadoRevisionType.INEXISTENTE);
 		case LISTO:
-			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.LISTO);
+			throw new CensException("El estado del programa no puede ser "+ EstadoRevisionType.LISTO);
 			
 		case NUEVO:
-			throw new CensException("El estado del material no puede ser "+ EstadoRevisionType.NUEVO);
+			throw new CensException("El estado del programa no puede ser "+ EstadoRevisionType.NUEVO);
 		default:
 			break;
 		
