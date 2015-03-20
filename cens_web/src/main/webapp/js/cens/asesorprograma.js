@@ -120,7 +120,7 @@ function dejarComentario(){
 	    },
 	    error: function(value){
 	    	 errorData = errorConverter(value);
-				if(errorData.errorDto != undefined && value.errorDto){
+				if(errorData.errorDto != undefined && errorData.errorDto){
 					alert(errorConverter(value).message);
 				}else{
 					 alert("Se produjo un error el servidor");

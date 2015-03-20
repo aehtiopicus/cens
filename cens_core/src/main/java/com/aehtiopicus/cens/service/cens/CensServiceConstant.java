@@ -39,6 +39,14 @@ public class CensServiceConstant {
 	public static final String COMENTARIO_DAYS_AGO ="Dias";
 	
 	public static final String COMENTARIO_FECHA_NOTIFICADO ="Fecha Notificado";
+		
+	public static final String FROM_ID ="id_from";
+	
+	public static final String FROM_PERFIL ="perfil_from";
+	
+	public static final String TO_ID ="id_to";
+	
+	public static final String TO_PERFIL ="perfil_to";
 	
 	
 }

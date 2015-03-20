@@ -10,15 +10,12 @@ import com.aehtiopicus.cens.domain.entities.ActivityFeed;
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Component
 public class ComentarioCensFeedMapper {
 
-	private static final String FROM_ID ="id_from";
-	private static final String FROM_PERFIL ="perfil_from";
-	private static final String TO_ID ="id_to";
-	private static final String TO_PERFIL ="perfil_to";
 	
 	public ComentarioCensFeed convertComentarioToFeed(ComentarioCens comentarioCens,Long originalInitializer, PerfilTrabajadorCensType originalPtct) throws CensException{
 		ComentarioCensFeed feed = null;
@@ -33,25 +30,25 @@ public class ComentarioCensFeedMapper {
 		
 		Map<String,Object> activityFeedData = new HashMap<String, Object>();
 		userData(comentarioCens, activityFeedData, originalInitializer, originalPtct);
-		aFeed.setFromId(activityFeedData.get(FROM_ID) != null ? (Long)activityFeedData.get(FROM_ID) : null);
-		aFeed.setFromPerfil(activityFeedData.get(FROM_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(FROM_PERFIL) : null);
-		aFeed.setToId(activityFeedData.get(TO_ID) != null ? (Long)activityFeedData.get(TO_ID) : null);
-		aFeed.setToPerfil(activityFeedData.get(TO_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(TO_PERFIL) : null);
+		aFeed.setFromId(activityFeedData.get(CensServiceConstant.FROM_ID) != null ? (Long)activityFeedData.get(CensServiceConstant.FROM_ID) : null);
+		aFeed.setFromPerfil(activityFeedData.get(CensServiceConstant.FROM_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(CensServiceConstant.FROM_PERFIL) : null);
+		aFeed.setToId(activityFeedData.get(CensServiceConstant.TO_ID) != null ? (Long)activityFeedData.get(CensServiceConstant.TO_ID) : null);
+		aFeed.setToPerfil(activityFeedData.get(CensServiceConstant.TO_PERFIL) != null ? (PerfilTrabajadorCensType)activityFeedData.get(CensServiceConstant.TO_PERFIL) : null);
 		feed.setActivityFeed(aFeed);
 		return feed;
 	}
 	
 	private void userData(ComentarioCens comentarioCens,Map<String,Object> activityFeedData,Long originalInitializer, PerfilTrabajadorCensType originalPtct){
 		
-		loadCurrentData(FROM_ID,FROM_PERFIL,comentarioCens,activityFeedData);
+		loadCurrentData(CensServiceConstant.FROM_ID,CensServiceConstant.FROM_PERFIL,comentarioCens,activityFeedData);
 		if(comentarioCens.getParent()!=null){
-			loadCurrentData(TO_ID,TO_PERFIL,comentarioCens.getParent(),activityFeedData);
+			loadCurrentData(CensServiceConstant.TO_ID,CensServiceConstant.TO_PERFIL,comentarioCens.getParent(),activityFeedData);
 		}else{
-			if(((PerfilTrabajadorCensType)activityFeedData.get(FROM_PERFIL)).equals(PerfilTrabajadorCensType.PROFESOR)){
-				activityFeedData.put(TO_PERFIL, PerfilTrabajadorCensType.ASESOR);//broadcast message
+			if(((PerfilTrabajadorCensType)activityFeedData.get(CensServiceConstant.FROM_PERFIL)).equals(PerfilTrabajadorCensType.PROFESOR)){
+				activityFeedData.put(CensServiceConstant.TO_PERFIL, PerfilTrabajadorCensType.ASESOR);//broadcast message
 			}else{
-				activityFeedData.put(TO_ID,originalInitializer);
-				activityFeedData.put(TO_PERFIL,originalPtct);
+				activityFeedData.put(CensServiceConstant.TO_ID,originalInitializer);
+				activityFeedData.put(CensServiceConstant.TO_PERFIL,originalPtct);
 			}
 		}
 			
