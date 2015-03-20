@@ -23,6 +23,7 @@ import com.aehtiopicus.cens.controller.cens.validator.ProgramaCensValidator;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.dto.cens.ProgramaDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.mapper.cens.ProgramaCensMapper;
 import com.aehtiopicus.cens.service.cens.ProgramaCensService;
 import com.aehtiopicus.cens.utils.CensException;
@@ -48,9 +49,9 @@ public class ProgramaCensRestController extends AbstractRestController{
 		programaCensValidator.validate(programaDto, file); 
 		programaDto.setAsignaturaId(asignaturaId);
 		Programa programa = mapper.convertProgramaDtoToEntity(programaDto);
-		
+		EstadoRevisionType e = programa.getEstadoRevisionType();
 		programa = programaCensService.savePrograma(programa,file);
-		
+		checkCambioEstado(programa,e);
 		return mapper.convertProgramaToDto(programa);        
 	}
 	
@@ -62,9 +63,9 @@ public class ProgramaCensRestController extends AbstractRestController{
 		programaDto.setId(programaId);
 		programaDto.setAsignaturaId(asignaturaId);		
 		Programa programa = mapper.convertProgramaDtoToEntity(programaDto);
-		
+		EstadoRevisionType e = programa.getEstadoRevisionType();
 		programa = programaCensService.savePrograma(programa,file);
-		
+		checkCambioEstado(programa,e);
 		return mapper.convertProgramaToDto(programa);        
 	}
 	
@@ -75,9 +76,9 @@ public class ProgramaCensRestController extends AbstractRestController{
 		programaCensValidator.validate(programaDto, null); 
 		programaDto.setAsignaturaId(asignaturaId);
 		Programa programa = mapper.convertProgramaDtoToEntity(programaDto);
-		
+		EstadoRevisionType e = programa.getEstadoRevisionType();
 		programa = programaCensService.savePrograma(programa,null);
-		
+		checkCambioEstado(programa,e);
 		return mapper.convertProgramaToDto(programa);        
 	}
 	
@@ -89,9 +90,9 @@ public class ProgramaCensRestController extends AbstractRestController{
 		programaDto.setId(programaId);
 		programaDto.setAsignaturaId(asignaturaId);		
 		Programa programa = mapper.convertProgramaDtoToEntity(programaDto);
-		
+		EstadoRevisionType e = programa.getEstadoRevisionType();
 		programa = programaCensService.savePrograma(programa,null);
-		
+		checkCambioEstado(programa,e);
 		return mapper.convertProgramaToDto(programa);        
 	}
 	
@@ -123,8 +124,10 @@ public class ProgramaCensRestController extends AbstractRestController{
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.PROGRAMA_CENS_FILE_REST, method = RequestMethod.DELETE)
 	public @ResponseBody RestSingleResponseDto deletePrograma(@PathVariable Long programaId) throws CensException {
-		
-		programaCensService.removePrograma(programaId);
+		Programa p = programaCensService.findById(programaId);
+		programaCensService.removePrograma(p);
+		p.setEstadoRevisionType(EstadoRevisionType.NUEVO);
+		checkCambioEstado(p,EstadoRevisionType.INEXISTENTE);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(programaId);
 		dto.setMessage("Programa Eliminado ");
@@ -137,13 +140,21 @@ public class ProgramaCensRestController extends AbstractRestController{
 	public @ResponseBody RestSingleResponseDto updateProgramaEstado(@PathVariable(value="id")Long asignaturaId,@PathVariable(value="programaId")Long programaId,@RequestBody  ProgramaDto programaDto) throws Exception{		
 
 		programaCensValidator.validateCambioEstado(programaDto.getEstadoRevisionType());
-		
-		programaCensService.updateProgramaStatus(programaId,programaDto.getEstadoRevisionType());		
+		Programa p = programaCensService.findById(programaId);
+		EstadoRevisionType e = p.getEstadoRevisionType();
+		p.setEstadoRevisionType(programaDto.getEstadoRevisionType());
+		checkCambioEstado(p,e);		
 		
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(programaId);
 		dto.setMessage("Estado actualizado correctamente");
 		
 		return dto;
+	}
+	
+	private void checkCambioEstado(Programa p, EstadoRevisionType estadoAnterior){
+		if(!p.getEstadoRevisionType().equals(estadoAnterior)){
+			programaCensService.updateProgramaStatus(p, p.getEstadoRevisionType());
+		}
 	}
 }

@@ -19,10 +19,10 @@ public interface ProgramaCensService {
 
 	public void getArchivoAdjunto(String fileLocationPath,OutputStream os) throws CensException;
 
-	public void removePrograma(Long programaId) throws CensException;
+	public void removePrograma(Programa programa) throws CensException;
 
 	public List<Programa> getProgramas();
 
-	public void updateProgramaStatus(Long programaId, EstadoRevisionType type);
+	public void updateProgramaStatus(Programa programa, EstadoRevisionType type);
 
 }

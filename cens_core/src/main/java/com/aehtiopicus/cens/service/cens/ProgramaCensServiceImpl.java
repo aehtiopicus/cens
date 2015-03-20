@@ -120,10 +120,13 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 
 	@Override
 	@Transactional
-	public void removePrograma(Long programaId) throws CensException {
-		Programa p = findById(programaId);
-		fileCensService.deleteFileCensInfo(p.getFileInfo());
-		programaCensRepository.removeFileInfo(p,EstadoRevisionType.NUEVO);
+	public void removePrograma(Programa p) throws CensException {
+		if(!p.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)){
+			fileCensService.deleteFileCensInfo(p.getFileInfo());
+			programaCensRepository.removeFileInfo(p,EstadoRevisionType.NUEVO);
+		}else{
+			throw new CensException("No se puede eliminar el Programa did&aacute;ctico ya que fue ACEPTADO por asesor&iacute;a");
+		}
 		
 	}
 
@@ -135,8 +138,8 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 
 	@Override
 	@Transactional
-	public void updateProgramaStatus(Long programaId, EstadoRevisionType type) {
-		programaCensRepository.updateProgramaStatus(programaId,type);
+	public void updateProgramaStatus(Programa programa, EstadoRevisionType type) {
+		programaCensRepository.updateProgramaStatus(programa.getId(),type);
 		
 	}
 	

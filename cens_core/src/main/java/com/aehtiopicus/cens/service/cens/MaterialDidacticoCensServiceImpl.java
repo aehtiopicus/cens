@@ -178,29 +178,28 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 
 	@Override
 	@Transactional
-	public void removeMaterialDidactico(Long materialId) {
-		MaterialDidactico md = findById(materialId);
-		fileCensService.deleteFileCensInfo(md.getFileInfo());
-		materialDidacticoCensRepository.removeFileInfo(md,EstadoRevisionType.NUEVO);
+	public void removeMaterialDidactico(MaterialDidactico material) {
+		fileCensService.deleteFileCensInfo(material.getFileInfo());
+		materialDidacticoCensRepository.removeFileInfo(material,EstadoRevisionType.NUEVO);
 		
 	}
 
 
 	@Override
 	@Transactional
-	public void updateMaterialDidacticoStatus(Long materialId,
+	public void updateMaterialDidacticoStatus(MaterialDidactico material,
 			EstadoRevisionType estadoRevisionType) {
-		materialDidacticoCensRepository.updateMaterialDidacticoStatus(materialId,estadoRevisionType);
+		materialDidacticoCensRepository.updateMaterialDidacticoStatus(material.getId(),estadoRevisionType);
 		
 	}
 
 
 	@Override
-	public void removeMaterialDidacticoCompleto(Long materialId) throws CensException{
-		MaterialDidactico md = findById(materialId);
-		if(!md.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)){
-			fileCensService.deleteFileCensInfo(md.getFileInfo());
-			materialDidacticoCensRepository.delete(md);
+	public void removeMaterialDidacticoCompleto(MaterialDidactico material) throws CensException{
+	
+		if(!material.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)){
+			fileCensService.deleteFileCensInfo(material.getFileInfo());
+			materialDidacticoCensRepository.delete(material);
 		}else{
 			throw new CensException("No se puede eliminar el Material did&aacute;ctico ya que fue ACEPTADO por asesor&iacute;a");
 		}

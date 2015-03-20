@@ -26,11 +26,11 @@ public interface MaterialDidacticoCensService {
 
 	public void getArchivoAdjunto(String string, OutputStream baos) throws CensException;
 
-	public void removeMaterialDidactico(Long materialId);
+	public void removeMaterialDidactico(MaterialDidactico material);
 
-	public void updateMaterialDidacticoStatus(Long materialId,
+	public void updateMaterialDidacticoStatus(MaterialDidactico material,
 			EstadoRevisionType estadoRevisionType);
 
-	public void removeMaterialDidacticoCompleto(Long materialId)  throws CensException;
+	public void removeMaterialDidacticoCompleto(MaterialDidactico material)  throws CensException;
 
 }

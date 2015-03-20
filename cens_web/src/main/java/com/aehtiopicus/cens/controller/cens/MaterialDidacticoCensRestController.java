@@ -28,6 +28,7 @@ import com.aehtiopicus.cens.dto.cens.MaterialDidacticoDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.mapper.cens.MaterialDidacticoCensMapper;
 import com.aehtiopicus.cens.service.cens.MaterialDidacticoCensService;
 import com.aehtiopicus.cens.util.Utils;
@@ -77,9 +78,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 
 		materialDidacticoValidator.validate(mdDto, file); 
 		MaterialDidactico md = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
-		
+		EstadoRevisionType e = md.getEstadoRevisionType();
 		md = materialDidacticoCensService.saveMaterialDidactico(md,file);
-		
+		checkCambioEstado(md,e);
 		return mapper.convertMaterialDidacticoToDto(md);        
 	}
 	
@@ -90,9 +91,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 		materialDidacticoValidator.validate(mdDto, file);
 		mdDto.setId(materialId);	
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
-		
+		EstadoRevisionType e = materialDidactico.getEstadoRevisionType();
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,file);
-		
+		checkCambioEstado(materialDidactico,e);
 		return mapper.convertMaterialDidacticoToDto(materialDidactico);        
 	}
 	
@@ -102,9 +103,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 
 		materialDidacticoValidator.validate(mdDto, null); 
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
-		
+		EstadoRevisionType e = materialDidactico.getEstadoRevisionType();
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,null);
-		
+		checkCambioEstado(materialDidactico,e);
 		return mapper.convertMaterialDidacticoToDto(materialDidactico);        
 	}
 	
@@ -115,9 +116,9 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 		materialDidacticoValidator.validate(mdDto, null);
 		mdDto.setId(materialId);	
 		MaterialDidactico materialDidactico = mapper.convertMaterialDidacticoDtoToEntity(mdDto);
-		
+		EstadoRevisionType e = materialDidactico.getEstadoRevisionType();
 		materialDidactico = materialDidacticoCensService.saveMaterialDidactico(materialDidactico,null);
-		
+		checkCambioEstado(materialDidactico,e);
 		return mapper.convertMaterialDidacticoToDto(materialDidactico);        
 	}
 	
@@ -149,8 +150,10 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_FILE_REST, method = RequestMethod.DELETE)
 	public @ResponseBody RestSingleResponseDto deleteCartilla(@PathVariable Long materialId) throws CensException {
-		
-		materialDidacticoCensService.removeMaterialDidactico(materialId);
+		MaterialDidactico md = materialDidacticoCensService.findById(materialId);
+		materialDidacticoCensService.removeMaterialDidactico(md);
+		md.setEstadoRevisionType(EstadoRevisionType.NUEVO);
+		checkCambioEstado(md,EstadoRevisionType.INEXISTENTE);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(materialId);
 		dto.setMessage("Material Did&aacute;ctico Eliminado ");
@@ -162,7 +165,10 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	@RequestMapping(value = UrlConstant.MATERIAL_DIDACTICO_CENS_REST+"/{materialId}",method = RequestMethod.DELETE)
 	public @ResponseBody RestSingleResponseDto deleteMaterialDidactico(@PathVariable("materialId") Long materialId ) throws Exception{
 		
-		materialDidacticoCensService.removeMaterialDidacticoCompleto(materialId);
+		MaterialDidactico md = materialDidacticoCensService.findById(materialId);
+		materialDidacticoCensService.removeMaterialDidacticoCompleto(md);
+		md.setEstadoRevisionType(EstadoRevisionType.NUEVO);
+		checkCambioEstado(md,EstadoRevisionType.INEXISTENTE);
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(materialId);
 		dto.setMessage("Material Did&aacute;ctico Eliminado ");
@@ -174,12 +180,20 @@ public class MaterialDidacticoCensRestController extends AbstractRestController{
 	public @ResponseBody RestSingleResponseDto updateMaterialDidacticoEstado(@PathVariable(value="materialId")Long materialId,@RequestBody  MaterialDidacticoDto mdDto) throws Exception{		
 
 		materialDidacticoValidator.validateCambioEstado(mdDto.getEstadoRevisionType());
-		
-		materialDidacticoCensService.updateMaterialDidacticoStatus(materialId,mdDto.getEstadoRevisionType());		
+		MaterialDidactico md = materialDidacticoCensService.findById(materialId);
+		EstadoRevisionType e = md.getEstadoRevisionType();
+		md.setEstadoRevisionType(mdDto.getEstadoRevisionType());
+		checkCambioEstado(md,e);		
 		
 		RestSingleResponseDto dto = new RestSingleResponseDto();	
 		dto.setMessage("Estado actualizado correctamente");
 		
 		return dto;
+	}
+	
+	private void checkCambioEstado(MaterialDidactico p, EstadoRevisionType estadoAnterior){
+		if(!p.getEstadoRevisionType().equals(estadoAnterior)){
+			materialDidacticoCensService.updateMaterialDidacticoStatus(p, p.getEstadoRevisionType());
+		}
 	}
 }
