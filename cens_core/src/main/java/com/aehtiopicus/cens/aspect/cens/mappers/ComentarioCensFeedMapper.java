@@ -22,11 +22,11 @@ public class ComentarioCensFeedMapper {
 		if(comentarioCens==null ){
 			throw new CensException("Comentario nulo feed no creado");
 		}
-		feed = new ComentarioCensFeed();
-		feed.setComentarioType(comentarioCens.getTipoComentario());
+		feed = new ComentarioCensFeed();		
 		feed.setComentarioCensId(comentarioCens.getId());
 		ActivityFeed aFeed = new ActivityFeed();
 		aFeed.setDateCreated(new Date());
+		aFeed.setComentarioType(comentarioCens.getTipoComentario());
 		
 		Map<String,Object> activityFeedData = new HashMap<String, Object>();
 		userData(comentarioCens, activityFeedData, originalInitializer, originalPtct);

@@ -15,6 +15,8 @@ public abstract class AbstractNotificacionItemDto {
 	private boolean notificado;
 
 	private int diasNotificado;
+	
+	private String estadoRevision;
 
 	public String getNombre() {
 		return nombre;
@@ -71,6 +73,16 @@ public abstract class AbstractNotificacionItemDto {
 	public void setDiasNotificado(int diasNotificado) {
 		this.diasNotificado = diasNotificado;
 	}
+	
+	
+
+	public String getEstadoRevision() {
+		return estadoRevision;
+	}
+
+	public void setEstadoRevision(String estadoRevision) {
+		this.estadoRevision = estadoRevision;
+	}
 
 	@Override
 	public int hashCode() {
@@ -78,6 +90,8 @@ public abstract class AbstractNotificacionItemDto {
 		int result = 1;
 		result = prime * result + cantidadComnetarios;
 		result = prime * result + diasNotificado;
+		result = prime * result
+				+ ((estadoRevision == null) ? 0 : estadoRevision.hashCode());
 		result = prime * result
 				+ ((fechaCreado == null) ? 0 : fechaCreado.hashCode());
 		result = prime * result
@@ -112,5 +126,6 @@ public abstract class AbstractNotificacionItemDto {
 		
 		return true;
 	}
+
 
 }

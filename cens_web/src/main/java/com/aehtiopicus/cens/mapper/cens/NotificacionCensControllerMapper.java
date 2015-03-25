@@ -10,37 +10,57 @@ import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.Notificacion;
 import com.aehtiopicus.cens.dto.cens.AbstractNotificacionItemDto;
+import com.aehtiopicus.cens.dto.cens.ActividadNotificacionDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaNotificacionDto;
+import com.aehtiopicus.cens.dto.cens.ComentarioNotificacionDto;
 import com.aehtiopicus.cens.dto.cens.CursoNotificacionDto;
 import com.aehtiopicus.cens.dto.cens.MaterialNotificacionDto;
 import com.aehtiopicus.cens.dto.cens.NotificacionDto;
 import com.aehtiopicus.cens.dto.cens.ProgramaNotificacionDto;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 
 @Component
 public class NotificacionCensControllerMapper {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public NotificacionDto getDtoFromVO(Notificacion notificacionesForUser) {
 		NotificacionDto nDto = null;
 		if(notificacionesForUser != null){
 			nDto = new NotificacionDto();
 			nDto.setPerfilRol(notificacionesForUser.getPerfilRol());
 			if(notificacionesForUser.getData()!=null ){
-				nDto.setCurso(convertCursoList(notificacionesForUser.getData()));
-			}else{
-				nDto.setCurso(new HashSet<CursoNotificacionDto>());
+				Set<CursoNotificacionDto> cnDtoSet = null;
+				if(notificacionesForUser.getData().containsKey(NotificacionType.COMENTARIO.name())){											
+					cnDtoSet = convertCursoList((Map)notificacionesForUser.getData().get(NotificacionType.COMENTARIO.name()));
+					
+					if(CollectionUtils.isNotEmpty(cnDtoSet)){
+						ComentarioNotificacionDto cnDto = new ComentarioNotificacionDto();
+						cnDto.setCurso(cnDtoSet);
+						nDto.setComentario(cnDto);
+					}
+				}
+				if(notificacionesForUser.getData().containsKey(NotificacionType.ACTIVIDAD.name())){
+					cnDtoSet = convertCursoList((Map)notificacionesForUser.getData().get(NotificacionType.ACTIVIDAD.name()));
+					
+					if(CollectionUtils.isNotEmpty(cnDtoSet)){
+						ActividadNotificacionDto anDto = new ActividadNotificacionDto();
+						anDto.setCurso(cnDtoSet);
+						nDto.setActividad(anDto);
+					}
+				}
+								
 			}
 		}
 		return nDto;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private Set<CursoNotificacionDto> convertCursoList(
-			Map<String,Object> data) {
+			Map<ComentarioType,List<Map<String,String>>> mapData) {
 		//comentarios
-		Set<CursoNotificacionDto> cnDtoSet = new HashSet<>();	
-		Map<ComentarioType,List<Map<String,String>>> mapData =(Map<ComentarioType,List<Map<String,String>>>) data.get("comentario");
+		Set<CursoNotificacionDto> cnDtoSet = new HashSet<>();			
 		if(mapData!=null && !mapData.isEmpty()){
 						
 			
@@ -132,6 +152,10 @@ public class NotificacionCensControllerMapper {
 		if(comentarioData.containsKey(CensServiceConstant.COMENTARIO_FECHA_NOTIFICADO)){
 			pDto.setFechaNotificado(comentarioData.get(CensServiceConstant.COMENTARIO_FECHA_NOTIFICADO));
 		}
+		if(comentarioData.containsKey(CensServiceConstant.ESTADO_REVISION)){
+			pDto.setEstadoRevision(comentarioData.get(CensServiceConstant.ESTADO_REVISION));
+		}
+		
 	}
 
 }

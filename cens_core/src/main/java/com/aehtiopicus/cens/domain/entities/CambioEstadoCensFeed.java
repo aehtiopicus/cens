@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 
 @Entity
@@ -37,9 +36,6 @@ public class CambioEstadoCensFeed implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private EstadoRevisionType estadoRevisionTypeViejo;
-	
-	@Enumerated(EnumType.STRING)	
-	private ComentarioType estadoComentarioType;
 
 	public Long getId() {
 		return id;
@@ -72,14 +68,7 @@ public class CambioEstadoCensFeed implements Serializable{
 	public void setEstadoRevisionType(EstadoRevisionType estadoRevisionType) {
 		this.estadoRevisionType = estadoRevisionType;
 	}
-
-	public ComentarioType getEstadoComentarioType() {
-		return estadoComentarioType;
-	}
-
-	public void setEstadoComentarioType(ComentarioType estadoComentarioType) {
-		this.estadoComentarioType = estadoComentarioType;
-	}
+	
 
 	public EstadoRevisionType getEstadoRevisionTypeViejo() {
 		return estadoRevisionTypeViejo;

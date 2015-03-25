@@ -1,14 +1,15 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import java.util.Set;
-
 import com.aehtiopicus.cens.domain.entities.PerfilRol;
 
 public class NotificacionDto {
 
 	private PerfilRol perfilRol;
 	
-	private Set<CursoNotificacionDto> curso;
+	private ActividadNotificacionDto actividad;
+	
+	private ComentarioNotificacionDto comentario;
+	
 
 	public PerfilRol getPerfilRol() {
 		return perfilRol;
@@ -18,13 +19,23 @@ public class NotificacionDto {
 		this.perfilRol = perfilRol;
 	}
 
-	public Set<CursoNotificacionDto> getCurso() {
-		return curso;
+	public ActividadNotificacionDto getActividad() {
+		return actividad;
 	}
 
-	public void setCurso(Set<CursoNotificacionDto> curso) {
-		this.curso = curso;
+	public void setActividad(ActividadNotificacionDto actividad) {
+		this.actividad = actividad;
 	}
+
+	public ComentarioNotificacionDto getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(ComentarioNotificacionDto comentario) {
+		this.comentario = comentario;
+	}
+			
+	
 	
 	
 	

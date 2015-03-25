@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 
@@ -43,6 +44,9 @@ public class ActivityFeed {
 	@Temporal(TemporalType.DATE)
 	@Column(name="ultima_notificacion")
 	private Date lastTimeNotified;
+	
+	@Enumerated(EnumType.STRING)	
+	private ComentarioType comentarioType;
 
 	public Date getDateCreated() {
 		return dateCreated;
@@ -106,6 +110,14 @@ public class ActivityFeed {
 
 	public void setLastTimeNotified(Date lastTimeNotified) {
 		this.lastTimeNotified = lastTimeNotified;
+	}
+
+	public ComentarioType getComentarioType() {
+		return comentarioType;
+	}
+
+	public void setComentarioType(ComentarioType comentarioType) {
+		this.comentarioType = comentarioType;
 	}
 
 

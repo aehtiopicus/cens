@@ -20,9 +20,9 @@ public class CambioEstadoFeedMapper {
 			Programa programa, EstadoRevisionType estadoRevision) {
 		CambioEstadoCensFeed cecf = new CambioEstadoCensFeed();
 		cecf.setEstadoRevisionType(estadoRevision);
-		cecf.setTipoId(programa.getId());
-		cecf.setEstadoComentarioType(ComentarioType.PROGRAMA);
+		cecf.setTipoId(programa.getId());		
 		cecf.setActivityFeed(createActivityFeed(programa.getProfesor(),estadoRevision));
+		cecf.getActivityFeed().setComentarioType(ComentarioType.PROGRAMA);
 		cecf.setEstadoRevisionTypeViejo(programa.getEstadoRevisionType());
 		return cecf;
 	}
@@ -32,8 +32,8 @@ public class CambioEstadoFeedMapper {
 		CambioEstadoCensFeed cecf = new CambioEstadoCensFeed();
 		cecf.setEstadoRevisionType(estadoRevision);
 		cecf.setTipoId(md.getId());
-		cecf.setEstadoComentarioType(ComentarioType.MATERIAL);
 		cecf.setActivityFeed(createActivityFeed(md.getProfesor(),estadoRevision));
+		cecf.getActivityFeed().setComentarioType(ComentarioType.MATERIAL);
 		cecf.setEstadoRevisionTypeViejo(md.getEstadoRevisionType());
 		return cecf;
 	}

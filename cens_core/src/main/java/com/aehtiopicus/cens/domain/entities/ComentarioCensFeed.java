@@ -4,22 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
-
 @Entity
 @Table(name="cens_comentario_feed")
 public class ComentarioCensFeed implements Serializable{
-
-	
-	
 
 	/**
 	 * 
@@ -37,9 +30,7 @@ public class ComentarioCensFeed implements Serializable{
 	
 	@Transient
 	private Long tipoId;
-	
-	@Enumerated(EnumType.STRING)	
-	private ComentarioType comentarioType;
+		
 
 	public Long getId() {
 		return id;
@@ -63,15 +54,7 @@ public class ComentarioCensFeed implements Serializable{
 
 	public void setComentarioCensId(Long comentarioCensId) {
 		this.comentarioCensId = comentarioCensId;
-	}
-
-	public ComentarioType getComentarioType() {
-		return comentarioType;
-	}
-
-	public void setComentarioType(ComentarioType comentarioType) {
-		this.comentarioType = comentarioType;
-	}
+	}	
 
 	public Long getTipoId() {
 		return tipoId;
@@ -90,8 +73,6 @@ public class ComentarioCensFeed implements Serializable{
 		result = prime
 				* result
 				+ ((comentarioCensId == null) ? 0 : comentarioCensId.hashCode());
-		result = prime * result
-				+ ((comentarioType == null) ? 0 : comentarioType.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((tipoId == null) ? 0 : tipoId.hashCode());
 		return result;
@@ -115,8 +96,6 @@ public class ComentarioCensFeed implements Serializable{
 			if (other.comentarioCensId != null)
 				return false;
 		} else if (!comentarioCensId.equals(other.comentarioCensId))
-			return false;
-		if (comentarioType != other.comentarioType)
 			return false;
 		if (id == null) {
 			if (other.id != null)

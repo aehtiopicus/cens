@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.aspect.cens.mappers.NotificacionCensMapper;
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
-import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.Notificacion;
+import com.aehtiopicus.cens.domain.entities.NotificacionCambioEstadoFeed;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
+import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.PerfilRol;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
@@ -44,6 +44,9 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	@Autowired
 	private RolCensService roleCensService;
 	
+	@Autowired
+	private CambioEstadoCensFeedService cambioEstadoCensFeedService;
+	
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username) throws CensException{
 		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
@@ -55,6 +58,10 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			resultNotificationByUser.put(NotificacionType.COMENTARIO, ccfs);
 		}
 		
+		List<NotificacionCambioEstadoFeed> ncefl = cambioEstadoCensFeedService.getGeneratedFeeds(username);
+		if(CollectionUtils.isNotEmpty(ncefl)){
+			resultNotificationByUser.put(NotificacionType.ACTIVIDAD, ncefl);
+		}
 		return resultNotificationByUser;
 	}
 		
@@ -75,13 +82,15 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	@Override
 	public void markNotificationAsNotificated(String username) throws CensException {
 			comentarioCensFeedService.markAllFeedsForUserAsNotified(username);
+			cambioEstadoCensFeedService.markAllFeedsForUserAsNotified(username);
 		
 	}
 
 
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationNoLeidasForUser()throws CensException {
-	Map<NotificacionType,List<? extends AbstractNotificacionFeed>> allUnreadFeeds = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
+	
+		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> allUnreadFeeds = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
 		
 		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getUnReadFeeds();
 		
@@ -89,6 +98,15 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			
 			allUnreadFeeds.put(NotificacionType.COMENTARIO, ccfs);
 		}
+		
+		List<NotificacionCambioEstadoFeed> ncefl = cambioEstadoCensFeedService.getUnReadFeeds();
+
+		if(CollectionUtils.isNotEmpty(ncefl)){
+		
+			allUnreadFeeds.put(NotificacionType.ACTIVIDAD, ncefl);
+		}
+
+		
 		
 		return allUnreadFeeds;
 		
@@ -108,29 +126,43 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Map<String,Object> generateNotifacionComentario(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser) throws CensException{
 		
 		Map<String,Object> data = new HashMap<>();
 		if(notificationForUser.containsKey(NotificacionType.COMENTARIO)){			
 			Map<ComentarioType,List<NotificacionComentarioFeed>>  sortedComentarios = notificacionCensMapper.comentarioMapper((List<NotificacionComentarioFeed>) notificationForUser.get(NotificacionType.COMENTARIO));
-			Map<ComentarioTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted(sortedComentarios);
+			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedComentarios,NotificacionType.COMENTARIO);
 
-			if(!informationToRetrieve.isEmpty()) {
-				
-				Set<Entry<ComentarioTypeComentarioIdKey,Map<String,String>>> entrySet = informationToRetrieve.entrySet();
-				for(Entry<ComentarioTypeComentarioIdKey,Map<String,String>> value : entrySet){								
-					informationToRetrieve.put(value.getKey(), comentarioCensFeedService.getCommentSource(value.getKey()));				
-					
-				}
-			}			
-			notificacionCensMapper.convertToNotificacion(sortedComentarios,informationToRetrieve);
+			setInformationData(informationToRetrieve);		
+			notificacionCensMapper.convertToComentarioNotificacion(sortedComentarios,informationToRetrieve);
 			
-			data.put("comentario", notificacionCensMapper.convertToNotificacionData(sortedComentarios));
+			data.put(NotificacionType.COMENTARIO.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedComentarios));
+		}
+		if(notificationForUser.containsKey(NotificacionType.ACTIVIDAD)){
+			Map<ComentarioType,List<NotificacionCambioEstadoFeed>>  sortedActividad =notificacionCensMapper.actividadMapper( (List<NotificacionCambioEstadoFeed>) notificationForUser.get(NotificacionType.ACTIVIDAD));
+			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedActividad,NotificacionType.ACTIVIDAD);
+
+			setInformationData(informationToRetrieve);			
+			notificacionCensMapper.convertToActividadNotificacion(sortedActividad,informationToRetrieve);
+			
+			data.put(NotificacionType.ACTIVIDAD.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedActividad));
+			
 		}
 		return data;
 	}
 
+	private void setInformationData(Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve) throws CensException{
+		
+		if(!informationToRetrieve.isEmpty()) {
+			
+			
+			for(Entry<NotificacionTypeComentarioIdKey,Map<String,String>> value : informationToRetrieve.entrySet()){								
+				informationToRetrieve.put(value.getKey(), comentarioCensFeedService.getCommentSource(value.getKey()));				
+				
+			}
+		}		
+	}
 
 
 	@Override

@@ -97,7 +97,6 @@ public class ComentarioAspect {
 						ComentarioCensFeed ccfAux = new ComentarioCensFeed();
 						ccfAux.setActivityFeed(ccf.getActivityFeed());
 						ccfAux.setComentarioCensId(ccf.getComentarioCensId());
-						ccfAux.setComentarioType(ccf.getComentarioType());
 						ccfAux.setId(ccf.getId());
 						ccfAux.setTipoId(ccf.getTipoId());
 

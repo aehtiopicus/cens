@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
-import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
+import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
@@ -92,7 +92,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
 	@Override
 	@Cacheable(value="commentSource", key="#ctik.toString()")
-	public Map<String,String> getCommentSource(ComentarioTypeComentarioIdKey ctik) throws CensException {
+	public Map<String,String> getCommentSource(NotificacionTypeComentarioIdKey ctik) throws CensException {
 		try{
 			Query q = null;
 			switch(ctik.getComentarioType()){		
@@ -228,7 +228,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
 				+ "WHERE ccf.visto = false "
 				+ "AND ccf.ultima_notificacion is not null AND ccf.notificado = true "
-				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' <= CURRENT_DATE").getResultList();
+				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' < CURRENT_DATE").getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionComentarioFeed ncf =null;
 				ccfList = new ArrayList<>();
@@ -240,7 +240,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 					ncf.setComentarioType(ComentarioType.valueOf(data[3].toString()));
 					ncf.setNotificado(Boolean.valueOf(data[4].toString()));
 					ncf.setFeedId(((java.math.BigInteger)data[5]).longValue());
-					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());
+					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());					
 					ncf.setDaysAgo(Long.parseLong(data[7].toString()));
 					ncf.setFechaNotificacion((Date)data[8]);
 					ccfList.add(ncf);

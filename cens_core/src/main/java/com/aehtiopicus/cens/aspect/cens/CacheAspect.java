@@ -4,6 +4,7 @@ package com.aehtiopicus.cens.aspect.cens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.aspectj.lang.JoinPoint;
@@ -14,15 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
-import com.aehtiopicus.cens.domain.entities.ComentarioTypeComentarioIdKey;
+import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
+import com.aehtiopicus.cens.service.cens.CambioEstadoCensFeedService;
 import com.aehtiopicus.cens.service.cens.ComentarioCensService;
 
 @Component
 @Aspect
+@Order(900)
 public class CacheAspect {
 
 	@Autowired
@@ -67,6 +73,9 @@ public class CacheAspect {
 
 	@Autowired
 	private ComentarioCensService comentarioCensService;
+	
+	@Autowired
+	private CambioEstadoCensFeedService cambioEstadoCensFeedService;
 	
 	
 	@After(value = "execution(* com.aehtiopicus.cens.service.cens.AsignaturaCensService.removeProfesorFromAsignaturas(..))")
@@ -128,9 +137,13 @@ public class CacheAspect {
 	public void removeComentarioCache(JoinPoint joinPoint, ComentarioCensFeed ccf){
 		if(cacheManager.getCache(comentarioCache)!=null){
 			Cache c = cacheManager.getCache(comentarioCache);
-			ComentarioTypeComentarioIdKey ctcik = new ComentarioTypeComentarioIdKey(ccf.getComentarioType(), ccf.getTipoId(),ccf.getActivityFeed().getDateCreated());
+			NotificacionTypeComentarioIdKey ctcik = new NotificacionTypeComentarioIdKey(ccf.getActivityFeed().getComentarioType(), ccf.getTipoId(),ccf.getActivityFeed().getDateCreated(),NotificacionType.COMENTARIO,ccf.getActivityFeed().getToId());
 			if(c.get(ctcik.toString())!=null && c.getNativeCache() instanceof ConcurrentHashMap){
-				((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(ctcik.toString());				
+				for(Map.Entry<String,Object> entry :((ConcurrentHashMap<String,Object>)c.getNativeCache()).entrySet()){
+					if(entry.getKey().equals(ctcik.toString())){
+						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(entry.getKey());
+					}
+				}								
 			}
 			
 		}
@@ -140,15 +153,7 @@ public class CacheAspect {
 	@After(value = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.deleteAllComentarios(..))")
 	public void removeAllComentarioCache(JoinPoint joinPoint){
 		if(cacheManager.getCache(comentarioCache)!=null){
-			List<String> keysToRemoveList = comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[0]);
-			Cache c = cacheManager.getCache(comentarioCache);
-			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
-				for(Object keysToRemove :keysToRemoveList){
-					if(((ConcurrentHashMap<String,Object>)c.getNativeCache()).contains(keysToRemove.toString())){
-						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(keysToRemove.toString());
-					}
-				}				
-			}
+			cleanComentarioCache(comentarioCensService.getAllKeys((List<Long>)joinPoint.getArgs()[0]));			
 		}
 	}
 	
@@ -160,15 +165,32 @@ public class CacheAspect {
 			for(ComentarioCens cc :(List<ComentarioCens>)joinPoint.getArgs()[1]){
 				comentarioIds.add(cc.getId());
 			}
-			List<String> keysToRemoveList = comentarioCensService.getAllKeys(comentarioIds);
-			Cache c = cacheManager.getCache(comentarioCache);
-			if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
-				for(Object keysToRemove :keysToRemoveList){
-					if(((ConcurrentHashMap<String,Object>)c.getNativeCache()).contains(keysToRemove.toString())){
-						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(keysToRemove.toString());
+			cleanComentarioCache(comentarioCensService.getAllKeys(comentarioIds));
+			
+		}
+	}
+	
+	@After(value="execution(* com.aehtiopicus.cens.service.cens.CambioEstadoCensFeedService.markCambioEstadoFeedAsRead(..))")
+	public void removeWatchedStatusChanged(JoinPoint joinPoint){
+		if(cacheManager.getCache(comentarioCache)!=null){
+			Long tipoId = (Long) joinPoint.getArgs()[0];
+			Long miembroId =(Long)  joinPoint.getArgs()[1];
+			ComentarioType ct =(ComentarioType) joinPoint.getArgs()[2];
+			cleanComentarioCache(cambioEstadoCensFeedService.getAllKeys(tipoId,miembroId,ct));
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private void cleanComentarioCache(List<String> keysToRemoveList){
+		Cache c = cacheManager.getCache(comentarioCache);
+		if(c.getNativeCache()!=null && c.getNativeCache() instanceof ConcurrentHashMap){
+			for(Object keysToRemove :keysToRemoveList){
+				for(Map.Entry<String,Object> entry :((ConcurrentHashMap<String,Object>)c.getNativeCache()).entrySet()){
+					if(entry.getKey().equals(keysToRemove.toString())){
+						((ConcurrentHashMap<String,Object>)c.getNativeCache()).remove(entry.getKey());
 					}
-				}				
-			}
+				}
+				
+			}				
 		}
 	}
 

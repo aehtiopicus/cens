@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public abstract class AbstractNotificacionFeed {
@@ -25,6 +26,9 @@ public abstract class AbstractNotificacionFeed {
 	
 	@Column(name="notificado")
 	private Boolean notificado;
+	
+	@Enumerated(EnumType.STRING)
+	private ComentarioType comentarioType;
 		
 	private Long feedId;
 	
@@ -33,6 +37,8 @@ public abstract class AbstractNotificacionFeed {
 	private int cantidad;
 	
 	private Long daysAgo;
+	
+	private Long tipoId;
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
@@ -107,6 +113,23 @@ public abstract class AbstractNotificacionFeed {
 	public void setFechaNotificacion(Date fechaNotificacion) {
 		this.fechaNotificacion = fechaNotificacion;
 	}
+
+	public ComentarioType getComentarioType() {
+		return comentarioType;
+	}
+
+	public void setComentarioType(ComentarioType comentarioType) {
+		this.comentarioType = comentarioType;
+	}
+
+	public Long getTipoId() {
+		return tipoId;
+	}
+
+	public void setTipoId(Long tipoId) {
+		this.tipoId = tipoId;
+	}
+	
 	
 	
 }

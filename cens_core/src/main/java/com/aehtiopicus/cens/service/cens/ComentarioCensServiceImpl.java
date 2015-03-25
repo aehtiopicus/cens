@@ -236,8 +236,9 @@ public class ComentarioCensServiceImpl implements ComentarioCensService{
 	@Override
 	public List<String> getAllKeys(List<Long> comentarioCensId) {
 		
-		StringBuilder sb = new StringBuilder("select concat(tipocomentario,trim(to_char(tipoid,'99999999'))) from cens_comentario ");		
-		sb.append("WHERE id IN (");			
+		StringBuilder sb = new StringBuilder("select concat(cc.tipocomentario,trim(to_char(cc.tipoid,'99999999')),ccf.fecha_creacion,'COMENTARIO',ccf.id_dirigido) "
+				+ "FROM cens_comentario cc INNER JOIN cens_comentario_feed ccf ON cc.id = ccf.comentariocensid ");		
+		sb.append("WHERE cc.id IN (");			
 		StringBuilder ids= new StringBuilder();
 		for(Long ccId : comentarioCensId){
 			ids.append(ccId).append(",");

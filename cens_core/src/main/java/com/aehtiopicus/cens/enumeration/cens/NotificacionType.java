@@ -2,6 +2,5 @@ package com.aehtiopicus.cens.enumeration.cens;
 
 public enum NotificacionType {
 	COMENTARIO, 
-	ACTIVIDAD_PROGRAMA, 
-	ACTIVIDAD_CARTILLA;
+	ACTIVIDAD;
 }

@@ -26,6 +26,7 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 	private static final int threadSize = 20;
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmailCensSchedulerJob.class);
+	
 	@Override
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
