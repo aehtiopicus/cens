@@ -4,7 +4,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-
+<script>
+var pagePath="<%=request.getContextPath()%>";
+</script>
 <div id="encabezado">
 	
 		<div class="logo">
@@ -15,7 +17,8 @@
 		</div>
 		<div >
 			<div>
-				<span><security:authentication property="name"></security:authentication></span>
+				<span id="headerUsername"><security:authentication property="name"></security:authentication></span>
+				<jsp:include page="notificacion.jsp"/>
 				<a class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
 			</div>
 			

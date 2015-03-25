@@ -78,5 +78,6 @@ public class UrlConstant {
 	public static final String NOTIFICACION_USUARIO_REST = API+"notificacion";
 	public static final String NOTIFICACION_USUARIO_MIEMBRO_REST = API+"notificacion/miembro/{miembroId}";
 	public static final String NOTIFICACION_NO_LEIDAS_MIEMBRO_REST = API+"notificacion/miembro/{miembroId}/asesor";
+	public static final String NOTIFICACION_MVC_URL = MVC+"notificacionData";
 		
 }
