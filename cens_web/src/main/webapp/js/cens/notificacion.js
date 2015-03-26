@@ -22,18 +22,47 @@ jQuery(document).ready(function () {
 			}
 		});
 	}
+	
+	$('#headerUsername').on("click",openDialog);
+	
+	$('#closeButton').on("click",function(){
+		var lsData = new localstorage.ls.notificacionData();
+		lsData.remove();				
+		var ls = new localstorage.ls.notificacion(JSON.parse(lsData.getNotificacion()).item);
+		ls.remove();
+	});
+	
+	 $( "#notificacionDeUsuario" ).dialog({
+			autoOpen: false,
+			width: 400,
+			modal:true,
+			buttons: [
+				{
+					text: "Ok",
+					click: function() {						
+					}
+				},
+				{
+					text: "Cancelar",
+					click: function() {
+						$( this ).dialog( "close" );						
+					}
+				}
+			]
+		});
 		
 });
 
-function notificationLoder(){
-	alert(ls);
+function openDialog(){
+	loadNotificationInformation();
+	 $( "#notificacionDeUsuario" ).dialog("open");
 }
 
 function loadNotificationInformation(){
 	
 	var item = JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item;
 	item.notificacionLoader = notificacionLoader;
-	var ls = new localstorage.ls.notificacion(item);
+	var ls = new localstorage.ls.notificacion(item); 
 	if(ls.isRefreshRequired()){
 		ls.getNotificacionData();
 		setTimeout(loadNotificationInformation,1000);

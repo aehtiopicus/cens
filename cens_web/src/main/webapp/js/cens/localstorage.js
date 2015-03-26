@@ -79,7 +79,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 	}
 	this.clearNotificacion = function(){
 		if(!this.notificacionLoading){
-			localStorage.removeItem(this.notificacionItem);
+			this.remove();
 			this.notificacionLoader(this);//el call back tiene que ser en el success del ajax	
 			this.notificacionLoading = true;
 		}
@@ -94,6 +94,10 @@ localstorage.ls.notificacion.prototype.init = function(param){
 		}else{
 			return true;
 		}
+	}
+	
+	this.remove = function(){
+		localStorage.removeItem(this.notificacionItem);
 	}
 	
 	this.setNotificacion = function(ni){
@@ -119,9 +123,13 @@ localstorage.ls.notificacionData.prototype.init = function(param){
 			var date = new Date();
 			var diff = Math.ceil((date.getTime() -JSON.parse(data).date)/1000);
 			if(!this.notificacionExpired< diff){
-				localStorage.removeItem(this.notificacionItem);
+				this.remove();
 			}
 		}
+	}
+	
+	this.remove = function(){
+		localStorage.removeItem(this.notificacionItem);
 	}
 	
 	this.setNotificacion = function(ni){

@@ -19,7 +19,7 @@ var pagePath="<%=request.getContextPath()%>";
 			<div>
 				<span id="headerUsername"><security:authentication property="name"></security:authentication></span>
 				<jsp:include page="notificacion.jsp"/>
-				<a class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
+				<a id ="closeButton" class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
 			</div>
 			
 		</div>

@@ -5,23 +5,8 @@
 <script src="<%=request.getContextPath()%>/js/cens/notificacion.js"></script>
 <script src="<%=request.getContextPath()%>/js/cens/localstorage.js"></script>
 
-<div id="cambiarEstado" class="dialog" title="Confirmar">
-<p id="cambiarEstadoValue"></p>
+<div id="notificacionDeUsuario" class="dialog" title="Notificaciones">
 <fieldset style="width: auto;">				
-			<div class="passreset">
-				<div>
-					<label for="usuario.password">Contrase&ntilde;a Actual:</label>
-					<input type="password" id="passwordOld" placeholder = "Ingrese contrase&ntilde;a"/>					
-				</div>
-				<div>
-					<label for="usuario.password">Nueva Contrase&ntilde;a:</label>
-					<input type="password" id="password" placeholder = "Ingrese contrase&ntilde;a"/>					
-				</div>
-				
-				<div>
-					<label for="usuario.passwordConfirm">Confirmar Contrase&ntilde;a:</label>
-					<input type="password" id="passwordNewConfirm" placeholder ="Confirme contrase&ntilde;a"/>					 
-				</div>
-			</div>
+	<div id="notificacionDeUsuario"></div>			
 </fieldset>	
 </div>
