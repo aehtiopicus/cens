@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public abstract class AbstractNotificacionFeed {
@@ -39,6 +40,17 @@ public abstract class AbstractNotificacionFeed {
 	private Long daysAgo;
 	
 	private Long tipoId;
+	
+	private EstadoRevisionType estadoRevisionType;
+
+
+	public EstadoRevisionType getEstadoRevisionType() {
+		return estadoRevisionType;
+	}
+
+	public void setEstadoRevisionType(EstadoRevisionType estadoRevisionType) {
+		this.estadoRevisionType = estadoRevisionType;
+	}
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;

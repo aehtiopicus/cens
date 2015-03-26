@@ -122,6 +122,12 @@ public abstract class AbstractNotificacionItemDto {
 		} else if (!id.equals(other.id)) {
 			return false;
 		}
+		if (fechaCreado == null) {
+			if (other.fechaCreado != null)
+				return false;
+		} else if (!fechaCreado.equals(other.fechaCreado)){
+			return false;
+		}
 
 		
 		return true;

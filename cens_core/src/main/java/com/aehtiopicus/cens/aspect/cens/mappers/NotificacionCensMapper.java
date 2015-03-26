@@ -113,6 +113,7 @@ public class NotificacionCensMapper {
 				if(informationToRetrieve.containsKey(ctcik)){
 					ncf.setCantidad(count.get(ctcik));	
 					assembleMessageData(ncf, informationToRetrieve.get(ctcik));
+//					ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
 				}
 			}					
 		}

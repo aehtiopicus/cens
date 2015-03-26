@@ -50,11 +50,12 @@ localstorage.ls.notificacion.prototype.init = function(param){
 	this.notificacionLoader = param.notificacionLoader;
 	this.notificacionLoading = false;
 	this.miembroId = param.miembroId;
+	this.notificationRefreshRequired = false;
 	
 	this.getNotificacion = function(){
 		if(!this.notificacionLoading){
 			var data = localStorage.getItem(this.notificacionItem);
-			if(data){
+			if(data && !this.notificationRefreshRequired){
 				return data;
 			}else{
 				this.clearNotificacion();
@@ -90,7 +91,13 @@ localstorage.ls.notificacion.prototype.init = function(param){
 		if(data){
 			var date = new Date();
 			var diff = Math.ceil((date.getTime() -JSON.parse(data).date)/1000);
-			return this.notificacionExpired< diff;
+			if(this.notificacionExpired< diff){
+				this.notificationRefreshRequired = true;
+				return true;
+			}else{
+				return false;
+			}
+			
 		}else{
 			return true;
 		}
@@ -103,6 +110,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 	this.setNotificacion = function(ni){
 		localStorage.setItem(this.notificacionItem,'{"date":\"'+new Date().getTime()+'\","item":'+JSON.stringify(ni)+'}');
 		this.notificacionLoading = false;
+		this.notificationRefreshRequired = false;
 	}
 }
 

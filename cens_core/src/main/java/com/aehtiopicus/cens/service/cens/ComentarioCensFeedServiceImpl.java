@@ -98,7 +98,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			switch(ctik.getComentarioType()){		
 			case MATERIAL:
 				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
-						+ "cp.id as cpid, ca.id as caid, cc.id as ccid "
+						+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
 						+ ",cmm.nombre as cmmnombre, cmm.id as cmmid "
 						+ "FROM cens_material_didactico cmm  "
 						+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
@@ -108,7 +108,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 				break;
 			case PROGRAMA:
 				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
-						+ "cp.id as cpid, ca.id as caid, cc.id as ccid "
+						+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
 						+ "FROM cens_programa cp "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
@@ -130,11 +130,12 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			
 			resultMap.put(CensServiceConstant.COMENTARIO_CURSO_YEAR, result[3].toString());
 			
+			resultMap.put(CensServiceConstant.ESTADO_REVISION, result[7].toString());
 			
 														
-			if(result.length==9){	
-				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[7].toString());
-				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[8].toString());
+			if(result.length==10){	
+				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[8].toString());
+				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[9].toString());
 			}
 			return resultMap;
 		}catch(Exception e){
