@@ -3,9 +3,10 @@ jQuery(document).ready(function () {
 	
 	
 	var data = new localstorage.ls.notificacionData();
+	data.removeIfNeeded();
 	if(!data.getNotificacion()){
 		$.ajax({
-			url: pagePath+"/mvc/notificacionData",
+			url: pagePath+"/api/notificacion/miembro",
 			type: "GET",	    	    
 			contentType :'application/json',
 			dataType: "json",    
@@ -47,7 +48,7 @@ function notificacionLoader(callback){
 	
 	
 	$.ajax({
-		url: pagePath+"/mvc/notificacionData",
+		url: pagePath+"/api/notificacion/miembro/"+callback.miembroId,
 		type: "GET",	    	    
 		contentType :'application/json',
 		dataType: "json",    

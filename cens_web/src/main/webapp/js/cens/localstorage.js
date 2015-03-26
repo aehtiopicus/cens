@@ -49,6 +49,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 	this.notificacionExpired = param.expireSec;
 	this.notificacionLoader = param.notificacionLoader;
 	this.notificacionLoading = false;
+	this.miembroId = param.miembroId;
 	
 	this.getNotificacion = function(){
 		if(!this.notificacionLoading){
@@ -88,7 +89,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 		var data = this.getNotificacion();
 		if(data){
 			var date = new Date();
-			var diff = Math.ceil((date.getTime() -JSON.parse(this.getNotificacion()).date)/1000);
+			var diff = Math.ceil((date.getTime() -JSON.parse(data).date)/1000);
 			return this.notificacionExpired< diff;
 		}else{
 			return true;
@@ -105,9 +106,22 @@ localstorage.ls.notificacion.prototype.init = function(param){
 localstorage.ls.notificacionData = localstorage.makeClass();
 localstorage.ls.notificacionData.prototype.init = function(param){
 	this.notificacionItem ="notificationData";
+	this.notificacionExpired = 15;
 	
 	this.getNotificacion = function(){
-		return localStorage.getItem(this.notificacionItem);			
+		return localStorage.getItem(this.notificacionItem);
+			
+	}
+	
+	this.removeIfNeeded = function(){
+		var data = this.getNotificacion();
+		if(data){
+			var date = new Date();
+			var diff = Math.ceil((date.getTime() -JSON.parse(data).date)/1000);
+			if(!this.notificacionExpired< diff){
+				localStorage.removeItem(this.notificacionItem);
+			}
+		}
 	}
 	
 	this.setNotificacion = function(ni){

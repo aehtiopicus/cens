@@ -4,6 +4,9 @@ public class NotificacionConfigDto {
 
 	private int expireSec;
 	private String user;
+	private Long miembroId;
+	
+	
 	public int getExpireSec() {
 		return expireSec;
 	}
@@ -16,6 +19,13 @@ public class NotificacionConfigDto {
 	public void setUser(String user) {
 		this.user = user;
 	}
+	public Long getMiembroId() {
+		return miembroId;
+	}
+	public void setMiembroId(Long miembroId) {
+		this.miembroId = miembroId;
+	}
+	
 	
 	
 }

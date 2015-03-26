@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.aspect.cens.mappers.NotificacionCensMapper;
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
+import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Notificacion;
 import com.aehtiopicus.cens.domain.entities.NotificacionCambioEstadoFeed;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
@@ -212,5 +213,12 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 				throw new CensException("El usuario no puede realizar esta petici&oacute;n");
 			}
 		
+	}
+
+
+
+	@Override
+	public MiembroCens getMiembroByUsername(String user) {
+		return miembroCensService.getMiembroCensByUsername(user);
 	}
 }

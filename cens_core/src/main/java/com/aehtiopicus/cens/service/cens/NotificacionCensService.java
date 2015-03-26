@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
+import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Notificacion;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.utils.CensException;
@@ -30,5 +31,7 @@ public interface NotificacionCensService {
 
 	public Notificacion getNotificacionesUnReadForUser(Long miembroId)
 			throws CensException;
+
+	public MiembroCens getMiembroByUsername(String user);
 
 }
