@@ -99,7 +99,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			case MATERIAL:
 				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
 						+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
-						+ ",cmm.nombre as cmmnombre, cmm.id as cmmid "
+						+ ",cmm.nombre as cmmnombre, cmm.id as cmmid, cmm.nro as nro "
 						+ "FROM cens_material_didactico cmm  "
 						+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
@@ -133,9 +133,10 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			resultMap.put(CensServiceConstant.ESTADO_REVISION, result[7].toString());
 			
 														
-			if(result.length==10){	
+			if(result.length==11){	
 				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[8].toString());
 				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[9].toString());
+				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_NRO, result[10].toString());
 			}
 			return resultMap;
 		}catch(Exception e){

@@ -126,6 +126,9 @@ public class NotificacionCensControllerMapper {
 						mDto.setId(Long.valueOf(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL_ID)));
 						mDto.setNombre(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL));						
 						setSpecificNotificationData(mDto,comentarioData);
+						mDto.setNro(Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL_NRO).toString()));
+							
+						
 						
 						if(!pDto.getMaterial().contains(mDto)){
 							pDto.getMaterial().add(mDto);

@@ -10,11 +10,11 @@ public abstract class AbstractNotificacionItemDto {
 
 	private String fechaNotificado;
 
-	private int cantidadComnetarios;
+	private Integer cantidadComnetarios;
 
-	private boolean notificado;
+	private Boolean notificado;
 
-	private int diasNotificado;
+	private Integer diasNotificado;
 	
 	private String estadoRevision;
 
@@ -88,8 +88,12 @@ public abstract class AbstractNotificacionItemDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + cantidadComnetarios;
-		result = prime * result + diasNotificado;
+		result = prime
+				* result
+				+ ((cantidadComnetarios == null) ? 0 : cantidadComnetarios
+						.hashCode());
+		result = prime * result
+				+ ((diasNotificado == null) ? 0 : diasNotificado.hashCode());
 		result = prime * result
 				+ ((estadoRevision == null) ? 0 : estadoRevision.hashCode());
 		result = prime * result
@@ -98,7 +102,8 @@ public abstract class AbstractNotificacionItemDto {
 				+ ((fechaNotificado == null) ? 0 : fechaNotificado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + (notificado ? 1231 : 1237);
+		result = prime * result
+				+ ((notificado == null) ? 0 : notificado.hashCode());
 		return result;
 	}
 
@@ -132,6 +137,10 @@ public abstract class AbstractNotificacionItemDto {
 		
 		return true;
 	}
+
+
+
+	
 
 
 }

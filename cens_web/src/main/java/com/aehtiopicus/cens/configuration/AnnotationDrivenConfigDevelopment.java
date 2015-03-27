@@ -20,12 +20,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.aehtiopicus.cens.controller.cens.mvc.AbstractControllerInterceptor;
 import com.aehtiopicus.cens.util.Utils;
+import com.aehtiopicus.profiles.Development;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.aehtiopicus.cens")
 @ImportResource("classpath:/cens-properties.xml")
 @Import({ SpringSecurityConfig.class })
+@Development
 public class AnnotationDrivenConfigDevelopment extends WebMvcConfigurerAdapter {
 
 	@Override
