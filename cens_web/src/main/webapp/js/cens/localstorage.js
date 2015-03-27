@@ -99,6 +99,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 			}
 			
 		}else{
+			this.notificationRefreshRequired = true;
 			return true;
 		}
 	}

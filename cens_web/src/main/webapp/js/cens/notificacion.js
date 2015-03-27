@@ -54,14 +54,14 @@ jQuery(document).ready(function () {
 });
 
 function openDialog(){
-	var data = loadNotificationInformation();
-	processData(data);
-	 $( "#notificacionDeUsuario" ).dialog("open");
+	var data = loadNotificationInformation(processData);		 		
+	 
 }
 
 function processData(data){
 	
-	estadoActividad(data.item.actividad,data.item.perfilRol);
+	estadoActividad(data.actividad,data.perfilRol);
+	$( "#notificacionDeUsuario" ).dialog("open");
 }
 
 function estadoActividad(actividad,perfil){
@@ -85,7 +85,7 @@ function asignatura(curso,asiganturas){
 	
 }
 
-function loadNotificationInformation(){
+function loadNotificationInformation(processData){
 	
 	var item = JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item;
 	item.notificacionLoader = notificacionLoader;
@@ -94,10 +94,14 @@ function loadNotificationInformation(){
 	}
 	if(ls.isRefreshRequired()){
 		ls.getNotificacionData();
-		setTimeout(loadNotificationInformation,1000);
+		setTimeout(loadNotificationInformation,1000,processData);
 		
 	}else{
-		return ls.getNotificacionData();
+		if( typeof processData === 'function'){
+			processData(ls.getNotificacionData());
+		}else{
+			return ls.getNotificacionData();
+		}
 	}
 	
 }
