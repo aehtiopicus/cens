@@ -2,6 +2,8 @@ package com.aehtiopicus.cens.controller.cens;
 
 import java.security.Principal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import com.aehtiopicus.cens.utils.CensException;
 @Controller
 public class NotificacionCensRestController extends AbstractRestController{
 	
+	private static final Logger logger = LoggerFactory.getLogger(NotificacionCensRestController.class);
     private static final String NOTIFICATION_CHECK_SEC = "#{censProperties['notificacion_check_sec']}";
     
     @Value(NOTIFICATION_CHECK_SEC)
@@ -38,12 +41,14 @@ public class NotificacionCensRestController extends AbstractRestController{
 	@RequestMapping(value=UrlConstant.NOTIFICACION_USUARIO_MIEMBRO_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody NotificacionDto getNotificacioneForUser(@PathVariable(value="miembroId") Long miembroId) throws CensException{
 		NotificacionDto nDto = notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesForUser(miembroId));
+		logger.info("Getting notificacion data");
 		return nDto;		
 	}
 	
 	@Secured("ROLE_ASESOR")
 	@RequestMapping(value=UrlConstant.NOTIFICACION_NO_LEIDAS_MIEMBRO_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody NotificacionDto getNotificacioneNoLeidas(@PathVariable(value="miembroId") Long miembroId) throws CensException{
+		logger.info("Getting notificacion data for a asesor");
 		return notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesUnReadForUser(miembroId));
 	
 	}

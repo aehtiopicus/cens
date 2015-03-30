@@ -44,6 +44,7 @@ var localstorage = {
 
 localstorage.namespace("ls");
 localstorage.ls.notificacion = localstorage.makeClass();
+
 localstorage.ls.notificacion.prototype.init = function(param){
 	this.notificacionItem ="user"+param.user;
 	this.notificacionExpired = param.expireSec;
@@ -108,6 +109,13 @@ localstorage.ls.notificacion.prototype.init = function(param){
 		localStorage.removeItem(this.notificacionItem);
 	}
 	
+	this.setRemoveTimeTo = function(sec){
+		var nData = this.getNotificacion();
+		this.remove();
+		
+		localStorage.setItem(this.notificacionItem,'{"date":\"'+(new Date().getTime()-(1000*this.notificacionExpired)+(1000*sec))+'\","item":'+JSON.stringify(JSON.parse(nData).item)+'}');
+	}
+	
 	this.setNotificacion = function(ni){
 		localStorage.setItem(this.notificacionItem,'{"date":\"'+new Date().getTime()+'\","item":'+JSON.stringify(ni)+'}');
 		this.notificacionLoading = false;
@@ -119,7 +127,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 localstorage.ls.notificacionData = localstorage.makeClass();
 localstorage.ls.notificacionData.prototype.init = function(param){
 	this.notificacionItem ="notificationData";
-	this.notificacionExpired = 15;
+	this.notificacionExpired = 120;
 	
 	this.getNotificacion = function(){
 		return localStorage.getItem(this.notificacionItem);

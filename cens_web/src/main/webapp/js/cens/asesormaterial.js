@@ -75,6 +75,7 @@ jQuery(document).ready(function () {
 
     $('#accordion').comment({
        title: 'Comentarios',
+       update_notification: true,
        url_get: pagePath+'/api/comentario/comments/list',
        url_input: pagePath+'/api/comentario/comments/list',
        url_delete: pagePath+'/api/comentario/comments/list',

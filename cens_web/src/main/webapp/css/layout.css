@@ -1008,6 +1008,36 @@ margin-left: 4%;
 .censaccordion .portletLine{
 	margin: 15px 15px 10px 40px;
 }
+
+.notificacion .vinculos{
+	
+  
+  margin-left: 3px;
+  text-decoration: none;
+  line-height: 23px;
+}
+
+.notificacion .curso-asignatura{
+	text-align: left;
+}
+
+.notificacion .curso-asignatura .programa{
+	text-align: left;
+}
+
+.notificacion .curso-asignatura .material{
+	text-align: left;
+}
+
+.notificacion .header{
+	color: rgb(0, 85, 119);
+  display: block;
+  font-family: cursive;
+  font-size: 20px;  
+  font-style: normal;
+  font-weight: bold
+}
+
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;
@@ -1087,4 +1117,6 @@ top: 30%;
 left: 42%;
 }
 }
+
+
 

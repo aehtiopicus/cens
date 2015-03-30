@@ -51,10 +51,10 @@
     	
     		<div class="menuPanel" id="menuPanel">
     			<!-- INSERTAR MENU.JSP -->
-    			<sec:authorize ifAnyGranted="ROLE_ADMINISTRADOR,ROLE_ASESOR">
+    			<sec:authorize access="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_ASESOR')">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
 				</sec:authorize>
-    			<sec:authorize ifAllGranted="ROLE_PROFESOR" ifNotGranted="ROLE_ASESOR">
+    			<sec:authorize access="hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ASESOR')">
 	    			<jsp:include page="includes/profesor_menu.jsp"></jsp:include>
 				</sec:authorize>
 <%--     			<sec:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION"> --%>

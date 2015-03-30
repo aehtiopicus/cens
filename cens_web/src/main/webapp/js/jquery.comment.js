@@ -436,6 +436,10 @@ if ( typeof Object.create !== 'function' ) {
 					if ( self.options.refresh && self.options.auto_refresh ) {
 						self.refresh_();
 					}
+					if(self.options.update_notification){
+						ls.setRemoveTimeTo(0);
+						loadNotificationInformation();//call notification api
+					}
 				});
 			}, length || self.options.refresh );
 		},
@@ -952,6 +956,7 @@ if ( typeof Object.create !== 'function' ) {
 	// options
 	$.fn.comment.options = {
 		title: 'Notes',
+		update_notification : false,
 		url_get: '#',
 		url_input: '#',
 		url_delete: '#',

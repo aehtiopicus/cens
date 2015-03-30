@@ -15,8 +15,8 @@ jQuery(document).ready(function () {
 				loadNotificationInformation();
 				
 			},
-			error: function(value){
-			
+			error: function(value,xhr){
+				
 				alert("Se produjo un error el servidor");
 
 			}
@@ -34,16 +34,13 @@ jQuery(document).ready(function () {
 	
 	 $( "#notificacionDeUsuario" ).dialog({
 			autoOpen: false,
-			width: 400,
+			width: 640,
+						
+			maxHeight: $(window).height(),
 			modal:true,
 			buttons: [
 				{
-					text: "Ok",
-					click: function() {						
-					}
-				},
-				{
-					text: "Cancelar",
+					text: "Cerrar",
 					click: function() {
 						$( this ).dialog( "close" );						
 					}
@@ -60,37 +57,46 @@ function openDialog(){
 }
 
 function processData(data){
-	var notificaciones = $('<div></div>');
-	if(data.actividad){
-		notificaciones.append(estadoActividad(data.actividad,data.perfilRol));
+	var notificaciones = $('<div class="notificacion"></div>');
+	if(data.actividiad || data.comentario){
+		if(data.actividad){
+			notificaciones.append(estadoActividad(data.actividad,data.perfilRol));
+		}
+		if(data.comentario){
+			notificaciones.append(comentario(data.comentario,data.perfilRol));
+		}
+	}else{
+		var title = $('<h3 class="header"></h3>');	
+		title.html("No se registran notificaciones");
+		var noData = $('<div></div>');	
+		noData.append(title);
+		notificaciones.append(noData);
 	}
-	if(data.comentario){
-		notificaciones.append(comentario(data.comentario,data.perfilRol));
-	}
+	$('#notificacionDeUsuario').html("");
 	$('#notificacionDeUsuario').append(notificaciones);
 	$( "#notificacionDeUsuario" ).dialog("open");
 }
 
 function estadoActividad(actividad,perfil){
-	var title = $('<h3></h3>');	
+	var title = $('<h3 class="header"></h3>');	
 	title.html("Estado de Actividad");
 	var estadoActividad = $('<div></div>');	
 	estadoActividad.append(title);
-	estadoActividad.append(curso(actividad.curso,perfil,true));
+	estadoActividad.append(crearCurso(actividad.curso,perfil,true));
 	return estadoActividad;
 }
 
 function comentario(comentario,perfil){
-	var title = $('<h3 ></h3>');	
+	var title = $('<h3 class="header"></h3>');	
 	title.html("Comenterarios realizados");
 	var comentarios = $('<div></div>');
 	comentarios.append(title);
 	
-	comentarios.append(curso(comentario.curso,perfil,false));
+	comentarios.append(crearCurso(comentario.curso,perfil,false));
 	return comentarios;
 }
 
-function curso(cursos,perfil,actividad){
+function crearCurso(cursos,perfil,actividad){
 
 		
 	var cursosDiv = $('<div></div>');	
@@ -100,11 +106,11 @@ function curso(cursos,perfil,actividad){
 		
 		itemCursoDiv=$('<div></div>');
 		itemCursotitle = $('<h3 class="subtitulo"></h3>');	
-		itemCursotitle.html("Curso "+curso.nombre.toUpperCase());
+		
 		itemCursoDiv.append(itemCursotitle);
 		
 		$.each(curso.asignatura,function(index,a){
-			itemCursoDiv.append(asignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
+			itemCursoDiv.append(crearAsignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
 		});
 		
 		cursosDiv.append(itemCursoDiv);
@@ -113,19 +119,19 @@ function curso(cursos,perfil,actividad){
 	return cursosDiv;
 }
 
-function asignatura(curso,asiganturas,asesor,perfilId,actividad){
+function crearAsignatura(curso,asiganturas,asesor,perfilId,actividad){
 
 		
 		var linksPrograma = [];
 		var linksMaterial = [];
 		$.each(asiganturas.programa, function(index,p){
-			var pLink = programa(p,curso,asignatura,asesor,perfilId,actividad);
+			var pLink = crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
 			if(pLink){
 				linksPrograma.push(pLink);
 			}
 			if(typeof p.material !== "undefined"){
 				$.each(p.material,function(index,m){
-					linksMaterial.push(material(m,p,curso,asignatura,asesor,perfilId,actividad));
+					linksMaterial.push(crearMaterial(m,p,curso,asiganturas,asesor,perfilId,actividad));
 				})
 			}
 				
@@ -133,8 +139,10 @@ function asignatura(curso,asiganturas,asesor,perfilId,actividad){
 		})
 		
 		itemAsignaturaDiv=$('<div></div>');
-		itemAsignaturatitle = $('<h3 class="subtitulo"></h3>');	
-		itemAsignaturatitle.html("Asignatura "+asiganturas.nombre.toUpperCase());
+		itemHr= $('<hr/>')
+		
+		itemAsignaturatitle = $('<h3 class="subtitulo curso-asignatura"></h3>');	
+		itemAsignaturatitle.html("Curso "+curso.nombre.toUpperCase()+", Asignatura "+asiganturas.nombre.toUpperCase());
 		itemAsignaturaDiv.append(itemAsignaturatitle);
 		
 		if(linksPrograma.length>0){
@@ -144,6 +152,7 @@ function asignatura(curso,asiganturas,asesor,perfilId,actividad){
 		if(linksMaterial.length>0){
 			itemAsignaturaDiv.append(resourceItem(linksMaterial,false));
 		}
+		itemAsignaturaDiv.append(itemHr);
 
 	
 
@@ -153,7 +162,7 @@ function asignatura(curso,asiganturas,asesor,perfilId,actividad){
 
 function resourceItem(linksPrograma,programa,actividad){
 	itemAsignaturaProgramaDiv=$('<div></div>');
-	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo"></h3>');
+	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo curso-asignatura '+ (programa ? 'programa' : 'material')+'"></h3>');
 	itemAsignaturaProrgamaTitle.html(programa ? "Programa" : "Material");
 	
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProrgamaTitle);
@@ -163,8 +172,8 @@ function resourceItem(linksPrograma,programa,actividad){
 	$.each(linksPrograma,function(index,link){
 		itemProgramaLi = $('<li></li>');
 		
-		itemPrograma = $('<a></a>');
-		itemPrograma.attr("href",link.url);
+		itemPrograma = $('<a class="vinculos"></a>');
+		itemPrograma.attr("href",link.url);		
 		itemProgramaName=$('<span></span>');
 		estado = actividad ? (" Estado: "+link.actividad) : '';
 		itemProgramaName.html(link.nombre.toUpperCase()+", Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
@@ -180,7 +189,7 @@ function resourceItem(linksPrograma,programa,actividad){
 	return itemAsignaturaProgramaDiv;
 }
 
-function programa(programa,curso,asignatura,asesor,perfilId,actividad){
+function crearPrograma(programa,curso,asignatura,asesor,perfilId,actividad){
 	if(typeof programa.fechaCreado !== "undefined"){
 		var p = new Object();
 		p.fechaCreado = programa.fechaCreado;
@@ -202,7 +211,7 @@ function programa(programa,curso,asignatura,asesor,perfilId,actividad){
 	return null;
 }
 
-function material(material,programa,curso,asignatura,asesor,perfilId,actividad){
+function crearMaterial(material,programa,curso,asignatura,asesor,perfilId,actividad){
 
 	var p = new Object();
 	p.fechaCreado = material.fechaCreado;
@@ -213,9 +222,9 @@ function material(material,programa,curso,asignatura,asesor,perfilId,actividad){
 		p.actividad=material.estadoRevision;
 	}
 	if(asesor){			
-		p.url = pagePath+"/mvc/asesor/"+perfilId+"/asignatura/"+asignatura.id+"/programa/"+programa.id+"/material/"+material.id+"?asignatura="+asignatura.nombre+" ("+curso.nombre.replace("(","- ").replace(",","").replace(")","")+")&nro"+material.nro+"&estado="+material.estadoRevision;			
+		p.url = pagePath+"/mvc/asesor/"+perfilId+"/asignatura/"+asignatura.id+"/programa/"+programa.id+"/material/"+material.id+"?asignatura="+asignatura.nombre+" ("+curso.nombre.replace("(","- ").replace(",","").replace(")","")+")&nro="+material.nro+"&estado="+material.estadoRevision;			
 	}else{
-		p.url = pagePath+"/mvc/programa/"+programa.id+"/materialABM/"+material.id+"?asignatura="+asignatura.nombre+" ("+curso.nombre.replace("(","- ").replace(",","").replace(")","")+")&nro"+material.nro;
+		p.url = pagePath+"/mvc/programa/"+programa.id+"/materialABM/"+material.id+"?asignatura="+asignatura.nombre+" ("+curso.nombre.replace("(","- ").replace(",","").replace(")","")+")&nro="+material.nro;
 		if(material.estadoRevision === "NUEVO" || material.estadoRevision ==="LISTO" || material.estadoRevision ==="CAMBIOS" || material.estadoRevision ==="RECHAZADO"){
 			p.url = p.url+"&disabled=true";
 		}
@@ -225,22 +234,26 @@ function material(material,programa,curso,asignatura,asesor,perfilId,actividad){
 }
 
 function loadNotificationInformation(processData){
-	
-	var item = JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item;
-	item.notificacionLoader = notificacionLoader;
-	if(!ls){
-		ls = new localstorage.ls.notificacion(item);
-	}
-	if(ls.isRefreshRequired()){
-		ls.getNotificacionData();
-		setTimeout(loadNotificationInformation,1000,processData);
-		
-	}else{
-		if( typeof processData === 'function'){
-			processData(ls.getNotificacionData());
-		}else{
-			return ls.getNotificacionData();
+	var lsData = new localstorage.ls.notificacionData().getNotificacion();
+	if(lsData){
+		var item = JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item;
+		item.notificacionLoader = notificacionLoader;
+		if(!ls){
+			ls = new localstorage.ls.notificacion(item);
 		}
+		if(ls.isRefreshRequired()){
+			ls.getNotificacionData();
+			setTimeout(loadNotificationInformation,1000,processData);
+		
+		}else{
+			if( typeof processData === 'function'){
+				processData(ls.getNotificacionData());
+			}else{
+				return ls.getNotificacionData();
+			}
+		}
+	}else{
+		location.href = location.href;
 	}
 	
 }
@@ -256,7 +269,10 @@ function notificacionLoader(callback){
 		success : function(result){
 			callback.setNotificacion(result);			
 		},
-		error: function(value){			
+		error: function(value,xhr){
+			if(xhr === "error"){
+				location.href = location.href;
+			}
 			alert("Se produjo un error el servidor");
 			return "error";
 
