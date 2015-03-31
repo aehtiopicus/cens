@@ -11,7 +11,8 @@ jQuery(document).ready(function () {
 			contentType :'application/json',
 			dataType: "json",    
 			success : function(result){
-				data.setNotificacion(result);
+				data.setNotificacion(result);				
+				$('#currentImg').attr("src",pagePath+"/api/usuario/"+result.userId+"/picture");//fix me
 				loadNotificationInformation();
 				
 			},
