@@ -35,7 +35,8 @@
         <script src="<%=request.getContextPath() %>/js/jquery.inputmask.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
         
-        <script src="<%=request.getContextPath() %>/js/cens/layout/mainlayout.js" type="text/javascript"></script>  
+        <script src="<%=request.getContextPath() %>/js/cens/layout/mainlayout.js" type="text/javascript"></script>
+        <script src="<%=request.getContextPath() %>/js/notify.js" type="text/javascript"></script>    
 		<script>
 		var mainPagePath ="<%=request.getContextPath() %>";
 		</script>

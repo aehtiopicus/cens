@@ -13,6 +13,7 @@ jQuery(document).ready(function () {
 			success : function(result){
 				data.setNotificacion(result);				
 				$('#headerImg').attr("src",pagePath+"/api/usuario/"+result.userId+"/picture");//fix me
+				$('#headerImg').css("width","40px");
 				loadNotificationInformation();
 				
 			},
