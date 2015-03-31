@@ -12,7 +12,7 @@ jQuery(document).ready(function () {
 			dataType: "json",    
 			success : function(result){
 				data.setNotificacion(result);				
-				$('#currentImg').attr("src",pagePath+"/api/usuario/"+result.userId+"/picture");//fix me
+				$('#headerImg').attr("src",pagePath+"/api/usuario/"+result.userId+"/picture");//fix me
 				loadNotificationInformation();
 				
 			},

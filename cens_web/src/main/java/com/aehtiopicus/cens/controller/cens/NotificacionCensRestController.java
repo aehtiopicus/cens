@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.dto.cens.NotificacionConfigDto;
 import com.aehtiopicus.cens.dto.cens.NotificacionDto;
 import com.aehtiopicus.cens.mapper.cens.NotificacionCensControllerMapper;
@@ -58,7 +59,9 @@ public class NotificacionCensRestController extends AbstractRestController{
 	    	NotificacionConfigDto ncDto = new NotificacionConfigDto();
 	    	ncDto.setUser(principal.getName());
 	    	ncDto.setExpireSec(notificationSecCheck);
-	    	ncDto.setMiembroId(notificacionCensService.getMiembroByUsername(ncDto.getUser()).getId());
+	    	MiembroCens mc = notificacionCensService.getMiembroByUsername(ncDto.getUser());
+	    	ncDto.setMiembroId(mc.getId());
+	    	ncDto.setUserId(mc.getUsuario().getId());
 	    	return ncDto;
 	    }
 }

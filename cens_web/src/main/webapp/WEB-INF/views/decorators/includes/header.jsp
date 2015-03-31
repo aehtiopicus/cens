@@ -17,7 +17,7 @@ var pagePath="<%=request.getContextPath()%>";
 		</div>
 		<div >
 			<div>
-				<img id="currentImg"  class="avatarimg" width="30%">
+				<img id="headerImg"  class="avatarimg" width="30%">
 				<span id="headerUsername"><security:authentication property="name"></security:authentication></span>
 				<jsp:include page="notificacion.jsp"/>
 				<a id ="closeButton" class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
