@@ -1,7 +1,5 @@
 package com.aehtiopicus.cens.controller.cens;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
@@ -104,6 +102,11 @@ public class UsuarioCensRestController extends AbstractRestController{
 			usuarioCensService.getAvatar(user.getFileInfo().getFileLocationPath()+user.getFileInfo().getRealFileName(),baos);
 			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
 			response.setHeader("Content-Disposition", "attachment; filename="+user.getFileInfo().getFileName());
+		}else{
+			OutputStream baos = response.getOutputStream();
+			usuarioCensService.getDefaultAvatar(baos);
+			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+			response.setHeader("Content-Disposition", "attachment; filename=user_blank_picture.png");
 		}
 	}
 }

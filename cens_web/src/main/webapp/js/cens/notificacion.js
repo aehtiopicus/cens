@@ -84,9 +84,9 @@ $(document).bind("seguimientoEnabled",function(){
 }
 function openDialog(){
 	
-	loadSeguimiento();
+	
 	loadNotificationInformation(processNotificacionData);		 		
-	 
+	loadSeguimiento(); 
 }
 
 

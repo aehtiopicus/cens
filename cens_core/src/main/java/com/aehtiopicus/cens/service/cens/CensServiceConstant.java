@@ -52,5 +52,7 @@ public class CensServiceConstant {
 
 	public static final String COMENTARIO_MATERIAL_NRO = "Nro";		
 	
+	public static final String DEFAULT_IMG ="/css/midasUI-theme/images/user_blank_picture.png";
+	
 	
 }

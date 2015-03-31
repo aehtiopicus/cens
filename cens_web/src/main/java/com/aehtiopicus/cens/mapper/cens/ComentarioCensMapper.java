@@ -22,6 +22,7 @@ import com.aehtiopicus.cens.dto.cens.ComentarioDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioRequestDto;
 import com.aehtiopicus.cens.dto.cens.ComentarioUserDto;
 import com.aehtiopicus.cens.dto.cens.ComentariosDto;
+import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 
 @Component
 public class ComentarioCensMapper {
@@ -44,7 +45,7 @@ public class ComentarioCensMapper {
 		dto.setFullname(mc.getApellido().toUpperCase()+", "+mc.getNombre()+" ("+mc.getDni()+")");
 		dto.setUser_id(perfiledUserId);
 		if(usuario.getFileInfo()==null){
-			dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+			dto.setPicture(CensServiceConstant.DEFAULT_IMG);
 		}else{
 			dto.setPicture(UrlConstant.USUARIO_CENS_REST_PICTURE.replace("{id}", String.valueOf(usuario.getId())));
 		}
@@ -177,7 +178,7 @@ public class ComentarioCensMapper {
 			if(u.getFileInfo()!=null){
 				dto.setPicture(UrlConstant.USUARIO_CENS_REST_PICTURE.replace("{id}", String.valueOf(u.getId())));
 			}else{
-				dto.setPicture("/css/midasUI-theme/images/user_blank_picture.png");
+				dto.setPicture(CensServiceConstant.DEFAULT_IMG);
 			}
 			dto.setPosted_date(new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(cc.getFecha()));
 			dto.setText(cc.getComentario());

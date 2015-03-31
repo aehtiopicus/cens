@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,18 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 	@Override
 	public List<Object[]> getUsuarioAsesorActivoByUserName() {
 		return usuariosCensRepository.findAsesorActivos();
+	}
+
+	@Override
+	public void getDefaultAvatar(OutputStream baos) throws CensException {
+		try{
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();		
+			IOUtils.copy(cl.getResourceAsStream("../.."+CensServiceConstant.DEFAULT_IMG), baos);
+		}catch(Exception e){			
+			logger.info("Error al cargar la imagen");
+			throw new CensException(e);
+		}
+		
 	}
 	
 
