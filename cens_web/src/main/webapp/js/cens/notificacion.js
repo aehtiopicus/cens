@@ -37,7 +37,12 @@ jQuery(document).ready(function () {
 	 $( "#notificacionDeUsuario" ).dialog({
 			autoOpen: false,
 			width: 640,
-						
+			close : function(){
+				 
+				if($("#seguimientoActvidad").hasClass("ui-tabs-panel")){
+					$( "#tabs" ).tabs("destroy");
+				}
+			},			
 			maxHeight: $(window).height(),
 			modal:true,
 			buttons: [
@@ -49,6 +54,7 @@ jQuery(document).ready(function () {
 				}
 			]
 		});
+	 $("#notificacionDeUsuario").on("close",function(){alert("d");});
 		
 });
 function loadSeguimiento(){

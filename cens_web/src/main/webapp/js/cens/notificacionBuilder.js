@@ -1,23 +1,34 @@
 function processNotificacionData(data){
+	
+	if(data.perfilRol && data.perfilRol.perfilType == "ASESOR"){
+		$('#tabs ul').show();
+		$("#seguimientoActvidad").show();
+		 
+		 $( "#tabs" ).tabs();
+			
+		$(document).trigger("seguimientoEnabled");
+	}else{
+		$('#tabs ul').hide();
+		$("#seguimientoActvidad").hide();
+	}
+	
 	var notificaciones = $('<div class="notificacion"></div>');
 	if(data.actividiad || data.comentario){
+				
+		var notificacion = new Object();
+		notificacion.notificacion = true;
+		
+		var cnNotificacion = new censNotificaciones.cn.notificacion(notificacion);
+		
+		
 		if(data.actividad){
-			notificaciones.append(estadoActividad(data.actividad,data.perfilRol));
+			notificaciones.append(cnNotificacion.estadoActividad(data.actividad,data.perfilRol));
 		}
+		
 		if(data.comentario){
-			notificaciones.append(comentario(data.comentario,data.perfilRol));
+			notificaciones.append(cnNotificacion.comentario(data.comentario,data.perfilRol));
 		}
-		if(data.perfilRol && data.perfilRol.perfilType == "ASESOR"){
-			$('#tabs ul').show();
-			$("#seguimientoActvidad").show();
-			  $(function() {
-				    $( "#tabs" ).tabs({active: 0});
-				  });
-			$(document).trigger("seguimientoEnabled");
-		}else{
-			$('#tabs ul').hide();
-			$("#seguimientoActvidad").hide();
-		}
+	
 	}else{
 		var title = $('<h3 class="header"></h3>');	
 		title.html("No se registran notificaciones");
@@ -32,12 +43,18 @@ function processNotificacionData(data){
 
 function processSeguimientoData(data){
 	var notificaciones = $('<div class="notificacion"></div>');
+	
+	var notificacion = new Object();
+	notificacion.notificacion = false;
+	
+	var cnSeguimiento = new censNotificaciones.cn.notificacion(notificacion);
+	
 	if(data.actividiad || data.comentario){
 		if(data.actividad){
-			notificaciones.append(estadoActividad(data.actividad,data.perfilRol));
+			notificaciones.append(cnSeguimiento.estadoActividad(data.actividad,data.perfilRol));
 		}
 		if(data.comentario){
-			notificaciones.append(comentario(data.comentario,data.perfilRol));
+			notificaciones.append(cnSeguimiento.comentario(data.comentario,data.perfilRol));
 		}
 	}else{
 		var title = $('<h3 class="header"></h3>');	
@@ -51,31 +68,85 @@ function processSeguimientoData(data){
 }
 
 
+var censNotificaciones = {
+        
+	      
+	     namespace: function(ns) {
+	        var parts = ns.split("."),
+	            object = this,
+	            i, len;
 
-function estadoActividad(actividad,perfil){
+	        for (i=0, len=parts.length; i < len; i++) {
+	            if (!object[parts[i]]) {
+	                object[parts[i]] = {};
+	            }
+	            object = object[parts[i]];
+	        }
+	        return object;
+	    },
+
+	    makeClass: function(){
+	        return function(args){
+	            if ( this instanceof arguments.callee ) {
+	                if ( typeof this.init == "function" ){
+	                    this.init.apply( this, args != null && args.callee ? args : arguments );
+	                }
+	            } 
+	            else {
+	                return new arguments.callee( arguments );
+	            }
+	        };
+	    },
+
+	    makeRandomNamespace: function(ns){
+	        var randomNs = "";
+	        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	        for( var i=0; i < 20; i++ )
+	            randomNs += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	        if(ns != null){
+	            randomNs = ns+'.'+randomNs;
+	        }
+	        return image.namespace(randomNs);
+	    }
+};
+
+censNotificaciones.namespace("cn");
+censNotificaciones.cn.notificacion = censNotificaciones.makeClass();
+
+censNotificaciones.cn.notificacion.prototype.init = function(param){
+	if(param.notificacion){
+		this.notificacion = true;
+	}else{
+		this.seguimiento = true;
+	}
+	
+this.estadoActividad = function (actividad,perfil){
 	var title = $('<h3 class="header"></h3>');	
 	title.html("Estado de Actividad");
 	var estadoActividad = $('<div></div>');	
 	estadoActividad.append(title);
-	estadoActividad.append(crearCurso(actividad.curso,perfil,true));
+	estadoActividad.append(this.crearCurso(actividad.curso,perfil,true));
 	return estadoActividad;
-}
+	}
 
-function comentario(comentario,perfil){
+this.comentario = function(comentario,perfil){
 	var title = $('<h3 class="header"></h3>');	
 	title.html("Comenterarios realizados");
 	var comentarios = $('<div></div>');
 	comentarios.append(title);
 	
-	comentarios.append(crearCurso(comentario.curso,perfil,false));
+	comentarios.append(this.crearCurso(comentario.curso,perfil,false));
 	return comentarios;
 }
 
-function crearCurso(cursos,perfil,actividad){
+this.crearCurso = function(cursos,perfil,actividad){
 
 		
 	var cursosDiv = $('<div></div>');	
 	
+	var self = this;
 	
 	$.each(cursos,function(index,curso){
 		
@@ -85,7 +156,7 @@ function crearCurso(cursos,perfil,actividad){
 		itemCursoDiv.append(itemCursotitle);
 		
 		$.each(curso.asignatura,function(index,a){
-			itemCursoDiv.append(crearAsignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
+			itemCursoDiv.append(self.crearAsignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
 		});
 		
 		cursosDiv.append(itemCursoDiv);
@@ -94,48 +165,48 @@ function crearCurso(cursos,perfil,actividad){
 	return cursosDiv;
 }
 
-function crearAsignatura(curso,asiganturas,asesor,perfilId,actividad){
-
-		
-		var linksPrograma = [];
-		var linksMaterial = [];
-		$.each(asiganturas.programa, function(index,p){
-			var pLink = crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
-			if(pLink){
-				linksPrograma.push(pLink);
-			}
-			if(typeof p.material !== "undefined"){
-				$.each(p.material,function(index,m){
-					linksMaterial.push(crearMaterial(m,p,curso,asiganturas,asesor,perfilId,actividad));
-				})
-			}
-				
+this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
+	var self = this;
+	
+	var linksPrograma = [];
+	var linksMaterial = [];
+	$.each(asiganturas.programa, function(index,p){
+		var pLink = self.crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
+		if(pLink){
+			linksPrograma.push(pLink);
+		}
+		if(typeof p.material !== "undefined"){
+			$.each(p.material,function(index,m){
+				linksMaterial.push(self.crearMaterial(m,p,curso,asiganturas,asesor,perfilId,actividad));
+			})
+		}
 			
-		})
 		
-		itemAsignaturaDiv=$('<div></div>');
-		itemHr= $('<hr/>')
-		
-		itemAsignaturatitle = $('<h3 class="subtitulo curso-asignatura"></h3>');	
-		itemAsignaturatitle.html("Curso "+curso.nombre.toUpperCase()+", Asignatura "+asiganturas.nombre.toUpperCase());
-		itemAsignaturaDiv.append(itemAsignaturatitle);
-		
-		if(linksPrograma.length>0){
-			itemAsignaturaDiv.append(resourceItem(linksPrograma,true,actividad));
-		}
-		
-		if(linksMaterial.length>0){
-			itemAsignaturaDiv.append(resourceItem(linksMaterial,false));
-		}
-		itemAsignaturaDiv.append(itemHr);
-
+	})
 	
-
-	return itemAsignaturaDiv;
+	itemAsignaturaDiv=$('<div></div>');
+	itemHr= $('<hr/>')
 	
+	itemAsignaturatitle = $('<h3 class="subtitulo curso-asignatura"></h3>');	
+	itemAsignaturatitle.html("Curso "+curso.nombre.toUpperCase()+", Asignatura "+asiganturas.nombre.toUpperCase());
+	itemAsignaturaDiv.append(itemAsignaturatitle);
+	
+	if(linksPrograma.length>0){
+		itemAsignaturaDiv.append(self.resourceItem(linksPrograma,true,actividad));
+	}
+	
+	if(linksMaterial.length>0){
+		itemAsignaturaDiv.append(self.resourceItem(linksMaterial,false));
+	}
+	itemAsignaturaDiv.append(itemHr);
+
+
+
+return itemAsignaturaDiv;
+
 }
-
-function resourceItem(linksPrograma,programa,actividad){
+this.resourceItem = function(linksPrograma,programa,actividad){
+	var self = this;
 	itemAsignaturaProgramaDiv=$('<div></div>');
 	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo curso-asignatura '+ (programa ? 'programa' : 'material')+'"></h3>');
 	itemAsignaturaProrgamaTitle.html(programa ? "Programa" : "Material");
@@ -151,7 +222,15 @@ function resourceItem(linksPrograma,programa,actividad){
 		itemPrograma.attr("href",link.url);		
 		itemProgramaName=$('<span></span>');
 		estado = actividad ? (" Estado: "+link.actividad) : '';
-		itemProgramaName.html(link.nombre.toUpperCase()+", Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
+		if(link.seguimiento){
+			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
+			itemNotificado = $('<span style="color:red;"></span>')
+			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+")");
+			itemProgramaName.html(link.nombre.toUpperCase()+", Fecha de Notificaci&oacute;n: ");
+			itemProgramaName.append(itemNotificado);
+		}else{
+			itemProgramaName.html(link.nombre.toUpperCase()+", Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
+		}
 		itemPrograma.append(itemProgramaName);
 		
 		itemProgramaLi.append(itemPrograma);
@@ -164,12 +243,17 @@ function resourceItem(linksPrograma,programa,actividad){
 	return itemAsignaturaProgramaDiv;
 }
 
-function crearPrograma(programa,curso,asignatura,asesor,perfilId,actividad){
+this.crearPrograma = function(programa,curso,asignatura,asesor,perfilId,actividad){
 	if(typeof programa.fechaCreado !== "undefined"){
 		var p = new Object();
 		p.fechaCreado = programa.fechaCreado;
 		p.cantidadComnetarios = programa.cantidadComnetarios;
 		p.nombre = programa.nombre;
+		if(this.seguimiento){
+			p.fechaNotificado= programa.fechaNotificado;
+			p.diasNotificado = programa.diasNotificado;
+			p.seguimiento = true;
+		}
 		if(actividad){
 			p.actividad=programa.estadoRevision;
 		}
@@ -186,13 +270,18 @@ function crearPrograma(programa,curso,asignatura,asesor,perfilId,actividad){
 	return null;
 }
 
-function crearMaterial(material,programa,curso,asignatura,asesor,perfilId,actividad){
+this.crearMaterial = function(material,programa,curso,asignatura,asesor,perfilId,actividad){
 
 	var p = new Object();
 	p.fechaCreado = material.fechaCreado;
 	p.cantidadComnetarios = material.cantidadComnetarios;
 	p.nombre = material.nombre;
 	p.estado = material.estadoRevision;
+	if(this.seguimiento){
+		p.fechaNotificado= material.fechaNotificado;
+		p.diasNotificado = material.diasNotificado;
+		p.seguimiento = true;
+	}
 	if(actividad){
 		p.actividad=material.estadoRevision;
 	}
@@ -207,3 +296,4 @@ function crearMaterial(material,programa,curso,asignatura,asesor,perfilId,activi
 	return p;
 	
 }
+}	
