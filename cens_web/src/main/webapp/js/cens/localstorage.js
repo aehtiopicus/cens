@@ -139,7 +139,7 @@ localstorage.ls.notificacionData.prototype.init = function(param){
 		if(data){
 			var date = new Date();
 			var diff = Math.ceil((date.getTime() -JSON.parse(data).date)/1000);
-			if(!this.notificacionExpired< diff){
+			if(this.notificacionExpired< diff){
 				this.remove();
 			}
 		}

@@ -11,11 +11,9 @@ jQuery(document).ready(function () {
 			contentType :'application/json',
 			dataType: "json",    
 			success : function(result){
-				data.setNotificacion(result);				
-				$('#headerImg').attr("src",pagePath+"/api/usuario/"+result.userId+"/picture");//fix me
-				$('#headerImg').css("width","40px");
+				data.setNotificacion(result);												
 				loadNotificationInformation();
-				
+				$(document).trigger("userImg");
 			},
 			error: function(value,xhr){
 				
@@ -23,6 +21,8 @@ jQuery(document).ready(function () {
 
 			}
 		});
+	}else{
+		$(document).trigger("userImg");
 	}
 	
 	$('#headerUsername').on("click",openDialog);

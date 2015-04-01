@@ -1,12 +1,20 @@
 package com.aehtiopicus.cens.controller.cens;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.RestTemplate;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.MiembroCensValidator;
@@ -107,6 +116,24 @@ public class MiembroCensRestController extends AbstractRestController{
 		dto.setId(miembroId);
 		dto.setMessage("Miembro Eliminado");
 		return dto;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping( value = UrlConstant.MIEMBRO_CENS_REST_PICTURE, method = RequestMethod.GET )
+	public void getPicturePreview( @PathVariable(value="id")Long miembroId,HttpServletRequest request,HttpServletResponse response ) throws Exception{
+		RestTemplate rs = new RestTemplate();
+		String url = null;
+		if(request.getServerPort()!= 0){
+			url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+		}else{
+			url = request.getScheme()+"://"+request.getServerName()+"/"+request.getContextPath();
+		}
+		 url = url+UrlConstant.USUARIO_CENS_REST_PICTURE.replace("{id}",""+ miembroCensService.getMiembroCens(miembroId).getUsuario().getId());
+
+		ClientHttpRequest chr = rs.getRequestFactory().createRequest(new URI(url),HttpMethod.GET);
+		
+		IOUtils.copy(chr.execute().getBody(),response.getOutputStream());
+		
 	}
 	
 }

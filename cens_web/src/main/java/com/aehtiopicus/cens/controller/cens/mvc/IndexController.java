@@ -39,13 +39,14 @@ public class IndexController extends AbstractController{
 	}
     
     @RequestMapping(value = {UrlConstant.MAIN_URL}, method = RequestMethod.GET)
-    public ModelAndView start(Locale locale, Model model, Principal principal) {
+    public ModelAndView start(Locale locale, Model model, Principal principal) throws Exception {
         logger.info("Configuracion correcta.");
         
 		PerfilRol higher = getUserInfo();
 		HomePageType hpt = HomePageType.getHomePageTypeByRol(higher.getPerfilType());
 		ModelAndView mav = new ModelAndView(hpt!=null ? hpt.getHomePage() : HomePageType.DEFAULT.getHomePage());
 		mav.addObject(higher.getPerfilType().name().toLowerCase()+"Id",higher.getPerfilId());
+		mav.addObject("userId",getUsuarioId());
         return mav;
     }
 	
