@@ -13,7 +13,7 @@ function processNotificacionData(data){
 	}
 	
 	var notificaciones = $('<div class="notificacion"></div>');
-	if(data.actividiad || data.comentario){
+	if(data.actividad || data.comentario){
 				
 		var notificacion = new Object();
 		notificacion.notificacion = true;
@@ -209,8 +209,11 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	var self = this;
 	itemAsignaturaProgramaDiv=$('<div></div>');
 	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo curso-asignatura '+ (programa ? 'programa' : 'material')+'"></h3>');
-	itemAsignaturaProrgamaTitle.html(programa ? "Programa" : "Material");
-	
+	var resourceType = programa ? "Programa: " : "Material: ";
+	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
+	itemAsignaturaProrgamaTitle.on("click",function(){
+		location.href = linksPrograma[0].url;
+	});
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProrgamaTitle);
 	
 	itemAsignaturaProgramaUl = $('<ul></ul>')
@@ -226,10 +229,10 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
 			itemNotificado = $('<span style="color:red;"></span>')
 			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+")");
-			itemProgramaName.html(link.nombre.toUpperCase()+", Fecha de Notificaci&oacute;n: ");
+			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
 			itemProgramaName.append(itemNotificado);
 		}else{
-			itemProgramaName.html(link.nombre.toUpperCase()+", Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
+			itemProgramaName.html("Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
 		}
 		itemPrograma.append(itemProgramaName);
 		

@@ -104,6 +104,7 @@ function loadNotificationInformation(processNotificacionData){
 			setTimeout(loadNotificationInformation,1000,processNotificacionData);
 		
 		}else{
+			$(document).trigger("commentsStillLoading");
 			if( typeof processNotificacionData === 'function'){
 				processNotificacionData(ls.getNotificacionData());
 			}else{
