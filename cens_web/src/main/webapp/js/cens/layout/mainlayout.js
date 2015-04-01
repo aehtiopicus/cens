@@ -26,6 +26,10 @@
 		        $(".decimalConPunto").numeric("."); 
 		        
  	    });
+ 	    $(document).bind("userImg",function(){
+ 	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	
+ 	    	$('#headerImg').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me
+ 	    });
  	   function deleteAllCookies() {
 	        var cookies = document.cookie.split(";");
 

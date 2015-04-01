@@ -60,8 +60,7 @@ public class NotificacionCensRestController extends AbstractRestController{
 	    	ncDto.setUser(principal.getName());
 	    	ncDto.setExpireSec(notificationSecCheck);
 	    	MiembroCens mc = notificacionCensService.getMiembroByUsername(ncDto.getUser());
-	    	ncDto.setMiembroId(mc.getId());
-	    	ncDto.setUserId(mc.getUsuario().getId());
+	    	ncDto.setMiembroId(mc.getId());	    	
 	    	return ncDto;
 	    }
 }

@@ -27,6 +27,7 @@ public class UrlConstant {
 	public static final String MIEMBRO_CENS_REST =API+"miembro";
 	public static final String MIEMBRO_CENS =MVC+"miembroList";
 	public static final String MIEMBRO_CENS_ABM=MVC+"miembroABM";
+	public static final String MIEMBRO_CENS_REST_PICTURE = MIEMBRO_CENS_REST+"/{id}/picture";
 	
 	/*Usuario*/
 	public static final String USUARIO_CENS_REST =API+"usuario";

@@ -79,5 +79,14 @@ public class AbstractController {
 		return mc.getId();
 	}
 	
+	public Long getUsuarioId() throws Exception{
+		logger.info("Obteniendo los datos de perfil y rol de usuario");
+		Usuarios u = usuarioCensService.findUsuarioByUsername(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		if(u==null){
+			throw new Exception("Error general de sesi&oacute;n");
+		}
+		return u.getId();
+	}
+	
 }
 
