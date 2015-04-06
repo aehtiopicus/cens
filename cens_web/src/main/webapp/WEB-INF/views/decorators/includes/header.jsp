@@ -15,15 +15,32 @@ var pagePath="<%=request.getContextPath()%>";
 		<div class="center">
 			<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>
 		</div>
-		<div style="width: 18%;">
+		<div style="width: 10%;padding-top: 4px;padding-right: 10px;">
 			<div style="display:inline-block;">
-				<div style="display:inline-block; margin-top: 10px;">
+				<div>
 					<img id="headerImg"  class="avatarimg">
 				</div>
 				<div class="usertop">
 					
-					<span id="headerUsername" class="username"><security:authentication property="name"></security:authentication><span id="notCant" class="bubbleRedNotify" style="display: none; background-color: rgb(245, 108, 126);">1</span></span>
-										
+					<div id="iam" style="display:none;">
+					<div class="iam-pointer"></div>
+					<div class="iam-div">
+						<div style="display:inline-block; margin-top: -14px;">
+							<div style="display:inline-block; margin-top: 10px;">
+								<img id="iam-img" class="avatarimg">
+							</div>
+							<div class="usertop" style="position: relative;top: 26px;">
+								
+								<span id="headerUsername" style="height: 25px;"class="username"><security:authentication property="name"></security:authentication></span>
+								<span style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(245, 108, 126);">6</span></span>		
+								<span style="height: 25px;">Seguimiento<span id="notCantNoLeida" class="bubbleRedNotify" style="background-color: rgb(245, 108, 126);">?</span></span>
+								
+							</div>
+						</div>
+						<hr style="  margin-top: 25px;">
+						<a id ="cerrarIam" class="linkBotton exit" style="top: 102px;float: right;left: 184px;">Cerrar</a>
+					</div>
+					</div>					
 													
 					<a id ="closeButton" class="linkBotton exit" href="<c:url value="javascript:logout()" />">Salir</a>
 				</div>

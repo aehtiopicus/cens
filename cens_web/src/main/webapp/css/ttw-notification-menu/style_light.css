@@ -1,5 +1,36 @@
+.iam-pointer{
+	border-bottom-width: 24px;
+  border-left-color: rgba(0, 0, 0, 0);
+  border-left-style: dashed;
+  border-left-width: 24px;
+  border-right-color: rgba(0, 0, 0, 0);
+  border-right-width: 24px;
+  border-top-width: 0px;
+  display: block;
+  position: absolute;
+  top: 48px;
+  border-style: outset;
+  margin-left: -8px;
+    z-index: 1;
+}
+.iam-div{
+  width: 225px;
+  position: absolute;
+  top: 61px;
+  background: white;
+  height: 122px;
+  margin-left: -206px;
+  margin-right: 50px;
+  border-style: groove;
+  overflow: initial;
+  padding: 10px;
+    z-index: 1;
+      padding-top: 0px;
+}
 .bubbleRedNotify{
 
+	display: inline-block;
+  position: relative;  
   background-attachment: scroll;
   background-clip: border-box;  
   background-origin: padding-box;
@@ -13,8 +44,7 @@
   font-size: 9px !important;  
   font-weight: bold;
   height: 18px;
-  line-height: 18px;
-  position: absolute;  
+  line-height: 18px;  
   text-align: center;
   text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0px;  
   transition-delay: 0s;
@@ -23,4 +53,7 @@
   transition-timing-function: ease;
   width: 18px;
   margin-left:10px;
+  top: -17px;
+  left: 82px;
 }
+

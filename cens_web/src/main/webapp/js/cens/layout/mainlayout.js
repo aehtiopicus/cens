@@ -30,6 +30,25 @@
  	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	
  	    	$('#headerImg').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    	
 			$('#headerImg').css("width","50px");
+			
+			$('#iam-img').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    	
+			$('#iam-img').css("width","70px");
+			$('#cerrarIam').on("click",function(){
+				$("#iam").hide();
+				 $('#closeButton').show();
+			});
+			$('#headerImg').on("click",function(){openUser(JSON.parse(data.getNotificacion()).item.user);});
+			$(document).mouseup(function (e)
+					{
+					    var container = $("#iam");
+
+					    if (!container.is(e.target) // if the target of the click isn't the container...
+					        && container.has(e.target).length === 0) // ... nor a descendant of the container
+					    {
+					        container.hide();
+					        $('#closeButton').show();
+					    }
+					});
  	    });
  	   function deleteAllCookies() {
 	        var cookies = document.cookie.split(";");
@@ -52,4 +71,9 @@
 	       $('#mainPanel').show();
 	       
 	    });
+	    
+	    function openUser(user){
+	    	$('#iam').show();
+	    	$('#closeButton').hide();
+	    }
 	    

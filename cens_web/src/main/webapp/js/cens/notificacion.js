@@ -63,7 +63,7 @@ jQuery(document).ready(function () {
 function openDialog(){
 	
 	
-	
+	$('#cerrarIam').trigger("click");
 	loadNotificationInformation(processNotificacionData);		 		
 	
 }

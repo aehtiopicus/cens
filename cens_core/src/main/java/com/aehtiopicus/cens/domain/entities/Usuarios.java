@@ -14,9 +14,16 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.jasypt.hibernate4.type.EncryptedStringType;
 
 @Entity
 @Table(name="CENS_USUARIOS")
+@TypeDefs(
+		@TypeDef(name = "encryptedString", typeClass = EncryptedStringType.class, parameters = { @Parameter(name = "encryptorRegisteredName", value = "hibernateStringEncryptor") }))
 public class Usuarios implements Serializable {
 
 	private static final long serialVersionUID = -2593132666510879385L;
@@ -26,6 +33,7 @@ public class Usuarios implements Serializable {
 	protected Long id;
 
 	protected String username;
+	@Type(type = "encryptedString")
 	protected String password;
 	protected Boolean enabled = true;
 	@OneToOne(optional=true)
