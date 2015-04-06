@@ -3,6 +3,8 @@ package com.aehtiopicus.cens.dto.cens;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+
 public class AsignaturaNotificacionDto {
 
 	private String nombre;
@@ -10,7 +12,6 @@ public class AsignaturaNotificacionDto {
 	
 	private Set<ProgramaNotificacionDto> programa =  null;
 	
-	private Set<MaterialNotificacionDto> material = null;
 
 	public String getNombre() {
 		return nombre;
@@ -39,16 +40,7 @@ public class AsignaturaNotificacionDto {
 		this.programa = programa;
 	}
 
-	public Set<MaterialNotificacionDto> getMaterial() {
-		if(material == null){
-			material = new HashSet<>();
-		}
-		return material;
-	}
 
-	public void setMaterial(Set<MaterialNotificacionDto> material) {
-		this.material = material;
-	}
 
 	@Override
 	public int hashCode() {
@@ -73,6 +65,20 @@ public class AsignaturaNotificacionDto {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public int getCantidadNotificaciones() {
+		
+		int cantidad = 0;
+		for(ProgramaNotificacionDto pn: programa){
+			cantidad = cantidad +pn.getCantidadComnetarios();
+			if(CollectionUtils.isNotEmpty(pn.getMaterial())){
+				for(MaterialNotificacionDto mnDto : pn.getMaterial()){
+					cantidad = cantidad +mnDto.getCantidadComnetarios();
+				}
+			}
+		}
+		return cantidad;
 	}
 	
 	

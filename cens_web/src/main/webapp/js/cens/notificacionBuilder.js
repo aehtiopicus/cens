@@ -1,12 +1,11 @@
-function processNotificacionData(data){
-	
+function processNotificacionData(datas){
+	var data = datas[0];
 	if(data.perfilRol && data.perfilRol.perfilType == "ASESOR"){
 		$('#tabs ul').show();
 		$("#seguimientoActvidad").show();
 		 
 		 $( "#tabs" ).tabs();
-			
-		$(document).trigger("seguimientoEnabled");
+		 processSeguimientoData(datas[1]);
 	}else{
 		$('#tabs ul').hide();
 		$("#seguimientoActvidad").hide();
@@ -149,18 +148,17 @@ this.crearCurso = function(cursos,perfil,actividad){
 	var self = this;
 	
 	$.each(cursos,function(index,curso){
+		if(typeof curso.asignatura !== "undefined" && curso.asignatura.length > 0){
+			itemCursoDiv=$('<div></div>');
+			itemCursotitle = $('<h3 class="subtitulo"></h3>');	
 		
-		itemCursoDiv=$('<div></div>');
-		itemCursotitle = $('<h3 class="subtitulo"></h3>');	
+			itemCursoDiv.append(itemCursotitle);		
+			$.each(curso.asignatura,function(index,a){
+				itemCursoDiv.append(self.crearAsignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
+			});
 		
-		itemCursoDiv.append(itemCursotitle);
-		
-		$.each(curso.asignatura,function(index,a){
-			itemCursoDiv.append(self.crearAsignatura(curso,a,perfil.perfilType ==="ASESOR",perfil.perfilId,actividad));
-		});
-		
-		cursosDiv.append(itemCursoDiv);
-		
+			cursosDiv.append(itemCursoDiv);
+		}
 	});
 	return cursosDiv;
 }
@@ -211,7 +209,8 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo curso-asignatura '+ (programa ? 'programa' : 'material')+'"></h3>');
 	var resourceType = programa ? "Programa: " : "Material: ";
 	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
-	itemAsignaturaProrgamaTitle.on("click",function(){
+	itemAsignaturaProrgamaTitle.on("click",function(){	
+		removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ");
 		location.href = linksPrograma[0].url;
 	});
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProrgamaTitle);
@@ -252,6 +251,7 @@ this.crearPrograma = function(programa,curso,asignatura,asesor,perfilId,activida
 		p.fechaCreado = programa.fechaCreado;
 		p.cantidadComnetarios = programa.cantidadComnetarios;
 		p.nombre = programa.nombre;
+		p.programaId = programa.id;
 		if(this.seguimiento){
 			p.fechaNotificado= programa.fechaNotificado;
 			p.diasNotificado = programa.diasNotificado;
@@ -280,6 +280,7 @@ this.crearMaterial = function(material,programa,curso,asignatura,asesor,perfilId
 	p.cantidadComnetarios = material.cantidadComnetarios;
 	p.nombre = material.nombre;
 	p.estado = material.estadoRevision;
+	p.programaId = programa.id;
 	if(this.seguimiento){
 		p.fechaNotificado= material.fechaNotificado;
 		p.diasNotificado = material.diasNotificado;

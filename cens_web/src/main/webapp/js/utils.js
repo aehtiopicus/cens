@@ -5,7 +5,14 @@ function errorConverter(data){
 function jsonConverter(data){
 	return JSON.parse(data);
 }
-
+messageType =  {error:"error",success:"success",info:"info"};
+function alert(message,messageTypeData){
+	if(typeof messageTypeData === "undefined"){
+		$.notify(message,"error",{position:'top'});
+	}else{
+		$.notify(message,messageType[messageTypeData],{position:'top'});
+	}
+}
 function errorDivs(errorDiv,field,value,dialog){	
 	if(checkDivNoExist(errorDiv)){
 		var templateDiv = $('<div></div>');
@@ -81,12 +88,12 @@ function checkEmail(dataValue){
 function cargarMensaje(data,ok){
 	//cargo mensaje en pantalla
 	if(ok){
-		$('#message').text($('<div/>').html(data.message).text())
+		alert($('<div/>').html(data.message).text(),"success");
 	}else{
 		if(data.errorDto != undefined && data.errorDto){
-			$('#message').text($('<div/>').html(data.message).text())
+			alert($('<div/>').html(data.message).text());
 		}else{
-			$('#message').text("Se produjo un error en el servidor");
+			alert("Se produjo un error en el servidor");
 		}
 	}
 	setTimeout("$('#message').text('')", 5000);

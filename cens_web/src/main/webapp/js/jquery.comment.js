@@ -438,17 +438,7 @@ if ( typeof Object.create !== 'function' ) {
 					}
 					if(self.options.update_notification){
 						/*Extra code here that is not part of comments!!!
-						 * */
-						$(document).bind("commentsStillLoading",function(){
-							ls.setRemoveTimeTo(0);						
-							$(document).unbind("commentsStillLoading");
-						})
-						
-						if(typeof ls !== "undefined"){							
-							$(document).trigger("commentsStillLoading");
-						}else{
-							loadNotificationInformation();//call notification api
-						}
+						 * */						
 						/*End*/
 					}
 				});

@@ -23,11 +23,11 @@ jQuery(document).ready(function () {
 		});
 	}else{
 		$(document).trigger("userImg");
+		setCantNotificacion();
 	}
 	
 	$('#headerUsername').on("click",openDialog);
-	
-	$('#segAct').on("click",loadSeguimiento);
+		
 	
 	$('#closeButton').on("click",function(){
 		for(var key in localStorage) {
@@ -59,62 +59,55 @@ jQuery(document).ready(function () {
 	 $("#notificacionDeUsuario").on("close",function(){alert("d");});
 		
 });
-function loadSeguimiento(){
-	
-$(document).bind("seguimientoEnabled",function(){
-		
-		$.ajax({
-			url: pagePath+"/api/notificacion/miembro/"+JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item.miembroId+"/asesor",
-			type: "GET",	    	    
-			contentType :'application/json',
-			dataType: "json",    
-			success : function(result){
-				processSeguimientoData(result);
-			},
-			error: function(value,xhr){
-				if(xhr === "error"){
-					location.href = location.href;
-				}
-				alert("Se produjo un error el servidor");
-				return "error";
 
-			}
-		});
-	}); 
-	
-}
 function openDialog(){
 	
 	
+	
 	loadNotificationInformation(processNotificacionData);		 		
-	loadSeguimiento(); 
+	
 }
 
 
 function loadNotificationInformation(processNotificacionData){
-	var lsData = new localstorage.ls.notificacionData().getNotificacion();
-	if(lsData){
-		var item = JSON.parse(new localstorage.ls.notificacionData().getNotificacion()).item;
-		item.notificacionLoader = notificacionLoader;
-		if(!ls){
-			ls = new localstorage.ls.notificacion(item);
-		}
+	loadLs();
 		if(ls.isRefreshRequired()){
 			ls.getNotificacionData();
 			setTimeout(loadNotificationInformation,1000,processNotificacionData);
 		
-		}else{
-			$(document).trigger("commentsStillLoading");
+		}else{									
+			setCantNotificacion();
 			if( typeof processNotificacionData === 'function'){
 				processNotificacionData(ls.getNotificacionData());
 			}else{
 				return ls.getNotificacionData();
 			}
 		}
+	
+	
+}
+
+function loadLs(){
+	var lsData = new localstorage.ls.notificacionData().getNotificacion();
+	if(lsData){
+		var item = JSON.parse(lsData).item;
+		item.notificacionLoader = notificacionLoader;
+		if(!ls){
+			ls = new localstorage.ls.notificacion(item);
+		}
 	}else{
 		location.href = location.href;
 	}
-	
+}
+
+function setCantNotificacion(){
+	loadLs();
+	if(ls.getNotificacionData()[0].cantidadNotificaciones){
+		$("#notCant").html(ls.getNotificacionData()[0].cantidadNotificaciones);
+		$("#notCant").show();
+	}else{
+		$("#notCant").hide();
+	}
 }
 
 function notificacionLoader(callback){
@@ -138,3 +131,106 @@ function notificacionLoader(callback){
 		}
 	});
 }
+
+function removerNotificacionesPorPrograma(programaId,isPrograma){
+	var datas =ls.getNotificacionData();
+	var data = datas[0];
+	
+	
+	if(typeof data.actividad !== "undefined"){
+		var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
+		data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
+		data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+	}
+	if(typeof data.comentario !== "undefined"){
+		var cantActual = decreaseCounter(data.comentario,programaId,isPrograma);
+		data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
+		data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+	}
+	datas[0] = data;
+	ls.setNotificacion(datas);
+}
+
+function removeProgramaMaterial(data,programaId,isPrograma){
+	
+	var cursoIndex = [];
+	
+	$.each(data.curso,function(index,value){
+		asignaturaIndex = [];
+		$.each(value.asignatura,function(index2,value2){
+			programaIndex = [];
+			$.each(value2.programa,function(index3,value3){
+				if(value3.id == programaId){
+							
+					if(typeof value3.material !== "undefined" && !isPrograma){						
+						$.each(value3.material,function(index4,value4){							
+							delete value3.material;							
+						});					
+						isPrograma = true; // convierto a programa para eliminar el programa
+						value3.cantidadComnetarios = -1;
+					}													
+					
+					if(typeof value3.cantidadComnetarios !== "undefined" && isPrograma){
+						if(typeof value3.material === "undefined" || value3.material.length == 0){
+							programaIndex.push(value3);
+						}else{
+							delete value3.cantidadComnetarios;
+						}
+						
+					}
+				}
+			});
+			$.each(programaIndex,function(pIndex,pi){
+				value2.programa.splice(value2.programa.indexOf(pi),1);
+			});
+			
+			if(value2.programa.length == 0){
+				delete value2.programa;
+				asignaturaIndex.push(value2);
+			}						
+		});
+		
+		$.each(asignaturaIndex,function(pIndex,pi){
+			value.asignatura.splice(value.asignatura.indexOf(pi),1);
+		});
+		
+		if(value.asignatura.length == 0){
+			delete value.asignatura;
+			cursoIndex.push(value);
+		}
+				
+	});
+	
+	$.each(cursoIndex,function(pIndex,pi){
+		data.curso.splice(data.curso.indexOf(pi),1);
+	});
+	
+	if(data.curso == 0){
+		return undefined;	
+	}
+	
+	return data;
+}
+function decreaseCounter(data,programaId,isPrograma){
+	var count = 0;
+	$.each(data.curso,function(index,value){
+		$.each(value.asignatura,function(index2,value2){			
+			$.each(value2.programa,function(index3,value3){
+				if(value3.id == programaId){
+					
+					if(typeof value3.cantidadComnetarios !== "undefined" && isPrograma){						
+						count = count + value3.cantidadComnetarios;
+					}
+					if(typeof value3.material !== "undefined" && !isPrograma){						
+						$.each(value3.material,function(index4,value4){
+							count = count +  value4.cantidadComnetarios;
+						})
+					}
+				}
+			});			
+		});
+		
+	});
+	return count;
+}
+

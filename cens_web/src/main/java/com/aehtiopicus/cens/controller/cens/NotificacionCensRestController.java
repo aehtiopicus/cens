@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.controller.cens;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.dto.cens.NotificacionConfigDto;
 import com.aehtiopicus.cens.dto.cens.NotificacionDto;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.mapper.cens.NotificacionCensControllerMapper;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
 import com.aehtiopicus.cens.utils.CensException;
@@ -40,10 +43,16 @@ public class NotificacionCensRestController extends AbstractRestController{
 	
 
 	@RequestMapping(value=UrlConstant.NOTIFICACION_USUARIO_MIEMBRO_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody NotificacionDto getNotificacioneForUser(@PathVariable(value="miembroId") Long miembroId) throws CensException{
+	public @ResponseBody List<NotificacionDto> getNotificacioneForUser(@PathVariable(value="miembroId") Long miembroId) throws CensException{
 		NotificacionDto nDto = notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesForUser(miembroId));
 		logger.info("Getting notificacion data");
-		return nDto;		
+		List<NotificacionDto> resultList = new ArrayList<NotificacionDto>();
+		
+		resultList.add(nDto);
+		if(nDto.getPerfilRol().getPerfilType().equals(PerfilTrabajadorCensType.ASESOR)){
+			resultList.add(getNotificacioneNoLeidas(miembroId));
+		}
+		return resultList;		
 	}
 	
 	@Secured("ROLE_ASESOR")

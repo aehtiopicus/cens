@@ -14,4 +14,13 @@ public class ComentarioNotificacionDto {
 		this.curso = curso;
 	}
 
+	public int getCantidadNotificaciones() {
+		int cantidad = 0;
+		for(CursoNotificacionDto cnDto : curso){
+			cantidad = cantidad +cnDto.getCantidadNotificaciones();
+		}
+		return cantidad;
+		
+	}
+
 }

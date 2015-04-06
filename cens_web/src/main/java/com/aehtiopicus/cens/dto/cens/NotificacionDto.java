@@ -10,6 +10,8 @@ public class NotificacionDto {
 	
 	private ComentarioNotificacionDto comentario;
 	
+	private Integer cantidadNotificaciones;
+	
 
 	public PerfilRol getPerfilRol() {
 		return perfilRol;
@@ -33,6 +35,23 @@ public class NotificacionDto {
 
 	public void setComentario(ComentarioNotificacionDto comentario) {
 		this.comentario = comentario;
+	}
+
+	public void setCantidadNotificaciones() {
+		int cantidad = 0;
+		if(actividad !=null){
+			cantidad = cantidad +actividad.getCantidadNotificaciones();
+		}
+		
+		if(comentario !=null){
+			cantidad = cantidad +comentario.getCantidadNotificaciones();
+		}
+		cantidadNotificaciones = cantidad;
+		
+	}
+
+	public Integer getCantidadNotificaciones() {
+		return this.cantidadNotificaciones;
 	}
 			
 	

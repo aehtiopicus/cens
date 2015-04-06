@@ -53,6 +53,7 @@ public class NotificacionCensControllerMapper {
 								
 			}
 		}
+		nDto.setCantidadNotificaciones();
 		return nDto;
 	}
 

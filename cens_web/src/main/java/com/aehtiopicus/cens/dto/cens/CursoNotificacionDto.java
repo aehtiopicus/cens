@@ -53,6 +53,15 @@ public class CursoNotificacionDto {
 			return false;
 		return true;
 	}
+	public int getCantidadNotificaciones() {
+		int cantidad = 0;
+		for(AsignaturaNotificacionDto anDto: asignatura){
+			cantidad = cantidad +anDto.getCantidadNotificaciones();
+		}
+		
+		return cantidad;
+		
+	}
 	
 	
 }

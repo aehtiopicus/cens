@@ -21,8 +21,11 @@ var pagePath="<%=request.getContextPath()%>";
 					<img id="headerImg"  class="avatarimg">
 				</div>
 				<div class="usertop">
-					<span id="headerUsername" class="username"><security:authentication property="name"></security:authentication></span>										
-					<a id ="closeButton" class="linkBotton" href="<c:url value="javascript:logout()" />">Salir</a>
+					
+					<span id="headerUsername" class="username"><security:authentication property="name"></security:authentication><span id="notCant" class="bubbleRedNotify" style="display: none; background-color: rgb(245, 108, 126);">1</span></span>
+										
+													
+					<a id ="closeButton" class="linkBotton exit" href="<c:url value="javascript:logout()" />">Salir</a>
 				</div>
 			</div>
 			

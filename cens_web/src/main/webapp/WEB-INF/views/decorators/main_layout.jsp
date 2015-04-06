@@ -21,6 +21,8 @@
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/slick/slick.css"/>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/jquery.comment.css"/>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/notify/notify-flat.css"/>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/ttw-notification-menu/style_light.css"/>
         
         <script src="<%=request.getContextPath() %>/js/jquery-1.10.1.min.js"></script>
 		<script src="<%=request.getContextPath() %>/js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -36,14 +38,14 @@
         <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
         
         <script src="<%=request.getContextPath() %>/js/cens/layout/mainlayout.js" type="text/javascript"></script>
-        <script src="<%=request.getContextPath() %>/js/notify.js" type="text/javascript"></script>    
+        <script src="<%=request.getContextPath() %>/js/notify.js" type="text/javascript"></script>            
 		<script>
 		var mainPagePath ="<%=request.getContextPath() %>";
 		</script>
 
     </head>
       
-    <body marginheight="0px" marginwidth="0px" style="margin-top: 0px; margin-left: 0px;"> 
+    <body marginheight="0px" marginwidth="0px" style="margin-top: 0px; margin-left: 0px;">    	
     	<div class="mainPanel" id="mainPanel" style="display: none;">
     		<div class="headerPanel">
     			<!-- INSERTAR HEADER.JSP -->
@@ -81,6 +83,6 @@
     			<jsp:include page="includes/footer.jsp"></jsp:include>
     		</div>
     	</div>
-    	
+
     </body>  
 </html> 

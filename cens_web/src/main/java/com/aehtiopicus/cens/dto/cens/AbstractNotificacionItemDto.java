@@ -51,7 +51,7 @@ public abstract class AbstractNotificacionItemDto {
 	}
 
 	public int getCantidadComnetarios() {
-		return cantidadComnetarios;
+		return cantidadComnetarios == null ? 0 : cantidadComnetarios;
 	}
 
 	public void setCantidadComnetarios(int cantidadComnetarios) {

@@ -1,0 +1,26 @@
+.bubbleRedNotify{
+
+  background-attachment: scroll;
+  background-clip: border-box;  
+  background-origin: padding-box;
+  background-size: auto;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  box-shadow: rgba(0, 0, 0, 0.168627) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+  color: white !important;  
+  font-size: 9px !important;  
+  font-weight: bold;
+  height: 18px;
+  line-height: 18px;
+  position: absolute;  
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0px;  
+  transition-delay: 0s;
+  transition-duration: 0.1s;
+  transition-property: all;
+  transition-timing-function: ease;
+  width: 18px;
+  margin-left:10px;
+}

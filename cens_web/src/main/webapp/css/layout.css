@@ -1058,6 +1058,11 @@ font-family: cursive;
   text-transform: uppercase;
   top: 8px;
 }
+.usertop .exit{
+	display: block;
+  position: absolute;
+  top: 40px;
+}
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;
