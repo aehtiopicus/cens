@@ -26,7 +26,12 @@ jQuery(document).ready(function () {
 		setCantNotificacion();
 	}
 	
-	$('#headerUsername').on("click",openDialog);
+	$('#notificacionOpen').on("click",function(){
+		openDialog("noti");
+	});
+	$('#seguimientoOpen').on("click",function(){
+		openDialog("segui");
+	});
 		
 	
 	$('#closeButton').on("click",function(){
@@ -60,25 +65,25 @@ jQuery(document).ready(function () {
 		
 });
 
-function openDialog(){
+function openDialog(noti){
 	
 	
 	$('#cerrarIam').trigger("click");
-	loadNotificationInformation(processNotificacionData);		 		
+	loadNotificationInformation(processNotificacionData,noti);		 		
 	
 }
 
 
-function loadNotificationInformation(processNotificacionData){
+function loadNotificationInformation(processNotificacionData,noti){
 	loadLs();
 		if(ls.isRefreshRequired()){
 			ls.getNotificacionData();
-			setTimeout(loadNotificationInformation,1000,processNotificacionData);
+			setTimeout(loadNotificationInformation,1000,processNotificacionData,noti);
 		
 		}else{									
 			setCantNotificacion();
 			if( typeof processNotificacionData === 'function'){
-				processNotificacionData(ls.getNotificacionData());
+				processNotificacionData(ls.getNotificacionData(),noti);
 			}else{
 				return ls.getNotificacionData();
 			}
@@ -136,20 +141,22 @@ function notificacionLoader(callback){
 
 function removerNotificacionesPorPrograma(programaId,isPrograma){
 	var datas =ls.getNotificacionData();
-	var data = datas[0];
 	
 	
-	if(typeof data.actividad !== "undefined"){
-		var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
-		data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
-		data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+	for(var i = 0; i<datas.length;i++){
+		var data = datas[i];
+		if(typeof data.actividad !== "undefined"){
+			var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
+			data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
+			data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+		}
+		if(typeof data.comentario !== "undefined"){
+			var cantActual = decreaseCounter(data.comentario,programaId,isPrograma);
+			data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
+			data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+		}
+		datas[i] = data;
 	}
-	if(typeof data.comentario !== "undefined"){
-		var cantActual = decreaseCounter(data.comentario,programaId,isPrograma);
-		data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
-		data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
-	}
-	datas[0] = data;
 	ls.setNotificacion(datas);
 }
 

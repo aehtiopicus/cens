@@ -110,6 +110,7 @@ public class CambioEstadoCensFeedServiceImpl implements CambioEstadoCensFeedServ
 				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
 				+ "WHERE ccf.visto = false "
 				+ "AND ccf.ultima_notificacion is not null AND ccf.notificado = true "
+				+ "AND ccf.ignorado = false "
 				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' < CURRENT_DATE").getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionCambioEstadoFeed ncf =null;
@@ -162,6 +163,20 @@ public class CambioEstadoCensFeedServiceImpl implements CambioEstadoCensFeedServ
 				setParameter("miembroId", miembroId).
 				setParameter("ct", ct.toString()).getResultList();
 				
+	}
+
+
+	@Override
+	public int markCommetnsAsIgnored(Long tipoId, ComentarioType tipoType)
+			throws CensException {
+		try{
+			return entityManager.createNativeQuery("update cens_cambio_estado_feed  SET ignorado = true WHERE tipoid  = :tipoid AND comentariotype = :tipotype").
+					setParameter("tipoid", tipoId).
+					setParameter("tipotype", tipoType.name()).executeUpdate();
+		}catch(Exception e){
+			throw new CensException("Error al marcar cambio de estado como ignorados",e);
+		}
+		
 	}
 
 }

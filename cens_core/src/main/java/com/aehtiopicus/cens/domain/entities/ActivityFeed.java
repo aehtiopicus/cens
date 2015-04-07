@@ -47,6 +47,9 @@ public class ActivityFeed {
 	
 	@Enumerated(EnumType.STRING)	
 	private ComentarioType comentarioType;
+	
+	@Column(name="ignorado")
+	private Boolean ignorado = false;
 
 	public Date getDateCreated() {
 		return dateCreated;
@@ -118,6 +121,14 @@ public class ActivityFeed {
 
 	public void setComentarioType(ComentarioType comentarioType) {
 		this.comentarioType = comentarioType;
+	}
+
+	public Boolean getIgnorado() {
+		return ignorado;
+	}
+
+	public void setIgnorado(Boolean ignorado) {
+		this.ignorado = ignorado;
 	}
 
 

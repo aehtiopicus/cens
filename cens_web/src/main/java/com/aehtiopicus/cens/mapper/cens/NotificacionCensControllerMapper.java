@@ -107,6 +107,8 @@ public class NotificacionCensControllerMapper {
 					pDto = new ProgramaNotificacionDto();
 					pDto.setId(Long.valueOf(comentarioData.get(CensServiceConstant.COMENTARIO_PROGRAMA_ID)));
 					pDto.setNombre(comentarioData.get(CensServiceConstant.COMENTARIO_PROGRAMA));
+					//removeLater if not needed after assemble all:S
+					pDto.setFechaCreado(comentarioData.get(CensServiceConstant.COMENTARIO_FECHA));
 					
 					if(!aDto.getPrograma().contains(pDto)){
 						aDto.getPrograma().add(pDto);

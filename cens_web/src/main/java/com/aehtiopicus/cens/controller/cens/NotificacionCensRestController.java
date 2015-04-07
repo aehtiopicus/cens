@@ -20,6 +20,9 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.dto.cens.NotificacionConfigDto;
 import com.aehtiopicus.cens.dto.cens.NotificacionDto;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
+import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.mapper.cens.NotificacionCensControllerMapper;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
@@ -60,6 +63,17 @@ public class NotificacionCensRestController extends AbstractRestController{
 	public @ResponseBody NotificacionDto getNotificacioneNoLeidas(@PathVariable(value="miembroId") Long miembroId) throws CensException{
 		logger.info("Getting notificacion data for a asesor");
 		return notificacionCensMapper.getDtoFromVO(notificacionCensService.getNotificacionesUnReadForUser(miembroId));
+	
+	}
+	@Secured("ROLE_ASESOR")
+	@RequestMapping(value=UrlConstant.NOTIFICACION_NO_LEIDAS_IGNORAR_MIEMBRO_REST, method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RestSingleResponseDto ignorarNotificacionNoLeida(@PathVariable(value="tipoId") Long tipoId, @PathVariable(value="tipoType") ComentarioType tipoType,@PathVariable(value="notificacionType") NotificacionType notificacionType) throws CensException{
+		logger.info("Marcar como no ignoradas");
+		int cantIgnorados = notificacionCensService.markFeedsAsIgnored(tipoId,tipoType,notificacionType);
+		RestSingleResponseDto rsDto = new RestSingleResponseDto();
+		rsDto.setId(new Long(cantIgnorados));
+		rsDto.setMessage("Cantidad comentarios Ignorados");
+		return rsDto;
 	
 	}
 	

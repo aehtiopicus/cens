@@ -7,6 +7,7 @@ import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.utils.CensException;
 
 public interface ComentarioCensFeedService {
@@ -29,5 +30,7 @@ public interface ComentarioCensFeedService {
 			List<ComentarioCens> comentarioList) throws CensException;
 
 	public List<NotificacionComentarioFeed> getUnReadFeeds()  throws CensException;
+
+	public int markCommentsAsIgnored(Long tipoId, ComentarioType tipoType)throws CensException;
 
 }

@@ -221,4 +221,22 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	public MiembroCens getMiembroByUsername(String user) {
 		return miembroCensService.getMiembroCensByUsername(user);
 	}
+
+
+
+	@Override
+	public int markFeedsAsIgnored(Long tipoId, ComentarioType tipoType, NotificacionType notificacionType)
+			throws CensException {
+		switch(notificacionType){
+		
+		case COMENTARIO:
+			return comentarioCensFeedService.markCommentsAsIgnored(tipoId,tipoType);
+		case ACTIVIDAD:
+			return cambioEstadoCensFeedService.markCommetnsAsIgnored(tipoId,tipoType);
+		
+		
+		}	
+	throw new CensException("No se indic&oacute; el tipo de feed");
+		
+	}
 }

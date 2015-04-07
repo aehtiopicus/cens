@@ -8,14 +8,9 @@
 
 <div id="notificacionDeUsuario" class="dialog" title="Notificaciones">
 		
-<div id="tabs" style="border: none;">
-  	<ul style="background: transparent; border-top: transparent;border-left: transparent;border-right: transparent; display:none">
-    	<li><a href="#notificacionDeUsuarioData">Notificaciones</a></li>
-    	<li><a href="#seguimientoActvidad" id="segAct">Seguimiento de Actividad</a></li>
-    	
-  	</ul>
-	<div id="notificacionDeUsuarioData"></div>
+
+	<div id="notificacionDeUsuarioData" style="display:none;"></div>
 	<div id="seguimientoActvidad" style="display:none;"></div>			
-</div>
+
 	
 </div>

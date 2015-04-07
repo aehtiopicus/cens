@@ -34,8 +34,8 @@ var pagePath="<%=request.getContextPath()%>";
 							<div class="usertop" style="position: relative;top: 26px;">
 								
 								<span id="headerUsername" style="height: 25px;"class="username"><security:authentication property="name"></security:authentication></span>
-								<span style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(0, 72, 155);">?</span></span>		
-								<span style="height: 25px;">Seguimiento<span id="notCantNoLeida" class="bubbleRedNotify" style="background-color: rgb(240, 50, 75);">?</span></span>
+								<span id="notificacionOpen" style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(0, 72, 155);">?</span></span>		
+								<span id="seguimientoOpen" style="height: 25px;">Seguimiento<span id="notCantNoLeida" class="bubbleRedNotify" style="background-color: rgb(240, 50, 75);">?</span></span>
 								
 							</div>
 						</div>

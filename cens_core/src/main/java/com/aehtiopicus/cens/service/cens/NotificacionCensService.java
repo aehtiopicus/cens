@@ -6,6 +6,7 @@ import java.util.Map;
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Notificacion;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
 import com.aehtiopicus.cens.utils.CensException;
 
@@ -33,5 +34,7 @@ public interface NotificacionCensService {
 			throws CensException;
 
 	public MiembroCens getMiembroByUsername(String user);
+
+	public int markFeedsAsIgnored(Long tipoId, ComentarioType tipoType, NotificacionType notificacionType)throws CensException;
 
 }

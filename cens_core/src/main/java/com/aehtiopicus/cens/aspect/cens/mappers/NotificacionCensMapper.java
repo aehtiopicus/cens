@@ -123,6 +123,7 @@ public class NotificacionCensMapper {
 	private Map<NotificacionTypeComentarioIdKey,Integer> countRepeatedValues(Entry<ComentarioType,List<? extends AbstractNotificacionFeed>> sortedComentario,NotificacionType nt){
 		Iterator<? extends AbstractNotificacionFeed> ncfIterator  = sortedComentario.getValue().iterator();
 		Map<NotificacionTypeComentarioIdKey,Integer> count = new HashMap<>();
+		int suma = 0;
 		while(ncfIterator.hasNext()){
 					
 			AbstractNotificacionFeed ncf = ncfIterator.next();
@@ -131,8 +132,10 @@ public class NotificacionCensMapper {
 			if(count.containsKey(ctcik)){
 				count.put(ctcik, count.get(ctcik)+1);
 				ncfIterator.remove();
+				suma++;
 			}else{
 				count.put(ctcik, 1);
+				suma++;
 			}
 		}
 		return count;

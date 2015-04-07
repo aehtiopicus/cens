@@ -42,7 +42,7 @@ public abstract class AbstractNotificacionFeed {
 	private Long tipoId;
 	
 	private EstadoRevisionType estadoRevisionType;
-
+	
 
 	public EstadoRevisionType getEstadoRevisionType() {
 		return estadoRevisionType;

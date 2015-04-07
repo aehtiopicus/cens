@@ -1,16 +1,29 @@
-function processNotificacionData(datas){
+function processNotificacionData(datas,noti){
+	
 	var data = datas[0];
 	if(data.perfilRol && data.perfilRol.perfilType == "ASESOR"){
-		$('#tabs ul').show();
-		$("#seguimientoActvidad").show();
-		 
-		 $( "#tabs" ).tabs();
+		
+		if(noti === "noti"){
+			$("#notificacionDeUsuarioData").show();
+			$("#seguimientoActvidad").hide();
+			$('#notificacionDeUsuario').dialog('option', 'title', 'Notificaciones');			
+			processNotificacionReal(data);
+		}
+		else{
+			$("#seguimientoActvidad").show();
+			$("#notificacionDeUsuarioData").hide();
+			$('#notificacionDeUsuario').dialog('option', 'title', "Seguimiento de Actividad");
 		 processSeguimientoData(datas[1]);
+		}
 	}else{
-		$('#tabs ul').hide();
+		
 		$("#seguimientoActvidad").hide();
+	
 	}
 	
+	
+}
+function processNotificacionReal(data){
 	var notificaciones = $('<div class="notificacion"></div>');
 	if(data.actividad || data.comentario){
 				
@@ -39,7 +52,6 @@ function processNotificacionData(datas){
 	$('#notificacionDeUsuarioData').append(notificaciones);
 	$( "#notificacionDeUsuario" ).dialog("open");
 }
-
 function processSeguimientoData(data){
 	var notificaciones = $('<div class="notificacion"></div>');
 	
@@ -63,7 +75,8 @@ function processSeguimientoData(data){
 		notificaciones.append(noData);
 	}
 	$('#seguimientoActvidad').html("");
-	$('#seguimientoActvidad').append(notificaciones);	
+	$('#seguimientoActvidad').append(notificaciones);
+	$( "#notificacionDeUsuario" ).dialog("open");
 }
 
 
@@ -229,13 +242,13 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		itemProgramaLi = $('<li></li>');
 		bubbleCount = bubbleCount+link.cantidadComnetarios;
 		itemPrograma = $('<a class="vinculos"></a>');
-		itemPrograma.attr("href",link.url);		
+			
 		itemProgramaName=$('<span></span>');
 		estado = actividad ? (" Estado: "+link.actividad) : '';
 		if(link.seguimiento){
 			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
 			itemNotificado = $('<span style="color:red;"></span>')
-			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+")");
+			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+" sin ser visto)");
 			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
 			itemProgramaName.append(itemNotificado);
 			bubble.addClass("seguimiento");

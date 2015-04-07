@@ -230,6 +230,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
 				+ "WHERE ccf.visto = false "
 				+ "AND ccf.ultima_notificacion is not null AND ccf.notificado = true "
+				+ "AND ccf.ignorado = false "
 				+ "AND ccf.ultima_notificacion + INTERVAL "+"'"+days+" days' < CURRENT_DATE").getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionComentarioFeed ncf =null;
@@ -252,6 +253,22 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 			throw new CensException("No se pueden leer los comentarios");
 		}
 		return ccfList;
+	}
+
+	@Override
+	@Transactional
+	public int markCommentsAsIgnored(Long tipoId, ComentarioType tipoType)
+			throws CensException {
+		try{
+			return entityManager.createNativeQuery("update cens_comentario_feed SET ignorado = true "
+					+ "WHERE comentariocensid in (select cc.id from cens_comentario as cc "
+					+ "WHERE cc.tipoid = :tipoid AND cc.tipocomentario = :tipotype)").
+					setParameter("tipoid", tipoId).
+					setParameter("tipotype", tipoType.name()).executeUpdate();
+		}catch(Exception e){
+			throw new CensException("Error al marcar comentarios como ignorados",e);
+		}
+		
 	}
 
 }

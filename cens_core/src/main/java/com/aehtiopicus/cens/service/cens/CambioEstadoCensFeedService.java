@@ -22,4 +22,6 @@ public interface CambioEstadoCensFeedService {
 	public List<String> getAllKeys(Long tipoId, Long miembroId,
 			ComentarioType ct);
 
+	public int markCommetnsAsIgnored(Long tipoId, ComentarioType tipoType)throws CensException;
+
 }
