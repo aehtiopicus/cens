@@ -132,7 +132,7 @@ this.estadoActividad = function (actividad,perfil){
 
 this.comentario = function(comentario,perfil){
 	var title = $('<h3 class="header"></h3>');	
-	title.html("Comenterarios realizados");
+	title.html("Comenterarios Realizados");
 	var comentarios = $('<div></div>');
 	comentarios.append(title);
 	
@@ -184,7 +184,7 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	
 	itemAsignaturaDiv=$('<div></div>');
 	itemHr= $('<hr/>')
-	
+	itemHr.css("width","100%");
 	itemAsignaturatitle = $('<h3 class="subtitulo curso-asignatura"></h3>');	
 	itemAsignaturatitle.html("Curso "+curso.nombre.toUpperCase()+", Asignatura "+asiganturas.nombre.toUpperCase());
 	itemAsignaturaDiv.append(itemAsignaturatitle);
@@ -214,12 +214,20 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		location.href = linksPrograma[0].url;
 	});
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProrgamaTitle);
+	var randomBubbleId = randomId();
+	var bubble = $("<span>?</span>");
+	bubble.addClass("notifybubble");
+	bubble.on("click",function(){
+		$('#'+randomBubbleId).toggle();
+	})
 	
 	itemAsignaturaProgramaUl = $('<ul></ul>')
-	
+	itemAsignaturaProgramaUl.attr("id",randomBubbleId);
+	itemAsignaturaProgramaUl.css("display","none");
+	var bubbleCount = 0;
 	$.each(linksPrograma,function(index,link){
 		itemProgramaLi = $('<li></li>');
-		
+		bubbleCount = bubbleCount+link.cantidadComnetarios;
 		itemPrograma = $('<a class="vinculos"></a>');
 		itemPrograma.attr("href",link.url);		
 		itemProgramaName=$('<span></span>');
@@ -230,6 +238,7 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+")");
 			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
 			itemProgramaName.append(itemNotificado);
+			bubble.addClass("seguimiento");
 		}else{
 			itemProgramaName.html("Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
 		}
@@ -240,7 +249,8 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		itemAsignaturaProgramaUl.append(itemProgramaLi);
 		
 	});
-	
+	bubble.html(bubbleCount);
+	itemAsignaturaProgramaDiv.append(bubble);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaUl);
 	return itemAsignaturaProgramaDiv;
 }

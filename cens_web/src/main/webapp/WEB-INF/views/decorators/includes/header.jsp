@@ -17,32 +17,32 @@ var pagePath="<%=request.getContextPath()%>";
 		</div>
 		<div style="width: 10%;padding-top: 4px;padding-right: 10px;">
 			<div style="display:inline-block;">
-				<div>
+				<div style="  position: relative;">
 					<img id="headerImg"  class="avatarimg">
+					 <span id="notCant1" class="bubbleRedNotify" style="background-color: rgb(0, 72, 155);top: 5px;left: 49px;">?</span>
+					<a id ="closeButton" class="linkBotton exit" href="<c:url value="javascript:logout()" />">Salir</a>
 				</div>
 				<div class="usertop">
 					
 					<div id="iam" style="display:none;">
 					<div class="iam-pointer"></div>
 					<div class="iam-div">
-						<div style="display:inline-block; margin-top: -14px;">
-							<div style="display:inline-block; margin-top: 10px;">
+						<div style="display:inline-block; margin-top: -8px;">
+							<div style="display:inline-block;">
 								<img id="iam-img" class="avatarimg">
-							</div>
+							</div>							
 							<div class="usertop" style="position: relative;top: 26px;">
 								
 								<span id="headerUsername" style="height: 25px;"class="username"><security:authentication property="name"></security:authentication></span>
-								<span style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(245, 108, 126);">6</span></span>		
-								<span style="height: 25px;">Seguimiento<span id="notCantNoLeida" class="bubbleRedNotify" style="background-color: rgb(245, 108, 126);">?</span></span>
+								<span style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(0, 72, 155);">?</span></span>		
+								<span style="height: 25px;">Seguimiento<span id="notCantNoLeida" class="bubbleRedNotify" style="background-color: rgb(240, 50, 75);">?</span></span>
 								
 							</div>
 						</div>
 						<hr style="  margin-top: 25px;">
 						<a id ="cerrarIam" class="linkBotton exit" style="top: 102px;float: right;left: 184px;">Cerrar</a>
 					</div>
-					</div>					
-													
-					<a id ="closeButton" class="linkBotton exit" href="<c:url value="javascript:logout()" />">Salir</a>
+					</div>																							
 				</div>
 			</div>
 			

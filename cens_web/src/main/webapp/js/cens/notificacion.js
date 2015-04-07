@@ -104,8 +104,10 @@ function setCantNotificacion(){
 	loadLs();
 	if(ls.getNotificacionData()[0].cantidadNotificaciones){
 		$("#notCant").html(ls.getNotificacionData()[0].cantidadNotificaciones);
+		$("#notCant1").html(ls.getNotificacionData()[0].cantidadNotificaciones);		
 		$("#notCant").show();
 	}else{
+		$("#notCant1").hide();		
 		$("#notCant").hide();
 	}
 }

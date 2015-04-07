@@ -28,16 +28,19 @@
  	    });
  	    $(document).bind("userImg",function(){
  	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	
- 	    	$('#headerImg').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    	
-			$('#headerImg').css("width","50px");
-			
+ 	    	$('#headerImg').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    				
+			$('#headerImg').css("max-width","50px");
+			$('#headerImg').css("position","absolute");
+
 			$('#iam-img').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    	
-			$('#iam-img').css("width","70px");
+			$('#iam-img').css("max-width","70px");
+			$('#iam-img').css("max-height","67px");
 			$('#cerrarIam').on("click",function(){
 				$("#iam").hide();
 				 $('#closeButton').show();
 			});
 			$('#headerImg').on("click",function(){openUser(JSON.parse(data.getNotificacion()).item.user);});
+			$('#notCant1').on("click",function(){openUser(JSON.parse(data.getNotificacion()).item.user);});
 			$(document).mouseup(function (e)
 					{
 					    var container = $("#iam");

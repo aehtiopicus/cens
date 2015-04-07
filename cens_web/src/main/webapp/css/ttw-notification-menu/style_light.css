@@ -57,3 +57,25 @@
   left: 82px;
 }
 
+.notifybubble{
+	  position: relative;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  color: white !important;
+  font-size: 9px !important;
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0px;
+  width: 18px;
+  top: -33px;
+  float: right;
+  background-color: rgb(0, 72, 155);
+}
+
+.notifybubble.seguimiento{
+
+  background-color: rgb(240, 50, 75);
+}

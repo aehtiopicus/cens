@@ -1009,6 +1009,7 @@ margin-left: 4%;
 	margin: 15px 15px 10px 40px;
 }
 
+
 .notificacion .vinculos{
 	
   
@@ -1019,14 +1020,20 @@ margin-left: 4%;
 
 .notificacion .curso-asignatura{
 	text-align: left;
+	font-size: 11px !important;
+	color: rgb(68, 68, 68);
 }
 
 .notificacion .curso-asignatura .programa{
 	text-align: left;
+	font-size: 11px !important;
+	color: rgb(68, 68, 68);
 }
 
 .notificacion .curso-asignatura .material{
 	text-align: left;
+	font-size: 11px !important;
+	  color: rgb(68, 68, 68);
 }
 
 .notificacion .header{
@@ -1065,6 +1072,12 @@ font-family: cursive;
 	display: block;
   position: absolute;
   top: 42px;
+}
+.linkBotton.exit{
+position: absolute;
+  top: 33px;
+  left: 55px;
+  font-weight: 800;
 }
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
