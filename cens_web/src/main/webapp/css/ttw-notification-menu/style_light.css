@@ -58,7 +58,7 @@
 }
 
 .notifybubble{
-	  position: relative;
+	 display: inline-block;
   border-bottom-left-radius: 9px;
   border-bottom-right-radius: 9px;
   border-top-left-radius: 9px;

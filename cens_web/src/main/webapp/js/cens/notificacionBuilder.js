@@ -6,7 +6,8 @@ function processNotificacionData(datas,noti){
 		if(noti === "noti"){
 			$("#notificacionDeUsuarioData").show();
 			$("#seguimientoActvidad").hide();
-			$('#notificacionDeUsuario').dialog('option', 'title', 'Notificaciones');			
+			$('#notificacionDeUsuario').dialog('option', 'title', 'Notificaciones');	
+			
 			processNotificacionReal(data);
 		}
 		else{
@@ -220,17 +221,23 @@ return itemAsignaturaDiv;
 }
 this.resourceItem = function(linksPrograma,programa,actividad){
 	var self = this;
+	itemAsignaturaProgramaHeaderDiv = $('<div></div>');
+	
 	itemAsignaturaProgramaDiv=$('<div></div>');
-	itemAsignaturaProrgamaTitle = $('<h3 class="subtitulo curso-asignatura '+ (programa ? 'programa' : 'material')+'"></h3>');
+	itemAsignaturaProrgamaTitle = $('<h3></h3>');
+	itemAsignaturaProrgamaTitle.addClass("subtitulo");
+	itemAsignaturaProrgamaTitle.addClass("curso-asignatura");
+	itemAsignaturaProrgamaTitle.addClass((programa ? 'programa' : 'material'));
+	itemAsignaturaProrgamaTitle.css("display","inline-block");
 	var resourceType = programa ? "Programa: " : "Material: ";
 	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
 	itemAsignaturaProrgamaTitle.on("click",function(){	
 		removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ");
 		location.href = linksPrograma[0].url;
 	});
-	itemAsignaturaProgramaDiv.append(itemAsignaturaProrgamaTitle);
+	itemAsignaturaProgramaHeaderDiv.append(itemAsignaturaProrgamaTitle);
 	var randomBubbleId = randomId();
-	var bubble = $("<span>?</span>");
+	var bubble = $("<h3>?</h3>");
 	bubble.addClass("notifybubble");
 	bubble.on("click",function(){
 		$('#'+randomBubbleId).toggle();
@@ -240,11 +247,22 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	itemAsignaturaProgramaUl.attr("id",randomBubbleId);
 	itemAsignaturaProgramaUl.css("display","none");
 	var bubbleCount = 0;
+	
+	itemIgnorar = $('<h3></h3>');
+	itemIgnorar.addClass("subtitulo");
+	itemIgnorar.addClass("curso-asignatura");
+	itemIgnorar.addClass((programa ? 'programa' : 'material'));
+	itemIgnorar.html("Ignorar");
+	itemIgnorar.css("float","right");
+	itemIgnorar.css("margin-top","3px");
+	
+	itemClearBoth = $('<div style="clear:both"></div>');
+	
 	$.each(linksPrograma,function(index,link){
 		itemProgramaLi = $('<li></li>');
 		bubbleCount = bubbleCount+link.cantidadComnetarios;
 		itemPrograma = $('<a class="vinculos"></a>');
-			
+								
 		itemProgramaName=$('<span></span>');
 		estado = actividad ? (" Estado: "+link.actividad) : '';
 		if(link.seguimiento){
@@ -260,12 +278,17 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		itemPrograma.append(itemProgramaName);
 		
 		itemProgramaLi.append(itemPrograma);
+		if(link.seguimiento){
+			itemProgramaLi.append(itemIgnorar);
+			itemProgramaLi.append(itemClearBoth);
+		}
 		
 		itemAsignaturaProgramaUl.append(itemProgramaLi);
 		
 	});
 	bubble.html(bubbleCount);
-	itemAsignaturaProgramaDiv.append(bubble);
+	itemAsignaturaProgramaHeaderDiv.append(bubble);
+	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaHeaderDiv);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaUl);
 	return itemAsignaturaProgramaDiv;
 }

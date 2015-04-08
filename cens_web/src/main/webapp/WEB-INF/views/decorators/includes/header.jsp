@@ -27,11 +27,10 @@ var pagePath="<%=request.getContextPath()%>";
 					<div id="iam" style="display:none;">
 					<div class="iam-pointer"></div>
 					<div class="iam-div">
-						<div style="display:inline-block; margin-top: -8px;">
-							<div style="display:inline-block;">
+						<div style=" margin-top: 5px; height:50%;">
+							<div style="display:inline-block;vertical-align: top;">
 								<img id="iam-img" class="avatarimg">
-							</div>							
-							<div class="usertop" style="position: relative;top: 26px;">
+							</div>							<div class="usertop" style=" width: 45%">
 								
 								<span id="headerUsername" style="height: 25px;"class="username"><security:authentication property="name"></security:authentication></span>
 								<span id="notificacionOpen" style="height: 25px;">Notifcaciones <span id="notCant" class="bubbleRedNotify" style="background-color: rgb(0, 72, 155);">?</span></span>		
@@ -39,8 +38,11 @@ var pagePath="<%=request.getContextPath()%>";
 								
 							</div>
 						</div>
-						<hr style="  margin-top: 25px;">
-						<a id ="cerrarIam" class="linkBotton exit" style="top: 102px;float: right;left: 184px;">Cerrar</a>
+						
+						<div style="height:50%;">
+							<hr style="  position: relative;top: 24px;">
+							<a id ="cerrarIam" class="linkBotton exit" style="top: 102px;float: right;left: 184px;">Cerrar</a>
+						</div>
 					</div>
 					</div>																							
 				</div>

@@ -107,13 +107,30 @@ function loadLs(){
 
 function setCantNotificacion(){
 	loadLs();
-	if(ls.getNotificacionData()[0].cantidadNotificaciones){
-		$("#notCant").html(ls.getNotificacionData()[0].cantidadNotificaciones);
-		$("#notCant1").html(ls.getNotificacionData()[0].cantidadNotificaciones);		
-		$("#notCant").show();
+	var data = ls.getNotificacionData();
+	
+	enableBubble(data[0],"notCant",true)
+	if(data.length == 2){
+		$('#seguimientoOpen').show();
+		enableBubble(data[1],"notCantNoLeida",false)	
 	}else{
-		$("#notCant1").hide();		
-		$("#notCant").hide();
+		$('#seguimientoOpen').hide();
+	}
+	
+}
+
+function enableBubble(data,bubble,noti){
+	if(data.cantidadNotificaciones){
+		$("#"+bubble).html(data.cantidadNotificaciones);
+		if(noti){
+			$("#"+bubble+"1").html(data.cantidadNotificaciones);
+		}
+		$("#"+bubble).show();
+	}else{
+		if(noti){
+			$("#"+bubble+"1").hide();
+		}
+		$("#"+bubble).hide();
 	}
 }
 
