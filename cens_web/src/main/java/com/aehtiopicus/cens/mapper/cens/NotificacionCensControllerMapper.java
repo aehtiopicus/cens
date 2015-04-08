@@ -110,6 +110,8 @@ public class NotificacionCensControllerMapper {
 					//removeLater if not needed after assemble all:S
 					pDto.setFechaCreado(comentarioData.get(CensServiceConstant.COMENTARIO_FECHA));
 					
+					boolean old = false;
+					
 					if(!aDto.getPrograma().contains(pDto)){
 						aDto.getPrograma().add(pDto);
 					}else{
@@ -119,7 +121,12 @@ public class NotificacionCensControllerMapper {
 									aDto.getPrograma().add(pDto);
 									break;
 								}
+								if(!comentarioListDataMap.getKey().equals(ComentarioType.MATERIAL)){
+									aux.setCantidadComnetarios(aux.getCantidadComnetarios()+Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_CANTIDAD)));
+								}
+								
 								pDto = aux;
+								old = true;
 								break;
 							}
 						}						
@@ -128,18 +135,25 @@ public class NotificacionCensControllerMapper {
 						mDto = new MaterialNotificacionDto();
 						mDto.setId(Long.valueOf(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL_ID)));
 						mDto.setNombre(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL));						
-						setSpecificNotificationData(mDto,comentarioData);
+						setSpecificNotificationData(mDto,comentarioData,false);
 						mDto.setNro(Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_MATERIAL_NRO).toString()));
 							
 						
 						
 						if(!pDto.getMaterial().contains(mDto)){
 							pDto.getMaterial().add(mDto);
+						}else{
+							for(MaterialNotificacionDto aux : pDto.getMaterial()){
+								if(aux.equals(mDto)){
+									aux.setCantidadComnetarios(aux.getCantidadComnetarios()+mDto.getCantidadComnetarios());
+									break;
+								}
+							}
 						}
 						
 					}else{
 						
-						setSpecificNotificationData(pDto,comentarioData);
+						setSpecificNotificationData(pDto,comentarioData,old);
 					}
 					}
 //				}	
@@ -148,9 +162,11 @@ public class NotificacionCensControllerMapper {
 		return cnDtoSet;
 	}
 	
-	private void setSpecificNotificationData(AbstractNotificacionItemDto pDto,Map<String,String> comentarioData){
+	private void setSpecificNotificationData(AbstractNotificacionItemDto pDto,Map<String,String> comentarioData,boolean oldProgram){
 		pDto.setFechaCreado(comentarioData.get(CensServiceConstant.COMENTARIO_FECHA));
-		pDto.setCantidadComnetarios(Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_CANTIDAD)));
+		if(!oldProgram){
+			pDto.setCantidadComnetarios(Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_CANTIDAD)));
+		}
 		pDto.setNotificado(Boolean.valueOf(comentarioData.get(CensServiceConstant.COMENTARIO_NOTIFICADO)));
 		if(comentarioData.containsKey(CensServiceConstant.COMENTARIO_DAYS_AGO)){
 			pDto.setDiasNotificado(Integer.parseInt(comentarioData.get(CensServiceConstant.COMENTARIO_DAYS_AGO)));

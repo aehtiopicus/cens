@@ -184,7 +184,9 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	$.each(asiganturas.programa, function(index,p){
 		var pLink = self.crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
 		if(pLink){
-			linksPrograma.push(pLink);
+			if(typeof pLink.cantidadComnetarios !== "undefined"){
+				linksPrograma.push(pLink);
+			}
 		}
 		if(typeof p.material !== "undefined"){
 			$.each(p.material,function(index,m){
@@ -207,7 +209,7 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	}
 	
 	if(linksMaterial.length>0){
-		itemAsignaturaDiv.append(self.resourceItem(linksMaterial,false));
+		itemAsignaturaDiv.append(self.resourceItem(linksMaterial,false,actividad));
 	}
 	itemAsignaturaDiv.append(itemHr);
 
