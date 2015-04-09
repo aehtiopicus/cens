@@ -156,12 +156,12 @@ function notificacionLoader(callback){
 	});
 }
 
-function removerNotificacionesPorPrograma(programaId,isPrograma){
+function removerNotificacionesPorPrograma(programaId,isPrograma,noti){
 	var datas =ls.getNotificacionData();
 	
 	
-	for(var i = 0; i<datas.length;i++){
-		var data = datas[i];
+	
+		var data = datas[noti ? 0 : 1];
 		if(typeof data.actividad !== "undefined"){
 			var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
 			data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
@@ -172,8 +172,8 @@ function removerNotificacionesPorPrograma(programaId,isPrograma){
 			data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
 			data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
 		}
-		datas[i] = data;
-	}
+		datas[noti ? 0 : 1] = data;
+	
 	ls.setNotificacion(datas);
 }
 

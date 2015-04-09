@@ -221,21 +221,10 @@ return itemAsignaturaDiv;
 }
 this.resourceItem = function(linksPrograma,programa,actividad){
 	var self = this;
-	itemAsignaturaProgramaHeaderDiv = $('<div></div>');
-	
 	itemAsignaturaProgramaDiv=$('<div></div>');
-	itemAsignaturaProrgamaTitle = $('<h3></h3>');
-	itemAsignaturaProrgamaTitle.addClass("subtitulo");
-	itemAsignaturaProrgamaTitle.addClass("curso-asignatura");
-	itemAsignaturaProrgamaTitle.addClass((programa ? 'programa' : 'material'));
-	itemAsignaturaProrgamaTitle.css("display","inline-block");
-	var resourceType = programa ? "Programa: " : "Material: ";
-	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
-	itemAsignaturaProrgamaTitle.on("click",function(){	
-		removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ");
-		location.href = linksPrograma[0].url;
-	});
-	itemAsignaturaProgramaHeaderDiv.append(itemAsignaturaProrgamaTitle);
+	itemAsignaturaProgramaHeaderDiv = $('<div></div>');		
+	itemAsignaturaProgramaHeaderDiv.append(this.resourceTitleCreator(programa, linksPrograma));
+	
 	var randomBubbleId = randomId();
 	var bubble = $("<h3>?</h3>");
 	bubble.addClass("notifybubble");
@@ -248,13 +237,7 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	itemAsignaturaProgramaUl.css("display","none");
 	var bubbleCount = 0;
 	
-	itemIgnorar = $('<h3></h3>');
-	itemIgnorar.addClass("subtitulo");
-	itemIgnorar.addClass("curso-asignatura");
-	itemIgnorar.addClass((programa ? 'programa' : 'material'));
-	itemIgnorar.html("Ignorar");
-	itemIgnorar.css("float","right");
-	itemIgnorar.css("margin-top","3px");
+	var itemIgnorar = this.ignorarItemCreator(programa);
 	
 	itemClearBoth = $('<div style="clear:both"></div>');
 	
@@ -265,6 +248,7 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 								
 		itemProgramaName=$('<span></span>');
 		estado = actividad ? (" Estado: "+link.actividad) : '';
+		var resourceType = programa ? "Programa: " : "Material: ";
 		if(link.seguimiento){
 			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
 			itemNotificado = $('<span style="color:red;"></span>')
@@ -272,6 +256,10 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
 			itemProgramaName.append(itemNotificado);
 			bubble.addClass("seguimiento");
+			itemIgnorar.on("click",function(){	
+				removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",false);
+				
+			});
 		}else{
 			itemProgramaName.html("Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
 		}
@@ -291,6 +279,38 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaHeaderDiv);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaUl);
 	return itemAsignaturaProgramaDiv;
+}
+
+this.ignorarItemCreator = function(programa){
+	
+	itemIgnorar = $('<h3></h3>');
+	itemIgnorar.addClass("subtitulo");
+	itemIgnorar.addClass("curso-asignatura");
+	itemIgnorar.addClass((programa ? 'programa' : 'material'));
+	itemIgnorar.html("Ignorar");
+	itemIgnorar.css("float","right");
+	itemIgnorar.css("margin-top","3px");
+	return itemIgnorar;
+	
+}
+this.resourceTitleCreator = function(programa,linksPrograma){
+	
+	var itemAsignaturaProrgamaTitle = $('<h3></h3>');
+	itemAsignaturaProrgamaTitle.addClass("subtitulo");
+	itemAsignaturaProrgamaTitle.addClass("curso-asignatura");
+	itemAsignaturaProrgamaTitle.addClass((programa ? 'programa' : 'material'));
+	itemAsignaturaProrgamaTitle.css("display","inline-block");
+	var resourceType = programa ? "Programa: " : "Material: ";
+	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
+	
+	itemAsignaturaProrgamaTitle.on("click",function(){
+		if(!linksPrograma[0].seguimiento){
+			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",true);
+		}
+		location.href = linksPrograma[0].url;
+		});
+	
+	return itemAsignaturaProrgamaTitle;
 }
 
 this.crearPrograma = function(programa,curso,asignatura,asesor,perfilId,actividad){
