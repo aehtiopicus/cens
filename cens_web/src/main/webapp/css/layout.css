@@ -8,7 +8,7 @@ html,body{
 html,body,table{
 	font-size: 12px;
 	font-family: "arial", sans-serif;
-	font-family: cursive;
+/* 	font-family: cursive; */
 }
 
 .sinPermisos{
@@ -164,7 +164,7 @@ html,body,table{
 	color: #004499;
 	font-size: 12px;
 	margin-top: 8px;
-	font-family: cursive;
+/* 	font-family: cursive; */
 }
 
 .filtrosDiv input:focus, 
@@ -399,7 +399,7 @@ fieldset div textarea:focus{
 	font-size: 15px;
 	color: #005577;
 	margin-left: 3px;
-	font-family: cursive;
+/* 	font-family: cursive; */
 	text-align: -webkit-center;
 }
 
@@ -1039,13 +1039,42 @@ margin-left: 4%;
 .notificacion .header{
 	color: rgb(0, 85, 119);
   display: block;
-  font-family: cursive;
+/*   font-family: cursive; */
   font-size: 20px;  
   font-style: normal;
   font-weight: bold;
     margin-top: 0px;
   margin-bottom: -8px;
 }
+.notificacion ul{
+	display:none;
+	border-style: groove;
+}
+
+.notificacion li{
+	  list-style: none;
+}
+.notificacion .vinculos .items{
+  float: left;
+  display: inline-block;
+  margin-left: -35px;
+}
+
+.notificacion  .ignorar{
+  float: right;
+  margin-top: 3px;
+  margin-right: -24px;
+  display:none;
+}
+
+.notificacion  .open{  
+  margin-right: 0px;
+  display:inline-block;
+  position: relative;
+  left: 554px;
+  float: initial;
+}
+
 
 .usertop{
 	display:inline-block; 
@@ -1055,7 +1084,7 @@ margin-left: 4%;
 .usertop a,
 .usertop span{
 color: rgb(37, 60, 152);
-font-family: cursive;
+/* font-family: cursive; */
   font-size: 13px;
   font-weight: 800;  
   position: relative;

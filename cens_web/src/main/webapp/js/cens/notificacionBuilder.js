@@ -222,7 +222,7 @@ return itemAsignaturaDiv;
 this.resourceItem = function(linksPrograma,programa,actividad){
 	var self = this;
 	itemAsignaturaProgramaDiv=$('<div></div>');
-	itemAsignaturaProgramaHeaderDiv = $('<div></div>');		
+	itemAsignaturaProgramaHeaderDiv = $('<div style="min-height: 36px;"></div>');		
 	itemAsignaturaProgramaHeaderDiv.append(this.resourceTitleCreator(programa, linksPrograma));
 	
 	var randomBubbleId = randomId();
@@ -234,12 +234,13 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	
 	itemAsignaturaProgramaUl = $('<ul></ul>')
 	itemAsignaturaProgramaUl.attr("id",randomBubbleId);
-	itemAsignaturaProgramaUl.css("display","none");
+
 	var bubbleCount = 0;
 	
 	var itemIgnorar = this.ignorarItemCreator(programa);
 	
-	itemClearBoth = $('<div style="clear:both"></div>');
+	
+	var resourceType = programa ? "Programa: " : "Material: ";
 	
 	$.each(linksPrograma,function(index,link){
 		itemProgramaLi = $('<li></li>');
@@ -247,37 +248,42 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		itemPrograma = $('<a class="vinculos"></a>');
 								
 		itemProgramaName=$('<span></span>');
+		itemProgramaName.addClass("items");
 		estado = actividad ? (" Estado: "+link.actividad) : '';
-		var resourceType = programa ? "Programa: " : "Material: ";
+		
 		if(link.seguimiento){
 			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
 			itemNotificado = $('<span style="color:red;"></span>')
 			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+" sin ser visto)");
 			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
-			itemProgramaName.append(itemNotificado);
-			bubble.addClass("seguimiento");
-			itemIgnorar.on("click",function(){	
-				removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",false);
-				
-			});
+			itemProgramaName.append(itemNotificado);		
+			
 		}else{
 			itemProgramaName.html("Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
 		}
 		itemPrograma.append(itemProgramaName);
 		
 		itemProgramaLi.append(itemPrograma);
-		if(link.seguimiento){
-			itemProgramaLi.append(itemIgnorar);
-			itemProgramaLi.append(itemClearBoth);
-		}
 		
 		itemAsignaturaProgramaUl.append(itemProgramaLi);
 		
 	});
+	if(linksPrograma[0].seguimiento){
+		bubble.addClass("seguimiento");	
+		bubble.on("click",function(){
+			itemIgnorar.toggleClass("open");
+		})
+		itemIgnorar.on("click",function(){	
+			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",false);
+			
+		});
+
+	}
 	bubble.html(bubbleCount);
 	itemAsignaturaProgramaHeaderDiv.append(bubble);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaHeaderDiv);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaUl);
+	itemAsignaturaProgramaDiv.append(itemIgnorar);
 	return itemAsignaturaProgramaDiv;
 }
 
@@ -287,9 +293,8 @@ this.ignorarItemCreator = function(programa){
 	itemIgnorar.addClass("subtitulo");
 	itemIgnorar.addClass("curso-asignatura");
 	itemIgnorar.addClass((programa ? 'programa' : 'material'));
-	itemIgnorar.html("Ignorar");
-	itemIgnorar.css("float","right");
-	itemIgnorar.css("margin-top","3px");
+	itemIgnorar.addClass("ignorar");
+	itemIgnorar.html("Ignorar");	
 	return itemIgnorar;
 	
 }
