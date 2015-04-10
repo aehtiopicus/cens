@@ -993,8 +993,7 @@ vertical-align: inherit;
 margin-left: 4%;
 }
 .perfil .avatarimg{
-	width: 100%; 
-	height: 100%;"
+  max-height: 104px;
 }
 .passreset div input[type=password]{
 	max-width: 200px;	
@@ -1070,9 +1069,15 @@ margin-left: 4%;
 .notificacion  .open{  
   margin-right: 0px;
   display:inline-block;
-  position: relative;
-  left: 554px;
   float: initial;
+    color: #005577;
+}
+
+.notificacion  .both{  
+  margin-right: 0px;
+  display:inline-block;
+  float: initial;
+    color: #005577;
 }
 
 
@@ -1084,9 +1089,9 @@ margin-left: 4%;
 .usertop a,
 .usertop span{
 color: rgb(37, 60, 152);
-/* font-family: cursive; */
+font-family: initial;
   font-size: 13px;
-  font-weight: 800;  
+  font-weight: 600;  
   position: relative;
   
   display: block;
@@ -1107,6 +1112,11 @@ position: absolute;
   top: 33px;
   left: 55px;
   font-weight: 800;
+}
+#headerImg{
+	  max-width: 46px;
+  max-height: 44px;
+  position: absolute;
 }
 @media screen and (max-width: 1100px) {
     .estadoMaterial{

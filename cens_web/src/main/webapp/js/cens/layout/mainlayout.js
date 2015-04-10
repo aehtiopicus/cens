@@ -29,8 +29,7 @@
  	    $(document).bind("userImg",function(){
  	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	
  	    	$('#headerImg').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    				
-			$('#headerImg').css("max-width","50px");
-			$('#headerImg').css("position","absolute");
+	
 
 			$('#iam-img').attr("src",pagePath+"/api/miembro/"+JSON.parse(data.getNotificacion()).item.miembroId+"/picture");//fix me 	    	
 			$('#iam-img').css("max-width","70px");

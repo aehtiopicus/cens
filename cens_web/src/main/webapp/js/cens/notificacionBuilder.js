@@ -61,7 +61,7 @@ function processSeguimientoData(data){
 	
 	var cnSeguimiento = new censNotificaciones.cn.notificacion(notificacion);
 	
-	if(data.actividiad || data.comentario){
+	if(data.actividad || data.comentario){
 		if(data.actividad){
 			notificaciones.append(cnSeguimiento.estadoActividad(data.actividad,data.perfilRol));
 		}
@@ -237,7 +237,7 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 
 	var bubbleCount = 0;
 	
-	var itemIgnorar = this.ignorarItemCreator(programa);
+	
 	
 	
 	var resourceType = programa ? "Programa: " : "Material: ";
@@ -268,36 +268,87 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		itemAsignaturaProgramaUl.append(itemProgramaLi);
 		
 	});
-	if(linksPrograma[0].seguimiento){
-		bubble.addClass("seguimiento");	
-		bubble.on("click",function(){
-			itemIgnorar.toggleClass("open");
-		})
-		itemIgnorar.on("click",function(){	
-			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",false);
-			
-		});
-
-	}
+	
 	bubble.html(bubbleCount);
 	itemAsignaturaProgramaHeaderDiv.append(bubble);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaHeaderDiv);
 	itemAsignaturaProgramaDiv.append(itemAsignaturaProgramaUl);
-	itemAsignaturaProgramaDiv.append(itemIgnorar);
+	var itemVisualizar = this.visualizarItemCreator(programa,linksPrograma);
+	
+	
+	bubble.on("click",function(){
+		itemVisualizar.toggleClass("open");
+	})
+	var itemDivContainer = $("<div style='overflow:auto;'></div>");
+	
+	var itemIgnorar;
+	if(linksPrograma[0].seguimiento){
+		itemIgnorar = this.ignorarItemCreator(programa);
+		bubble.addClass("seguimiento");	
+		bubble.on("click",function(){
+			itemIgnorar.toggleClass("both");
+			itemVisualizar.toggleClass("both");
+			itemVisualizar.css("margin-right","7px");
+		})
+		
+		itemIgnorar.on("click",function(){	
+			var noti = {isNoti:false,dataType:actividad };
+			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",noti);
+			$("#seguimientoOpen").trigger("click");
+			
+		});
+		itemDivContainer.append(this.itemActionLink(itemIgnorar));		
+
+	}
+	itemDivContainer.append(this.itemActionLink(itemVisualizar));
+	itemAsignaturaProgramaDiv.append(itemDivContainer);
+	
 	return itemAsignaturaProgramaDiv;
 }
 
+this.itemActionLink = function (data){
+	itemIgnorarDiv = $("<div></div>");
+	itemIgnorarDiv.css("display","inline-block");
+	itemIgnorarDiv.css("float","right");
+	itemIgnorarDiv.append(data);
+	return itemIgnorarDiv;
+}
 this.ignorarItemCreator = function(programa){
+
 	
 	itemIgnorar = $('<h3></h3>');
 	itemIgnorar.addClass("subtitulo");
 	itemIgnorar.addClass("curso-asignatura");
 	itemIgnorar.addClass((programa ? 'programa' : 'material'));
 	itemIgnorar.addClass("ignorar");
-	itemIgnorar.html("Ignorar");	
+	itemIgnorar.html("Ignorar");
+	itemIgnorar.css("cursor","pointer");
 	return itemIgnorar;
 	
 }
+
+this.visualizarItemCreator = function(programa,linksPrograma){
+	
+	itemVisualizar = $('<h3></h3>');
+	itemVisualizar.addClass("subtitulo");
+	itemVisualizar.addClass("curso-asignatura");
+	itemVisualizar.addClass((programa ? 'programa' : 'material'));
+	itemVisualizar.addClass("ignorar");
+	itemVisualizar.html("Visualizar");	
+	itemVisualizar.css("cursor","pointer");
+	
+	itemVisualizar.on("click",function(){
+		if(!linksPrograma[0].seguimiento){
+			var noti = {isNoti:true};
+			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",noti);
+		}
+		location.href = linksPrograma[0].url;
+		});
+	return itemVisualizar;
+	
+}
+
+
 this.resourceTitleCreator = function(programa,linksPrograma){
 	
 	var itemAsignaturaProrgamaTitle = $('<h3></h3>');
@@ -308,12 +359,7 @@ this.resourceTitleCreator = function(programa,linksPrograma){
 	var resourceType = programa ? "Programa: " : "Material: ";
 	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
 	
-	itemAsignaturaProrgamaTitle.on("click",function(){
-		if(!linksPrograma[0].seguimiento){
-			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",true);
-		}
-		location.href = linksPrograma[0].url;
-		});
+
 	
 	return itemAsignaturaProrgamaTitle;
 }

@@ -128,9 +128,9 @@ function enableBubble(data,bubble,noti){
 		$("#"+bubble).show();
 	}else{
 		if(noti){
-			$("#"+bubble+"1").hide();
+			$("#"+bubble+"1").html("0");
 		}
-		$("#"+bubble).hide();
+		$("#"+bubble).html("0");
 	}
 }
 
@@ -161,18 +161,33 @@ function removerNotificacionesPorPrograma(programaId,isPrograma,noti){
 	
 	
 	
-		var data = datas[noti ? 0 : 1];
-		if(typeof data.actividad !== "undefined"){
-			var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
-			data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
-			data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
+		var data = datas[noti.isNoti ? 0 : 1];
+		
+		
+		if(noti.isNoti){
+			if(typeof data.actividad !== "undefined"){
+				var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
+				data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
+				data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;				
+			}
+			if(typeof data.comentario !== "undefined"){
+				var cantActual= decreaseCounter(data.comentario,programaId,isPrograma);
+				data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
+				data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;				
+			}
+		}else{
+			if(noti.dataType){
+				var cantActual= decreaseCounter(data.actividad,programaId,isPrograma);
+				data.actividad = removeProgramaMaterial(data.actividad,programaId,isPrograma);
+				data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;	
+			}else{
+				var cantActual= decreaseCounter(data.comentario,programaId,isPrograma);
+				data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
+				data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;	
+			} 
 		}
-		if(typeof data.comentario !== "undefined"){
-			var cantActual = decreaseCounter(data.comentario,programaId,isPrograma);
-			data.comentario = removeProgramaMaterial(data.comentario,programaId,isPrograma);
-			data.cantidadNotificaciones = data.cantidadNotificaciones - cantActual;
-		}
-		datas[noti ? 0 : 1] = data;
+		datas[noti.isNoti ? 0 : 1] = data;
+	
 	
 	ls.setNotificacion(datas);
 }

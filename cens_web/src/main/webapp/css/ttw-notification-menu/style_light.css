@@ -56,6 +56,7 @@
   top: -17px;
   left: 124px;
     font-family: initial;
+    cursor:pointer;
 }
 
 .notifybubble{
@@ -74,6 +75,7 @@
   top: -33px;
   float: right;
   background-color: rgb(0, 72, 155);
+  cursor:pointer;
 }
 
 .notifybubble.seguimiento{
