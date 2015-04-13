@@ -17,6 +17,7 @@
     
     	<div class="acciones">
     		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/miembroABM'">Nuevo Miembro Cens</button>
+    		<button class="button" type="button">Carga Masiva de Alumnos</button>
     	</div>
     
 		<!--     Filtros -->
@@ -51,6 +52,10 @@
 </div>
 
 <div id="remUser" class="dialog" title="Confirmar">
+	<p>Se elimininar&aacute; el usuario del sistema. ¿Desea continuar?</p>
+</div>
+
+<div id="cargaMasivaAlumnos" class="dialog" title="Carga Masiva de Alumnos">
 	<p>Se elimininar&aacute; el usuario del sistema. ¿Desea continuar?</p>
 </div>
 
