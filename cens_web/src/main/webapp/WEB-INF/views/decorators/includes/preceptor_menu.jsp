@@ -20,18 +20,6 @@
 			<li><a href="<%=request.getContextPath() %>/mvc/inscripcion">Inscripci&oacute;n de Alumnos</a></li>
 		</ul>
 	</li>
-	<li>
-        <a href="#">Profesores</a>
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/mvc/profesor/asignaturaList">Gesti&oacute;n de planes de estudio</a></li>			
-		</ul>
-	</li>
-	
-	<li>
-        <a href="<%=request.getContextPath() %>/mvc/asesor/dashboard">Asesor</a>
-
-	</li>
-	
 	
 
 

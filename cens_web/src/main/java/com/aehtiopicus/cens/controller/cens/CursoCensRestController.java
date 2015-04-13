@@ -30,7 +30,7 @@ import com.aehtiopicus.cens.service.cens.CursoCensService;
 import com.aehtiopicus.cens.util.Utils;
 
 @Controller
-@Secured("ROLE_PRECEPTOR")
+//@Secured("ROLE_PRECEPTOR")
 public class CursoCensRestController extends AbstractRestController{
 
 	@Autowired

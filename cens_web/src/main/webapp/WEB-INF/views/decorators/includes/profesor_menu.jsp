@@ -5,6 +5,10 @@
 <ul class="menu">
 
 	<li>
+		<a href="<%=request.getContextPath()%>/mvc/perfil">Mi Perfil</a>
+
+	</li>
+	<li>
         <a href="#">Profesores</a>
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/mvc/profesor/asignaturaList">Gesti&oacute;n de planes de estudio</a></li>

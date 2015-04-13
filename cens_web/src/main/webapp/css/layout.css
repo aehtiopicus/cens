@@ -618,18 +618,31 @@ fieldset div input[type=file]{
 
 
 #encabezado{
-	display: inline-flex;
+	display: inline-block;
 	width: 100%;
 }
 #encabezado .center{
-	width: 100%;
-	text-align: center;
+	
+	text-align: right;
 	color: #005577;
 	font-style:italic;
+	display: inline-block;
+  	vertical-align: top;
+  	width: 46%;
+  	margin: 0 auto;
+}
+
+#encabezado .user{
+	  display: inline-block;
+  vertical-align: text-top;
+  float: right;
+  margin-right: 76px;
+  margin-top: 6px;
 }
 
 #encabezado .logo{
 	margin: 5px 0px 5px 11px;
+	display:inline-block;
 }
 /* .handsontable .current { */
 /*   background-color: #E7E8EF; */
@@ -1052,6 +1065,7 @@ margin-left: 4%;
 
 .notificacion li{
 	  list-style: none;
+	  display: inline-block;
 }
 .notificacion .vinculos .items{
   float: left;

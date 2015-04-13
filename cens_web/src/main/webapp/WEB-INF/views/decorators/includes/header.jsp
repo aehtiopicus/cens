@@ -15,7 +15,7 @@ var pagePath="<%=request.getContextPath()%>";
 		<div class="center">
 			<h2>Gesti&oacute;n de Material Did&aacute;ctico</h2>
 		</div>
-		<div style="width: 10%;padding-top: 4px;padding-right: 10px;">
+		<div class="user">
 			<div style="display:inline-block;">
 				<div style="  position: relative;">
 					<img id="headerImg"  class="avatarimg">
