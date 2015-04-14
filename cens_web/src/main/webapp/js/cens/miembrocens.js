@@ -106,6 +106,10 @@ jQuery(document).ready(function () {
 			]
 		});          
         fixTable();
+        cargaMasivaAlumnos = new alumnos.al.cargamasiva({dialogName:'cargaMasivaAlumnos', fileSelection:'fileSelection'});
+        $('#cma').on("click",function(){
+        	cargaMasivaAlumnos.openDialgo();
+        });
     });
  
  function editCurrencyFmatter (cellvalue, options, rowObject)

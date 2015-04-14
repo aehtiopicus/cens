@@ -9,7 +9,9 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 	<script>var pagePath="<%=request.getContextPath() %>"</script>
+    <script src="<%=request.getContextPath() %>/js/cens/cargaalumnos.js"></script>
     <script src="<%=request.getContextPath() %>/js/cens/miembrocens.js?v=<%= new Date().getTime()%>"></script>
+    
 
 <div class="centreDiv">
   
@@ -17,7 +19,7 @@
     
     	<div class="acciones">
     		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/miembroABM'">Nuevo Miembro Cens</button>
-    		<button class="button" type="button">Carga Masiva de Alumnos</button>
+    		<button class="button" type="button" id="cma">Carga Masiva de Alumnos</button>
     	</div>
     
 		<!--     Filtros -->
@@ -56,7 +58,7 @@
 </div>
 
 <div id="cargaMasivaAlumnos" class="dialog" title="Carga Masiva de Alumnos">
-	<p>Se elimininar&aacute; el usuario del sistema. ¿Desea continuar?</p>
+	<jsp:include page="cargamasiva.jsp"></jsp:include>
 </div>
 
 
