@@ -76,8 +76,33 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 	}	
 		
 	$(this.fileSelector).change(function(event){
-		alert(event.target.files[0]);
+		var f = event.target.files[0]
+		 var reader = new FileReader();
+		    var name = f.name;
+		    reader.onload = function(e) {
+		      var data = e.target.result;
+
+		      /* if binary string, read with type 'binary' */
+		      var workbook = XLS.read(data, {type: 'binary'});
+
+		      /* DO SOMETHING WITH workbook HERE */
+		      cargaMasivaAlumnos.jsonFormer(workbook);
+		    };
+		    reader.readAsBinaryString(f);
 	})	;
+	
+	this.jsonFormer = function(workbook) {
+		var result = {};
+		var name = "index";
+		workbook.SheetNames.forEach(function(sheetName) {
+			var xlsData = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+			if(xlsData.length > 0){
+				result[name] = xlsData;
+			}
+		});
+		$(cargaMasivaAlumnos.fileSelector).val('');
+		return result;
+	}
 	
 	
 }
