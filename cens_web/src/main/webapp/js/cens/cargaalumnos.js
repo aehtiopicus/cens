@@ -52,7 +52,8 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 		
 		$(this.dialog).dialog({
 			autoOpen: false,
-			width: 400,
+			minWidth: 700,
+			maxWidth: 700,
 			buttons: [
 				{
 					text: "Ok",
@@ -86,7 +87,15 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 		      var workbook = XLS.read(data, {type: 'binary'});
 
 		      /* DO SOMETHING WITH workbook HERE */
-		      cargaMasivaAlumnos.jsonFormer(workbook);
+		     var result = cargaMasivaAlumnos.jsonFormer(workbook);
+		     if(result != null){		    	
+		    	 if(!cargaMasivaAlumnos.checkResult(result)){
+		    	 	alert("Formato de achivo incorrecto. Descargue la plantilla");
+		     	}else{	
+		    	 alumnoResult = new alumnos.al.alumnos(result);
+		    	 alumnoResult.aramarAlumnos();
+		     	}
+		     }
 		    };
 		    reader.readAsBinaryString(f);
 	})	;
@@ -98,13 +107,59 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 			var xlsData = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
 			if(xlsData.length > 0){
 				result[name] = xlsData;
+			}else{
+				result = null;
+				alert("No hay datos en la lista");
 			}
 		});
 		$(cargaMasivaAlumnos.fileSelector).val('');
 		return result;
 	}
 	
+	this.checkResult = function(result){
+		if(typeof result.index[0].apellido === "undefined" || typeof result.index[0].dni === "undefined" || typeof result.index[0].nombre === "undefined" ||typeof result.index[0].nac === "undefined" ){
+			return false;
+		}
+		return true;
+	}
 	
+	
+}
+
+alumnos.namespace("al");
+alumnos.al.alumnos = alumnos.makeClass();
+
+alumnos.al.alumnos.prototype.init = function(param){
+	this.alumnosRaw = param.index;
+	this.alumnos = [];
+	
+	this.aramarAlumnos = function(){
+		var self = this;
+		$.each(this.alumnosRaw,function(index,value){
+			self.alumnos.push(self.armarAlumno(value));
+		});
+	}
+	
+	this.armarAlumno = function(alumnoRaw){
+		var alumnoNew = {
+				apellido:null,dni:null,fechaNac:null,id:null,nombre:null,usuario:null
+		};
+		var usuarioNew = {
+				id:null,username:null,perfil:[{perfilType:"ALUMNO"}]
+		}
+		
+		alumnoNew.apellido = alumnoRaw.apellido;
+		alumnoNew.dni = alumnoRaw.dni;
+		alumnoNew.nombre = alumnoRaw.nombre;
+		alumnoNew.fechaNac = new Date(alumnoRaw.nac).toISOString();
+		
+		usuarioNew.username = alumnoNew.nombre.substring(0,1)+ alumnoNew.apellido.substring(0,1)+alumnoNew.dni;
+		
+		alumnoNew.usuario = usuarioNew;
+		
+		return alumnoNew;
+		
+	}
 }
 
 

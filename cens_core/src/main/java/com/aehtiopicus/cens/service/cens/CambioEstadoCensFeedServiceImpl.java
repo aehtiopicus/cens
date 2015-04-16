@@ -167,6 +167,7 @@ public class CambioEstadoCensFeedServiceImpl implements CambioEstadoCensFeedServ
 
 
 	@Override
+	@Transactional
 	public int markCommetnsAsIgnored(Long tipoId, ComentarioType tipoType)
 			throws CensException {
 		try{

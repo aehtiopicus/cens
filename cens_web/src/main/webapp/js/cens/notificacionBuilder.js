@@ -292,10 +292,17 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		})
 		
 		itemIgnorar.on("click",function(){	
-			var noti = {isNoti:false,dataType:actividad };
-			removerNotificacionesPorPrograma(linksPrograma[0].programaId,resourceType === "Programa: ",noti);
-			$("#seguimientoOpen").trigger("click");
+			var noti = {
+					isNoti:false,
+					dataType:actividad,
+					programaId: linksPrograma[0].programaId,
+					rt: resourceType === "Programa: ",
+					tipoId: (typeof linksPrograma[0].materialId === "undefined" ? linksPrograma[0].programaId : linksPrograma[0].materialId ),					
+					};
 			
+			self.ignorarCall(noti);
+			
+					
 		});
 		itemDivContainer.append(this.itemActionLink(itemIgnorar));		
 
@@ -305,7 +312,27 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	
 	return itemAsignaturaProgramaDiv;
 }
+this.ignorarCall= function(noti){
+	var urlFragment =noti.tipoId +"/"+(noti.rt ? "PROGRAMA": "MATERIAL")+"/"+(noti.dataType ? "ACTIVIDAD" :"COMENTARIO");
+	
+	$.ajax({
+		url: pagePath+"/api/notificacion/"+urlFragment,
+		type: "PUT",	    	    
+		contentType :'application/json',
+		dataType: "json",    
+		success : function(result){
+			removerNotificacionesPorPrograma(noti.programaId,noti.rt,noti);
+			$("#seguimientoOpen").trigger("click");
+			alert("Notificaciones removidas",messageType.info);
+		},
+		error: function(value,xhr){
+			
+			alert("Se produjo un error el servidor");
 
+		}
+	})
+	
+}
 this.itemActionLink = function (data){
 	itemIgnorarDiv = $("<div></div>");
 	itemIgnorarDiv.css("display","inline-block");
@@ -400,6 +427,7 @@ this.crearMaterial = function(material,programa,curso,asignatura,asesor,perfilId
 	p.nombre = material.nombre;
 	p.estado = material.estadoRevision;
 	p.programaId = programa.id;
+	p.materialId = material.id;
 	if(this.seguimiento){
 		p.fechaNotificado= material.fechaNotificado;
 		p.diasNotificado = material.diasNotificado;
