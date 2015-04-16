@@ -130,9 +130,17 @@ alumnos.namespace("al");
 alumnos.al.alumnos = alumnos.makeClass();
 
 alumnos.al.alumnos.prototype.init = function(param){
-	this.alumnosRaw = param.index;
+	this.alumnosRaw =[];
 	this.alumnos = [];
+	var i = 1;
 	
+	var self = this;
+	
+	$.each( param.index,function(index,value){
+		value.id = i
+		self.alumnosRaw.push(value);
+		i++;
+	});
 	this.aramarAlumnos = function(){
 		var self = this;
 		$.each(this.alumnosRaw,function(index,value){
