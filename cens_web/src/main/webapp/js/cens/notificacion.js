@@ -70,8 +70,9 @@ function openDialog(noti){
 	
 	$('#cerrarIam').trigger("click");
 	loadNotificationInformation(processNotificacionData,noti);		 		
+
 	
-}
+} 
 
 
 function loadNotificationInformation(processNotificacionData,noti){
