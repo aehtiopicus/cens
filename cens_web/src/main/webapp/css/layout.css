@@ -1137,6 +1137,38 @@ position: absolute;
   width: 100%;
   text-align: center;
 }
+.none{
+	 display:none;
+}
+#alumnoData .cmaPending{
+	background-image: url('midasUI-theme/images/cmaPending.png');
+	width: 19px;
+  	height: 17px;
+  	margin-right: 17px;
+  	background-repeat: no-repeat;
+}
+#alumnoData .cmaInfo{
+	background-image: url('midasUI-theme/images/cmaInfo.png');
+	width: 19px;
+  	height: 17px
+}
+#alumnoData .cmaError{
+	background-image: url('midasUI-theme/images/cmaError.png');
+	width: 19px;
+  	height: 17px
+}
+#alumnoData .cmaSuccess{
+	background-image: url('midasUI-theme/images/cmaSuccess.png');
+	width: 19px;
+  	height: 17px
+}
+#downloadsample{
+	background-image: url('midasUI-theme/images/excel.png');
+	  background-repeat: no-repeat;
+  background-position-x: 128px;
+	font-size: 12px;
+  margin-left: 10px;
+}
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;
