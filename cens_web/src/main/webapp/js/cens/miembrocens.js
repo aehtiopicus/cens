@@ -1,5 +1,6 @@
 var cookiePage = "";
 var cookieRegsXPage = "";
+var alumnoResult;
 
 jQuery(document).ready(function () {
 
@@ -108,7 +109,15 @@ jQuery(document).ready(function () {
         fixTable();
         cargaMasivaAlumnos = new alumnos.al.cargamasiva({dialogName:'cargaMasivaAlumnos', fileSelection:'fileSelection'});
         $('#cma').on("click",function(){
-        	cargaMasivaAlumnos.openDialgo();
+        	$("#alumnoHeader").addClass("none");
+        	$("#alumnoData").addClass("none");
+        	$("#cmaNoData").removeClass("none");
+        	$("#fileUploadName").val("");
+        	cargaMasivaAlumnos.openDialgo();        	
+        });
+        $(document).bind("cmaComplete",function(){
+        	assembleAlumnos();
+        	$("#cmaB").button( "option", "disabled", false );
         });
     });
  
@@ -266,4 +275,10 @@ function resetPassword(url){
 		}
 		
 	);
+}
+
+function assembleAlumnos(){
+	alumnoResult.crearAlumnosHtml("alumnoData");
+	$(".none").toggleClass("none");
+	$("#cmaNoData").addClass("none");
 }

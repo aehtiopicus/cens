@@ -54,19 +54,20 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 			autoOpen: false,
 			minWidth: 700,
 			maxWidth: 700,
+			modal: true,
 			buttons: [
-				{
-					text: "Ok",
+			    {
+					text: "Cargar Alumnos",
+					id: "cmaB",
+					disabled: true,
 					click: function() {
-						$(this).dialog( "close" );
-//						self;
+						alumnoResult.guardarAlumnos();
 					}
-				},
+				},				
 				{
 					text: "Cancelar",
 					click: function() {
 						$(this).dialog( "close" );
-//						self.;
 					}
 				}
 			]
@@ -80,6 +81,7 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 		var f = event.target.files[0]
 		 var reader = new FileReader();
 		    var name = f.name;
+		    $("#fileUploadName").val(name);
 		    reader.onload = function(e) {
 		      var data = e.target.result;
 
@@ -93,7 +95,7 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 		    	 	alert("Formato de achivo incorrecto. Descargue la plantilla");
 		     	}else{	
 		    	 alumnoResult = new alumnos.al.alumnos(result);
-		    	 alumnoResult.aramarAlumnos();
+		    	 $(document).trigger("cmaComplete");
 		     	}
 		     }
 		    };
@@ -131,22 +133,9 @@ alumnos.al.alumnos = alumnos.makeClass();
 
 alumnos.al.alumnos.prototype.init = function(param){
 	this.alumnosRaw =[];
-	this.alumnos = [];
 	var i = 1;
 	
-	var self = this;
-	
-	$.each( param.index,function(index,value){
-		value.id = i
-		self.alumnosRaw.push(value);
-		i++;
-	});
-	this.aramarAlumnos = function(){
-		var self = this;
-		$.each(this.alumnosRaw,function(index,value){
-			self.alumnos.push(self.armarAlumno(value));
-		});
-	}
+	var self = this;		
 	
 	this.armarAlumno = function(alumnoRaw){
 		var alumnoNew = {
@@ -161,13 +150,105 @@ alumnos.al.alumnos.prototype.init = function(param){
 		alumnoNew.nombre = alumnoRaw.nombre;
 		alumnoNew.fechaNac = new Date(alumnoRaw.nac).toISOString();
 		
-		usuarioNew.username = alumnoNew.nombre.substring(0,1)+ alumnoNew.apellido.substring(0,1)+alumnoNew.dni;
+		usuarioNew.username = alumnoNew.nombre.substring(0,1).toLowerCase()+ alumnoNew.apellido.substring(0,1).toLowerCase()+alumnoNew.dni;
 		
 		alumnoNew.usuario = usuarioNew;
 		
 		return alumnoNew;
 		
 	}
+	
+	this.crearAlumnosHtml = function(divToAppend){
+		var self = this;
+		var alumnoDataDiv = $('#'+divToAppend);
+		alumnoDataDiv.empty();
+		$.each(self.alumnosRaw,function(index,value){
+			alumnoDataDiv.append(self.crearAlumnoHtml(value));
+		});
+	}
+	this.crearAlumnoHtml = function(alumno){
+		
+		var mainDiv = $("<div></div>");
+		mainDiv.css("margin","3px");
+		
+		var dataDiv = $("<div></div>");
+		dataDiv.css("display","inline-block");
+		dataDiv.css("margin-top","4px");
+		dataDiv.html(alumno.text);
+		
+		var actionMainDiv = $("<div></div>");
+		actionMainDiv.css("display","inline-block");
+		actionMainDiv.css("float","right");
+		
+		var actionInnerDiv = $("<div></div>");
+		actionInnerDiv.css("margin-right","19px");
+		actionInnerDiv.addClass("cmaPending");
+		actionInnerDiv.attr("id",alumno.alumnosCompiled[0].usuario.username);
+		actionInnerDiv.attr("title","No Procesado");
+		
+		actionMainDiv.append(actionInnerDiv);
+		
+		var clearBothDiv = $("<div></div>");
+		clearBothDiv.css("clear","both");
+		
+		mainDiv.append(dataDiv);
+		mainDiv.append(actionMainDiv);
+		mainDiv.append(clearBothDiv);
+		
+		return mainDiv;
+	}
+	
+	this.guardarAlumnos = function(){
+		
+		$.each(this.alumnosRaw,function(index,value){
+			
+			$.ajax({				  
+						  url: pagePath+"/api/miembro",
+						  data: JSON.stringify(value.alumnosCompiled),
+						  dataType:"json",
+						  type: "POST",
+						  contentType:"application/json", 
+						  success: function(data, textStatus, jqXHR){
+							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaSuccess");
+							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title","Alumno guardado");
+						  },
+						  error:function(error,textStatus){
+							  var message = " ";
+							  var dataError = error.responseJSON;
+							  var info = false;
+							  if(typeof dataError.errorDto !== "undefined" &&  dataError.errorDto){
+								  
+								  for(var key in dataError.errors) {
+									  if(dataError.errors[key] === "Existe un miembro con el documento indicado"){
+										  info = true;										  
+									  }
+									  message = message+dataError.errors[key]+" ";
+									  
+								  }
+								    
+							  }else{
+								  message = "Error General";
+							  }
+							  if(info){
+								  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaInfo");	
+							  }else{
+								  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaError");							  	
+							  }
+							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title",message);
+							  
+						  }
+						  
+			});
+		});
+	}
+	
+	$.each( param.index,function(index,value){
+		value.id = i
+		value.text = value.nombre.toUpperCase()+" "+value.apellido.toUpperCase()+", "+value.dni+" "+value.nac;
+		value.alumnosCompiled = [self.armarAlumno(value)];
+		self.alumnosRaw.push(value);
+		i++;
+	});
 }
 
 

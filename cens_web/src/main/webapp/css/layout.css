@@ -1138,7 +1138,7 @@ position: absolute;
   text-align: center;
 }
 .none{
-	 display:none;
+	 display:none !important;
 }
 #alumnoData .cmaPending{
 	background-image: url('midasUI-theme/images/cmaPending.png');
