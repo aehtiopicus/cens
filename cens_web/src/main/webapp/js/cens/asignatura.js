@@ -21,11 +21,11 @@ jQuery(document).ready(function () {
                 	},
               
             },
-            colNames:['Nombre','Modalidad', 'Horarios', 'Profesor', 'Profesor Suplente','Curso','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
+            colNames:['Nombre','Modalidad', 'Horarios', 'Profesor', 'Profesor Suplente','Curso','<span class="ui-icon ui-icon-note"/>','<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
             colModel:[
                 {name:'nombre',index:'Nombre', sortable: false},
                 {name:'modalidad',index:'Modalidad',sortable: false},
-                {name:'horarios',index:'Horarios',sortable: false},                
+                {name:'horarios',index:'Horarios',sortable: false},               
                 {name:function(val){
                 	if(val.profesor !=null){
                 		return val.profesor.miembroCens.apellido+", ("+val.profesor.miembroCens.dni+")";
@@ -43,7 +43,15 @@ jQuery(document).ready(function () {
                 {name:function(val){
                 	return val.curso.nombre+" ("+val.curso.yearCurso+")";
                 },index:'Profesor',sortable: false},                 
-        		{ 	
+                { 	
+        			name: 'id',   
+        			width: 16,
+        			editable: false, 
+        			sortable: false,
+        			fixed: true,
+        			formatter: addCursoInscripcion
+        		},
+                { 	
         			name: 'id',   
         			width: 16,
         			editable: false, 
@@ -110,6 +118,18 @@ jQuery(document).ready(function () {
         fixTable();
     });
  
+function addCursoInscripcion (cellvalue, options, rowObject){
+	var cursoInscripcionA = $("<a></a>");
+	cursoInscripcionA.attr("href",pagePath+"/mvc/asignaturaABM/"+cellvalue+"/inscripcion");
+	cursoInscripcionA.attr("title",($('<div/>').html("Inscripci&oacute;n").text())+" de Alumnos");
+	
+	var cusroInscripcionSpan = $("<span></span>");
+	cusroInscripcionSpan.addClass("ui-icon");
+	cusroInscripcionSpan.addClass("ui-icon-note");	
+	cursoInscripcionA.append(cusroInscripcionSpan);
+    return cursoInscripcionA.prop('outerHTML');
+}
+
  function editCurrencyFmatter (cellvalue, options, rowObject)
  {
 	var template = "<a href='"+pagePath+"/mvc/asignaturaABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
