@@ -119,7 +119,7 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
    	 		cantUsers = alumnoCensRepository.count(getSpecificationProfesor(null,null,null));
 		
    	 	}else{
-   	 		Specifications<Alumno> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("profesor") ?restRequest.getFilters().get("profesor") : null,,restRequest.getFilters().get("asignaturaId"));
+   	 		Specifications<Alumno> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("profesor") ?restRequest.getFilters().get("profesor") : null,restRequest.getFilters().get("asignaturaId"));
    	 		cantUsers = alumnoCensRepository.count(specification);
    	 	}
    	 	   	 	
