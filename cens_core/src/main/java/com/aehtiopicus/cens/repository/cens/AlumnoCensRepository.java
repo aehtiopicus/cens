@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.repository.cens;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,7 @@ import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 
 @Repository
-public interface AlumnoCensRepository extends JpaRepository<Alumno,Long>{
+public interface AlumnoCensRepository extends JpaRepository<Alumno,Long>, JpaSpecificationExecutor<Alumno> {
 
 	public Alumno findOneByMiembroCens(MiembroCens usuario);
 	
