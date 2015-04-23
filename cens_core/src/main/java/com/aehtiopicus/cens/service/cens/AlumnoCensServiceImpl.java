@@ -100,12 +100,21 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 Long alumnoId;
 			 try{
 				 alumnoId = Long.parseLong(alumno);
+				 specifications = specifications.and(AlumnoCensSpecification.notThisOne(alumnoId));
 			 }catch(Exception e){	
 				 alumnoId = null;
 			 }
-			 if(alumnoId!=null){
-				 specifications = specifications.and(AlumnoCensSpecification.notThisOne(alumnoId));
+
+		 }
+		 if(StringUtils.isNotEmpty(asignatura)){
+			 Long asignaturaId;
+			 try{
+				 asignaturaId = Long.parseLong(alumno);
+				 specifications = specifications.and(AlumnoCensSpecification.inThisAsignatura(asignaturaId));
+			 }catch(Exception e){
+				 asignaturaId = null;
 			 }
+			 
 		 }
 		return specifications; 
 	}
