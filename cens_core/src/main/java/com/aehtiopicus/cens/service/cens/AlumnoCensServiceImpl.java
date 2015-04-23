@@ -81,12 +81,12 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 return requestedPage.getContent();
 		 }
 		 Specifications<Alumno> specifications = getSpecificationProfesor(
-				 restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("alumno") ?restRequest.getFilters().get("alumno") : null,restRequest.getFilters().get("asignaturaId"));
+				 restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,restRequest.getFilters().get("asignaturaId"));
 		 requestedPage = alumnoCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 		 return requestedPage.getContent();
 	}
 	
-	private Specifications<Alumno> getSpecificationProfesor(String data, String alumno,String asignatura){
+	private Specifications<Alumno> getSpecificationProfesor(String data, String asignaturaRemove,String asignatura){
 		
 		Specifications<Alumno> specifications = Specifications.where(AlumnoCensSpecification.perfilTrabajadorCensEquals());		
 		
@@ -96,20 +96,20 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 		 }else{
 			 specifications  = specifications.and(AlumnoCensSpecification.NotBaja());
 		 }
-		 if(StringUtils.isNotEmpty(alumno)){
-			 Long alumnoId;
+		 if(StringUtils.isNotEmpty(asignaturaRemove)){
+			 Long asignaturaRemoveId;
 			 try{
-				 alumnoId = Long.parseLong(alumno);
-				 specifications = specifications.and(AlumnoCensSpecification.notThisOne(alumnoId));
+				 asignaturaRemoveId = Long.parseLong(asignaturaRemove);
+				 specifications = specifications.and(AlumnoCensSpecification.notThisOne(asignaturaRemoveId));
 			 }catch(Exception e){	
-				 alumnoId = null;
+				 asignaturaRemoveId = null;
 			 }
 
 		 }
 		 if(StringUtils.isNotEmpty(asignatura)){
 			 Long asignaturaId;
 			 try{
-				 asignaturaId = Long.parseLong(alumno);
+				 asignaturaId = Long.parseLong(asignatura);
 				 specifications = specifications.and(AlumnoCensSpecification.inThisAsignatura(asignaturaId));
 			 }catch(Exception e){
 				 asignaturaId = null;

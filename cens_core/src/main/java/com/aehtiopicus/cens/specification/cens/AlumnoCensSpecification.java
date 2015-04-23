@@ -21,7 +21,7 @@ public class AlumnoCensSpecification {
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
 				return cb.equal(
-						root.join("asignaturas").join("asignaturas").<Long>get("id")
+						root.join("asignaturas").<Long>get("id")
 								.get("perfilType"),asignaturaId);
 
 			}
@@ -146,13 +146,13 @@ public class AlumnoCensSpecification {
 		};
 	}
 
-	public static Specification<Alumno> notThisOne(final Long asesorId) {
+	public static Specification<Alumno> notThisOne(final Long asignaturaId) {
 		return new Specification<Alumno>() {
 
 			@Override
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.notEqual(root.get("id"), asesorId);
+				return cb.notEqual(root.join("asignaturas").get("id"), asignaturaId);
 			}
 		};
 	}
