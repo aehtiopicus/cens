@@ -83,5 +83,6 @@ public class UrlConstant {
 	public static final String NOTIFICACION_NO_LEIDAS_MIEMBRO_REST = API+"notificacion/miembro/{miembroId}/asesor";
 	public static final String NOTIFICACION_NO_LEIDAS_IGNORAR_MIEMBRO_REST = API+"notificacion/{tipoId}/{tipoType}/{notificacionType}";
 	/*Alumno*/
+	public static final String ALUMNO_CENS_REST = API+"alumno";
 		
 }

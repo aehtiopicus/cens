@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
 	var apellido = jQuery("#apellido").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:pagePath+"/api/asignatura/"+asignaturaId+"/asignatura",    		
+    		url:pagePath+"/api/asignatura/"+asignaturaId+"/alumno",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -15,8 +15,9 @@ jQuery(document).ready(function () {
                 id: "id",
                 cell: "",
                 root: function (obj) { 
-                	return obj.rows; 
-                	},
+                	asignaturaData(obj);
+                	return obj.alumnos.rows; 
+                },
               
             },
             colNames:['Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
@@ -116,7 +117,7 @@ function restoreState(){
 	}
 	
 	
-	if(getCookie('usuarioRegXPage') != ""){
+	if(getCookie('asignaturaUsuarioRegXPage') != ""){
 		$(".ui-pg-selbox").val(getCookie('asignaturaUsuarioRegXPage'));
 		cookieRegsXPage = getCookie('asignaturaUsuarioRegXPage');
 	}else{
@@ -153,7 +154,7 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-        	url:pagePath+"/api/asignatura/"+asignaturaId+"/asignatura",
+        	url:pagePath+"/api/asignatura/"+asignaturaId+"/alumno",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
@@ -178,4 +179,12 @@ function calculatePageToLoadAfterDelete(){
 	return currentPage;
 }
  
+function asignaturaData(asignaturaData){
+	var profesor = typeof asignaturaData.profesor != "undefined" ? profNombre(asignaturaData.profesor) :  profNombre(asignaturaData.profesorSuplente);
+	var curso = asignaturaData.curso.nombre.toUpperCase()+" ("+asignaturaData.curso.yearCurso+")";
+	$("#projectTable").jqGrid("setCaption","Asignatura "+asignaturaData.nombre+" Curso"+curso+" "+" Profesor: "+profesor);
+}
 
+function profNombre(prof){
+	return prof.miembroCens.apellido.toUpperCase()+", "+prof.miembroCens.nombre.toUpperCase();
+}

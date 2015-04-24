@@ -10,6 +10,7 @@ public class AsignaturaDto {
 	private AsignaturaCursoDto curso;
 	private AsignaturaProfesorDto profesor;
 	private AsignaturaProfesorDto profesorSuplente;
+	private RestResponseDto<AlumnoDto> alumnos;
 	private boolean vigente;
 	
 	
@@ -60,6 +61,12 @@ public class AsignaturaDto {
 	}
 	public void setVigente(boolean vigente) {
 		this.vigente = vigente;
+	}
+	public RestResponseDto<AlumnoDto> getAlumnos() {
+		return alumnos;
+	}
+	public void setAlumnos(RestResponseDto<AlumnoDto> alumnos) {
+		this.alumnos = alumnos;
 	}
 	
 	
