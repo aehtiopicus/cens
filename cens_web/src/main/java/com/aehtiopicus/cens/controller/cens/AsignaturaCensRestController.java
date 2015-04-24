@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,25 +20,37 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.AsignaturaCensValidator;
+import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
+import com.aehtiopicus.cens.dto.cens.AlumnoDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
+import com.aehtiopicus.cens.mapper.cens.AlumnoCensMapper;
 import com.aehtiopicus.cens.mapper.cens.AsignaturaCensMapper;
+import com.aehtiopicus.cens.service.cens.AlumnoCensService;
 import com.aehtiopicus.cens.service.cens.AsignaturaCensService;
 import com.aehtiopicus.cens.util.Utils;
 
 @Controller
 public class AsignaturaCensRestController extends AbstractRestController{
 
+	private static final Logger logger = LoggerFactory.getLogger(AsignaturaCensRestController.class);
+	
 	@Autowired
 	private AsignaturaCensService asignaturaCensService;
 	@Autowired
 	private AsignaturaCensMapper asignaturaCensMapper;
 	@Autowired
 	private AsignaturaCensValidator validator;
+	
+	@Autowired
+	private AlumnoCensMapper mapper;
+	
+	@Autowired
+	private AlumnoCensService alumnoCensService;
 
 	
 	@ResponseStatus(HttpStatus.OK)
@@ -63,8 +77,8 @@ public class AsignaturaCensRestController extends AbstractRestController{
 		
 	}
 	
-	private RestResponseDto<AsignaturaDto> convertToResponse(RestRequest rr,long cantidad,List<AsignaturaDto> mcDto){
-		RestResponseDto<AsignaturaDto> result = new RestResponseDto<AsignaturaDto>();
+	private <T> RestResponseDto<T> convertToResponse(RestRequest rr,long cantidad,List<T> mcDto){
+		RestResponseDto<T> result = new RestResponseDto<T>();
 	
 		result.setTotal(Utils.getNumberOfPages(rr.getRow(),(int)cantidad));
 		result.setPage(rr.getPage()+1);
@@ -109,6 +123,22 @@ public class AsignaturaCensRestController extends AbstractRestController{
 		dto.setMessage("Asignatura Eliminada");
 		return dto;
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@RequestMapping(value = UrlConstant.ASIGNATURA_ALUMNO_CENS_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public RestResponseDto<AlumnoDto> listAlumnosFromAsignatura(@PathVariable(value="asignaturaId") Long asignaturaId,@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
+		logger.info("listando alumnos");
+		RestRequest rr = getRequestRequest(wrapper);
+		rr.getFilters().put("asignaturaId", asignaturaId.toString());
+		List<Alumno> alumnoList = alumnoCensService.listAlumnos(rr);
+		long cantidad  = alumnoCensService.getTotalAlumnoFilterByProfile(rr);
+		List<AlumnoDto> pDto = mapper.convertAlumnoListToDtoList(alumnoList);						
+		return convertToResponse(rr, cantidad, pDto);
+		
+	}
+	
+
 	
 	
 }

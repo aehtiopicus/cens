@@ -9,8 +9,12 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 
+	<script>
+		var pagePath="<%=request.getContextPath() %>"
+		var asignaturaId="${asignaturaId}";
+	</script>
     <script src="<%=request.getContextPath() %>/js/cens/asignaturaalumno.js"></script>
-    <script>var pagePath="<%=request.getContextPath() %>"</script>
+    
 
 <div class="centreDiv">
   

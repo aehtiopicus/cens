@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
 	var apellido = jQuery("#apellido").val();
 	
     jQuery("#projectTable").jqGrid({
-    		url:pagePath+"/api/miembro",    		
+    		url:pagePath+"/api/asignatura/"+asignaturaId+"/asignatura",    		
             datatype: "json",
             contentType :'application/json',
             jsonReader: {
@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
                 	},
               
             },
-            colNames:['Usuario','Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
+            colNames:['Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
             colModel:[              
                 {name:'nombre',index:'Nombre',sortable: false},
                 {name:'apellido',index:'Apellido',sortable: false},
@@ -46,18 +46,18 @@ jQuery(document).ready(function () {
             pager: "#pagingDiv",
             page:cookiePage,
             postData:{requestData:function(postData) {            	
-                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","apellido":apellido,"asignaturaId":asignaturaId}});
+                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido}});
             }},
             viewrecords: true,
-            caption: "Miembros Cens",            
+            caption: "Alumnos de la Asignatura",            
             loadComplete: function (data) {
             	$(".ui-pg-selbox").val(cookieRegsXPage);
             	$(".ui-pg-input").val(data.page);
-            	setCookie('usuarioPage', $('.ui-pg-input').val());
+            	setCookie('asignaturaUsuarioPage', $('.ui-pg-input').val());
             	cookiePage = $('.ui-pg-input').val();            	
             },
             onPaging: function(page){
-            	setCookie('usuarioRegXPage', $(".ui-pg-selbox").val());
+            	setCookie('asignaturaUsuarioRegXPage', $(".ui-pg-selbox").val());
             	cookieRegsXPage = $(".ui-pg-selbox").val();
             }
         });
@@ -117,14 +117,14 @@ function restoreState(){
 	
 	
 	if(getCookie('usuarioRegXPage') != ""){
-		$(".ui-pg-selbox").val(getCookie('usuarioRegXPage'));
-		cookieRegsXPage = getCookie('usuarioRegXPage');
+		$(".ui-pg-selbox").val(getCookie('asignaturaUsuarioRegXPage'));
+		cookieRegsXPage = getCookie('asignaturaUsuarioRegXPage');
 	}else{
 		cookieRegsXPage = 5;
 	}
-	if(getCookie('usuarioPage') != ""){
-		$('.ui-pg-input').val(getCookie('usuarioPage'));
-		cookiePage = getCookie('usuarioPage');
+	if(getCookie('asignaturaUsuarioPage') != ""){
+		$('.ui-pg-input').val(getCookie('asignaturaUsuarioPage'));
+		cookiePage = getCookie('asignaturaUsuarioPage');
 	}else{
 		cookiePage = 1;
 	}
@@ -153,12 +153,12 @@ function restoreState(){
 	jQuery("#projectTable").jqGrid(
            'setGridParam',
            {
-       		url:pagePath+"/api/miembro",
+        	url:pagePath+"/api/asignatura/"+asignaturaId+"/asignatura",
             gridview:true,
             contentType :'application/json',
       		dataType: "json",
       		 postData:{requestData:function(postData) {            	
-                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","apellido":apellido,"asignaturaId":asignaturaId}});
+                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido}});
              }},
       		page:pageNro})
       		.trigger("reloadGrid");
@@ -178,38 +178,4 @@ function calculatePageToLoadAfterDelete(){
 	return currentPage;
 }
  
-var usuarioIdToRemove = null;
-function deleteUsuario_dialog(usuarioId){
-	usuarioIdToRemove = usuarioId;
-	$("#remUser").dialog("open");
-}
 
-function deleteUsuario(){
-	var usuarioId = usuarioIdToRemove;
-	
-	var pageToLoad = calculatePageToLoadAfterDelete();
-	
-	usuarioIdToRemove = null;
-	$('#message').removeClass('msgSuccess');
-	$('#message').removeClass('msgError');
-	
-	$.ajax({
-		type:"DELETE",
-		url:pagePath+"/api/miembro/"+usuarioId,
-		contentType :'application/json',
-		dataType:"json",
-		success: function(data){
-			gridReload(pageToLoad);
-			$('#message').addClass('msgSuccess');
-			cargarMensaje(data,true);
-		},
-		error: function(data){
-			$('#message').addClass('msgError');	
-			cargarMensaje(errorConverter(data));						
-		}								
-
-		}
-		
-	);
-	
-} 

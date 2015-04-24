@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.VistasConstant;
@@ -35,6 +37,7 @@ public class AbstractController {
 	@Autowired
 	private MiembroCensService miembroCensService;
 
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler({Exception.class})
 	public ModelAndView handleFormException(Exception ex) {
 		logger.error(ex.getMessage());
@@ -44,6 +47,7 @@ public class AbstractController {
 		return mv;
 	}
 	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler({PageNotFoundException.class})
 	public ModelAndView handleFormException(PageNotFoundException ex) {		
 		

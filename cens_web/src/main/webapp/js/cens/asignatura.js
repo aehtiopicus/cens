@@ -120,8 +120,8 @@ jQuery(document).ready(function () {
  
 function addCursoInscripcion (cellvalue, options, rowObject){
 	var cursoInscripcionA = $("<a></a>");
-	cursoInscripcionA.attr("href",pagePath+"/mvc/asignaturaABM/"+cellvalue+"/inscripcion");
-	cursoInscripcionA.attr("title",($('<div/>').html("Inscripci&oacute;n").text())+" de Alumnos");
+	cursoInscripcionA.attr("href",pagePath+"/mvc/asignaturaABM/"+cellvalue+"/alumno");
+	cursoInscripcionA.attr("title","Alumnos de la asignatura");
 	
 	var cusroInscripcionSpan = $("<span></span>");
 	cusroInscripcionSpan.addClass("ui-icon");
