@@ -1143,7 +1143,7 @@ position: absolute;
 #alumnoData .cmaPending{
 	background-image: url('midasUI-theme/images/cmaPending.png');
 	width: 19px;
-  	height: 17px;
+  	height: 16px;
   	margin-right: 17px;
   	background-repeat: no-repeat;
 }
@@ -1168,6 +1168,12 @@ position: absolute;
   background-position-x: 128px;
 	font-size: 12px;
   margin-left: 10px;
+}
+
+
+.ui-icon-closethick-red.img{
+	background-position: -96px -128px;
+	background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png') !important;
 }
 @media screen and (max-width: 1100px) {
     .estadoMaterial{

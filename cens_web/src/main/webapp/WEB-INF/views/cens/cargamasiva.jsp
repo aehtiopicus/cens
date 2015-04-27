@@ -18,7 +18,7 @@
 </archivos>
 <div id="listaAlumnos">
 	<p id="cmaNoData" class="comments-link bold">No Hay datos</p>
-	<div id="alumnoHeader" class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix" style="margin-top: 10px;">
+	<div id="alumnoHeader" class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix" style="margin-top: 30px; width:98%;">
 		<span class="ui-jqgrid-title" style="float:left; margin-left:10px;">Datos del Alumno</span>
 		<span class="ui-jqgrid-title" style="float:right; margin-right:10px;">Estado</span>
 	</div>

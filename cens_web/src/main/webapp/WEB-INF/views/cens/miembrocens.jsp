@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jqgrid/ui.jqgrid.css">
 	<script>var pagePath="<%=request.getContextPath() %>"</script>
+	<script src="<%=request.getContextPath() %>/js/cens/alumno.js"></script>
     <script src="<%=request.getContextPath() %>/js/cens/cargaalumnos.js"></script>
     <script src="<%=request.getContextPath() %>/js/cens/miembrocens.js?v=<%= new Date().getTime()%>"></script>
     

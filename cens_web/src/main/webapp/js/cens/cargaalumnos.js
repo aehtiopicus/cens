@@ -1,47 +1,3 @@
-var alumnos = {
-        
-      
-     namespace: function(ns) {
-        var parts = ns.split("."),
-            object = this,
-            i, len;
-
-        for (i=0, len=parts.length; i < len; i++) {
-            if (!object[parts[i]]) {
-                object[parts[i]] = {};
-            }
-            object = object[parts[i]];
-        }
-        return object;
-    },
-
-    makeClass: function(){
-        return function(args){
-            if ( this instanceof arguments.callee ) {
-                if ( typeof this.init == "function" ){
-                    this.init.apply( this, args != null && args.callee ? args : arguments );
-                }
-            } 
-            else {
-                return new arguments.callee( arguments );
-            }
-        };
-    },
-
-    makeRandomNamespace: function(ns){
-        var randomNs = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for( var i=0; i < 20; i++ )
-            randomNs += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        if(ns != null){
-            randomNs = ns+'.'+randomNs;
-        }
-        return image.namespace(randomNs);
-    }
-};
-
 alumnos.namespace("al");
 alumnos.al.cargamasiva = alumnos.makeClass();
 
@@ -68,6 +24,7 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 					text: "Cancelar",
 					click: function() {
 						$(this).dialog( "close" );
+						$("#cmaB").button( "option", "disabled", true );
 					}
 				}
 			]
@@ -181,12 +138,21 @@ alumnos.al.alumnos.prototype.init = function(param){
 		actionMainDiv.css("float","right");
 		
 		var actionInnerDiv = $("<div></div>");
-		actionInnerDiv.css("margin-right","19px");
+		actionInnerDiv.css("margin-right","10px");
+		actionInnerDiv.css("display","inline-block");
 		actionInnerDiv.addClass("cmaPending");
 		actionInnerDiv.attr("id",alumno.alumnosCompiled[0].usuario.username);
 		actionInnerDiv.attr("title","No Procesado");
 		
+		var deleteCurrentDiv = $("<div></div>");
+		deleteCurrentDiv.attr("style","display:inline-block;  margin-right: -8px; margin-left: 8px;");		
+		deleteCurrentDiv.addClass("ui-icon");
+		deleteCurrentDiv.addClass("ui-icon-closethick-red");
+		deleteCurrentDiv.addClass("img");
+		
+		
 		actionMainDiv.append(actionInnerDiv);
+		actionMainDiv.append(deleteCurrentDiv);
 		
 		var clearBothDiv = $("<div></div>");
 		clearBothDiv.css("clear","both");
@@ -199,7 +165,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 	}
 	
 	this.guardarAlumnos = function(){
-		
+		$(".ui-icon.ui-icon-closethick-red.img").hide();
 		$.each(this.alumnosRaw,function(index,value){
 			
 			$.ajax({				  
@@ -210,6 +176,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 						  contentType:"application/json", 
 						  success: function(data, textStatus, jqXHR){
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaSuccess");
+							  $("#"+value.alumnosCompiled[0].usuario.username).css("margin-right","28px");
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title","Alumno guardado");
 						  },
 						  error:function(error,textStatus){
@@ -235,6 +202,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 								  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaError");							  	
 							  }
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title",message);
+							  $("#"+value.alumnosCompiled[0].usuario.username).css("margin-right","28px");
 							  
 						  }
 						  
