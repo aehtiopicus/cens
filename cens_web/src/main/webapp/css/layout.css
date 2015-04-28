@@ -1162,6 +1162,13 @@ position: absolute;
 	width: 19px;
   	height: 17px
 }
+
+#alumnoData .cmaLoading{
+	  background: url('midasUI-theme/images/ui-anim_basic_16x16.gif') right center no-repeat !important;
+	width: 19px;
+  	height: 17px
+}
+ 
 #downloadsample{
 	background-image: url('midasUI-theme/images/excel.png');
 	  background-repeat: no-repeat;

@@ -100,7 +100,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 		};
 		var usuarioNew = {
 				id:null,username:null,perfil:[{perfilType:"ALUMNO"}]
-		}
+		};
 		
 		alumnoNew.apellido = alumnoRaw.apellido;
 		alumnoNew.dni = alumnoRaw.dni;
@@ -149,7 +149,29 @@ alumnos.al.alumnos.prototype.init = function(param){
 		deleteCurrentDiv.addClass("ui-icon");
 		deleteCurrentDiv.addClass("ui-icon-closethick-red");
 		deleteCurrentDiv.addClass("img");
-		
+		deleteCurrentDiv.attr("id",alumno.alumnosCompiled[0].usuario.username+"x");
+		deleteCurrentDiv.on("click",function(){
+			indexToRemove = -1;
+			for(i= 0 ; i<alumnoResult.alumnosRaw.length;i++){
+				 if(alumnoResult.alumnosRaw[i].idEasy === $('#'+alumno.alumnosCompiled[0].usuario.username).attr("id")){
+				     indexToRemove = i;
+				     break;
+				 }
+			}
+			if(indexToRemove!=-1){
+				alumnoResult.alumnosRaw.splice(indexToRemove,1);
+			
+				$('#'+alumno.alumnosCompiled[0].usuario.username).parent().parent().remove();
+				if($("#alumnoData").children().length == 0 ){
+					$("#alumnoHeader").addClass("none");
+					$("#cmaNoData").removeClass("none");
+					$("#cmaB").button( "option", "disabled", true );
+				}
+			}else{
+				alert("No se puede eliminar el registro");
+				}
+			
+		});
 		
 		actionMainDiv.append(actionInnerDiv);
 		actionMainDiv.append(deleteCurrentDiv);
@@ -165,7 +187,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 	}
 	
 	this.guardarAlumnos = function(){
-		$(".ui-icon.ui-icon-closethick-red.img").hide();
+		
 		$.each(this.alumnosRaw,function(index,value){
 			
 			$.ajax({				  
@@ -173,10 +195,14 @@ alumnos.al.alumnos.prototype.init = function(param){
 						  data: JSON.stringify(value.alumnosCompiled),
 						  dataType:"json",
 						  type: "POST",
-						  contentType:"application/json", 
-						  success: function(data, textStatus, jqXHR){
-							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaSuccess");
+						  contentType:"application/json",
+						  beforeSend: function( xhr ) {
+							  $("#"+value.alumnosCompiled[0].usuario.username+"x").hide();
+							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaLoading");
 							  $("#"+value.alumnosCompiled[0].usuario.username).css("margin-right","28px");
+						  },
+						  success: function(data, textStatus, jqXHR){
+							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaSuccess");							  
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title","Alumno guardado");
 						  },
 						  error:function(error,textStatus){
@@ -211,9 +237,10 @@ alumnos.al.alumnos.prototype.init = function(param){
 	}
 	
 	$.each( param.index,function(index,value){
-		value.id = i
+		value.id = i		
 		value.text = value.nombre.toUpperCase()+" "+value.apellido.toUpperCase()+", "+value.dni+" "+value.nac;
 		value.alumnosCompiled = [self.armarAlumno(value)];
+		value.idEasy=value.alumnosCompiled[0].usuario.username;
 		self.alumnosRaw.push(value);
 		i++;
 	});
