@@ -47,5 +47,12 @@ public class AsignaturaCensController extends AbstractController{
 		return mav;
 	}
 	
+	@RequestMapping(value={UrlConstant.ASIGNATURA_INSCRIPCION_CENS_MVC}, method = RequestMethod.GET)
+	public ModelAndView getInscripcionAlumno(@PathVariable(value="asignaturaId")Long id,HttpServletRequest request, HttpServletResponse response, Principal principal, Model model){
+		ModelAndView mav = new ModelAndView(VistasConstant.ASIGNATURA_INSCRIPCION_VIEW);				
+		mav.addObject("asignaturaId",id);		
+		return mav;
+	}
+	
 
 }

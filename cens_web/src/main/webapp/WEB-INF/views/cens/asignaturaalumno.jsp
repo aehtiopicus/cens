@@ -21,7 +21,7 @@
     <div class="floatLeftDiv">
     
     	<div class="acciones">
-    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/cursoABM'">Inscribir Alumno</button>
+    		<button class="button" type="button" onclick="window.location='<%=request.getContextPath() %>/mvc/asignaturaABM/${asignaturaId}/inscripcion'">Inscribir Alumno</button>
     	</div>
     
 		<!--     Filtros -->
@@ -47,9 +47,3 @@
     </div>
 
 </div>
-
-<div id="remCurso" class="dialog" title="Confirmar">
-	<p>Se elimininar&aacute; el Curso del sistema. ¿Desea continuar?</p>
-</div>
-
-

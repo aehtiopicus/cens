@@ -67,28 +67,7 @@ jQuery(document).ready(function () {
             $("#projectTable").setGridWidth($(window).width()-marginWidthGrid);
             $("#projectTable").setGridHeight($(window).height()-marginHeightGridFull);
         }).trigger('resize');
-        
-        
-        $( "#remUser" ).dialog({
-			autoOpen: false,
-			width: 400,
-			buttons: [
-				{
-					text: "Ok",
-					click: function() {
-						$( this ).dialog( "close" );
-						deleteUsuario();
-					}
-				},
-				{
-					text: "Cancelar",
-					click: function() {
-						$( this ).dialog( "close" );
-						usuarioIdToRemove = null;
-					}
-				}
-			]
-		});          
+         
         fixTable();       
     });
  
