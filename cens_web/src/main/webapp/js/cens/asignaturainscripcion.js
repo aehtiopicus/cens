@@ -8,9 +8,8 @@ $(document).ready(function(){
 		   },
 		  
 		   select : function(event,ui){
-			   $( "#profesor" ).val(ui.item.label);		
-			   $( "#profesorId" ).val(ui.item.value);
-			   $( "#profesorName" ).val(ui.item.label);
+			   $( "#alumno" ).val(ui.item.label);		
+
 			return false;
 			},
 			 focus: function (event, ui) {
@@ -19,16 +18,7 @@ $(document).ready(function(){
 			  },
 			change : function(event,ui){
 				if(ui.item != null){
-					$( "#profesor" ).val(ui.item.label);	
-					$( "#profesorId" ).val(ui.item.value);
-					$( "#profesorName" ).val(ui.item.label);
-				}else{
-					if($( "#profesor" ).val().length==0){
-						$( "#profesorId" ).val("");
-						$( "#profesorName" ).val("");
-					}else{
-						$( "#profesor" ).val($( "#profesorName" ).val());						
-					}
+					$( "#alumno" ).val(ui.item.label);	
 				}
 			return false;
 			}
@@ -72,5 +62,42 @@ alumnos.as.inscripcion.prototype.init = function(param){
 			this.alumnos.splice(indexToRemove,1);
 			this.alumnosId.splice(indexToRemove,1);			
 		}
+	}
+	
+	this.cargarDatos = function (field,value,url,response){
+		var self = this;
+		$.ajax({
+			url: pagePath+"/api/"+url,
+			type: "GET",
+			contentType :'application/json',
+			dataType: "json",
+			data:{ requestData:prepareJsonRequestData(field,url,value)},
+			success: function(data){		
+				response( this.assembleAutocompleteJson(data,url));
+			},
+			error: function(errorData){
+				errorData = errorConverter(errorData);
+				if(errorData.errorDto != undefined && errorData.errorDto){
+					addError(field,errorData.message);
+				}else{
+					alert("Se produjo un error el servidor");
+				}
+			}
+		});	
+	}
+	
+	this.assembleAutocompleteJson =function (data,url){
+		
+		var fieldData = [];
+
+			$.each(data.rows,function(index2,value2){
+					if(url ==="profesor"){
+						fieldData.push({"value":value2.id, "label" : value2.miembroCens.apellido+", "+value2.miembroCens.nombre+" ("+value2.miembroCens.dni+")"});
+					}else if(url ==="curso"){
+						fieldData.push({"value":value2.id, "label" : value2.nombre+" ("+value2.yearCurso+")"});
+					}
+				});
+
+		return fieldData;
 	}
 }

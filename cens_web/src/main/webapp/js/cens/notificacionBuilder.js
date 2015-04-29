@@ -363,7 +363,7 @@ this.visualizarItemCreator = function(programa,linksPrograma){
 	itemVisualizar.addClass("ignorar");
 	itemVisualizar.html("Visualizar");	
 	itemVisualizar.css("cursor","pointer");
-	
+	var resourceType = programa ? "Programa: " : "Material: ";
 	itemVisualizar.on("click",function(){
 		if(!linksPrograma[0].seguimiento){
 			var noti = {isNoti:true};

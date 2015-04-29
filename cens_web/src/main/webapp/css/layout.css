@@ -268,7 +268,7 @@ div.padding{
 fieldset{
   border: 1px solid white;
   width: 650px;
-  margin:auto;
+  margin:0px auto !important;
 
 }
 
@@ -1065,7 +1065,7 @@ margin-left: 4%;
 
 .notificacion li{
 	  list-style: none;
-	  display: inline-block;
+	  
 }
 .notificacion .vinculos .items{
   float: left;
@@ -1150,23 +1150,27 @@ position: absolute;
 #alumnoData .cmaInfo{
 	background-image: url('midasUI-theme/images/cmaInfo.png');
 	width: 19px;
-  	height: 17px
+  	height: 17px;
+  	background-repeat: no-repeat;
 }
 #alumnoData .cmaError{
 	background-image: url('midasUI-theme/images/cmaError.png');
 	width: 19px;
-  	height: 17px
+  	height: 17px;
+  	background-repeat: no-repeat;
 }
 #alumnoData .cmaSuccess{
 	background-image: url('midasUI-theme/images/cmaSuccess.png');
 	width: 19px;
-  	height: 17px
+  	height: 17px;
+  	background-repeat: no-repeat;
 }
 
 #alumnoData .cmaLoading{
 	  background: url('midasUI-theme/images/ui-anim_basic_16x16.gif') right center no-repeat !important;
 	width: 19px;
-  	height: 17px
+  	height: 17px;
+  	background-repeat: no-repeat;
 }
  
 #downloadsample{
@@ -1181,6 +1185,12 @@ position: absolute;
 .ui-icon-closethick-red.img{
 	background-position: -96px -128px;
 	background-image: url('midasUI-theme/images/ui-icons_cd0a0a_256x240.png') !important;
+}
+
+.agregarAlumno{
+	  height: 32px;
+  margin-bottom: 1px;
+  margin-left: 16px;
 }
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
