@@ -4,7 +4,7 @@ $(document).ready(function(){
 		   delay: 500,
 		   minLength: 4,
 		   source : function(request,response){
-			   cargarDatos('profesor',request.term,'profesor',response);
+			   cargarDatos(request.term,response);
 		   },
 		  
 		   select : function(event,ui){
@@ -23,6 +23,10 @@ $(document).ready(function(){
 			return false;
 			}
 	    });
+	
+	$("#agregar").on("click",function(){
+		
+	});
 });
 
 alumnos.namespace("as");
@@ -64,10 +68,10 @@ alumnos.as.inscripcion.prototype.init = function(param){
 		}
 	}
 	
-	this.cargarDatos = function (field,value,url,response){
+	this.cargarDatos = function (value,response){
 		var self = this;
 		$.ajax({
-			url: pagePath+"/api/"+url,
+			url: pagePath+"/api/alumno",
 			type: "GET",
 			contentType :'application/json',
 			dataType: "json",
@@ -99,5 +103,28 @@ alumnos.as.inscripcion.prototype.init = function(param){
 				});
 
 		return fieldData;
+	}
+	
+	this.prepareJsonRequestData = function (field,url,value){
+		
+		var request = {
+				page: 1,
+				row: 10,
+				sord:"asc",
+				filters:{}
+		};
+		
+		if(url === "profesor"){
+			request.filters = {"data":value};
+			if(field==="profesorSuplente" && $('#profesorId').val().length>0){
+				request.filters.profesor = $('#profesorId').val();
+			}
+			if(field==="profesor" && $('#profesorSuplenteId').val().length>0){
+				request.filters.profesor = $('#profesorSuplenteId').val();
+			}
+		}else if(url === "curso"){
+			request.filters = {"nombre":value};
+		}
+		return JSON.stringify(request);
 	}
 }
