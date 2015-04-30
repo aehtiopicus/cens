@@ -5,9 +5,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<script>var pagePath="<%=request.getContextPath() %>"</script>
-	<script>var asignaturaId="${asignaturaId}"</script>
+	
     <script src="<%=request.getContextPath() %>/js/cens/alumno.js"></script>
     <script src="<%=request.getContextPath() %>/js/cens/asignaturainscripcion.js"></script>
+    
+    <script>
+    data ={
+    		asignaturaId:"${asignaturaId}"
+    };
+   	 var alumnoinscripcion = new alumnos.as.inscripcion(data);
+    </script>
     <fieldset>
     <div class="tituloForm">
     	<h3 style="text-align: left;">Inscripci&oacute;n de Alumnos</h3>
