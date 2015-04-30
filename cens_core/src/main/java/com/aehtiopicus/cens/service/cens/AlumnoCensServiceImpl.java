@@ -103,7 +103,7 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 Long asignaturaRemoveId;
 			 try{
 				 asignaturaRemoveId = Long.parseLong(asignaturaRemove);
-				 specifications = excludeAlumnos(asignaturaRemoveId);
+				 specifications = excludeAlumnos(asignaturaRemoveId,data);
 			 }catch(Exception e){	
 				 asignaturaRemoveId = null;
 			 }
@@ -123,9 +123,9 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 		return specifications; 
 	}
 	
-	private Specifications<Alumno> excludeAlumnos(Long asignaturaId) {
+	private Specifications<Alumno> excludeAlumnos(Long asignaturaId,String data) {
 	
-		return Specifications.where(AlumnoCensSpecification.innerQueryToFilter(asignaturaId));
+		return Specifications.where(AlumnoCensSpecification.innerQueryToFilter(asignaturaId,data));
 
 		
 	}

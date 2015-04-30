@@ -159,7 +159,7 @@ public class AlumnoCensSpecification {
 		};
 	}
 	
-	public static Specification<Alumno> innerQueryToFilter(final Long asignaturaId) {
+	public static Specification<Alumno> innerQueryToFilter(final Long asignaturaId,final String data) {
 		return new Specification<Alumno>() {
 
 			@Override
@@ -169,10 +169,20 @@ public class AlumnoCensSpecification {
 				Root<Asignatura> project = sq.from(Asignatura.class);
 		        Join<Asignatura, Alumno> sqEmp = project.join("alumnos");
 				
-		        
+		        String likePattern = getLikePattern(data);
+
 		        sq.select(sqEmp).where(cb.notEqual(project.<Long>get("id"),asignaturaId));		        
 	            
-	            return cb.and(cb.isFalse(root.<Boolean> get("baja")),cb.isFalse(root.get("miembroCens").<Boolean> get("baja")),cb.not(cb.in(root).value(sq)));												
+	            return cb.and(
+	            			cb.isFalse(root.<Boolean> get("baja")),
+	            			cb.isFalse(root.get("miembroCens").<Boolean> get("baja")),
+	            			cb.or(
+		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("apellido")), likePattern),
+		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("nombre")), likePattern),
+		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("dni")), likePattern)
+		        				 ),
+	            			cb.not(cb.in(root).value(sq))
+	            		);												
 			}
 		};
 	}
