@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +24,7 @@ import com.aehtiopicus.cens.mapper.cens.AlumnoCensMapper;
 import com.aehtiopicus.cens.service.cens.AlumnoCensService;
 import com.aehtiopicus.cens.util.Utils;
 
-@Component
+@Controller
 public class AlumnoCensRestController extends AbstractRestController{
 
 	private static final Logger logger = LoggerFactory.getLogger(AlumnoCensRestController.class);

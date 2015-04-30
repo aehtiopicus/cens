@@ -2,12 +2,15 @@ package com.aehtiopicus.cens.specification.cens;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import com.aehtiopicus.cens.domain.entities.Alumno;
+import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class AlumnoCensSpecification {
@@ -21,8 +24,7 @@ public class AlumnoCensSpecification {
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
 				return cb.equal(
-						root.join("asignaturas").<Long>get("id")
-								.get("perfilType"),asignaturaId);
+						root.join("asignaturas").<Long>get("id"),asignaturaId);
 
 			}
 		};
@@ -38,7 +40,7 @@ public class AlumnoCensSpecification {
 				return cb.equal(
 						root.join("miembroCens").join("usuario").join("perfil")
 								.get("perfilType"),
-						PerfilTrabajadorCensType.ASESOR.getNombre());
+						PerfilTrabajadorCensType.ALUMNO.getNombre());
 
 			}
 		};
@@ -133,7 +135,7 @@ public class AlumnoCensSpecification {
 		return pattern.toString();
 	}
 
-	public static Specification<Alumno> NotBaja() {
+	public static Specification<Alumno> notBaja() {
 		return new Specification<Alumno>() {
 
 			@Override
@@ -153,6 +155,24 @@ public class AlumnoCensSpecification {
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
 				return cb.notEqual(root.join("asignaturas").get("id"), asignaturaId);
+			}
+		};
+	}
+	
+	public static Specification<Alumno> innerQueryToFilter(final Long asignaturaId) {
+		return new Specification<Alumno>() {
+
+			@Override
+			public Predicate toPredicate(Root<Alumno> root,
+					CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Subquery<Alumno> sq = query.subquery(Alumno.class);
+				Root<Asignatura> project = sq.from(Asignatura.class);
+		        Join<Asignatura, Alumno> sqEmp = project.join("alumnos");
+				
+		        
+		        sq.select(sqEmp).where(cb.notEqual(project.<Long>get("id"),asignaturaId));		        
+	            
+	            return cb.and(cb.isFalse(root.<Boolean> get("baja")),cb.isFalse(root.get("miembroCens").<Boolean> get("baja")),cb.not(cb.in(root).value(sq)));												
 			}
 		};
 	}

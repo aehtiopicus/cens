@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +82,9 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 return requestedPage.getContent();
 		 }
 		 Specifications<Alumno> specifications = getSpecificationProfesor(
-				 restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,restRequest.getFilters().get("asignaturaId"));
+				 restRequest.getFilters().get("data"),
+				 restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,
+				 restRequest.getFilters().containsKey("asignaturaId") ?restRequest.getFilters().get("asignaturaId") : null);
 		 requestedPage = alumnoCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 		 return requestedPage.getContent();
 	}
@@ -94,31 +97,39 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 
 			 specifications  = specifications.and(AlumnoCensSpecification.nombreApellidoDniLikeNotBaja(data));
 		 }else{
-			 specifications  = specifications.and(AlumnoCensSpecification.NotBaja());
+			 specifications  = specifications.and(AlumnoCensSpecification.notBaja());
 		 }
 		 if(StringUtils.isNotEmpty(asignaturaRemove)){
 			 Long asignaturaRemoveId;
 			 try{
 				 asignaturaRemoveId = Long.parseLong(asignaturaRemove);
-				 specifications = specifications.and(AlumnoCensSpecification.notThisOne(asignaturaRemoveId));
+				 specifications = excludeAlumnos(asignaturaRemoveId);
 			 }catch(Exception e){	
 				 asignaturaRemoveId = null;
 			 }
 
-		 }
-		 if(StringUtils.isNotEmpty(asignatura)){
-			 Long asignaturaId;
-			 try{
-				 asignaturaId = Long.parseLong(asignatura);
-				 specifications = specifications.and(AlumnoCensSpecification.inThisAsignatura(asignaturaId));
-			 }catch(Exception e){
-				 asignaturaId = null;
-			 }
+		 }else{
+			 if(StringUtils.isNotEmpty(asignatura)){
+				 Long asignaturaId;
+				 try{
+					 asignaturaId = Long.parseLong(asignatura);
+					 specifications = specifications.and(AlumnoCensSpecification.inThisAsignatura(asignaturaId));
+				 }catch(Exception e){
+					 asignaturaId = null;
+				 }
+			}
 			 
 		 }
 		return specifications; 
 	}
 	
+	private Specifications<Alumno> excludeAlumnos(Long asignaturaId) {
+	
+		return Specifications.where(AlumnoCensSpecification.innerQueryToFilter(asignaturaId));
+
+		
+	}
+
 	@Override
 	public Long getTotalAlumnoFilterByProfile(RestRequest restRequest) {
 		logger.info("obteniendo numero de registros de alumnos");
@@ -128,7 +139,9 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
    	 		cantUsers = alumnoCensRepository.count(getSpecificationProfesor(null,null,null));
 		
    	 	}else{
-   	 		Specifications<Alumno> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),restRequest.getFilters().containsKey("profesor") ?restRequest.getFilters().get("profesor") : null,restRequest.getFilters().get("asignaturaId"));
+   	 		Specifications<Alumno> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),
+   	 				restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,
+   	 					restRequest.getFilters().containsKey("asignaturaId") ?restRequest.getFilters().get("asignaturaId") : null);
    	 		cantUsers = alumnoCensRepository.count(specification);
    	 	}
    	 	   	 	

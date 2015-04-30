@@ -4,7 +4,7 @@ $(document).ready(function(){
 		   delay: 500,
 		   minLength: 4,
 		   source : function(request,response){
-			   cargarDatos(request.term,response);
+			   alumnoinscripcion.cargarDatos(request.term,response);
 		   },
 		  
 		   select : function(event,ui){
@@ -75,9 +75,11 @@ alumnos.as.inscripcion.prototype.init = function(param){
 			type: "GET",
 			contentType :'application/json',
 			dataType: "json",
-			data:{ requestData:prepareJsonRequestData(field,url,value)},
+			data:{ 
+				requestData:self.prepareJsonRequestData(value)
+				},
 			success: function(data){		
-				response( this.assembleAutocompleteJson(data,url));
+				response( self.assembleAutocompleteJson(data));
 			},
 			error: function(errorData){
 				errorData = errorConverter(errorData);
@@ -90,7 +92,7 @@ alumnos.as.inscripcion.prototype.init = function(param){
 		});	
 	}
 	
-	this.assembleAutocompleteJson =function (data,url){
+	this.assembleAutocompleteJson =function (data){
 		
 		var fieldData = [];
 
@@ -105,26 +107,18 @@ alumnos.as.inscripcion.prototype.init = function(param){
 		return fieldData;
 	}
 	
-	this.prepareJsonRequestData = function (field,url,value){
+	this.prepareJsonRequestData = function (value){
 		
 		var request = {
 				page: 1,
 				row: 10,
 				sord:"asc",
-				filters:{}
+				filters:{
+					data : value,
+					asignaturaRemoveId: this.asignaturaId
+				}
 		};
 		
-		if(url === "profesor"){
-			request.filters = {"data":value};
-			if(field==="profesorSuplente" && $('#profesorId').val().length>0){
-				request.filters.profesor = $('#profesorId').val();
-			}
-			if(field==="profesor" && $('#profesorSuplenteId').val().length>0){
-				request.filters.profesor = $('#profesorSuplenteId').val();
-			}
-		}else if(url === "curso"){
-			request.filters = {"nombre":value};
-		}
 		return JSON.stringify(request);
 	}
 }
