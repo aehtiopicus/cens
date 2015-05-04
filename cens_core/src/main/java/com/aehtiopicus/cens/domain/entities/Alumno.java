@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.aehtiopicus.cens.enumeration.cens.AlumnoType;
 
 @Entity
@@ -28,7 +31,8 @@ public class Alumno implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany
+	@OneToMany(mappedBy="alumnos")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Asignatura> asignaturas;
 	
 	private long dni;

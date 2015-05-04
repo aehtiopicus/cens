@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.List;
 
 import com.aehtiopicus.cens.domain.entities.Alumno;
+import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.utils.CensException;

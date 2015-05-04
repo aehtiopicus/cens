@@ -246,7 +246,7 @@ this.guardar = function(){
 		$.ajax({				  
 					  url: pagePath+"/api/asignatura/"+self.asignaturaId+"/inscripcion",
 					  data: JSON.stringify({ asignaturaId : self.asignaturaId,
-						  					alumnos:{alumnoId:self.alumnosId}}),
+						  	alumnoIds:self.alumnosId}),
 					  
 					  dataType:"json",
 					  type: "POST",

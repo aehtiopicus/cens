@@ -22,9 +22,11 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.AsignaturaCensValidator;
 import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.AlumnoDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaDto;
+import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
@@ -33,6 +35,7 @@ import com.aehtiopicus.cens.mapper.cens.AsignaturaCensMapper;
 import com.aehtiopicus.cens.service.cens.AlumnoCensService;
 import com.aehtiopicus.cens.service.cens.AsignaturaCensService;
 import com.aehtiopicus.cens.util.Utils;
+import com.aehtiopicus.cens.utils.CensException;
 
 @Controller
 public class AsignaturaCensRestController extends AbstractRestController{
@@ -139,6 +142,28 @@ public class AsignaturaCensRestController extends AbstractRestController{
 		aDto.setAlumnos(convertToResponse(rr, cantidad, pDto));
 		return aDto;
 		
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@RequestMapping(value = UrlConstant.ASIGNATURA_INSCRIPCION_CENS_REST, method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public RestSingleResponseDto inscribirAlumno(@PathVariable(value="asignaturaId")Long asignaturaId, @RequestBody AsignaturaInscripcionDto asignaturaInscripcionDto) throws Exception{
+		
+		logger.info("Inscribiendo alumnos");
+		AsignaturaInscripcion ai = mapper.convertAsignaturaInscripcionDtoToEntityWrapper(asignaturaInscripcionDto);
+		ai.getAsignatura().setId(asignaturaId);
+		validator.validateInscripcion(ai);
+		try{
+			asignaturaCensService.inscribirAlumnos(ai);
+		}catch(CensException e){
+		hacer lo que hay que hacer aca	
+		}
+		
+		RestSingleResponseDto rsrDto = new RestSingleResponseDto();
+		rsrDto.setId(asignaturaId);
+		rsrDto.setMessage(ai.getAlumnos().size()+" Alumnos inscriptos");
+		
+		return rsrDto;
 	}
 	
 
