@@ -47,8 +47,7 @@ public class UrlConstant {
 	public static final String ASIGNATURA_CENS_ABM_MVC=MVC+"asignaturaABM";
 	public static final String ASIGNATURA_ALUMNO_CENS_ABM_MVC=ASIGNATURA_CENS_ABM_MVC+"/{asignaturaId}/alumno";	
 	public static final String ASIGNATURA_ALUMNO_CENS_REST=ASIGNATURA_CENS_REST+"/{asignaturaId}/alumno";
-	public static final String ASIGNATURA_INSCRIPCION_CENS_MVC=ASIGNATURA_CENS_ABM_MVC+"/{asignaturaId}/inscripcion";
-	public static final String ASIGNATURA_INSCRIPCION_CENS_REST=ASIGNATURA_CENS_REST+"/{asignaturaId}/inscripcion";
+	public static final String ASIGNATURA_INSCRIPCION_CENS_MVC=ASIGNATURA_CENS_ABM_MVC+"/{asignaturaId}/inscripcion";	
 	/*Profesor*/
 	public static final String PROFESOR_CENS_REST=API+"profesor";
 	public static final String PROFESOR_CENS_REMOVE_ASIGNATURAS_REST=PROFESOR_CENS_REST+"/{id}/removerasignaturas";
@@ -86,6 +85,8 @@ public class UrlConstant {
 	public static final String NOTIFICACION_NO_LEIDAS_IGNORAR_MIEMBRO_REST = API+"notificacion/{tipoId}/{tipoType}/{notificacionType}";
 	/*Alumno*/
 	public static final String ALUMNO_CENS_REST = API+"alumno";
+	/*InscripcionAlumno*/
+	public static final String INSCRIPCION_ALUMNO_CENS_REST=API+"inscripcion/asignatura/{asignaturaId}";
 		
 }
 

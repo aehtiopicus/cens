@@ -1,14 +1,15 @@
-package com.aehtiopicus.cens.dto.cens;
+package com.aehtiopicus.cens.domain.entities;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class AlumnoInscripcionDto {
+public class AlumnoInscripcion {
 
 	private Long alumnoId;
 	
 	private boolean status;
 	
-	private Map<String,Object> message;
+	private Map<String,Object> message = new HashMap<String, Object>();
 
 	public Long getAlumnoId() {
 		return alumnoId;
@@ -34,7 +35,6 @@ public class AlumnoInscripcionDto {
 		this.message = message;
 	}
 
-	
 	
 	
 	

@@ -9,6 +9,8 @@ public class AsignaturaInscripcionResultDto {
 	private List<AlumnoInscripcionDto> alumnosInscriptos;
 	
 	private boolean inscripcionStatus = false;
+	
+	private boolean inscripcionCompleteFailure = false;
 
 	public Long getAsignaturaId() {
 		return asignaturaId;
@@ -33,6 +35,31 @@ public class AsignaturaInscripcionResultDto {
 	public void setInscripcionStatus(boolean inscripcionStatus) {
 		this.inscripcionStatus = inscripcionStatus;
 	}
+
+	public void checkStatus() {
+		inscripcionStatus = true;
+		int count = 0;
+		for(AlumnoInscripcionDto ai :alumnosInscriptos){
+			if(!ai.isStatus()){
+				inscripcionStatus = false;
+				count++;
+			}
+		}
+		if(count == alumnosInscriptos.size()){
+			inscripcionCompleteFailure = true;
+		}
+		
+	}
+
+	public boolean isInscripcionCompleteFailure() {
+		return inscripcionCompleteFailure;
+	}
+
+	public void setInscripcionCompleteFailure(boolean inscripcionCompleteFailure) {
+		this.inscripcionCompleteFailure = inscripcionCompleteFailure;
+	}
+	
+	
 	
 	
 }

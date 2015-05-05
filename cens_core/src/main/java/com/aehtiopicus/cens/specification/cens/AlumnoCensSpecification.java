@@ -10,7 +10,7 @@ import javax.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.aehtiopicus.cens.domain.entities.Alumno;
-import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.InscripcionAlumnos;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
 public class AlumnoCensSpecification {
@@ -23,8 +23,15 @@ public class AlumnoCensSpecification {
 			@Override
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.equal(
-						root.join("asignaturas").<Long>get("id"),asignaturaId);
+				
+				
+				Subquery<Alumno> sq = query.subquery(Alumno.class);
+				Root<InscripcionAlumnos> project = sq.from(InscripcionAlumnos.class);
+				Join<InscripcionAlumnos, Alumno> sqEmp = project.join("alumno");
+				
+				sq.select(sqEmp).where(cb.equal(project.get("asignatura").<Long>get("id"),asignaturaId));
+				
+				return cb.in(root).value(sq);
 
 			}
 		};
@@ -164,30 +171,26 @@ public class AlumnoCensSpecification {
 
 			@Override
 			public Predicate toPredicate(Root<Alumno> root,
-					CriteriaQuery<?> query, CriteriaBuilder cb) {
-				
-//				Subquery<Asignatura> sq = query.subquery(Asignatura.class);
-//				Root<Alumno> project = sq.from(Alumno.class);
-//		        Join<Alumno, Asignatura> sqEmp = project.join("asignaturas");
+					CriteriaQuery<?> query, CriteriaBuilder cb) {				
 				
 				Subquery<Alumno> sq = query.subquery(Alumno.class);
-				Root<Asignatura> project = sq.from(Asignatura.class);
-		        Join<Asignatura, Alumno> sqEmp = project.join("alumnos");
+				Root<InscripcionAlumnos> project = sq.from(InscripcionAlumnos.class);
+				Join<InscripcionAlumnos, Alumno> sqEmp = project.join("alumno");
 				
-		        String likePattern = getLikePattern(data);
-
-		        sq.select(sqEmp).where(cb.notEqual(project.<Long>get("id"),asignaturaId));		        
-	            
-	            return cb.and(
-	            			cb.isFalse(root.<Boolean> get("baja")),
-	            			cb.isFalse(root.get("miembroCens").<Boolean> get("baja")),
-	            			cb.or(
-		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("apellido")), likePattern),
-		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("nombre")), likePattern),
-		        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("dni")), likePattern)
-		        				 ),
-	            			cb.not(cb.in(root).value(sq))
-	            		);												
+				String likePattern = getLikePattern(data);
+				
+				sq.select(sqEmp).where(cb.notEqual(project.get("asignatura").<Long>get("id"),asignaturaId));
+				
+				return cb.and(
+            			cb.isFalse(root.<Boolean> get("baja")),
+            			cb.isFalse(root.get("miembroCens").<Boolean> get("baja")),
+            			cb.or(
+	        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("apellido")), likePattern),
+	        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("nombre")), likePattern),
+	        				 	cb.like(cb.lower(root.join("miembroCens").<String> get("dni")), likePattern)
+	        				 ),
+            			cb.not(cb.in(root).value(sq)) 
+            			);													
 			}
 		};
 	}

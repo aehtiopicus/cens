@@ -244,7 +244,7 @@ this.guardar = function(){
 	var self = this;
 		
 		$.ajax({				  
-					  url: pagePath+"/api/asignatura/"+self.asignaturaId+"/inscripcion",
+					  url: pagePath+"/api/inscripcion/asignatura/"+self.asignaturaId,
 					  data: JSON.stringify({ asignaturaId : self.asignaturaId,
 						  	alumnoIds:self.alumnosId}),
 					  
@@ -260,10 +260,14 @@ this.guardar = function(){
 								
 							},
 					  success: function(data, textStatus, jqXHR){
-						  $.each(self.alumnosId,function(index,alumnoId){
-								$("#"+alumnoId+"x").attr( "class","cmaSuccess");
-								$("#"+alumnoId).attr("title","Alumno inscripto");
-							});
+						  $.each(data.alumnosInscriptos,function(index,alumno){
+							  if(alumno.message.status === "info"){
+								  $("#"+alumno.alumnoId).attr( "class","cmaInfo");
+							  }else{
+								  $("#"+alumno.alumnoId).attr( "class","cmaSuccess");
+							  }
+							  $("#"+alumno.alumnoId).attr("title",alumno.message.message.toUpperCase());
+						  });
 						
 					  },
 					  error:function(error,textStatus){
@@ -277,15 +281,18 @@ this.guardar = function(){
 								  
 							  }
 							    
-						  }else{
-							  message = "Error General";
+						  }else if(typeof dataError.inscripcionCompleteFailure !== "undefined" && dataError.inscripcionCompleteFailure){
+							  							  
+							  $.each(dataError.alumnosInscriptos,function(index,alumno){
+								  if(alumno.message.status === "info"){
+									  $("#"+alumno.alumnoId).attr( "class","cmaInfo");
+								  }else{
+									  $("#"+alumno.alumnoId).attr( "class","cmaError");
+								  }
+								  $("#"+alumno.alumnoId).attr("title",alumno.message.message.toUpperCase());
+							  });
 						  }
-						  $.each(self.alumnosId,function(index,alumnoId){
-							  $("#"+alumnoId).attr( "class","cmaError");							  	
-							  
-							  $("#"+alumnoId).attr("title",message);
-							  $("#"+alumnoId).css("margin-right","28px");
-						  });
+						
 						 
 						  
 					  }

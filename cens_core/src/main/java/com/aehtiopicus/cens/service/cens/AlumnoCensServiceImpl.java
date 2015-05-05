@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
@@ -77,12 +76,12 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 			 restRequest.setPage(restRequest.getPage() - 1);
 		 }
 		 		 
-		 if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("data")){
+		 if(restRequest.getFilters()==null  || (!restRequest.getFilters().containsKey("data") && !restRequest.getFilters().containsKey("asignaturaId"))){
 			 requestedPage = alumnoCensRepository.findAll(getSpecificationProfesor(null,null,null),Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
 			 return requestedPage.getContent();
 		 }
 		 Specifications<Alumno> specifications = getSpecificationProfesor(
-				 restRequest.getFilters().get("data"),
+				 restRequest.getFilters().containsKey("data") ?restRequest.getFilters().get("data") : null,
 				 restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,
 				 restRequest.getFilters().containsKey("asignaturaId") ?restRequest.getFilters().get("asignaturaId") : null);
 		 requestedPage = alumnoCensRepository.findAll(specifications,Utils.constructPageSpecification(restRequest.getPage(),restRequest.getRow(),sortByApellidoAsc()));
@@ -135,11 +134,12 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 		logger.info("obteniendo numero de registros de alumnos");
     	
 		long cantUsers = 0;   	 	   	 	
-   	 	if(restRequest.getFilters()==null  || !restRequest.getFilters().containsKey("data")){
+   	 	if(restRequest.getFilters()==null  || (!restRequest.getFilters().containsKey("data") && !restRequest.getFilters().containsKey("asignaturaId"))){
    	 		cantUsers = alumnoCensRepository.count(getSpecificationProfesor(null,null,null));
 		
    	 	}else{
-   	 		Specifications<Alumno> specification = getSpecificationProfesor(restRequest.getFilters().get("data"),
+   	 		Specifications<Alumno> specification = getSpecificationProfesor(
+   	 			restRequest.getFilters().containsKey("data") ?restRequest.getFilters().get("data") : null,
    	 				restRequest.getFilters().containsKey("asignaturaRemoveId") ?restRequest.getFilters().get("asignaturaRemoveId") : null,
    	 					restRequest.getFilters().containsKey("asignaturaId") ?restRequest.getFilters().get("asignaturaId") : null);
    	 		cantUsers = alumnoCensRepository.count(specification);

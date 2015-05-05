@@ -1,15 +1,12 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,9 +29,6 @@ public class Asignatura implements Serializable {
 	
 	@Column(length=1000)
 	private String horarios;
-	
-	@OneToMany	
-	private List<Alumno> alumnos;
 
 	@OneToOne(optional=false)
 	private Curso curso;
@@ -69,15 +63,6 @@ public class Asignatura implements Serializable {
 
 	public void setModalidad(String modalidad) {
 		this.modalidad = modalidad;
-	}
-
-
-	public List<Alumno> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<Alumno> alumnos) {
-		this.alumnos = alumnos;
 	}
 
 	public Curso getCurso() {

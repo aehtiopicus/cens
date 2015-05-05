@@ -1,6 +1,5 @@
 package com.aehtiopicus.cens.service.cens;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
-import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
@@ -282,37 +278,6 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		return cursoList;
 	}
 
-	@Override
-	@Transactional(rollbackFor=CensException.class)
-	public void inscribirAlumnos(AsignaturaInscripcion ai) throws CensException{
-		
-		Asignatura asignatura = this.getAsignatura(ai.getAsignatura().getId());
-		
-		if(CollectionUtils.isEmpty(asignatura.getAlumnos())){
-			asignatura.setAlumnos(new ArrayList<Alumno>());
-		}
-		for(Alumno a : ai.getAlumnos()){
-			
-			asignatura.getAlumnos().add(a);
-		}
-		try{
-			asignaturaCensRepository.save(asignatura);
-			asignaturaCensRepository.flush();
-		}catch(DataIntegrityViolationException e){
-			if(e.getMostSpecificCause() instanceof SQLException){
-				SQLException error = (SQLException)e.getMostSpecificCause();
-				if(error.getSQLState().equals("23505")){
-					String value = error.getLocalizedMessage().substring(error.getLocalizedMessage().indexOf(")=(")+3,error.getLocalizedMessage().lastIndexOf(")"));
-					throw new CensException("Duplicated value","alumnoId",value);
-				}
-			}
-			throw new CensException("No se puede inscribir a los alumnos");
-		}
-		
-	}
-	
-
-	 
 	 
 
 }

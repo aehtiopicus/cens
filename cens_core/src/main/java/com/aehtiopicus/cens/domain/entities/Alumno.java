@@ -1,7 +1,6 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,12 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.aehtiopicus.cens.enumeration.cens.AlumnoType;
 
@@ -31,9 +26,6 @@ public class Alumno implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(mappedBy="alumnos")
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Asignatura> asignaturas;
 	
 	private long dni;
 	private String nroLegajo;
@@ -54,13 +46,6 @@ public class Alumno implements Serializable{
 		this.id = id;
 	}
 
-	public List<Asignatura> getAsignaturas() {
-		return asignaturas;
-	}
-
-	public void setAsignaturas(List<Asignatura> asignaturas) {
-		this.asignaturas = asignaturas;
-	}
 	public long getDni() {
 		return dni;
 	}

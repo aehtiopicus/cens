@@ -3,7 +3,6 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.List;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
-import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
@@ -32,7 +31,5 @@ public interface AsignaturaCensService {
 	public List<Programa> getProgramasForAsignaturas(Long id);
 
 	public List<Curso> listarAsignaturasByProfesor(Long id);
-
-	public void inscribirAlumnos(AsignaturaInscripcion ai) throws CensException;
 
 }
