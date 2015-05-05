@@ -302,7 +302,7 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 			if(e.getMostSpecificCause() instanceof SQLException){
 				SQLException error = (SQLException)e.getMostSpecificCause();
 				if(error.getSQLState().equals("23505")){
-					String value = error.getLocalizedMessage().substring(error.getLocalizedMessage().indexOf(")=(")+3,error.getLocalizedMessage().indexOf("already exists")-2);
+					String value = error.getLocalizedMessage().substring(error.getLocalizedMessage().indexOf(")=(")+3,error.getLocalizedMessage().lastIndexOf(")"));
 					throw new CensException("Duplicated value","alumnoId",value);
 				}
 			}

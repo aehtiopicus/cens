@@ -165,6 +165,11 @@ public class AlumnoCensSpecification {
 			@Override
 			public Predicate toPredicate(Root<Alumno> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
+				
+//				Subquery<Asignatura> sq = query.subquery(Asignatura.class);
+//				Root<Alumno> project = sq.from(Alumno.class);
+//		        Join<Alumno, Asignatura> sqEmp = project.join("asignaturas");
+				
 				Subquery<Alumno> sq = query.subquery(Alumno.class);
 				Root<Asignatura> project = sq.from(Asignatura.class);
 		        Join<Asignatura, Alumno> sqEmp = project.join("alumnos");

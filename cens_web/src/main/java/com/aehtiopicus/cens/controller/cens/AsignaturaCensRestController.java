@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.dto.cens.AlumnoDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionDto;
+import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionResultDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
@@ -147,23 +149,33 @@ public class AsignaturaCensRestController extends AbstractRestController{
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.ASIGNATURA_INSCRIPCION_CENS_REST, method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public RestSingleResponseDto inscribirAlumno(@PathVariable(value="asignaturaId")Long asignaturaId, @RequestBody AsignaturaInscripcionDto asignaturaInscripcionDto) throws Exception{
+	public ResponseEntity<AsignaturaInscripcionResultDto> inscribirAlumno(@PathVariable(value="asignaturaId")Long asignaturaId, @RequestBody AsignaturaInscripcionDto asignaturaInscripcionDto) throws Exception{
 		
 		logger.info("Inscribiendo alumnos");
 		AsignaturaInscripcion ai = mapper.convertAsignaturaInscripcionDtoToEntityWrapper(asignaturaInscripcionDto);
 		ai.getAsignatura().setId(asignaturaId);
 		validator.validateInscripcion(ai);
+		AsignaturaInscripcionResultDto airDto = new AsignaturaInscripcionResultDto();
+		ResponseEntity<AsignaturaInscripcionResultDto> re = null;		
 		try{
 			asignaturaCensService.inscribirAlumnos(ai);
+			airDto.setAlumnosInscriptos(mapper.mapInscripcionOk(asignaturaInscripcionDto));
+			airDto.setAsignaturaId(asignaturaId);
+			airDto.setInscripcionStatus(true);
+			re = new ResponseEntity<AsignaturaInscripcionResultDto>(airDto, HttpStatus.OK);			
 		}catch(CensException e){
-		hacer lo que hay que hacer aca	
+			if(e.getError()!=null && !e.getError().isEmpty()){
+				airDto.setAlumnosInscriptos(mapper.mapInscripcionError(Long.parseLong((String)e.getError().get("alumnoId")), e.getMessage()));
+				airDto.setAsignaturaId(asignaturaId);
+				airDto.setInscripcionStatus(false);
+				re = new ResponseEntity<AsignaturaInscripcionResultDto>(airDto,HttpStatus.BAD_REQUEST);
+			}else{
+				throw e;
+			}
 		}
+	
 		
-		RestSingleResponseDto rsrDto = new RestSingleResponseDto();
-		rsrDto.setId(asignaturaId);
-		rsrDto.setMessage(ai.getAlumnos().size()+" Alumnos inscriptos");
-		
-		return rsrDto;
+		return re;
 	}
 	
 

@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
             pager: "#pagingDiv",
             page:cookiePage,
             postData:{requestData:function(postData) {            	
-                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido}});
+                return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido,"asignaturaId":asignaturaId}});
             }},
             viewrecords: true,
             caption: "Alumnos de la Asignatura",            
@@ -138,7 +138,7 @@ function restoreState(){
             contentType :'application/json',
       		dataType: "json",
       		 postData:{requestData:function(postData) {            	
-                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido}});
+                 return requestData=JSON.stringify({"page": $("#projectTable").getGridParam("page"),"row": $("#projectTable").getGridParam("rowNum"),"sord": $("#projectTable").getGridParam("sortorder"),"filters":{"perfil":"ALUMNO","data":apellido,"asignaturaId":asignaturaId}});
              }},
       		page:pageNro})
       		.trigger("reloadGrid");

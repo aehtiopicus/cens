@@ -10,6 +10,7 @@ import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.dto.cens.AlumnoDto;
+import com.aehtiopicus.cens.dto.cens.AlumnoInscripcionDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionDto;
 import com.aehtiopicus.cens.util.Utils;
 
@@ -63,5 +64,35 @@ public class AlumnoCensMapper {
 		ai.setAlumnos(alumnos);
 		ai.setAsignatura(a);
 		return ai;		
+	}
+
+	public List<AlumnoInscripcionDto> mapInscripcionOk(
+			AsignaturaInscripcionDto asignaturaInscripcionDto) {
+		
+		List<AlumnoInscripcionDto> aiDtoList = new ArrayList<AlumnoInscripcionDto>();
+				
+		for(Long alumnoId : asignaturaInscripcionDto.getAlumnoIds()){
+			AlumnoInscripcionDto aiDto = new AlumnoInscripcionDto();
+			aiDto.setMessage("ok");
+			aiDto.setStatus(true);
+			aiDto.setAlumnoId(alumnoId);
+			aiDtoList.add(aiDto);
+		}
+		return aiDtoList;
+	}
+	
+	
+	public List<AlumnoInscripcionDto> mapInscripcionError(Long alumnoId,String mesage) {
+		
+		List<AlumnoInscripcionDto> aiDtoList = new ArrayList<AlumnoInscripcionDto>();
+				
+		
+			AlumnoInscripcionDto aiDto = new AlumnoInscripcionDto();
+			aiDto.setMessage("Error: "+mesage);
+			aiDto.setStatus(false);
+			aiDto.setAlumnoId(alumnoId);
+			aiDtoList.add(aiDto);
+		
+		return aiDtoList;
 	}
 }
