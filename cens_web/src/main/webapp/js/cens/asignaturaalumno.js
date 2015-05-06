@@ -15,16 +15,16 @@ jQuery(document).ready(function () {
                 id: "id",
                 cell: "",
                 root: function (obj) { 
-                	asignaturaData(obj);
-                	return obj.alumnos.rows; 
+                	asignaturaData(obj.extraData);
+                	return obj.rows; 
                 },
               
             },
             colNames:['Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
             colModel:[              
-                {name:'nombre',index:'Nombre',sortable: false},
-                {name:'apellido',index:'Apellido',sortable: false},
-                {name:'dni',index:'DNI',sortable: false},                        
+                {name:'miembroCens.nombre',index:'Nombre',sortable: false},
+                {name:'miembroCens.apellido',index:'Apellido',sortable: false},
+                {name:'miembroCens.dni',index:'DNI',sortable: false},                        
         		{ 	
         			name: 'id',   
         			width: 16,
@@ -42,7 +42,7 @@ jQuery(document).ready(function () {
         			formatter: deleteCurrencyFmatter
         		}
             ],
-            rowList:[5,10,50],
+            rowList:[1,5,10,50],
             rowNum:cookieRegsXPage,
             pager: "#pagingDiv",
             page:cookiePage,
@@ -55,7 +55,8 @@ jQuery(document).ready(function () {
             	$(".ui-pg-selbox").val(cookieRegsXPage);
             	$(".ui-pg-input").val(data.page);
             	setCookie('asignaturaUsuarioPage', $('.ui-pg-input').val());
-            	cookiePage = $('.ui-pg-input').val();            	
+            	cookiePage = $('.ui-pg-input').val();   
+            	return data.alumnos;
             },
             onPaging: function(page){
             	setCookie('asignaturaUsuarioRegXPage', $(".ui-pg-selbox").val());
@@ -87,12 +88,12 @@ jQuery(document).ready(function () {
  }
  
  function saveState(){
-	 setCookie('usuarioF1', jQuery("#apellido").val());
+	 setCookie('asignaturaAlumnoF1', jQuery("#apellido").val());
  }
  
 function restoreState(){
-	if(isAValidCookie('usuarioF1')){ 
-		jQuery("#apellido").val(getCookie('usuarioF1'));
+	if(isAValidCookie('asignaturaAlumnoF1')){ 
+		jQuery("#apellido").val(getCookie('asignaturaAlumnoF1'));
 	}
 	
 	
@@ -100,7 +101,7 @@ function restoreState(){
 		$(".ui-pg-selbox").val(getCookie('asignaturaUsuarioRegXPage'));
 		cookieRegsXPage = getCookie('asignaturaUsuarioRegXPage');
 	}else{
-		cookieRegsXPage = 5;
+		cookieRegsXPage = 1;
 	}
 	if(getCookie('asignaturaUsuarioPage') != ""){
 		$('.ui-pg-input').val(getCookie('asignaturaUsuarioPage'));

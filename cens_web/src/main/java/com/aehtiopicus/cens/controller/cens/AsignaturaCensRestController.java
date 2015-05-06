@@ -127,7 +127,7 @@ public class AsignaturaCensRestController extends AbstractRestController{
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.ASIGNATURA_ALUMNO_CENS_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public AsignaturaDto listAlumnosFromAsignatura(@PathVariable(value="asignaturaId") Long asignaturaId,@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
+	public RestResponseDto<AlumnoDto> listAlumnosFromAsignatura(@PathVariable(value="asignaturaId") Long asignaturaId,@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
 		logger.info("listando alumnos");
 		RestRequest rr = getRequestRequest(wrapper);
 		rr.getFilters().put("asignaturaId", asignaturaId.toString());
@@ -136,8 +136,9 @@ public class AsignaturaCensRestController extends AbstractRestController{
 		List<AlumnoDto> pDto = mapper.convertAlumnoListToDtoList(alumnoList);
 		Asignatura asignatura = asignaturaCensService.getAsignatura(asignaturaId);
 		AsignaturaDto aDto =asignaturaCensMapper.convertAsignaturaToDto(asignatura);
-		aDto.setAlumnos(convertToResponse(rr, cantidad, pDto));
-		return aDto;
+		RestResponseDto<AlumnoDto> rrDto = convertToResponse(rr, cantidad, pDto);
+		rrDto.setExtraData(aDto);
+		return rrDto;
 		
 	}
 	

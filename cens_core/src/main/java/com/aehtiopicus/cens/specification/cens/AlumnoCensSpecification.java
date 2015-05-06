@@ -179,7 +179,7 @@ public class AlumnoCensSpecification {
 				
 				String likePattern = getLikePattern(data);
 				
-				sq.select(sqEmp).where(cb.notEqual(project.get("asignatura").<Long>get("id"),asignaturaId));
+				sq.select(sqEmp).where(cb.equal(project.get("asignatura").<Long>get("id"),asignaturaId));
 				
 				return cb.and(
             			cb.isFalse(root.<Boolean> get("baja")),

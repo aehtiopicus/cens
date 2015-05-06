@@ -9,6 +9,7 @@ public class RestResponseDto<T> {
 	private String sord;
 	private long total;
 	private List<T> rows;
+	private Object extraData;
 	
 	public int getPage() {
 		return page;
@@ -40,6 +41,12 @@ public class RestResponseDto<T> {
 	}
 	public void setRows(List<T> rows) {
 		this.rows = rows;
+	}
+	public Object getExtraData() {
+		return extraData;
+	}
+	public void setExtraData(Object extraData) {
+		this.extraData = extraData;
 	}
 
 	
