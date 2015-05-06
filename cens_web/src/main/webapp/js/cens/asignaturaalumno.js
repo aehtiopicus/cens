@@ -20,19 +20,11 @@ jQuery(document).ready(function () {
                 },
               
             },
-            colNames:['Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-pencil"/>','<span class="ui-icon ui-icon-trash"/>'],
+            colNames:['Nombre', 'Apellido', 'DNI', '<span class="ui-icon ui-icon-trash"/>'],
             colModel:[              
                 {name:'miembroCens.nombre',index:'Nombre',sortable: false},
                 {name:'miembroCens.apellido',index:'Apellido',sortable: false},
-                {name:'miembroCens.dni',index:'DNI',sortable: false},                        
-        		{ 	
-        			name: 'id',   
-        			width: 16,
-        			editable: false, 
-        			sortable: false,
-        			fixed: true,
-        			formatter: editCurrencyFmatter
-        		},
+                {name:'miembroCens.dni',index:'DNI',sortable: false},                                		
                 { 	
         			name: 'id',  
         			width: 16,
@@ -42,7 +34,7 @@ jQuery(document).ready(function () {
         			formatter: deleteCurrencyFmatter
         		}
             ],
-            rowList:[1,5,10,50],
+            rowList:[5,10,50],
             rowNum:cookieRegsXPage,
             pager: "#pagingDiv",
             page:cookiePage,
@@ -69,22 +61,46 @@ jQuery(document).ready(function () {
             $("#projectTable").setGridHeight($(window).height()-marginHeightGridFull);
         }).trigger('resize');
          
+        
+        $( "#desincribirAlumno" ).dialog({
+			autoOpen: false,
+			width: 400,
+			modal:true,
+			buttons: [
+				{
+					text: "Ok",
+					click: function() {
+						desincribirAlumno();
+						$( this ).dialog( "close" );
+						
+					}
+				},
+				{
+					text: "Cancelar",
+					click: function() {
+						$( this ).dialog( "close" );
+						alumnoIdToRemove = null;
+					}
+				}
+			]
+		});    
         fixTable();       
     });
  
- function editCurrencyFmatter (cellvalue, options, rowObject)
- {
-	var template = "<a href='miembroABM/{ENTITY_ID}' title='Editar'><span class='ui-icon ui-icon-pencil'/></a>";
-	 
-    return template.replace("{ENTITY_ID}",cellvalue);
- }
-
  
  function deleteCurrencyFmatter (cellvalue, options, rowObject)
  {
-	var template = "<a href='javascript:deleteUsuario_dialog({ENTITY_ID})' title='Eliminar'><span class='ui-icon ui-icon-trash'/></a>";
+	 var link = $("<a></a>");
+	 link.attr("href","javascript:desincribirAlumnoAsignatura("+cellvalue+");");
+	 link.attr("title","Eliminar Inscripci&oacute;n");
 	 
-    return template.replace("{ENTITY_ID}",cellvalue);
+	 var span = $("<span></span>");
+	 span.addClass("ui-icon");
+	 span.addClass("ui-icon-trash");
+	 
+	 link.append(span);	
+	 
+    return link.prop('outerHTML');
  }
  
  function saveState(){
@@ -101,7 +117,7 @@ function restoreState(){
 		$(".ui-pg-selbox").val(getCookie('asignaturaUsuarioRegXPage'));
 		cookieRegsXPage = getCookie('asignaturaUsuarioRegXPage');
 	}else{
-		cookieRegsXPage = 1;
+		cookieRegsXPage = 5;
 	}
 	if(getCookie('asignaturaUsuarioPage') != ""){
 		$('.ui-pg-input').val(getCookie('asignaturaUsuarioPage'));
@@ -168,3 +184,39 @@ function asignaturaData(asignaturaData){
 function profNombre(prof){
 	return prof.miembroCens.apellido.toUpperCase()+", "+prof.miembroCens.nombre.toUpperCase();
 }
+
+var alumnoIdToRemove = null;
+function desincribirAlumnoAsignatura(alumnoId){
+	alumnoIdToRemove = alumnoId;
+	$("#desincribirAlumno").dialog("open");
+}
+
+function desincribirAlumno(){
+	var alumnoId = alumnoIdToRemove;
+	
+	var pageToLoad = calculatePageToLoadAfterDelete();
+	
+	alumnoIdToRemove = null;
+	$('#message').removeClass('msgSuccess');
+	$('#message').removeClass('msgError');
+	
+	$.ajax({
+		type:"DELETE",
+		url:pagePath+"/api/inscripcion/asignatura/"+asignaturaId+"/alumno/"+alumnoId,
+		contentType :'application/json',
+		dataType:"json",
+		success: function(data){
+			gridReload(pageToLoad);
+			$('#message').addClass('msgSuccess');
+			cargarMensaje(data,true);
+		},
+		error: function(data){
+			$('#message').addClass('msgError');	
+			cargarMensaje(errorConverter(data));
+		}								
+
+		}
+		
+	);
+	
+} 

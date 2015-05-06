@@ -40,7 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
         	 http.authorizeRequests()        	 	
      			.antMatchers("/css/**").permitAll()
      			.antMatchers("/js/**").permitAll()
-     			.antMatchers("/mvc/**").access("hasRole('ROLE_ASESOR') or hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_PROFESOR') or hasRole('ROLE_PRECEPTOR')")
+     			.antMatchers("/mvc/**").access("hasRole('ROLE_ASESOR') or hasRole('ROLE_ADMINISTRADOR') or hasRole('ROLE_PROFESOR') or hasRole('ROLE_PRECEPTOR') or hasRole('ROLE_ALUMNO')")
      			.antMatchers("/api/usuario/*/picture").access("permitAll")
      			.anyRequest().authenticated()
      			.and()     			

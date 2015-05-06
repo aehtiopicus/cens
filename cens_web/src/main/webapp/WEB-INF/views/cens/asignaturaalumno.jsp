@@ -47,3 +47,7 @@
     </div>
 
 </div>
+
+<div id="desincribirAlumno" class="dialog" title="Confirmar">
+	<p>Se elimininar&aacute; la inscripci&oacute;n del Alumno. ¿Desea continuar?</p>
+</div>

@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.controller.cens.validator.InscripcionAlumnoCensValidator;
 import com.aehtiopicus.cens.domain.entities.AsignaturaInscripcion;
 import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaInscripcionResultDto;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.mapper.cens.InscripcionAlumnoCensMapper;
 import com.aehtiopicus.cens.service.cens.InscripcionAlumnoCensService;
 
@@ -36,7 +36,6 @@ public class InscripcionAlumnoCensRestController extends AbstractRestController{
 	@Autowired
 	private InscripcionAlumnoCensService inscripcionAlumnoCensService;
 	
-	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.INSCRIPCION_ALUMNO_CENS_REST, method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AsignaturaInscripcionResultDto> inscribirAlumno(@PathVariable(value="asignaturaId")Long asignaturaId, @RequestBody AsignaturaInscripcionDto asignaturaInscripcionDto) throws Exception{
@@ -56,5 +55,17 @@ public class InscripcionAlumnoCensRestController extends AbstractRestController{
 		
 		
 		return re;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value=UrlConstant.INSCRIPCION_ALUMNO_CENS_REST+"/alumno/{alumnoId}", method=RequestMethod.DELETE,produces=MediaType.APPLICATION_JSON_VALUE)
+	public RestSingleResponseDto eliminarInscripcion(@PathVariable(value="asignaturaId") Long asignaturaId, @PathVariable(value="alumnoId") Long alumnoId) throws Exception{
+		logger.info("Eliminando inscripcion");
+		inscripcionAlumnoCensService.eliminarInscripcion(asignaturaId,alumnoId);
+		
+		RestSingleResponseDto rsrDto = new RestSingleResponseDto();
+		rsrDto.setId(alumnoId);
+		rsrDto.setMessage("Inscripci&oacute;n del Alumno eliminada");
+		return rsrDto;
 	}
 }

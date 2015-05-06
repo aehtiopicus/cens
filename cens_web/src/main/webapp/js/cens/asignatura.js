@@ -119,13 +119,21 @@ jQuery(document).ready(function () {
     });
  
 function addCursoInscripcion (cellvalue, options, rowObject){
-	var cursoInscripcionA = $("<a></a>");
-	cursoInscripcionA.attr("href",pagePath+"/mvc/asignaturaABM/"+cellvalue+"/alumno");
-	cursoInscripcionA.attr("title","Alumnos de la asignatura");
-	
 	var cusroInscripcionSpan = $("<span></span>");
 	cusroInscripcionSpan.addClass("ui-icon");
-	cusroInscripcionSpan.addClass("ui-icon-note");	
+	cusroInscripcionSpan.addClass("ui-icon-note");
+	
+	var cursoInscripcionA = $("<a></a>");
+	
+	if(rowObject.vigente){
+		cursoInscripcionA.attr("href",pagePath+"/mvc/asignaturaABM/"+cellvalue+"/alumno");
+	}else{
+		cursoInscripcionA.attr("onClick",'javascript:alert("Asignatura No Vigente","info")');
+
+	}
+	cursoInscripcionA.attr("title","Alumnos de la asignatura");
+	
+		
 	cursoInscripcionA.append(cusroInscripcionSpan);
     return cursoInscripcionA.prop('outerHTML');
 }

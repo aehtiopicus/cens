@@ -61,12 +61,13 @@
     			<sec:authorize access="hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ASESOR')">
 	    			<jsp:include page="includes/profesor_menu.jsp"></jsp:include>
 				</sec:authorize>
-<%--     			<sec:authorize ifAnyGranted="ROLE_GTEOPERACION, ROLE_JEFEOPERACION"> --%>
-<%-- 	    			<jsp:include page="includes/menu_gte_operacion.jsp"></jsp:include> --%>
-<%-- 				</sec:authorize> --%>
-<%--     			<sec:authorize ifAllGranted="ROLE_ADMINISTRACION"> --%>
-<%-- 	    			<jsp:include page="includes/menu_administracion.jsp"></jsp:include> --%>
-<%-- 				</sec:authorize> --%>
+				<sec:authorize access="hasRole('ROLE_ALUMNO')">
+	    			<jsp:include page="includes/alumno_menu.jsp"></jsp:include>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_PRECEPTOR')">
+	    			<jsp:include page="includes/preceptor_menu.jsp"></jsp:include>
+				</sec:authorize>
+
 				
     		</div>
     	
