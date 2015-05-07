@@ -79,6 +79,8 @@ localstorage.ls.notificacion.prototype.init = function(param){
 		}
 		
 	}
+	
+	
 	this.clearNotificacion = function(){
 		if(!this.notificacionLoading){
 			this.remove();
@@ -132,6 +134,17 @@ localstorage.ls.notificacionData.prototype.init = function(param){
 	this.getNotificacion = function(){
 		return localStorage.getItem(this.notificacionItem);
 			
+	}
+	
+	this.getNotificacionObject = function(){
+		return JSON.parse(this.getNotificacion());
+			
+	}
+	this.setInfinitRenewalTime = function(){
+		var newTime =JSON.parse(this.getNotificacion());
+		newTime.date=( new Date().getTime()*10);
+		newTime.preventNoty = true;
+		localStorage.setItem(this.notificacionItem,JSON.stringify(newTime));
 	}
 	
 	this.removeIfNeeded = function(){

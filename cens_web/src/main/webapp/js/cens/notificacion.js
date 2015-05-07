@@ -1,7 +1,7 @@
 var ls;
 jQuery(document).ready(function () {
 	
-	
+	notificacionDisabled(true,true);
 	var data = new localstorage.ls.notificacionData();
 	data.removeIfNeeded();
 	if(!data.getNotificacion()){
@@ -22,8 +22,14 @@ jQuery(document).ready(function () {
 			}
 		});
 	}else{
+		dataObject = data.getNotificacionObject();
 		$(document).trigger("userImg");
-		setCantNotificacion();
+		if(typeof dataObject.preventNoty === "undefined"){			
+			setCantNotificacion();
+			notificacionDisabled(false);
+		}else if(dataObject.preventNoty){
+			notificacionDisabled(true);
+		}
 	}
 	
 	$('#notificacionOpen').on("click",function(){
@@ -144,7 +150,16 @@ function notificacionLoader(callback){
 		contentType :'application/json',
 		dataType: "json",    
 		success : function(result){
-			callback.setNotificacion(result);			
+			if(result[0].perfilRol.perfilType === "ALUMNO" || result[0].perfilRol.perfilType === "PRECEPTOR"){
+				
+				var data = new localstorage.ls.notificacionData();
+				data.setInfinitRenewalTime();				
+				ls.setNotificacion(result);
+				notificacionDisabled(true);
+			}else{
+				notificacionDisabled(false);
+				callback.setNotificacion(result);
+			}
 		},
 		error: function(value,xhr){
 			if(xhr === "error"){

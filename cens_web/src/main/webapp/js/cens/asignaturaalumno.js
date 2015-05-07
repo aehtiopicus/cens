@@ -92,7 +92,7 @@ jQuery(document).ready(function () {
  {
 	 var link = $("<a></a>");
 	 link.attr("href","javascript:desincribirAlumnoAsignatura("+cellvalue+");");
-	 link.attr("title","Eliminar Inscripci&oacute;n");
+	 link.attr("title","Eliminar "+$('<div/>').html("Inscripci&oacute;n").text());
 	 
 	 var span = $("<span></span>");
 	 span.addClass("ui-icon");

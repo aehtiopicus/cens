@@ -1195,6 +1195,18 @@ position: absolute;
   margin-left: 16px;
 }
 
+div.no-noty a{
+	top: 35px !important;
+    left: 7px !important;
+}
+
+div.no-noty span{
+	display : none;
+}
+div.no-noty img{
+	top: -4px !important;
+}
+
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;

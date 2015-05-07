@@ -217,7 +217,20 @@ function randomId(){
 }
 
 
-
+function notificacionDisabled(disable,hide){
+	
+	if(hide){
+		$("#headerImg").parent().hide();
+	}else{
+		$("#headerImg").parent().show();
+		if(disable){	
+			$("#headerImg").parent().addClass("no-noty");
+			$("#headerImg").unbind("click");
+		}else{
+			$("#headerImg").parent().removeClass("no-noty");
+		}
+	}
+}
 
 /**deprecated**
 $(window).bind('resizeEnd', function() {		
