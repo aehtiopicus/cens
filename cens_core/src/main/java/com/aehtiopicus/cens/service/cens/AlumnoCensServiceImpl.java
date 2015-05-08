@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -12,7 +14,10 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.Alumno;
+import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.InscripcionAlumnos;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
+import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.AlumnoCensRepository;
@@ -25,6 +30,12 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 
 	@Autowired
 	private AlumnoCensRepository alumnoCensRepository;
+	
+	@Autowired
+	private InscripcionAlumnoCensService inscripcionService;
+	
+	@Autowired
+	private AsignaturaCensService asignaturaService;
 	
 	private static final PerfilTrabajadorCensType PERFIL_TYPE = PerfilTrabajadorCensType.ALUMNO;
 	
@@ -150,6 +161,15 @@ public class AlumnoCensServiceImpl implements AlumnoCensService{
 	
 	 public  Sort sortByApellidoAsc() {
 	        return new Sort(Sort.Direction.ASC, "miembroCens.apellido");
-	    }
+	  }
+	 
+	 @Override
+	 public Map<Asignatura,Programa> listarAsignaturaAlumnoInscripto(Long alumnoId){
+		 Map<Asignatura,Programa> asignaturaPrograma = new HashMap<Asignatura, Programa>();
+		 for(InscripcionAlumnos ia : inscripcionService.listInscripcionAlumno(alumnoId)){
+			 asignaturaPrograma.put(ia.getAsignatura(),asignaturaService.getProgramasForAsignaturas(ia.getAsignatura()));
+		 }
+		 return asignaturaPrograma;
+	 }
 
 }

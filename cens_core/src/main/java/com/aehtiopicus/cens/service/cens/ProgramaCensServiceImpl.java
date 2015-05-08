@@ -142,5 +142,10 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		programaCensRepository.updateProgramaStatus(programa.getId(),type);
 		
 	}
+
+	@Override
+	public Programa getProgramasForAsignatura(Asignatura asignatura) {
+		return programaCensRepository.findByAsignatura(asignatura);
+	}
 	
 }

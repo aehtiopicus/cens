@@ -32,4 +32,6 @@ public interface AsignaturaCensService {
 
 	public List<Curso> listarAsignaturasByProfesor(Long id);
 
+	public Programa getProgramasForAsignaturas(Asignatura asignatura);
+
 }

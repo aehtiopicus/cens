@@ -279,5 +279,8 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	}
 
 	 
-
+	@Override
+	public Programa getProgramasForAsignaturas(Asignatura asignatura) {
+		return programaCensService.getProgramasForAsignatura(asignatura);
+	}
 }

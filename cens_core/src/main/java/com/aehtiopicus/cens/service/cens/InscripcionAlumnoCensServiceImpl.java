@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,12 @@ public class InscripcionAlumnoCensServiceImpl implements InscripcionAlumnoCensSe
 			throw new CensException("No se puede eliminar la inscripci&oacute;n del alumno");
 		}
 		
+	}
+	
+	@Override
+	public List<InscripcionAlumnos> listInscripcionAlumno(Long alumnoId){
+		
+		return inscripcionAlumnoCensRepository.findByAlumnoIdEqualsAndAsignaturaVigenteEquals( alumnoId,true);
 	}
 
 }

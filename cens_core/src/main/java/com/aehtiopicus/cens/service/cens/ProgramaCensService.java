@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.utils.CensException;
@@ -24,5 +25,7 @@ public interface ProgramaCensService {
 	public List<Programa> getProgramas();
 
 	public void updateProgramaStatus(Programa programa, EstadoRevisionType type);
+
+	public Programa getProgramasForAsignatura(Asignatura asignatura);
 
 }
