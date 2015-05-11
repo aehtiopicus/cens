@@ -13,12 +13,15 @@ import org.springframework.stereotype.Component;
 import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Curso;
+import com.aehtiopicus.cens.domain.entities.MaterialDidactico;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.dto.cens.AlumnoDashboardDto;
 import com.aehtiopicus.cens.dto.cens.AlumnoDto;
 import com.aehtiopicus.cens.dto.cens.AsignaturaAlumnoDashboardDto;
 import com.aehtiopicus.cens.dto.cens.CursoAlumnoDashboardDto;
+import com.aehtiopicus.cens.dto.cens.MaterialDidacticoDto;
 import com.aehtiopicus.cens.dto.cens.ProgramaDto;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.util.Utils;
 
 @Component
@@ -77,7 +80,7 @@ public class AlumnoCensMapper {
 				}
 				AsignaturaAlumnoDashboardDto aDto = createAsignaturaAlumnoDashboardDto(apEntry
 						.getKey());
-				if (apEntry.getValue() != null) {
+				if (apEntry.getValue() != null && apEntry.getValue().getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)) {					
 					aDto.setProgramaDto(createProgramaDto(apEntry.getValue()));
 				} else {
 					aDto.setProgramaDto(new ProgramaDto());
@@ -95,6 +98,17 @@ public class AlumnoCensMapper {
 	private ProgramaDto createProgramaDto(Programa p) {
 		ProgramaDto pDto = Utils.getMapper().map(p, ProgramaDto.class);
 		pDto.setAsignatura(null);
+		pDto.setProgramaAdjunto(p.getFileInfo()!=null ? p.getFileInfo().getFileName() : null);
+		if(p.getMaterialDidactico()!=null){
+			pDto.setMaterialDidactico(new ArrayList<MaterialDidacticoDto>());
+			for(MaterialDidactico md : p.getMaterialDidactico()){
+				if(md.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)){
+					MaterialDidacticoDto mDto = Utils.getMapper().map(md, MaterialDidacticoDto.class);				
+					mDto.setCartillaAdjunta(md.getFileInfo()!=null ? md.getFileInfo().getFileName() : null);				
+					pDto.getMaterialDidactico().add(mDto);
+				}
+			}
+		}
 		return pDto;
 	}
 

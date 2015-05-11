@@ -145,7 +145,7 @@ this.datosAsignatura = function(value,currentDiv,asignatura){
 	
 	list = list.append(this.datosProfesor(value,asignatura.profesor,asignatura.profesorSuplente));
 	list = list.append(this.datosPrograma(value,asignatura));
-	list = list.append(datosMaterial(value,asignatura));
+	list = list.append(this.datosMaterial(value,asignatura));
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet);
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader);
 	currentPorlet = currentPorlet.append(divPorletContet);
@@ -181,6 +181,7 @@ this.datosPrograma = function(value,asignatura){
 	itemLinkSpan.addClass("estadoMaterial");
 	if(typeof asignatura.programaDto !== "undefined" && typeof asignatura.programaDto.id !== "undefined"){
 		itemLink.attr("href",pagePath+"/api/asignatura/"+asignatura.id+"/programa/"+asignatura.programaDto.id+"/archivo");
+		itemLink.attr("download",asignatura.programaDto.programaAdjunto);
 		itemLinkSpan.addClass(asignatura.programaDto.estadoRevisionType.toLowerCase());
 		itemLinkSpan.append(asignatura.programaDto.estadoRevisionType);
 	}else{
@@ -196,28 +197,24 @@ this.datosPrograma = function(value,asignatura){
 	
 	return itemPrograma;
 }
-}
 
-
-
-
-
-function datosMaterial(value,asignatura){
-
+this.datosMaterial = function(value,asignatura){
+	var self = this;
 	var itemMaterial=$('<li></li>');
 	itemMaterial.append("Material Did&aacute;ctico: ");	
-	if(asignatura.programa!=null && asignatura.programa != undefined && asignatura.programa.materialDidactico != null && asignatura.programa.materialDidactico.length >0){
-			$.each(asignatura.programa.materialDidactico.sort(function(a,b){
+	if(asignatura.programaDto!=null && asignatura.programaDto != undefined && asignatura.programaDto.materialDidactico != null && asignatura.programaDto.materialDidactico.length >0){
+			$.each(asignatura.programaDto.materialDidactico.sort(function(a,b){
 				  return a.nro-b.nro;
 			}), function(index,md){
-				if(estadoRevision(md)){
+				if(self.estadoRevision(md)){
 					itemCartillaNumeroLink = $('<a></a>');
 					itemMaterialInterno = $('<span></span>');
 					itemMaterialInterno.addClass("estadoMaterial");
 					itemMaterialInterno.html(md.nro+" ");
 					itemMaterialInterno.addClass(md.estadoRevisionType.toLowerCase());
-					
-					itemCartillaNumeroLink.attr("href",pagePath+"/mvc/asesor/"+asesorId+"/asignatura/"+asignatura.id+"/programa/"+asignatura.programa.id+"/material/"+md.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+md.nro+"&estado="+md.estadoRevisionType);
+														
+					itemCartillaNumeroLink.attr("href",pagePath+"/api/programa/"+asignatura.programaDto.id+"/material/"+md.id+"/archivo");
+					itemCartillaNumeroLink.attr("download",md.cartillaAdjunta);
 					itemCartillaNumeroLink.append(itemMaterialInterno);
 					itemMaterial.append(itemCartillaNumeroLink);
 				}
@@ -230,14 +227,15 @@ function datosMaterial(value,asignatura){
 		itemMaterialInterno.addClass("inexistente");
 		itemMaterial.append(itemMaterialInterno);
 	}
-	return itemMaterial.prop('outerHTML');
+	return  itemMaterial;
 }
 
+this.estadoRevision = function(programa){
 
-
-function estadoRevision(programa){
 	if(programa.estadoRevisionType === "LISTO" ||programa.estadoRevisionType === "ASIGNADO" ||programa.estadoRevisionType === "RECHAZADO" ||programa.estadoRevisionType === "ACEPTADO" || programa.estadoRevisionType ==="CAMBIOS"){
 		return true;
 	}
 	return false;
 }
+}
+

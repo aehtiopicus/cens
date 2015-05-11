@@ -16,8 +16,13 @@ function alert(message,messageTypeData){
 function errorDivs(errorDiv,field,value,dialog){	
 	if(checkDivNoExist(errorDiv)){
 		var templateDiv = $('<div></div>');
-		var templateLabel1 = $('<label class="ui-state-error"></label>');
-		var templateLabel2 = $('<label class="ui-state-error-img"></label>');
+		
+		var templateLabel1 = $('<label></label>');
+		templateLabel1.addClass("ui-state-error");
+		
+		var templateLabel2 = $('<label></label>');
+		templateLabel2.addClass("ui-state-error-img");
+		
 		if(dialog){
 			templateLabel1.addClass("dialog");
 			templateLabel2.addClass("dialog");
@@ -191,8 +196,8 @@ function loadCarrousel(){
 		               {
 		                 breakpoint: 690,
 		                 settings: {
-		                   slidesToShow: 2,
-		                   slidesToScroll: 2,
+		                   slidesToShow: 1,
+		                   slidesToScroll: 1,
 		                   infinite: true,
      						dots: true
 		                 }
@@ -200,7 +205,7 @@ function loadCarrousel(){
 		               {
 		                 breakpoint: 550,
 		                 settings: {
-		                   slidesToShow: 2,
+		                   slidesToShow: 1,
 		                   slidesToScroll: 1,
 		                   infinite: true,
      						dots: true
