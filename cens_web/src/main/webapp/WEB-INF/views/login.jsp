@@ -35,5 +35,11 @@
 	
 	<script type="text/javascript">
 		window.onload=document.f.j_username.focus();
+		
+		document.addEventListener('DOMContentLoaded',function(){
+			for(var key in localStorage) {
+				localStorage.removeItem(key);
+			}	
+		},false);
 	</script>
 

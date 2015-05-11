@@ -21,6 +21,7 @@ import com.aehtiopicus.cens.domain.entities.Alumno;
 import com.aehtiopicus.cens.domain.entities.Asignatura;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
+import com.aehtiopicus.cens.dto.cens.AlumnoDashboardDto;
 import com.aehtiopicus.cens.dto.cens.AlumnoDto;
 import com.aehtiopicus.cens.dto.cens.RestRequestDtoWrapper;
 import com.aehtiopicus.cens.dto.cens.RestResponseDto;
@@ -66,11 +67,11 @@ public class AlumnoCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@RequestMapping(value = UrlConstant.ALUMNO_CENS_REST+"/{alumnoId}/asignaturas", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)	
-	public void listAlumnosAsignatura(@PathVariable("alumnoId")Long alumnoId) throws Exception{					  
+	@RequestMapping(value = UrlConstant.ALUMNO_CENS_REST+"/{alumnoId}/dashboard", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)	
+	public AlumnoDashboardDto listAlumnosAsignatura(@PathVariable("alumnoId")Long alumnoId) throws Exception{					  
 		logger.info("listando asignaturas de alumno");
-		Map<Asignatura,Programa> iaList = alumnoCensService.listarAsignaturaAlumnoInscripto(alumnoId);
-		mapper.convertInscripcionInto
+		Map<Asignatura,Programa> asignaturaProgramaMap = alumnoCensService.listarAsignaturaAlumnoInscripto(alumnoId);
+		return mapper.convertToDashboardDto(asignaturaProgramaMap);
 //		RestRequest rr = getRequestRequest(wrapper);
 //		List<Alumno> alumnoList = alumnoCensService.listAlumnos(rr);
 //		long cantidad  = alumnoCensService.getTotalAlumnoFilterByProfile(rr);

@@ -8,7 +8,7 @@ public enum HomePageType {
 	ASESOR(VistasConstant.ASESOR_DASHBOARD_LIST_VIEW,PerfilTrabajadorCensType.ASESOR),
 	PROFESOR(VistasConstant.PROFESOR_ASIGNATURA_LIST_VIEW,PerfilTrabajadorCensType.PROFESOR),
 	PRECEPTOR(VistasConstant.MAIN,PerfilTrabajadorCensType.PRECEPTOR),
-	ALUMNO(VistasConstant.MAIN,PerfilTrabajadorCensType.ALUMNO),
+	ALUMNO(VistasConstant.ALUMNO_DASHBOARD_LIST_VIEW,PerfilTrabajadorCensType.ALUMNO),
 	ADMINISTRADOR(VistasConstant.MAIN,PerfilTrabajadorCensType.ADMINISTRADOR),
 	DEFAULT(VistasConstant.MAIN,null);
 	

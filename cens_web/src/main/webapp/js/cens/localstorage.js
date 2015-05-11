@@ -119,6 +119,7 @@ localstorage.ls.notificacion.prototype.init = function(param){
 	}
 	
 	this.setNotificacion = function(ni){
+		new localstorage.ls.userProfileData().saveProfile(ni[0].perfilRol);
 		localStorage.setItem(this.notificacionItem,'{"date":\"'+new Date().getTime()+'\","item":'+JSON.stringify(ni)+'}');
 		this.notificacionLoading = false;
 		this.notificationRefreshRequired = false;
@@ -164,5 +165,23 @@ localstorage.ls.notificacionData.prototype.init = function(param){
 	
 	this.setNotificacion = function(ni){
 		localStorage.setItem(this.notificacionItem,'{"date":\"'+new Date().getTime()+'\","item":'+JSON.stringify(ni)+'}');
+	}
+}
+
+
+localstorage.ls.userProfileData = localstorage.makeClass();
+localstorage.ls.userProfileData.prototype.init = function(){
+	this.userProfileItem = "userProfileItem";
+
+	this.saveProfile = function(profile){
+		localStorage.setItem(this.userProfileItem,'{"date":\"'+new Date().getTime()+'\","item":'+JSON.stringify(profile)+'}');
+		$(document).trigger("userProfileItemInitComplete");
+	}
+	
+	this.loadProfile = function(){
+		return JSON.parse(localStorage.getItem(this.userProfileItem)).item;
+	}
+	this.isLoaded = function(){
+		return localStorage.getItem(this.userProfileItem)!=null;
 	}
 }

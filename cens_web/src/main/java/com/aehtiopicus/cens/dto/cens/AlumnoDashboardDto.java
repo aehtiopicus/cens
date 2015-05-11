@@ -1,16 +1,16 @@
 package com.aehtiopicus.cens.dto.cens;
 
-import java.util.List;
+import java.util.Set;
 
 public class AlumnoDashboardDto {
 
-	private List<CursoAlumnoDashboardDto> cursos;
+	private Set<CursoAlumnoDashboardDto> cursos;
 
-	public List<CursoAlumnoDashboardDto> getCursos() {
+	public Set<CursoAlumnoDashboardDto> getCursos() {
 		return cursos;
 	}
 
-	public void setCursos(List<CursoAlumnoDashboardDto> cursos) {
+	public void setCursos(Set<CursoAlumnoDashboardDto> cursos) {
 		this.cursos = cursos;
 	}
 	

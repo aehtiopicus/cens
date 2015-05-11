@@ -99,7 +99,8 @@ public class VistasConstant {
 	/*Perfil*/
 	public static final String PERFIL_VIEW = "cens/perfilabm";
 	public static final String CONTACTO_VIEW = "cens/contactoabm";
-
+	/*Alumno*/
+	public static final String ALUMNO_DASHBOARD_LIST_VIEW ="cens/alumnodashboard";
 	
 
 	
