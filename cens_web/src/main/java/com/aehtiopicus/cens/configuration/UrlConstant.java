@@ -88,6 +88,9 @@ public class UrlConstant {
 	public static final String ALUMNO_CENS_DASHBOARD_MVC=MVC+"alumno/dashboard";
 	/*InscripcionAlumno*/
 	public static final String INSCRIPCION_ALUMNO_CENS_REST=API+"inscripcion/asignatura/{asignaturaId}";
+	/*Social*/
+	public static final String SOCIAL_CENS_REST_OAUTH_2=API+"social/oauth2";
+	public static final String SOCIAL_CENS_REST_OAUTH_2_CALLBACK=API+"social/oauth2/{provider}/callback";
 		
 }
 
