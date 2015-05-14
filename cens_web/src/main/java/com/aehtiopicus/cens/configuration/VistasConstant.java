@@ -101,6 +101,8 @@ public class VistasConstant {
 	public static final String CONTACTO_VIEW = "cens/contactoabm";
 	/*Alumno*/
 	public static final String ALUMNO_DASHBOARD_LIST_VIEW ="cens/alumnodashboard";
+	/*Administracion*/
+	public static final String ADMINISTRACION_MAIN = "cens/administracion";
 	
 
 	

@@ -8,6 +8,9 @@
 		<a href="<%=request.getContextPath()%>/mvc/perfil">Mi Perfil</a>
 
 	</li>
+	<li>
+		<a href="<%=request.getContextPath() %>/mvc/administracion">Administraci&oacute;n del Sistema</a>
+	</li>
     <li>
         <a href="<%=request.getContextPath() %>/mvc/miembroList">Administraci&oacute;n de Miembros</a>
     </li>
