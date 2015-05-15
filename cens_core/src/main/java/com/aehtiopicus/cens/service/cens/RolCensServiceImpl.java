@@ -118,6 +118,7 @@ public class RolCensServiceImpl implements RolCensService {
 				+ "WHEN cpuc.perfilType = 'ROLE_PROFESOR' THEN (SELECT cpp.id FROM cens_profesor cpp where cpp.miembrocens_id = cm.id AND cpp.baja = false) "
 				+ "WHEN cpuc.perfilType = 'ROLE_PRECEPTOR' THEN (SELECT cppp.id FROM cens_preceptor cppp where cppp.miembrocens_id = cm.id AND cppp.baja = false) "
 				+ "WHEN cpuc.perfilType = 'ROLE_ALUMNO' THEN (SELECT caa.id FROM cens_alumno caa where caa.miembrocens_id = cm.id AND caa.baja = false) " 
+				+ "WHEN cpuc.perfilType = 'ROLE_ADMINISTRADOR' THEN -1 "
 				+ "END typeId,cpuc.perfiltype as perfil "
 				+ "from cens_miembros_cens cm " 
 				+ "inner join cens_usuarios cu on cm.usuario_id = cu.id "
