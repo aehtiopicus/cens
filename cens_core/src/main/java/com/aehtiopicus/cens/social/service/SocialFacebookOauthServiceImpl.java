@@ -102,8 +102,12 @@ public class SocialFacebookOauthServiceImpl implements
 				suc.setProviderId("FACEBOOK");
 			}
 			suc.setAccessToken(dataResult.get("access_token").toString());
-			suc.setExpireTime(Long.valueOf(dataResult.get("expires_in") != null ? dataResult
-					.get("expires_in").toString() : "0"));
+			
+			String expiresValue = dataResult.get("expires_in") != null ? dataResult.get("expires_in").toString() : "0";
+			if(expiresValue.contains(".")){
+				expiresValue = expiresValue.substring(0, expiresValue.indexOf("."));
+			}
+			suc.setExpireTime(Long.valueOf(expiresValue));
 			suc.setSecret(fbApiSecret);
 			suc.setProviderUserId(fbApiKey);
 
