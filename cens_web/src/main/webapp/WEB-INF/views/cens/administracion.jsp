@@ -13,9 +13,10 @@
   	<div id="adminContent">
   		<div id="facebook">
   			<fieldset>
-  				<div>
-  					<label>Autenticar en facebook</label>
-  					<button id="fbButton" type="button" class="button">Autenticar</button>
+  			<h3 class="subtitulo">Autenticaci&oacute;n con Redes Sociales</h3>
+  				<div id="fbDiv">
+  					<label for="fbButton">Autenticar en facebook</label>
+  					<button id="fbButton" type="button" class="fbIcon"></button>
   				</div>
   			</fieldset>
   		</div>
@@ -23,6 +24,6 @@
   <div id="loginDialog" class="dialog" title="Autenticaci&oacute;n">
 	<p>Autenticaci&oacute;n de Usuario ante sistema externo</p>
 	<div>
-		<a id="fbLink">Facebook</a>		
+		<label id="fbLink" for="fbLinkButton">Facebook</label>		
 	</div>
 </div>

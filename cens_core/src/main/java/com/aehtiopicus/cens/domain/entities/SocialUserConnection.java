@@ -2,56 +2,47 @@ package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="userconnection",
-uniqueConstraints=
-@UniqueConstraint(name="UserConnectionRank", columnNames={"userId", "providerId","rank"}))
+@Table(name="cens_user_connection")
 public class SocialUserConnection implements Serializable{
 
 	 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 3125078923399558335L;
-	@EmbeddedId
-	 private SocialUserConnectionIds suc;
-	private Integer rank;
-	private String displayName;
-	private String profileUrl;
-	private String imageUrl;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long Id;
+	
+	private String providerId;	
+	private String providerUserId;
 	private String accessToken;
 	private String secret;
 	private String refreshToken;
 	private Long expireTime;
-	
-	public Integer getRank() {
-		return rank;
+	public Long getId() {
+		return Id;
 	}
-	public void setRank(Integer rank) {
-		this.rank = rank;
+	public void setId(Long id) {
+		Id = id;
 	}
-	public String getDisplayName() {
-		return displayName;
+	public String getProviderId() {
+		return providerId;
 	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public void setProviderId(String providerId) {
+		this.providerId = providerId;
 	}
-	public String getProfileUrl() {
-		return profileUrl;
+	public String getProviderUserId() {
+		return providerUserId;
 	}
-	public void setProfileUrl(String profileUrl) {
-		this.profileUrl = profileUrl;
-	}
-	public String getImageUrl() {
-		return imageUrl;
-	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setProviderUserId(String providerUserId) {
+		this.providerUserId = providerUserId;
 	}
 	public String getAccessToken() {
 		return accessToken;
@@ -78,46 +69,6 @@ public class SocialUserConnection implements Serializable{
 		this.expireTime = expireTime;
 	}
 	
-	public SocialUserConnectionIds getSuc() {
-		return suc;
-	}
-	public void setSuc(SocialUserConnectionIds suc) {
-		this.suc = suc;
-	}
-
-	@Embeddable
-    class SocialUserConnectionIds implements Serializable{
-    	private String userId;
-    	
-    	private String providerId;
-    	
-    	private String providerUserId;
-
-		public String getUserId() {
-			return userId;
-		}
-
-		public void setUserId(String userId) {
-			this.userId = userId;
-		}
-
-		public String getProviderId() {
-			return providerId;
-		}
-
-		public void setProviderId(String providerId) {
-			this.providerId = providerId;
-		}
-
-		public String getProviderUserId() {
-			return providerUserId;
-		}
-
-		public void setProviderUserId(String providerUserId) {
-			this.providerUserId = providerUserId;
-		}
-    	
-    	
-    }
+	
 
 }

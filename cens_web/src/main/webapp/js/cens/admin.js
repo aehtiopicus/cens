@@ -81,8 +81,15 @@ this.initFacebookOauth = function(){
 		},
 		success: function(data){			
 			stopSpinner();			
-			$("#fbLink").unbind("click");
-			$("#fbLink").attr("href",data.message);			
+			if($("#fbLinkButton").length == 0){
+				fbButton = $("<button></button>");
+				fbButton.addClass("fbIcon");
+				fbButton.attr("id","fbLinkButton");
+				fbButton.insertAfter($("#fbLink"));
+				fbButton.attr("style","float:right; margin-top: -7px;");
+			}
+			fbButton.unbind("click");
+			fbButton.on("click",function(){ window.location = data.message;})
 			self.openDialog();
 		},
 		error: function(data){

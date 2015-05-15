@@ -1207,6 +1207,26 @@ div.no-noty img{
 	top: -4px !important;
 }
 
+#fbButton{
+  position: relative;
+  top: 5px;
+}
+.fbIcon{
+	background-image: url('midasUI-theme/images/sprite-follow-us.svg') !important;
+  height: 23px;
+  width: 24px;
+  background-position-x: -1px;
+  background-position-y: -1px;
+  border: none;
+}
+.fbIcon:HOVER{
+	background-image: url('midasUI-theme/images/sprite-follow-us.svg') !important;
+  height: 23px;
+  width: 24px;
+  background-position-x: -1px;
+  background-position-y: -25px;
+  border: none;
+}
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
 	font-size: 11px;
