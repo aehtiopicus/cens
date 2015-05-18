@@ -123,11 +123,15 @@ this.checkFacebookOauth = function(){
 		}
 	});
 }
+this.extraParameters = function(){
+	return "&key="+$("#key").val()+"&secret="+$("#secret").val();
+}
 this.initFacebookOauth = function(){
 	var self = this;
+	
 	$.ajax({
 		type:"GET",
-		url:pagePath+"/api/social/oauth2?socialType=FACEBOOK",
+		url:pagePath+"/api/social/oauth2?socialType=FACEBOOK"+self.extraParameters(),
 		contentType :'application/json',
 		dataType:"json",
 		beforeSend: function(xhr){
@@ -159,14 +163,12 @@ this.initFacebookOauth = function(){
 this.oauthCompleted = function(oauthData){
 	if(typeof oauthData.oauth_status !== "undefined" && oauthData.oauth_status.length> 0 ){
 		if(typeof oauthData.code !== "undefined" && oauthData.code.length> 0 ){
+			startSpinner();	
 			$.ajax({
 				type:"GET",
 				url:pagePath+"/api/social/oauth2/FACEBOOK/callback?code="+oauthData.code,
 				contentType :'application/json',
-				dataType:"json",
-				beforeSend: function(xhr){
-					startSpinner();					
-				},
+				dataType:"json",				
 				success: function(data){			
 					stopSpinner();			
 					$("#successLoginDialog").dialog("open");

@@ -61,6 +61,8 @@ public class SocialFacebookOauthServiceImpl implements
 	private static final String CHECK_STATUS_URL = "https://graph.facebook.com/v2.3/debug_token";
 
 	private static final String REVOKE_PERMISSIONS_URL = "https://graph.facebook.com/v2.3/{USER_ID}/permissions";
+	
+	private static final String PUBLISH_CONTENT_URL = "https://graph.facebook.com/v2.3/{USER_ID}/feed";
 
 	@Override
 	public Map<String, String> checkFacebookTokenStatus() throws CensException {
@@ -135,7 +137,7 @@ public class SocialFacebookOauthServiceImpl implements
 					.authorizationLocation(
 							"https://www.facebook.com/v2.3/dialog/oauth")
 					.setClientId(userFbKey).setRedirectURI(redirectUrlPath)
-					.setScope("publish_actions")
+					.setScope("publish_actions,manage_notifications")
 					.buildQueryMessage();
 
 			return request.getLocationUri();
@@ -146,6 +148,7 @@ public class SocialFacebookOauthServiceImpl implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void revokeAccess() throws CensException {
 
@@ -176,8 +179,11 @@ public class SocialFacebookOauthServiceImpl implements
 			
 				Map<String, Object> dataResult = converter
 						.extractData(chResponse);
-				
-				repository.delete(suc.getId());
+				if(dataResult.containsKey("success")){
+					repository.delete(suc.getId());
+				}else{
+					throw new CensException("No se puede eliminar el token");
+				}
 			} catch (Exception e) {
 				logger.error("Error al remover token", e);
 				throw new CensException(e);
@@ -292,5 +298,48 @@ public class SocialFacebookOauthServiceImpl implements
 			logger.error("Error al tratar de refrescar el token", e);
 			throw new CensException("Error al refrescar el token de accesso");
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void publishContent(String message) throws CensException{
+		SocialUserConnection suc = repository.findByProviderId("FACEBOOK");
+		try{
+			Map<String,Object> data = facebookTokenStatus(suc);
+			if(!data.containsKey("error")){
+				
+				RestTemplate rs = new RestTemplate();									
+
+				UriComponentsBuilder builder = UriComponentsBuilder
+						.fromHttpUrl(PUBLISH_CONTENT_URL.replace(
+								"{USER_ID}",
+								((Map<String, Object>) data.get("data")).get(
+										"user_id").toString())).						
+						queryParam("access_token", suc.getAccessToken()).
+						queryParam("message", message);
+				
+				ClientHttpRequest chr = rs.getRequestFactory().createRequest(builder.build().toUri(),
+						HttpMethod.POST);
+
+				ClientHttpResponse chResponse = chr.execute();
+				HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
+						Map.class, rs.getMessageConverters());
+			
+				Map<String, Object> dataResult = converter
+						.extractData(chResponse);
+				if(dataResult.containsKey("error")){
+					throw new CensException("No se puede publicar");
+				}
+				
+			}else{
+				throw new CensException("Token inv&aacute;lido");
+			}
+		}catch(Exception e){
+			logger.error("Error al intentar publicar",e);
+			throw new CensException(e);
+		}
+		
+		
+		
 	}
 }
