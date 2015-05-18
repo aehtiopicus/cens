@@ -89,8 +89,10 @@ public class UrlConstant {
 	/*InscripcionAlumno*/
 	public static final String INSCRIPCION_ALUMNO_CENS_REST=API+"inscripcion/asignatura/{asignaturaId}";
 	/*Social*/
+	public static final String SOCIAL_CENS_REST_SOCIAL=API+"social";
 	public static final String SOCIAL_CENS_REST_OAUTH_2=API+"social/oauth2";
 	public static final String SOCIAL_CENS_REST_OAUTH_2_CALLBACK=API+"social/oauth2/{provider}/callback";
+	public static final String SOCIAL_CENS_REST_OAUTH_2_CALLBACK_MVC=MVC+"social/oauth2/{provider}/callback";
 	public static final String SOCIAL_CENS_REST_OAUTH_2_CALLBACK_ACCESS_TOKEN=API+"social/oauth2/{provider}/callback/token";
 	/*Adminitracion*/
 	public static final String ADMINISTRACION_MVC=MVC+"administracion";

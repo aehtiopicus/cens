@@ -26,6 +26,7 @@ public class SocialUserConnection implements Serializable{
 	private String secret;
 	private String refreshToken;
 	private Long expireTime;
+	private Long currentTime;
 	public Long getId() {
 		return Id;
 	}
@@ -67,6 +68,12 @@ public class SocialUserConnection implements Serializable{
 	}
 	public void setExpireTime(Long expireTime) {
 		this.expireTime = expireTime;
+	}
+	public Long getCurrentTime() {
+		return currentTime;
+	}
+	public void setCurrentTime(Long currentTime) {
+		this.currentTime = currentTime;
 	}
 	
 	

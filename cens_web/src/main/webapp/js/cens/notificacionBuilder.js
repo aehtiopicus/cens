@@ -228,9 +228,7 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	var randomBubbleId = randomId();
 	var bubble = $("<h3>?</h3>");
 	bubble.addClass("notifybubble");
-	bubble.on("click",function(){
-		$('#'+randomBubbleId).toggle();
-	})
+	
 	
 	itemAsignaturaProgramaUl = $('<ul></ul>')
 	itemAsignaturaProgramaUl.attr("id",randomBubbleId);
@@ -277,7 +275,8 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	
 	
 	bubble.on("click",function(){
-		itemVisualizar.toggleClass("open");
+		itemVisualizar.toggleClass("open");		
+		$('#'+randomBubbleId).slideToggle("slow");
 	})
 	var itemDivContainer = $("<div style='overflow:auto;'></div>");
 	
