@@ -2,11 +2,11 @@ package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,7 +28,7 @@ public class SocialPost implements Serializable{
 	private String provider;
 	
 	@OneToOne
-	@Column(name="programa_id")
+	@JoinColumn(name="programa_id")
 	private Programa programa;
 	
 	

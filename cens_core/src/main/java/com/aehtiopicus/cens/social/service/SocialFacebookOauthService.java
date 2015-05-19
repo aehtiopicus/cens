@@ -16,6 +16,8 @@ public interface SocialFacebookOauthService {
 
 	public void revokeAccess() throws CensException;
 
-	public void publishContent(String message) throws CensException;
+	public String publishContent(String message) throws CensException;
+
+	public void deleteContent(String publishEventId) throws CensException;
 
 }

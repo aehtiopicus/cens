@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.social.service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +64,8 @@ public class SocialFacebookOauthServiceImpl implements
 	private static final String REVOKE_PERMISSIONS_URL = "https://graph.facebook.com/v2.3/{USER_ID}/permissions";
 	
 	private static final String PUBLISH_CONTENT_URL = "https://graph.facebook.com/v2.3/{USER_ID}/feed";
+	
+	private static final String DELETE_PUBLISH_CONTENT_URL = "https://graph.facebook.com/v2.3/";
 
 	@Override
 	public Map<String, String> checkFacebookTokenStatus() throws CensException {
@@ -172,13 +175,9 @@ public class SocialFacebookOauthServiceImpl implements
 				
 				ClientHttpRequest chr = rs.getRequestFactory().createRequest(builder.build().toUri(),
 						HttpMethod.DELETE);
-
-				ClientHttpResponse chResponse = chr.execute();
-				HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
-						Map.class, rs.getMessageConverters());
 			
-				Map<String, Object> dataResult = converter
-						.extractData(chResponse);
+				Map<String, Object> dataResult = restTemplateResult(chr,rs);
+				
 				if(dataResult.containsKey("success")){
 					repository.delete(suc.getId());
 				}else{
@@ -209,10 +208,8 @@ public class SocialFacebookOauthServiceImpl implements
 
 			ClientHttpRequest chr = rs.getRequestFactory().createRequest(
 					new URI(request.getLocationUri()), HttpMethod.GET);
-			ClientHttpResponse chResponse = chr.execute();
-			HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
-					Map.class, rs.getMessageConverters());
-			Map<String, Object> dataResult = converter.extractData(chResponse);
+
+			Map<String, Object> dataResult = restTemplateResult(chr,rs);
 
 			if (dataResult.containsKey("error")) {
 				throw new CensException(dataResult.get("error").toString());
@@ -239,7 +236,9 @@ public class SocialFacebookOauthServiceImpl implements
 
 			repository.save(suc);
 			refreshAccessToken();
-
+			
+		}catch(CensException e){
+			throw e;
 		} catch (IOException e) {
 			logger.error("Url Exception Facebook OAuth Error", e);
 			throw new CensException(e);
@@ -277,10 +276,7 @@ public class SocialFacebookOauthServiceImpl implements
 			ClientHttpRequest chr = rs.getRequestFactory().createRequest(
 					builder.build().encode().toUri(), HttpMethod.GET);
 
-			ClientHttpResponse chResponse = chr.execute();
-			HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
-					Map.class, rs.getMessageConverters());
-			Map<String, Object> dataResult = converter.extractData(chResponse);
+			Map<String, Object> dataResult = restTemplateResult(chr,rs);
 
 			if (dataResult.containsKey("error")) {
 				throw new CensException(dataResult.get("error").toString());
@@ -294,6 +290,8 @@ public class SocialFacebookOauthServiceImpl implements
 			} else {
 				throw new CensException("Token de acceso inexistente");
 			}
+		}catch(CensException e){
+			throw e;
 		} catch (IOException e) {
 			logger.error("Error al tratar de refrescar el token", e);
 			throw new CensException("Error al refrescar el token de accesso");
@@ -302,7 +300,7 @@ public class SocialFacebookOauthServiceImpl implements
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void publishContent(String message) throws CensException{
+	public String publishContent(String message) throws CensException{
 		SocialUserConnection suc = repository.findByProviderId("FACEBOOK");
 		try{
 			Map<String,Object> data = facebookTokenStatus(suc);
@@ -311,29 +309,25 @@ public class SocialFacebookOauthServiceImpl implements
 				RestTemplate rs = new RestTemplate();									
 
 				UriComponentsBuilder builder = UriComponentsBuilder
-						.fromHttpUrl(PUBLISH_CONTENT_URL.replace(
-								"{USER_ID}",
-								((Map<String, Object>) data.get("data")).get(
-										"user_id").toString())).						
+						.fromHttpUrl(PUBLISH_CONTENT_URL.replace("{USER_ID}",((Map<String, Object>) data.get("data")).get("user_id").toString())).						
 						queryParam("access_token", suc.getAccessToken()).
 						queryParam("message", message);
 				
 				ClientHttpRequest chr = rs.getRequestFactory().createRequest(builder.build().toUri(),
 						HttpMethod.POST);
-
-				ClientHttpResponse chResponse = chr.execute();
-				HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
-						Map.class, rs.getMessageConverters());
 			
-				Map<String, Object> dataResult = converter
-						.extractData(chResponse);
+				Map<String, Object> dataResult = restTemplateResult(chr,rs);
+				
 				if(dataResult.containsKey("error")){
-					throw new CensException("No se puede publicar");
+					throw new CensException("No se puede publicar","Error",Arrays.toString(dataResult.entrySet().toArray()));
 				}
+				return dataResult.get("id").toString();
 				
 			}else{
 				throw new CensException("Token inv&aacute;lido");
 			}
+		}catch(CensException e){
+			throw e;
 		}catch(Exception e){
 			logger.error("Error al intentar publicar",e);
 			throw new CensException(e);
@@ -341,5 +335,41 @@ public class SocialFacebookOauthServiceImpl implements
 		
 		
 		
+	}
+
+
+	@Override
+	public void deleteContent(String publishEventId) throws CensException {
+		SocialUserConnection suc = repository.findByProviderId("FACEBOOK");
+		try{
+		
+			
+			RestTemplate rs = new RestTemplate();									
+
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(DELETE_PUBLISH_CONTENT_URL+publishEventId).						
+						queryParam("access_token", suc.getAccessToken());
+			
+			ClientHttpRequest chr = rs.getRequestFactory().createRequest(builder.build().toUri(),
+					HttpMethod.DELETE);
+			Map<String, Object> dataResult =restTemplateResult(chr,rs);
+			
+			if(dataResult.containsKey("error")){
+				throw new CensException("No se puede eliminar la publicaci&oacute;n","Error",Arrays.toString(dataResult.entrySet().toArray()));
+			}
+			
+		}catch(CensException e){
+			throw e;			
+		}catch(Exception e){
+			logger.error("Error al intentar eliminar publicaci&oacute;n",e);
+			throw new CensException(e);
+		}
+	}
+	
+	private Map<String,Object> restTemplateResult(ClientHttpRequest chr,RestTemplate rs) throws IOException{
+		ClientHttpResponse chResponse = chr.execute();
+		HttpMessageConverterExtractor<Map<String, Object>> converter = new HttpMessageConverterExtractor<Map<String, Object>>(
+				Map.class, rs.getMessageConverters());
+		
+		return converter.extractData(chResponse);
 	}
 }

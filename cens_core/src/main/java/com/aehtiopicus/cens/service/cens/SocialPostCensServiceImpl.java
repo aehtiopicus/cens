@@ -15,12 +15,24 @@ public class SocialPostCensServiceImpl implements SocialPostCensService{
 	@Autowired
 	private SocialPostCensRepository repository;
 	
+	@Autowired
+	private ProgramaCensService programaService;
+
+	
 	@Override
-	public void saveSocialPost(Programa p, String postId)throws CensException{
+	public Programa findProgramaById(Long programaId) throws CensException{
+		return programaService.findById(programaId);
+	}
+	
+	@Override
+	public SocialPost saveSocialPost(Programa p, String postId,String provider)throws CensException{
 		if(findByPrograma(p)==null){
 			SocialPost sp = new SocialPost();
 			sp.setPrograma(p);
 			sp.setPublishEventId(postId);
+			sp.setProvider(provider);
+			repository.save(sp);
+			return sp;
 		}else{
 			throw new CensException("Ya existe un post asociado");
 		}
