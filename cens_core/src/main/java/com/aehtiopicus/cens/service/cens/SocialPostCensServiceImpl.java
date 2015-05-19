@@ -25,12 +25,13 @@ public class SocialPostCensServiceImpl implements SocialPostCensService{
 	}
 	
 	@Override
-	public SocialPost saveSocialPost(Programa p, String postId,String provider)throws CensException{
+	public SocialPost saveSocialPost(Programa p, String postId,String provider,String message)throws CensException{
 		if(findByPrograma(p)==null){
 			SocialPost sp = new SocialPost();
 			sp.setPrograma(p);
 			sp.setPublishEventId(postId);
 			sp.setProvider(provider);
+			sp.setMessage(message);
 			repository.save(sp);
 			return sp;
 		}else{

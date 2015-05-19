@@ -1,5 +1,6 @@
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>  
 <html lang="es">  
     <head>  
@@ -55,8 +56,14 @@
     	
     		<div class="menuPanel" id="menuPanel">
     			<!-- INSERTAR MENU.JSP -->
-    			<sec:authorize access="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_ASESOR')">
+    			<sec:authorize access="hasRole('ROLE_ADMINISTRADOR') AND hasRole('ROLE_ASESOR')">
+    				<jsp:include page="includes/god_menu.jsp"></jsp:include>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_ASESOR') AND !hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ADMINISTRADOR')">
 	    			<jsp:include page="includes/asesoria_menu.jsp"></jsp:include>
+				</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_PROFESOR') AND hasRole('ROLE_ASESOR') AND !hasRole('ROLE_ADMINISTRADOR')">
+	    			<jsp:include page="includes/profesor_asesor_menu.jsp"></jsp:include>
 				</sec:authorize>
     			<sec:authorize access="hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ASESOR')">
 	    			<jsp:include page="includes/profesor_menu.jsp"></jsp:include>

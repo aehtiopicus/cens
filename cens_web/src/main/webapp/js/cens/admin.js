@@ -43,7 +43,7 @@ var admindashboard = {
 };
 
 admindashboard.namespace("admin");
-admindashboard.admin.oauth = localstorage.makeClass();
+admindashboard.admin.oauth = admindashboard.makeClass();
 
 admindashboard.admin.oauth.prototype.init = function(){
 
@@ -72,7 +72,7 @@ this.initDialog = function(){
 			modal : true,
 			buttons: [
 				{
-					text: "Ok",
+					text: "Cancelar",
 					click: function() {
 						$( this ).dialog( "close" );
 					}

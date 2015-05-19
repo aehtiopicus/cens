@@ -1,11 +1,16 @@
 package com.aehtiopicus.cens.dto.cens;
 
+import com.aehtiopicus.cens.controller.cens.enums.SocialPostStateType;
+
 public class SocialPostDto {
 
 	private Long id;
 	private String publishEventId;
 	private String provider;
 	private ProgramaDto programa;
+	private String message;
+	private SocialPostStateType socialPostStateType;
+	
 	public Long getId() {
 		return id;
 	}
@@ -29,6 +34,18 @@ public class SocialPostDto {
 	}
 	public void setPrograma(ProgramaDto programa) {
 		this.programa = programa;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public SocialPostStateType getSocialPostStateType() {
+		return socialPostStateType;
+	}
+	public void setSocialPostStateType(SocialPostStateType socialPostStateType) {
+		this.socialPostStateType = socialPostStateType;
 	}
 	
 	

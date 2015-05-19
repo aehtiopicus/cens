@@ -17,7 +17,6 @@
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/mvc/asignaturaList">Gesti&oacute;n de Asignatura</a></li>
 			<li><a href="<%=request.getContextPath() %>/mvc/cursoList">Gesti&oacute;n de Cursos</a></li>
-			<li><a href="<%=request.getContextPath() %>/mvc/inscripcion">Inscripci&oacute;n de Alumnos</a></li>
 		</ul>
 	</li>
 	

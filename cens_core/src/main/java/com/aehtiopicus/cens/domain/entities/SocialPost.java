@@ -2,6 +2,7 @@ package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +32,8 @@ public class SocialPost implements Serializable{
 	@JoinColumn(name="programa_id")
 	private Programa programa;
 	
+	@Column(name="post_message",length=1000)
+	private String message;
 	
 	
 	public Long getId() {
@@ -84,6 +87,20 @@ public class SocialPost implements Serializable{
 
 	public void setPrograma(Programa programa) {
 		this.programa = programa;
+	}
+
+
+
+
+	public String getMessage() {
+		return message;
+	}
+
+
+
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 

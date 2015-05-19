@@ -8,7 +8,7 @@ public interface SocialPostCensService {
 
 	public Programa findProgramaById(Long programaId) throws CensException;
 
-	public SocialPost saveSocialPost(Programa p, String postId,String provider) throws CensException;
+	public SocialPost saveSocialPost(Programa p, String postId,String provider,String message) throws CensException;
 
 	public SocialPost findByPrograma(Programa p);
 

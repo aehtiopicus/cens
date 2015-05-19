@@ -23,7 +23,7 @@
   			<h3 class="subtitulo" style="text-align: -webkit-left;">Autenticaci&oacute;n con Redes Sociales</h3>
   			<div id="fbDiv" class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
   				<div class="portlet-header ui-widget-header ui-corner-all" id="portletHeader"><div>
-  					<label class="fbIcon-unhovered"></label>
+  					<label class="fbIcon-blue"></label>
   					<label class ="fbHeaderLabel">Facebook</label>
   					</div> 
   				</div>

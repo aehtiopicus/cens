@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.aehtiopicus.cens.controller.cens.enums.SocialPostStateType;
 import com.aehtiopicus.cens.controller.cens.validator.SocialPostValidator;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.SocialPost;
@@ -144,7 +146,7 @@ public class SocialCensRestController extends AbstractRestController{
 	@Secured("ROLE_ASESOR")
 	@ResponseStatus(value=HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.SOCIAL_CENS_REST_OAUTH_2, method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<? extends Object> postData(HttpServletRequest request,@RequestParam("provider") SocialType st,@RequestParam("comentarioTypeId")Long ctId) throws Exception{
+	public @ResponseBody ResponseEntity<? extends Object> postData(HttpServletRequest request,@RequestParam("provider") SocialType st,@RequestParam("comentarioTypeId")Long ctId,@RequestParam(value="publishString",required=false) String publishString) throws Exception{
 		ResponseEntity<SocialPostDto> re = null;
 		
 		Programa p = spcService.findProgramaById(ctId);
@@ -156,13 +158,17 @@ public class SocialCensRestController extends AbstractRestController{
 		}
 		spv.validar(p);
 			
+		if(StringUtils.isEmpty(publishString)){
+			publishString = spMapper.convertProgramaIntoSocialPostMessage(p);
+		}
+		
 		String publishId = null;
 		switch(st){	
 			case FACEBOOK:			
-				 publishId = facebookOAuth.publishContent(spMapper.convertProgramaIntoSocialPostMessage(p));
+				 publishId = facebookOAuth.publishContent(publishString);
 			break;
 		}
-		SocialPost sp = spcService.saveSocialPost(p, publishId,st.toString());
+		SocialPost sp = spcService.saveSocialPost(p, publishId,st.toString(),publishString);
 				
 		re = new ResponseEntity<SocialPostDto>(spMapper.mapEntityToDto(sp),HttpStatus.OK);
 		return re;
@@ -193,6 +199,28 @@ public class SocialCensRestController extends AbstractRestController{
 		return re;
 	}
 	
+	@Secured("ROLE_ASESOR")
+	@ResponseStatus(value=HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.SOCIAL_CENS_REST_OAUTH_2+"/programa/{programaId}", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<? extends Object> getPostData(HttpServletRequest request,@RequestParam("provider") SocialType st,@PathVariable("programaId")Long ctId) throws Exception{
+		
+		Programa p = spcService.findProgramaById(ctId);
+		SocialPost sp = spcService.findByPrograma(p);
+		SocialPostDto spDto = null;
+		if(sp!=null){			
+			spDto = spMapper.mapEntityToDto(sp);
+			spDto.setSocialPostStateType(SocialPostStateType.PUBLICADO);			
+		}else{
+			spDto = new SocialPostDto();
+			spDto.setMessage(spMapper.convertProgramaIntoSocialPostMessage(p));
+			spDto.setSocialPostStateType(SocialPostStateType.NO_PUBLICADO);
+		
+		
+		}
+
+	
+		return new ResponseEntity<SocialPostDto>(spDto,HttpStatus.OK);
+	}
 	
 	
 }

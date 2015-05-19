@@ -10,7 +10,7 @@ html,body,table{
 	font-family: "arial", sans-serif;
 /* 	font-family: cursive; */
 }
-
+textarea,
 select,
 button,
 input:HOVER,
@@ -1242,7 +1242,7 @@ div.no-noty img{
   border: none;
 }
 
-.fbIcon-hovered{
+.fbIcon-blue{
 		background-image: url('midasUI-theme/images/sprite-follow-us.svg') !important;
   height: 20px;
   width: 20px;
@@ -1262,6 +1262,11 @@ label.fbIcon-unhovered {
 	display: inline-block;
   border-radius: 11px;
 }
+
+label.fbIcon-blue {
+	display: inline-block;
+  border-radius: 11px;
+}
 .fbHeaderLabel{
 	position: relative;
   top: -4px;
@@ -1272,6 +1277,42 @@ label.fbIcon-unhovered {
 .estadoAutenticacion input{
 	height: 20px;
 	width:  98%;
+}
+
+.socialLink{
+	 display: inline-block;
+	    border-radius: 12px;
+	    width: 15px;
+	    margin-top: 3px;
+	    float: right;
+}
+
+
+.estadoToken.nuevo{
+
+	color: rgb(76, 131, 33);
+}  
+
+
+.estadoToken.inexistente {
+	color: rgb(6,6,6);
+}
+
+
+
+.estadoToken.expirado{
+
+	color: rgb(232, 36, 73);
+}
+
+.estadoToken.activo{
+
+	color: rgb(37, 60, 152);
+}
+
+.estadoToken.token-error{
+
+	color: red;
 }
 @media screen and (max-width: 1100px) {
     .estadoMaterial{
@@ -1354,29 +1395,3 @@ left: 42%;
 }
 
 
-.estadoToken.nuevo{
-
-	color: rgb(76, 131, 33);
-}  
-
-
-.estadoToken.inexistente {
-	color: rgb(6,6,6);
-}
-
-
-
-.estadoToken.expirado{
-
-	color: rgb(232, 36, 73);
-}
-
-.estadoToken.activo{
-
-	color: rgb(37, 60, 152);
-}
-
-.estadoToken.token-error{
-
-	color: red;
-}
