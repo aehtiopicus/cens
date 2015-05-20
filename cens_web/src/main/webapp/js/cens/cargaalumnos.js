@@ -4,6 +4,7 @@ alumnos.al.cargamasiva = alumnos.makeClass();
 alumnos.al.cargamasiva.prototype.init = function(param){
 	this.dialog = '#'+param.dialogName;	
 	this.fileSelector = '#'+param.fileSelection;
+	this.recargar = false;
 	var self = this;
 		
 		$(this.dialog).dialog({
@@ -25,6 +26,9 @@ alumnos.al.cargamasiva.prototype.init = function(param){
 					click: function() {
 						$(this).dialog( "close" );
 						$("#cmaB").button( "option", "disabled", true );
+						if(selft.recargar){
+							document.location.href = document.location.href;
+						}
 					}
 				}
 			]
@@ -187,7 +191,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 	}
 	
 	this.guardarAlumnos = function(){
-		
+		var self = this;
 		$.each(this.alumnosRaw,function(index,value){
 			
 			$.ajax({				  
@@ -204,6 +208,7 @@ alumnos.al.alumnos.prototype.init = function(param){
 						  success: function(data, textStatus, jqXHR){
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr( "class","cmaSuccess");							  
 							  $("#"+value.alumnosCompiled[0].usuario.username).attr("title","Alumno guardado");
+							  self.recargar = true;
 						  },
 						  error:function(error,textStatus){
 							  var message = " ";

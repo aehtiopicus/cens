@@ -2,6 +2,8 @@ package com.aehtiopicus.cens.service.cens;
 
 public class CensServiceConstant {
 
+	public static final String SOCIAL_FACEBOOK_OAUTH_SERVICE ="socialFacebookOauthService";
+		
 	public static final String NOTIFICACION_CENS_SERVICE = "notificacionCensService";
 
 	public static final String USUARIO_CENS_SERVICE = "	usuarioCensService";

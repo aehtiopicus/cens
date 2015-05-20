@@ -13,9 +13,11 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.aehtiopicus.cens.scheduler.EmailCensSchedulerJob;
 import com.aehtiopicus.cens.scheduler.EmailNoLeidoCensSchedulerJob;
+import com.aehtiopicus.cens.scheduler.SocialFacebookOauthCensSchedulerJob;
 import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
+import com.aehtiopicus.cens.social.service.SocialFacebookOauthService;
 
 @Configuration
 @EnableScheduling
@@ -25,6 +27,7 @@ public class SchedulerConfiguration {
 	private static final String UN_READ_JOB = "#{schedulerProperties['un_read_job']}";
 	private static final String GENERAL_NOTIFICATION_JOB = "#{schedulerProperties['general_notification_job']}";
 	private static final String SCHEDULER_ON = "#{schedulerProperties['activated']}";
+	private static final String SCHEDULER_TOKEN_FB = "#{schedulerProperties['token_fb']}";
 			
 
 	
@@ -37,9 +40,24 @@ public class SchedulerConfiguration {
 	@Value(SCHEDULER_ON)
 	private Boolean enabled;
 	
+	@Value(SCHEDULER_TOKEN_FB)
+	private String fbTokenRefreshExpression;
+	
 	@Autowired
 	private ApplicationContext applicationContext;
 		
+	
+	@Bean
+	public CronTriggerFactoryBean getFBTokenRefreshed(){
+		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
+		ct.setCronExpression(fbTokenRefreshExpression);
+		ct.setDescription("fb token");
+		ct.setJobDetail(getFacebookRefreshTokenJob().getObject());
+		return ct;
+		
+	}
+	
+	
 	
 	@Bean
 	public CronTriggerFactoryBean getUnReadNotification(){
@@ -61,6 +79,16 @@ public class SchedulerConfiguration {
 		ct.setJobDetail(getEmailNotificationJob().getObject());
 		return ct;
 		
+	}
+	
+	@Bean
+	public JobDetailFactoryBean getFacebookRefreshTokenJob(){
+		JobDetailFactoryBean jdfb = new JobDetailFactoryBean();
+		jdfb.setJobClass(SocialFacebookOauthCensSchedulerJob.class);		
+		JobDataMap jdm = new JobDataMap();
+		jdm.put(CensServiceConstant.SOCIAL_FACEBOOK_OAUTH_SERVICE, applicationContext.getBean(SocialFacebookOauthService.class));		
+		jdfb.setJobDataMap(jdm);
+		return jdfb;
 	}
 	
 	@Bean
@@ -90,7 +118,11 @@ public class SchedulerConfiguration {
 		
 			SchedulerFactoryBean sfb =new SchedulerFactoryBean();
 			if(enabled){
-			sfb.setTriggers(getNightModification().getObject(),getUnReadNotification().getObject());
+				sfb.setTriggers(
+					getNightModification().getObject(),
+					getUnReadNotification().getObject(),
+					getFBTokenRefreshed().getObject()
+					);
 			}
 			return sfb;
 		
