@@ -83,7 +83,9 @@ input{
 	margin: 3px;
 }
 
-.mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; min-width:650px; width: 100%; height: 100%; }
+.mainPanel{padding: 0;  outline-style:none; outline-color:#000000; outline-width:0px; 
+/* min-width:650px; */
+ width: 100%; height: 100%; }
 
 .headerPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  height: 67px;}
 .contentPanel{padding: 0; outline-style:none; outline-color:#000000; outline-width:0px;  width: 100%; padding-bottom:25px; margin-top:10px; margin-bottom: 20px;}
@@ -1335,6 +1337,7 @@ label.fbIcon-blue {
 
 
 @media screen and (max-width: 1000px) {
+   
     .estadoMaterial{
 	font-size: 10px;
 	font-weight: 800;
@@ -1392,6 +1395,18 @@ position: absolute;
 top: 30%;
 left: 42%;
 }
+
+
+@media screen and (max-width: 767px) {
+	
+.center{
+	display: none !important;
 }
 
-
+.user{
+	
+	  display: inline-block !important;  
+  vertical-align: top !important;
+  
+}
+}
