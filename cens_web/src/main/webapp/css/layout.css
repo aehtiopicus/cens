@@ -1398,7 +1398,10 @@ left: 42%;
 
 
 @media screen and (max-width: 767px) {
-	
+
+.contentPanel{
+	width: 100%;
+}	
 .center{
 	display: none !important;
 }
@@ -1409,4 +1412,83 @@ left: 42%;
   vertical-align: top !important;
   
 }
+
+fieldset{
+	width : 90%;
+}
+
+select{
+	 width: 99% !important;
+}
+textarea{
+	 width: 97% !important;
+	 max-width : none !important;
+	 margin : 0px;
+}
+
+input[type="password"],
+input[type="text"]{
+	width : 95% !important;
+	max-width : none !important;
+}
+.data{
+	  width: 100%;
+  margin-left: 0px !important;
+}
+.data label,
+.data span{
+	width : 100%;
+	display: inline-block;
+	padding : 0px;
+}
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable{
+  width: 98% !important;  
+  left: initial !important;
+}
+#fileupload{
+	  width: 44% !important;
+  height: 22% !important;
+}
+#ui-datepicker-div{
+	width: 88%;
+}
+
+.censaccordion h3.subtitulo{
+	  padding-left: 0px;
+}
+.censaccordion .portletLine{
+	margin: 0px auto;
+	margin-bottom: 10px;
+	  margin-top: 25px;
+}
+
+
+#accordion textarea {
+	min-width: initial;
+}
+
+.downloadFileDiv{
+	width : 95% !important;
+}
+.tituloForm #titulo{
+	text-align: -webkit-left !important;
+}
+fieldset div .ui-state-error{
+	     margin-left: 0px !important;
+}
+fieldset div .ui-state-error-img{
+	     margin-left: 0px !important;
+}
+
+.tituloForm, h3{
+	text-align: -webkit-left !important;
+}
+.ui-spinner.ui-widget.ui-widget-content.ui-corner-all{
+	 width: 99% !important;
+}
+}
+
+.downloadFileDiv{
+	display: inline-flex;
+	 width: 458px;
 }
