@@ -45,7 +45,7 @@ var asignaturaId = ${asignaturaId};
 			</div>
 			<div id="programaAdjuntado" style="display:none;">
 				<label for="downloadPrograma">Programa Adjunto:</label>
-				<div style="display: inline-flex; width: 458px;">
+				<div class="downloadFileDiv" >
 					<a id="downloadPrograma" class="comments-link bold">No existe un programa adjunto</a>					
 				</div>
 			</div>
@@ -81,7 +81,7 @@ var asignaturaId = ${asignaturaId};
 			</div>
 			<div id="programaAdjuntado" style="display:none;">
 				<label for="downloadPrograma">Programa Adjunto:</label>
-				<div style="display: inline-flex; width: 458px;">
+				<div class="downloadFileDiv" >
 					<a id="downloadPrograma" class="comments-link bold">No existe un programa adjunto</a>
 					<label id="eliminarProgramaAdjunto" class='eliminar-archivo' style='display:none;'></label>
 				</div>

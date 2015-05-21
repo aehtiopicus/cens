@@ -41,7 +41,7 @@ var profesorId;
 			</div>
 			<div>
 				<label for="downloadPrograma">Programa Adjunto:</label>				
-				<div style="display: inline-flex; width: 458px;">
+				<div class="downloadFileDiv" >
 					<a id="downloadPrograma" class="comments-link bold"></a>					
 				</div>
 			</div>

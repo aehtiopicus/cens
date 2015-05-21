@@ -51,7 +51,7 @@ var nro = ${nro};
 			
 			<div id="cartillaAdjuntado" style="display:none;">
 				<label for="downloadCartillaAdjunta">Cartilla Adjunta:</label>
-				<div style="display: inline-flex; width: 458px;">
+				<div class="downloadFileDiv">
 					<a id="downloadCartillaAdjunta" class="comments-link bold">No existe una cartilla adjunta</a>					
 				</div>
 			</div>
@@ -92,7 +92,7 @@ var nro = ${nro};
 			
 			<div id="cartillaAdjuntado" style="display:none;">
 				<label for="downloadCartillaAdjunta">Cartilla Adjunta:</label>
-				<div style="display: inline-flex; width: 458px;">
+				<div class="downloadFileDiv">
 					<a id="downloadCartillaAdjunta" class="comments-link bold">No existe una cartilla adjunta</a>	
 					<label id="eliminarCartillaAdjunto" class='eliminar-archivo' style='display:none;'></label>
 				</div>
