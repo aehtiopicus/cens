@@ -1520,6 +1520,14 @@ fieldset button#agregar{
 	  width: calc(90% - 16px) !important;
   border-radius: 5px !important;
 }
+.censmaterias.slick-initialized.slick-slider{
+	width: calc(100% + 74px) !important;
+  	left: -30px!important;
+}
+.slick-next,
+.slick-prev{
+	display : none !important;
+}
 }
 
 .downloadFileDiv{
