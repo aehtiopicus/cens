@@ -1522,7 +1522,7 @@ fieldset button#agregar{
 }
 .censmaterias.slick-initialized.slick-slider{
 	width: calc(100% + 74px) !important;
-  	left: -30px!important;
+  	left: -34px!important;
 }
 .slick-next,
 .slick-prev{
