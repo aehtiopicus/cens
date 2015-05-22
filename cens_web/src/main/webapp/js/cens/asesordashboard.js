@@ -47,6 +47,10 @@ asesorSocialDashboard.social.publish = asesorSocialDashboard.makeClass();
 
 asesorSocialDashboard.social.publish.prototype.init = function(){
 	
+	this.isSocial = false;
+	
+	this.socialLink;
+	
 	this.socialPublishData;
 	
 	this.socialPublishStates = {PUBLICADO:"publicado",NO_PUBLICADO:"no publicado"};
@@ -135,6 +139,13 @@ asesorSocialDashboard.social.publish.prototype.init = function(){
 	
 	});
 	}
+	
+	this.setSocialPublishLink = function(socialPublishLink){
+		this.socialLink = socialPublishLink;
+	}
+	this.setIsSocial = function(isSocial){
+		this.isSocial = isSocial;
+	}
 }
 
 $(document).ajaxStart(function() {
@@ -202,10 +213,15 @@ function datosAsignatura(value,currentDiv,asignatura){
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
 	
-	var list ='<ul>{profesor}{programa}{material}</ul>';		
+	var list ='<ul>{profesor}{programa}{material}{social}</ul>';		
 	list = list.replace('{profesor}',datosProfesor(value,asignatura.profe,asignatura.profeSuplente));
 	list = list.replace('{programa}',datosPrograma(value,asignatura));
 	list = list.replace('{material}',datosMaterial(value,asignatura));
+	if(socialPublish.isSocial){
+		list = list.replace('{social}',socialPublish.socialLink.prop("outerHTML"));
+	}else{
+		list = list.replace('{social}',"");	
+	}
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
 	currentPorlet = currentPorlet.append(divPorletContet);
@@ -213,10 +229,9 @@ function datosAsignatura(value,currentDiv,asignatura){
 	
 }	
 
-var socialLinkEnable = false;
-var socialLinkData ;
+
 function datosPrograma(value,asignatura){
-	socialLinkEnable = false;
+	
 	var socialLinkLi = $("<li></li>");
 	socialLinkLi.append("Compartir");
 	
@@ -228,7 +243,7 @@ function datosPrograma(value,asignatura){
 	socialLinkLi.append(socialLink);
 	var itemPrograma='<li>{link}</li>';
 	var itemLink = '<a href="'+pagePath+'/mvc/asesor/'+asesorId+'/asignatura/{id}/programa{existente}{nombreAsignatura}">{text}</a>';
-	var itemText ='Programa: <span class="estadoMaterial {subClass}">({estado})</span>';
+	var itemText ='Programa: <div style="display:iniline-block; float:right;"><span class="estadoMaterial {subClass}">({estado})</span></div>';
 	if(asignatura.programa!=null && estadoRevision(asignatura.programa)){
 	
 			itemLink = itemLink.replace("{existente}","/"+asignatura.programa.id).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&estado="+asignatura.programa.estadoRevisionType);
@@ -248,18 +263,22 @@ function datosPrograma(value,asignatura){
 			itemLink= "{text}";
 	}
 	
-	if(setSocial){		
-		itemPrograma = itemPrograma.replace("{link}",itemLink.replace("{text}",itemText)+ socialLink.prop('outerHTML'));
-		
-	}else{
-		itemPrograma = itemPrograma.replace("{link}",itemLink.replace("{text}",itemText));
+	socialPublish.setIsSocial(setSocial);
+	
+	if(setSocial){			
+		socialPublish.setSocialPublishLink(socialLinkLi);				
 	}
+	itemPrograma = itemPrograma.replace("{link}",itemLink.replace("{text}",itemText));
+	
 	return itemPrograma;
 }
 function datosMaterial(value,asignatura){
 
 	var itemMaterial=$('<li></li>');
 	itemMaterial.append("Material Did&aacute;ctico: ");	
+	itemDivAux = $("<div></div>");
+	itemDivAux.attr("style","display:iniline-block; float:right;");
+	itemMaterial.append(itemDivAux);
 	if(asignatura.programa!=null && asignatura.programa != undefined && asignatura.programa.materialDidactico != null && asignatura.programa.materialDidactico.length >0){
 			$.each(asignatura.programa.materialDidactico.sort(function(a,b){
 				  return a.nro-b.nro;
@@ -273,7 +292,7 @@ function datosMaterial(value,asignatura){
 					
 					itemCartillaNumeroLink.attr("href",pagePath+"/mvc/asesor/"+asesorId+"/asignatura/"+asignatura.id+"/programa/"+asignatura.programa.id+"/material/"+md.id+"?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+md.nro+"&estado="+md.estadoRevisionType);
 					itemCartillaNumeroLink.append(itemMaterialInterno);
-					itemMaterial.append(itemCartillaNumeroLink);
+					itemDivAux.append(itemCartillaNumeroLink);
 				}
 			});
 		
@@ -282,13 +301,13 @@ function datosMaterial(value,asignatura){
 		itemMaterialInterno.addClass("estadoMaterial");
 		itemMaterialInterno.html("(No Existe)");
 		itemMaterialInterno.addClass("inexistente");
-		itemMaterial.append(itemMaterialInterno);
+		itemDivAux.append(itemMaterialInterno);
 	}
 	return itemMaterial.prop('outerHTML');
 }
 
 function datosProfesor(value,profe,suplente){
-	var itemProfesor='<li>{nombreProfe}: <span class="estadoMaterial {subClass}">{profesor}</span></li>';
+	var itemProfesor='<li>{nombreProfe}: <div style="display:iniline-block; float:right;"><span class="estadoMaterial {subClass}">{profesor}</span></div></li>';
 	itemProfesor = itemProfesor.replace("{nombreProfe}","Profesor");
 	if(suplente!==undefined && suplente!=null){		
 		return itemProfesor.replace("{profesor}",suplente.apellido.toUpperCase()+", ("+suplente.dni+")").replace("{subClass}","nuevo");

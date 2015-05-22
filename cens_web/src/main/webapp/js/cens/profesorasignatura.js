@@ -60,10 +60,10 @@ function datosAsignatura(value,currentDiv,asignatura){
 	var divPorletHeader =  '<div class="portlet-header">{name}</div>';
 	var divPorletContet =  '<div class="portlet-content"></div>';
 	
-	var list ='<ul>{programa}{cartillas}{sugerencias}';	
+	var list ='<ul>{programa}{cartillas}';	
 	var itemCartillas='<li><a href="'+pagePath+'/mvc/asignatura/{id}/material">Material Did&aacute;ctico (No Existe)</a></li>';
-	var itemSugerencias='<li><a href="'+pagePath+'/mvc/asignatura/{id}/sugerencias">Sugerencias (No Existe)</a></li></ul>';	
-	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',datosMaterial(value,asignatura)).replace('{sugerencias}',itemSugerencias);
+		
+	list = list.replace('{programa}',datosPrograma(value,asignatura)).replace('{cartillas}',datosMaterial(value,asignatura));
 	
 	currentPorlet =$("#porletcontainer"+value.id).append(divPorlet.replace("{id}","asignatura"+asignatura.id));
 	currentPorlet = $("#asignatura"+asignatura.id).append(divPorletHeader.replace("{name}",asignatura.nombre.toUpperCase()));
@@ -79,6 +79,9 @@ function datosMaterial(value,asignatura){
 		itemCartillasLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/material?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
 		itemCartillas.append(itemCartillasLink);
 		itemCartillas.append("&nbsp;");
+		itemCartillaInnerDiv = $("<div></div>");
+		itemCartillas.append(itemCartillaInnerDiv);
+		itemCartillaInnerDiv.attr("style","display:inline-block; float:right;");
 		if(asignatura.programa.materialDidactico !== null){
 			
 			for (i = 0; i < asignatura.programa.cantCartillas; i++) {
@@ -100,7 +103,7 @@ function datosMaterial(value,asignatura){
 					itemCartillaNumeroLink.attr("href",pagePath+"/mvc/programa/"+asignatura.programa.id+"/materialABM?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&nro="+(i+1));
 				}
 				itemCartillaNumeroLink.append(itemCartillaNumero);
-				itemCartillas.append(itemCartillaNumeroLink);
+				itemCartillaInnerDiv.append(itemCartillaNumeroLink);
 				
 			}
 			
@@ -113,7 +116,7 @@ function datosMaterial(value,asignatura){
 	
 }
 function datosPrograma(value,asignatura){
-	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <span class="estadoMaterial {subClass}">({estado})</span></a></li>';
+	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <div style="display:iniline-block; float:right;"><span class="estadoMaterial {subClass}">({estado})</span></div></a></li>';
 	if(asignatura.programa!=undefined && asignatura.programa!==null){
 		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO" || asignatura.programa.estadoRevisionType ==="CAMBIOS" || asignatura.programa.estadoRevisionType ==="RECHAZADO"){
 			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");

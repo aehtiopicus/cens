@@ -932,7 +932,7 @@ archivos .progress-label {
 	font-weight: 800;
 	text-align: justify;
 	display: inline-block;
-	float : right;
+
 }  
 
 
@@ -1386,7 +1386,6 @@ left: 42%;
 	
 	text-align: justify;
 	display: inline-block;
-	float : right;
 }  
 .censaccordion   .portlet-header {
     padding: 0.2em 0.3em;
