@@ -213,13 +213,19 @@ function datosAsignatura(value,currentDiv,asignatura){
 	
 }	
 
+var socialLinkEnable = false;
+var socialLinkData ;
 function datosPrograma(value,asignatura){
+	socialLinkEnable = false;
+	var socialLinkLi = $("<li></li>");
+	socialLinkLi.append("Compartir");
 	
 	var setSocial = false;
 	var socialLink = $("<img></img>");
 	socialLink.attr("src","/cens_web/css/midasUI-theme/images/fbIcon.png");
 	socialLink.addClass("socialLink");
 	
+	socialLinkLi.append(socialLink);
 	var itemPrograma='<li>{link}</li>';
 	var itemLink = '<a href="'+pagePath+'/mvc/asesor/'+asesorId+'/asignatura/{id}/programa{existente}{nombreAsignatura}">{text}</a>';
 	var itemText ='Programa: <span class="estadoMaterial {subClass}">({estado})</span>';

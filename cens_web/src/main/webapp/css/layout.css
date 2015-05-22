@@ -695,7 +695,7 @@ width: 5em;
     margin: 0 1em 1em 0;
     padding: 0.5em;
     min-width: 170px;  
-    min-height: 111px;
+    min-height: 130px
     border-radius : 10px !important;        
     
   }
@@ -930,7 +930,9 @@ archivos .progress-label {
 .estadoMaterial{
 	font-size: 0.80vw;
 	font-weight: 800;
-	
+	text-align: justify;
+	display: inline-block;
+	float : right;
 }  
 
 
@@ -1356,26 +1358,6 @@ label.fbIcon-blue {
   }
 }
 
-@media screen and (max-width: 900px) {
-    .estadoMaterial{
-	font-size: 9px;
-	font-weight: 800;
-	
-}  
-.censaccordion   .portlet-header {
-    padding: 0.2em 0.3em;
-    margin-bottom: 0.5em;
-    position: relative;
-    font-size: 10px;
-  }
-  
-.censaccordion  .portlet-content {
-    padding: 0.4em;
-    font-size: 10px !important;
-  }
-}
-
-
 .comments-link{
 	color: #005577;
 	text-decoration:none;
@@ -1399,6 +1381,24 @@ left: 42%;
 
 @media screen and (max-width: 767px) {
 
+	.estadoMaterial{
+	font-size: 14px;
+	
+	text-align: justify;
+	display: inline-block;
+	float : right;
+}  
+.censaccordion   .portlet-header {
+    padding: 0.2em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    font-size: 17px;
+  }
+  
+.censaccordion  .portlet-content {
+    padding: 0.4em;
+    font-size: 16px !important;
+  }
 .contentPanel{
 	width: 100%;
 }	
@@ -1527,6 +1527,12 @@ fieldset button#agregar{
 .slick-next,
 .slick-prev{
 	display : none !important;
+}
+#socialPortlet{
+	padding: 0px !important;
+}
+#fbDiv{
+	margin: 0px !important;
 }
 }
 
