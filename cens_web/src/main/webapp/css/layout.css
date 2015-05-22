@@ -1378,9 +1378,26 @@ top: 30%;
 left: 42%;
 }
 
-
+@media screen and (min-width: 768px){
+	/*Responsive detection*/
+	body{
+		-webkit-animation: width-4 0.001s;
+	}
+	#responsiveMenu{
+  	display : none !important;
+	}
+}
 @media screen and (max-width: 767px) {
-
+	/*Responsive detection*/
+	body{
+		-webkit-animation: width-1 0.001s;
+	}
+	
+	 body:after {
+       	content: 'devicescreen';
+        display: none;
+     }
+     /*end of responsive detection*/
 	.estadoMaterial{
 	font-size: 14px;
 	
@@ -1533,8 +1550,20 @@ fieldset button#agregar{
 #fbDiv{
 	margin: 0px !important;
 }
+
+#hmMenu{		
+	background-image: url('midasUI-theme/images/hm.png');
+  width: 30px;
+  height: 39px;
+  display: inline-block !important;
+  background-position-x: 8px;
+  background-repeat: no-repeat;
+}
 }
 
+#hmMenu{
+	display:none;
+}
 .downloadFileDiv{
 	display: inline-flex;
 	 width: 458px;
@@ -1542,4 +1571,38 @@ fieldset button#agregar{
 select.ui-pg-selbox,
 input.ui-pg-input{
 	width : auto !important;
+}
+
+#responsiveMenu{
+		display : none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: aliceblue;
+}
+#menuContent li {
+	width: 100%;
+	height: 40px;
+	border: 1px solid #dddddd;
+	list-style-type: none;
+	border-top: 0px;
+}
+#menuContent ul {
+	padding: 0;
+}
+/**
+Responsive events capture
+*/
+
+@-webkit-keyframes width-1 {
+  from { clip: rect(1px, auto, auto, auto); }
+  to { clip: rect(0px, auto, auto, auto); }
+}
+
+@-webkit-keyframes width-4 {
+  from { clip: rect(1px, auto, auto, auto); }
+  to { clip: rect(0px, auto, auto, auto); }
 }

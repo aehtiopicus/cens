@@ -1,6 +1,7 @@
- var marginWidthGrid = 20;
- 	    var marginHeightGrid = 370;
- 	    var marginHeightGridFull = 345;
+var marginWidthGrid = 20;
+var marginHeightGrid = 370;
+var marginHeightGridFull = 345;
+var responsiveMenu = new responsiveheader.rh.responsive();
 
  	    $(document).ready(function() {
 				$( ".button" ).button();
@@ -25,6 +26,8 @@
 		        $(".decimal").numeric(","); 
 		        $(".decimalConPunto").numeric("."); 
 		        
+		        responsiveMenu.responsiveChangeListener();
+		        responsiveMenu.pingCompleteResponsiveCheck(); 
  	    });
  	    $(document).bind("userImg",function(){
  	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	

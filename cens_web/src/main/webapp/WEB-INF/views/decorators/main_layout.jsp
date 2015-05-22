@@ -41,9 +41,12 @@
         <script src="<%=request.getContextPath() %>/js/jquery.inputmask.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath() %>/js/utils.js" type="text/javascript"></script>
         
+        <script src="<%=request.getContextPath()%>/js/cens/responsivemenu.js"></script>            
         <script src="<%=request.getContextPath() %>/js/cens/layout/mainlayout.js" type="text/javascript"></script>
         <script src="<%=request.getContextPath() %>/js/notify.js" type="text/javascript"></script>
-        <script src="<%=request.getContextPath() %>/js/xls.js" type="text/javascript"></script>                   
+        <script src="<%=request.getContextPath() %>/js/xls.js" type="text/javascript"></script>   
+        
+            
 		<script>
 		var mainPagePath ="<%=request.getContextPath() %>";
 		</script>
@@ -89,6 +92,9 @@
     			<div style="height: 100vh;text-align: -webkit-center;vertical-align: text-top;width: 100vw;">
     			<span style="position: absolute; top: 40%; height: 2em;margin-top: 3em;margin-left: -80px; font-size: 17px;color: #005577;">Cargando Informaci&oacute;n</span>
     			</div>
+    		</div>
+    		<div id="responsiveMenu">
+    			<jsp:include page="includes/menu_responsive.jsp"></jsp:include>
     		</div>
     		<div class="footerPanel">
     			<!-- INSERTAR FOOTER.JSP -->    		

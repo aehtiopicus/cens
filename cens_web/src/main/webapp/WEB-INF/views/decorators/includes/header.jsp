@@ -8,7 +8,7 @@
 var pagePath="<%=request.getContextPath()%>";
 </script>
 <div id="encabezado">
-	
+		<div id="hmMenu"></div>
 		<div class="logo">
 			<img src="<%=request.getContextPath() %>/css/midasUI-theme/images/logo_cens.png" onclick="location.href='<%=request.getContextPath() %>/mvc/main'" >
 		</div>
