@@ -825,7 +825,7 @@ padding: 0px;
 top: initial !important;
 right: inherit !important;
 width: 11%;
-height: 42%;
+height: 22%;
 position: absolute;
 margin: 0;
 opacity: 0;
@@ -1486,9 +1486,47 @@ fieldset div .ui-state-error-img{
 .ui-spinner.ui-widget.ui-widget-content.ui-corner-all{
 	 width: 99% !important;
 }
+
+#fileUp input[type="file"],
+#fileUpPrograma input[type="file"]{
+  width: 78% !important;
+  height: 69% !important; 
+}
+#fileUp button,
+#fileUpPrograma button {
+	float : right;
+	margin-bottom: 20px;
+  	margin-top: 14px;
+}
+
+#fileUp label,
+#fileUpPrograma label{
+	margin-top: 15px;
+}
+.acciones{
+	margin-bottom: 10px;
+}
+.filtrosDiv{
+	display : none;	
+}
+#gbox_projectTable{
+	width: 100% !important;
+}
+fieldset button#agregar{
+	float:right;
+	margin-top : 10px;
+}
+.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content.ui-corner-all{
+	  width: calc(90% - 16px) !important;
+  border-radius: 5px !important;
+}
 }
 
 .downloadFileDiv{
 	display: inline-flex;
 	 width: 458px;
+}
+select.ui-pg-selbox,
+input.ui-pg-input{
+	width : auto !important;
 }
