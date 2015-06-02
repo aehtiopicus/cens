@@ -63,6 +63,7 @@ input{
 	text-decoration: none;
 	text-align: center;
 	padding-top: 7px;
+	  width: calc(100% - 60px);
 }
 
 #topNavigation td a{
@@ -756,7 +757,7 @@ margin-left: 3px;
 .modal {
     display:    none;
     position:   fixed;
-    z-index:    1000;
+    z-index:    99999;
     top:        0;
     left:       0;
     height:     100%;
@@ -1387,6 +1388,16 @@ left: 42%;
   	display : none !important;
 	}
 }
+@media screen and (max-width: 350px) {
+	#headerImg{
+		display : none;
+	}
+	.logo img{
+	  width: 150%;
+  margin-bottom: 7px;
+  margin-top: 10px;
+	}
+}
 @media screen and (max-width: 767px) {
 	/*Responsive detection*/
 	body{
@@ -1417,7 +1428,16 @@ left: 42%;
   }
 .contentPanel{
 	width: 100%;
+	margin-top: 80px;
+	
 }	
+.headerPanel{
+	  position: fixed;
+  z-index: 108;
+  background-color: white;
+  width: 100%;
+  top: 0;
+}
 .center{
 	display: none !important;
 }
@@ -1553,11 +1573,31 @@ fieldset button#agregar{
 
 #hmMenu{		
 	background-image: url('midasUI-theme/images/hm.png');
-  width: 30px;
+  width: 50px;
   height: 39px;
   display: inline-block !important;
   background-position-x: 8px;
   background-repeat: no-repeat;
+}
+.logo{
+	width: 30%;
+  text-align: center;
+}
+#menuPanel{
+	display : none !important;
+}
+.iam-div{  width: 99%;
+  margin: 0 auto !important;
+  position: fixed !important;
+  left: 0px !important;
+  padding: 0px !important;
+  width: 99% !important;
+}
+#pagingDiv_left{
+	display : none;
+}
+.ui-paging-info{
+	text-align: left !important;
 }
 }
 
@@ -1581,7 +1621,9 @@ input.ui-pg-input{
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: aliceblue;
+  background-color: white;
+    overflow-x: hidden;
+  overflow-y: auto;
 }
 #menuContent li {
 	width: 100%;
@@ -1589,6 +1631,20 @@ input.ui-pg-input{
 	border: 1px solid #dddddd;
 	list-style-type: none;
 	border-top: 0px;
+}
+#menuContent li a {
+	display: inline-block;
+  width: 100%;
+  text-decoration: initial;
+  font-size: 20px;
+  height: 100%;
+  vertical-align: middle;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+#menuContent li a.responsive-sub-menu{
+	margin-left: 20px;
+	font-size: 16px;
 }
 #menuContent ul {
 	padding: 0;

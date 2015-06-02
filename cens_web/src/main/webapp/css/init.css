@@ -107,6 +107,33 @@ fieldset{
 				border: 1px solid #003366;
 				background: linear-gradient(to bottom, #004499 0%, #003366 99%);
 			}
+
+.footerPanel{
+	background-color: #004499;
+	height: 35px;
+	padding: 0 30px;
+	background: #003366;
+	background: -moz-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #003366), color-stop(99%, #004499));
+	background: -webkit-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -o-linear-gradient(top, #003366 0%, #004499 99%);
+	background: -ms-linear-gradient(top, #003366 0%, #004499 99%);
+	background: linear-gradient(to bottom, #003366 0%, #004499 99%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#003366', endColorstr='#004499', GradientType=0);
+	-webkit-box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.25);
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+
+.footerPanel div{
+	color: #EEE;
+	text-decoration: none;
+	text-align: center;
+	padding-top: 7px;
+	  width: calc(100% - 60px);
+}
 			
 @media screen and (max-width: 767px) {
 	

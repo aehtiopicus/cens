@@ -25,9 +25,7 @@ var responsiveMenu = new responsiveheader.rh.responsive();
 		        $(".entero").numeric();
 		        $(".decimal").numeric(","); 
 		        $(".decimalConPunto").numeric("."); 
-		        
-		        responsiveMenu.responsiveChangeListener();
-		        responsiveMenu.pingCompleteResponsiveCheck(); 
+		        		        
  	    });
  	    $(document).bind("userImg",function(){
  	    	var data = new localstorage.ls.notificacionData(); 	    	 	    	

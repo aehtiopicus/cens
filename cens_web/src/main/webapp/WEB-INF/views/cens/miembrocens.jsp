@@ -44,7 +44,7 @@
 
         
 		<!--    Tabla a llenar  -->
-        <div>
+        <div id="grilla" style="width : 98%;">
            <table id="projectTable"></table>
             <div id="pagingDiv"></div>
         </div>

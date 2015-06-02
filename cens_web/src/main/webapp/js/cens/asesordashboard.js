@@ -281,6 +281,7 @@ function datosMaterial(value,asignatura){
 	itemMaterial.append(itemDivAux);
 	if(asignatura.programa!=null && asignatura.programa != undefined && asignatura.programa.materialDidactico != null && asignatura.programa.materialDidactico.length >0){
 			$.each(asignatura.programa.materialDidactico.sort(function(a,b){
+				//primer item con respecto del segundo
 				  return a.nro-b.nro;
 			}), function(index,md){
 				if(estadoRevision(md)){

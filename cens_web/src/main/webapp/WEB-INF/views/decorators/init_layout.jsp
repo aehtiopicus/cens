@@ -21,7 +21,10 @@
     			<!-- INSERTAR BODY -->
     			<decorator:body/>  
     		</div>
-    	
+    		<div class="footerPanel">
+    			<!-- INSERTAR FOOTER.JSP -->    		
+    			<jsp:include page="includes/footer.jsp"></jsp:include>
+    		</div>
 
     	</div>
     	

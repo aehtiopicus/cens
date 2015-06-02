@@ -9,10 +9,7 @@
 
 	</li>
 	<li>
-        <a href="#">Profesores</a>
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/mvc/profesor/asignaturaList">Gesti&oacute;n de planes de estudio</a></li>
-		</ul>
+        <a href="<%=request.getContextPath() %>/mvc/profesor/asignaturaList">Profesor</a>
 	</li>
 		
 

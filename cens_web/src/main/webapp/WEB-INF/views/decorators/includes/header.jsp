@@ -6,6 +6,10 @@
 
 <script>
 var pagePath="<%=request.getContextPath()%>";
+$(document).ready(function(){
+	responsiveMenu.responsiveChangeListener();
+    responsiveMenu.pingCompleteResponsiveCheck(); 
+});
 </script>
 <div id="encabezado">
 		<div id="hmMenu"></div>

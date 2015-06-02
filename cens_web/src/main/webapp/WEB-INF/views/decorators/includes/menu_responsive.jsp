@@ -7,13 +7,13 @@
 	
 	
   	<div id="menuContent" class="respItems">
-  		<ul id="closeRespMenu" >
+  		<ul id="responsiveMenuList" >
   			<li >
-  				<a>X</a>
-  			</li>
-  			<li >
-  				<a>b</a>
-  			</li>
+  				<a id="closeResponsiveMenu"style=" text-align: right;margin-left: -17px;margin-top: 5px;">X</a>
+  			</li>  			
+  				<li >
+  				<a id="closeResponsiveMenu">X</a>
+  			</li>  	
   		</ul>
   	</div>
 
