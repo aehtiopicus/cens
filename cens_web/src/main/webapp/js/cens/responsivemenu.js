@@ -1,6 +1,7 @@
 var responsiveheader = {
         
-      
+     deviceScreenMap : {"devicescreen":true, "'devicescreen'":true, '"devicescreen"':true},
+     
      namespace: function(ns) {
         var parts = ns.split("."),
             object = this,
@@ -69,13 +70,13 @@ responsiveheader.rh.responsive.prototype.init = function(){
 	
 	this.adaptMenu = function (event){
 		
-	  	if (event.animationName ===responsiveMenu.responsiveEventResponsive  && (window.getComputedStyle(document.body,':after').getPropertyValue('content') === "'devicescreen'" || window.getComputedStyle(document.body,':after').getPropertyValue('content') === "devicescreen")) {
+	  	if (event.animationName ===responsiveMenu.responsiveEventResponsive  && typeof responsiveheader.deviceScreenMap[window.getComputedStyle(document.body,':after').getPropertyValue('content')] !== "undefined") {
 	  		if(!responsiveMenu.isInResponsiveMode){	  			
 	  			responsiveMenu.adaptMenuEnable();	  	  		 				  				  			
 	  		}
 	  	} else {
 	  		
-	  		if(responsiveMenu.isInResponsiveMode && !(window.getComputedStyle(document.body,':after').getPropertyValue('content') === "devicescreen" || window.getComputedStyle(document.body,':after').getPropertyValue('content') === "'devicescreen'")){
+	  		if(responsiveMenu.isInResponsiveMode && !(typeof responsiveheader.deviceScreenMap[window.getComputedStyle(document.body,':after').getPropertyValue('content')] !== "undefined")){
 	  			responsiveMenu.isInResponsiveMode = false;	  			
 	  			$( "#responsiveMenu" ).hide();
 	  		}
@@ -86,7 +87,7 @@ responsiveheader.rh.responsive.prototype.init = function(){
 	/**Deprecated way to call resolution change*/
 	this.pingCompleteResponsiveCheck = function(){
 
-		if(window.getComputedStyle(document.body,':after').getPropertyValue('content') === "'devicescreen'" || window.getComputedStyle(document.body,':after').getPropertyValue('content') === "devicescreen" ){
+		if(typeof responsiveheader.deviceScreenMap[window.getComputedStyle(document.body,':after').getPropertyValue('content')] !== "undefined"){
 			event = document.createEvent("HTMLEvents");
 		    event.initEvent("webkitAnimationEnd", true, true);
 		    event.animationName = "width-1";

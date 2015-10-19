@@ -1,7 +1,8 @@
+var notificationUsers = {"ASESOR":true, "PROFESOR":true};
 function processNotificacionData(datas,noti){
 	
 	var data = datas[0];
-	if(data.perfilRol && data.perfilRol.perfilType == "ASESOR"){
+	if(data.perfilRol && typeof notificationUsers[data.perfilRol.perfilType] !== "undefined"){
 		
 		if(noti === "noti"){
 			$("#notificacionDeUsuarioData").show();
