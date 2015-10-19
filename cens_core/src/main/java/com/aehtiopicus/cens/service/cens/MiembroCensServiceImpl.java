@@ -42,7 +42,7 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 	private static final Logger logger = LoggerFactory.getLogger(MiembroCensServiceImpl.class);
 	
 
-	@Transactional
+	@Transactional(rollbackFor = CensException.class)
 	@Override
 	public List<MiembroCens> saveMiembroSens(List<MiembroCens> miembroCensList)
 			throws CensException {		
