@@ -46,18 +46,27 @@ public class CambioEstadoCensFeedServiceImpl implements CambioEstadoCensFeedServ
 		return cambioEstadoCensRepository.save(aux);		
 	}
 
+	private static final String FEEDS_EMAIL = "SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentarioType, ccf.notificado, ccf.id, ccf.tipoId, ccf.estadorevisiontype "
+			+ "FROM cens_cambio_estado_feed as ccf  INNER JOIN  "
+		+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
+		+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
+		+ "WHERE cu.username = :username "
+		+ "AND ccf.notificado = false "
+		+ "AND ccf.visto = false ";
+	
+	private static final String FEEDS_APP = "SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentarioType, ccf.notificado, ccf.id, ccf.tipoId, ccf.estadorevisiontype "
+			+ "FROM cens_cambio_estado_feed as ccf  INNER JOIN  "
+		+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
+		+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
+		+ "WHERE cu.username = :username "
+		+ "AND ccf.visto = false ";
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<NotificacionCambioEstadoFeed> getGeneratedFeeds(String userName)throws CensException {
+	public List<NotificacionCambioEstadoFeed> getGeneratedFeeds(String userName,boolean email)throws CensException {
 		List<NotificacionCambioEstadoFeed> ccfList = null;
 		try{	
-			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentarioType, ccf.notificado, ccf.id, ccf.tipoId, ccf.estadorevisiontype "
-					+ "FROM cens_cambio_estado_feed as ccf  INNER JOIN  "
-				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
-				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
-				+ "WHERE cu.username = :username "
-				+ "AND ccf.visto = false ").setParameter("username", userName).getResultList();
+			List<Object[]> resultList = entityManager.createNativeQuery(email ? FEEDS_EMAIL : FEEDS_APP).setParameter("username", userName).getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionCambioEstadoFeed ncf =null;
 				ccfList = new ArrayList<>();

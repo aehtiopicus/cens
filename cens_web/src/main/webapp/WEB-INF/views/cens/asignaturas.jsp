@@ -51,7 +51,8 @@
 </div>
 
 <div id="remAsignatura" class="dialog" title="Confirmar">
-	<p>Se elimininar&aacute; la asignatura del sistema. ¿Desea continuar?</p>
+	<p class="normal">Se elimininar&aacute; la asignatura del sistema. ¿Desea continuar?</p>
+	<p class="force" style="display:none;">Se forzará la eliminación completa de la asignatua. ¿Desea continuar?</p>
 </div>
 
 

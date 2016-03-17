@@ -10,30 +10,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Perfil;
-import com.aehtiopicus.cens.domain.entities.Usuarios;
-import com.aehtiopicus.cens.repository.cens.UsuariosCensRepository;
+import com.aehtiopicus.cens.repository.cens.MiembroCensRepository;
 
 @Service
 public class LoginCensServiceImpl implements LoginCensService{
-
+	
 	@Autowired
-	private UsuariosCensRepository repository;
+	private MiembroCensRepository repository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Usuarios u = repository.findByUsername(username);
-		if( u == null ){
+		MiembroCens mc = repository.findByUsername(username);
+		if( mc == null || mc.getBaja()){
 			throw new UsernameNotFoundException( "No existe el usuario" );
 		}
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		for(Perfil p :u.getPerfil()){
+		for(Perfil p :mc.getUsuario().getPerfil()){
 			authorities.add( new SimpleGrantedAuthority(p.getPerfilType().getNombre()));
 		}
 				
 
-		return new User( u.getUsername(), u.getPassword(), authorities );
+		return new User( mc.getUsuario().getUsername(), mc.getUsuario().getPassword(), authorities );
 	}
 
 }

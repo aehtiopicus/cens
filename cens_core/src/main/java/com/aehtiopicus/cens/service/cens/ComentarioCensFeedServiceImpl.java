@@ -56,18 +56,29 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 		 return comentarioFeed;
 	}
 	
+	private static final String FEEDS_EMAIL = "SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId "
+			+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
+		+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
+		+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
+		+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
+		+ "WHERE cu.username = :username "
+		+ "AND ccf.notificado = false "
+		+ "AND ccf.visto = false ";
+	
+	private static final String FEEDS_APP = "SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId "
+			+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
+		+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
+		+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
+		+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
+		+ "WHERE cu.username = :username "
+		+ "AND ccf.visto = false ";
+	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName) throws CensException{
+	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName, boolean email) throws CensException{
 		List<NotificacionComentarioFeed> ccfList = null;
 		try{	
-			List<Object[]> resultList = entityManager.createNativeQuery("SELECT ccf.fecha_creacion, ccf.id_dirigido, ccf.prefil_dirigido, ccf.comentariotype, ccf.notificado, ccf.id, cc.tipoId "
-					+ "FROM cens_comentario_feed as ccf  INNER JOIN  "
-				+ "cens_miembros_cens as  cmc ON (cmc.id = ccf.id_dirigido AND cmc.id <> ccf.id_creador) "
-				+ "INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id  "
-				+ "INNER JOIN cens_comentario cc ON cc.id = ccf.comentariocensid "
-				+ "WHERE cu.username = :username "
-				+ "AND ccf.visto = false ").setParameter("username", userName).getResultList();
+			List<Object[]> resultList = entityManager.createNativeQuery(email ? FEEDS_EMAIL : FEEDS_APP).setParameter("username", userName).getResultList();
 			if(CollectionUtils.isNotEmpty(resultList)){
 				NotificacionComentarioFeed ncf =null;
 				ccfList = new ArrayList<>();

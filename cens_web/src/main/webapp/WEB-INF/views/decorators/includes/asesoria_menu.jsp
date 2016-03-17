@@ -2,7 +2,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 
 
-<ul class="menu">
+<ul class="menu ase">
 
 	<li>
 		<a href="<%=request.getContextPath()%>/mvc/perfil">Mi Perfil</a>

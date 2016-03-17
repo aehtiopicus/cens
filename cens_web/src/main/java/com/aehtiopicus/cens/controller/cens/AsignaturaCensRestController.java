@@ -125,6 +125,16 @@ public class AsignaturaCensRestController extends AbstractRestController{
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = UrlConstant.ASIGNATURA_CENS_REST+"/{id}/forced", method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RestSingleResponseDto deleteAsignaturaForced(@PathVariable(value="id") Long asignaturaID) throws Exception{		
+		asignaturaCensService.deleteAsignaturaForced(asignaturaID);		
+		RestSingleResponseDto dto = new RestSingleResponseDto();
+		dto.setId(asignaturaID);
+		dto.setMessage("Asignatura Eliminada");
+		return dto;
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = UrlConstant.ASIGNATURA_ALUMNO_CENS_REST, method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public RestResponseDto<AlumnoDto> listAlumnosFromAsignatura(@PathVariable(value="asignaturaId") Long asignaturaId,@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  

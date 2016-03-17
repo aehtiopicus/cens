@@ -62,6 +62,7 @@ public class MailConfigDev {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", smtpAuth);
 		props.put("mail.smtp.starttls.enable", smtpStarttls);
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		
 		bean.setJavaMailProperties(props);
 		

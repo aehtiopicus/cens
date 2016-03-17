@@ -34,4 +34,6 @@ public interface AsignaturaCensService {
 
 	public Programa getProgramasForAsignaturas(Asignatura asignatura);
 
+	public void deleteAsignaturaForced(Long asignaturaID) throws CensException;
+
 }

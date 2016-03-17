@@ -45,13 +45,13 @@
                                                 	<tr>
                                                     	<td style="font-size:5px">&nbsp;</td>
                                                     </tr>
-                                                     #if ($actividad)
+                                                     #if ($ACTIVIDAD)
                                                      <tr>                                                    
                                                     		<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
                                                         		Estado de Actividad: 
 																	<table>
 																		<tbody>
-																			#foreach( $key in $actividad.keySet() )	
+																			#foreach( $key in $ACTIVIDAD.keySet() )	
 																																			
 																				#if ($key == 'PROGRAMA')
 																					<tr>
@@ -59,7 +59,7 @@
 																							Programas:
 																							<table>
 																								<tbody>																									
-																									#foreach( $programa in $actividad.get($key) )													
+																									#foreach( $programa in $ACTIVIDAD.get($key) )													
 																									<tr>
 																									<ul>
 																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span>,<br/>Cambios de Estado Realizado: <span style="font-weight: 600; text-transform: uppercase;">$programa.Cantidad</span>, Estado Actual: <span style="font-weight: 600; text-transform: uppercase;">$programa.EstadoRevision</span>, Fecha: #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
@@ -77,7 +77,7 @@
 																							Materi&aacute;l Did&aacute;ctico:
 																							<table>
 																								<tbody>																									
-																									#foreach( $material in $actividad.get($key) )													
+																									#foreach( $material in $ACTIVIDAD.get($key) )													
 																									<tr>
 																									<ul>
 																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/> Cambios de Estado Realizado: <span style="font-weight: 600; text-transform: uppercase;">$material.Cantidad</span>, Estado Actual: <span style="font-weight: 600; text-transform: uppercase;">$material.EstadoRevision</span>, Fecha: #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
@@ -95,13 +95,13 @@
                                                         	</td>
                                                     	</tr>
                                                     #end
-                                                     #if ( $comentario)
+                                                     #if ( $COMENTARIO)
                                                     	<tr>                                                    
                                                     		<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
                                                         		Comenterarios realizados: 
 																	<table>
 																		<tbody>
-																			#foreach( $key in $comentario.keySet() )	
+																			#foreach( $key in $COMENTARIO.keySet() )	
 																																			
 																				#if ($key == 'PROGRAMA')
 																					<tr>
@@ -109,7 +109,7 @@
 																							Programas:
 																							<table>
 																								<tbody>																									
-																									#foreach( $programa in $comentario.get($key) )													
+																									#foreach( $programa in $COMENTARIO.get($key) )													
 																									<tr>
 																									<ul>
 																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span>,<br/>Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$programa.Cantidad</span>, Fecha: #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
@@ -127,7 +127,7 @@
 																							Materi&aacute;l Did&aacute;ctico:
 																							<table>
 																								<tbody>																									
-																									#foreach( $material in $comentario.get($key) )													
+																									#foreach( $material in $COMENTARIO.get($key) )													
 																									<tr>
 																									<ul>
 																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/> Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$material.Cantidad</span>, Fecha: #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>

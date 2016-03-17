@@ -11,7 +11,7 @@ public interface CambioEstadoCensFeedService {
 
 	public CambioEstadoCensFeed save(CambioEstadoCensFeed aux) throws CensException;
 
-	public List<NotificacionCambioEstadoFeed> getGeneratedFeeds(String username)throws CensException;
+	public List<NotificacionCambioEstadoFeed> getGeneratedFeeds(String username,boolean email)throws CensException;
 
 	public void markAllFeedsForUserAsNotified(String username) throws CensException;
 

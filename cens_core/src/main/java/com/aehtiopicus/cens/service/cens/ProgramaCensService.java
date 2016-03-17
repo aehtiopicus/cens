@@ -28,4 +28,6 @@ public interface ProgramaCensService {
 
 	public Programa getProgramasForAsignatura(Asignatura asignatura);
 
+	public void fullRemovePrograma(Programa p) throws CensException;
+
 }

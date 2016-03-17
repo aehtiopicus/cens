@@ -20,6 +20,7 @@ import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.service.cens.ComentarioCensFeedService;
+import com.aehtiopicus.cens.service.cens.ComentarioCensFeedServiceImpl;
 import com.aehtiopicus.cens.service.cens.MaterialDidacticoCensService;
 import com.aehtiopicus.cens.service.cens.MiembroCensService;
 import com.aehtiopicus.cens.service.cens.ProgramaCensService;
@@ -33,7 +34,7 @@ public class ComentarioAspect {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ComentarioAspect.class);
 	@Autowired
-	private ComentarioCensFeedService censFeedService;
+	private ComentarioCensFeedServiceImpl censFeedService;
 
 	@Autowired
 	private ProgramaCensService programaCensService;

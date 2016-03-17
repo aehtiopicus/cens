@@ -71,13 +71,13 @@
 					<sec:authorize access="hasRole('ROLE_PROFESOR') AND hasRole('ROLE_ASESOR') AND !hasRole('ROLE_ADMINISTRADOR')">
 	    			<jsp:include page="includes/profesor_asesor_menu.jsp"></jsp:include>
 				</sec:authorize>
-    			<sec:authorize access="hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ASESOR')">
+    			<sec:authorize access="hasRole('ROLE_PROFESOR') AND !hasRole('ROLE_ASESOR') AND !hasRole('ROLE_ADMINISTRADOR')">
 	    			<jsp:include page="includes/profesor_menu.jsp"></jsp:include>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_ALUMNO')">
 	    			<jsp:include page="includes/alumno_menu.jsp"></jsp:include>
 				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_PRECEPTOR')">
+				<sec:authorize access="hasRole('ROLE_PRECEPTOR') AND !hasRole('ROLE_ADMINISTRADOR')">
 	    			<jsp:include page="includes/preceptor_menu.jsp"></jsp:include>
 				</sec:authorize>
 

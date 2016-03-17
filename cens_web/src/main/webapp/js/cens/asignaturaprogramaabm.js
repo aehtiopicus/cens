@@ -143,10 +143,10 @@ jQuery(document).ready(function () {
 						    	$('#borrarPrograma').dialog("close");
 						    },
 						    error: function(value){
-						    	$( this ).dialog( "close" );	
+						    	$("#borrarPrograma").dialog( "close" );	
 						    	 errorData = errorConverter(value);
-									if(errorData.errorDto != undefined && value.errorDto){
-										alert(errorConverter(value).message);
+									if(errorData.errorDto != undefined){
+										cargarMensaje(errorData);
 									}else{
 										 alert("Se produjo un error el servidor");
 									}

@@ -97,7 +97,7 @@ public class RolCensServiceImpl implements RolCensService {
 	public List<PerfilTrabajadorCensType> listPerfil() {
 		List<PerfilTrabajadorCensType> list =new  ArrayList<PerfilTrabajadorCensType>();
 		for(PerfilTrabajadorCensType ptct : PerfilTrabajadorCensType.values()){
-			if(!ptct.equals(PerfilTrabajadorCensType.ADMINISTRADOR)){
+			if(!ptct.equals(PerfilTrabajadorCensType.ADMINISTRADOR) && !ptct.equals(PerfilTrabajadorCensType.USUARIO)){
 				list.add(ptct);
 			}
 		}

@@ -18,5 +18,9 @@ public interface InscripcionAlumnoCensRepository extends JpaRepository<Inscripci
 	public int eliminarInscripcion(Long asignaturaId, Long alumnoId);
 
 	public List<InscripcionAlumnos> findByAlumnoIdEqualsAndAsignaturaVigenteEquals(Long alumnoId,boolean vigente);
+	
+	@Query(nativeQuery=true,value ="DELETE FROM cens_inscripcion_alumno WHERE cens_asignatura_id = ?1")
+	@Modifying
+	public int eliminarInscripcion(Long asignaturaId);
 
 }

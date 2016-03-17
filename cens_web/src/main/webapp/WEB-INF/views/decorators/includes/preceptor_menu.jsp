@@ -12,14 +12,8 @@
         <a href="<%=request.getContextPath() %>/mvc/miembroList">Administraci&oacute;n de Miembros</a>
     </li>
 
-	<li>
-        <a href="#">Preceptores</a>
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/mvc/asignaturaList">Gesti&oacute;n de Asignatura</a></li>
-			<li><a href="<%=request.getContextPath() %>/mvc/cursoList">Gesti&oacute;n de Cursos</a></li>
-		</ul>
-	</li>
 	
-
-
+        <li><a href="<%=request.getContextPath() %>/mvc/asignaturaList">Gesti&oacute;n de Asignatura</a></li>
+			<li><a href="<%=request.getContextPath() %>/mvc/cursoList">Gesti&oacute;n de Cursos</a></li>
+		
 </ul>

@@ -25,7 +25,7 @@
 			<h3>Filtros</h3>					
 	        
 	       	<label for="year">A&ntilde;o:</label>
-			<input type="text" id="year"  />
+			<input type="number" id="year"/>
 	        
 	        
 	        <button class="button searchButton" type="button" onclick="gridReload()" id="submitButton">Filtrar</button>

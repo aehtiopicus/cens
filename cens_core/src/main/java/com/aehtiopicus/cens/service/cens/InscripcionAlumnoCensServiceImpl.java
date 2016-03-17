@@ -95,4 +95,15 @@ public class InscripcionAlumnoCensServiceImpl implements InscripcionAlumnoCensSe
 		return inscripcionAlumnoCensRepository.findByAlumnoIdEqualsAndAsignaturaVigenteEquals( alumnoId,true);
 	}
 
+	@Override
+	public void eliminarInscripcionAsignatura(Long asignaturaID)
+			throws CensException {
+		try{
+			inscripcionAlumnoCensRepository.eliminarInscripcion(asignaturaID);
+		}catch(Exception e){
+			throw new CensException("No se puede borrar todas las inscripciones de la asignatura",e);
+		}
+		
+	}
+
 }

@@ -62,6 +62,9 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private InscripcionAlumnoCensService inscripcionAlumnoCensService;
 		
 	
 	@Override
@@ -207,6 +210,20 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	public void deleteAsignatura(Long asignaturaID) throws CensException{
 		logger.info("Borrando asignatura "+asignaturaID);
 		try{
+			asignaturaCensRepository.delete(asignaturaID);
+		}catch(Exception e){
+			throw new CensException("Error borrando Asignatura. Es posible que este en uso");
+		}
+		
+	}
+	
+	@Override
+	@Transactional(rollbackFor=CensException.class)
+	public void deleteAsignaturaForced(Long asignaturaID) throws CensException{
+		logger.info("Borrando asignatura "+asignaturaID);
+		try{			
+			programaCensService.fullRemovePrograma(programaCensService.getProgramasForAsignatura(getAsignatura(asignaturaID)));
+			inscripcionAlumnoCensService.eliminarInscripcionAsignatura(asignaturaID);
 			asignaturaCensRepository.delete(asignaturaID);
 		}catch(Exception e){
 			throw new CensException("Error borrando Asignatura. Es posible que este en uso");

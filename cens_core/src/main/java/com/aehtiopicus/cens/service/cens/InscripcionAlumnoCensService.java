@@ -15,4 +15,6 @@ public interface InscripcionAlumnoCensService {
 
 	public List<InscripcionAlumnos> listInscripcionAlumno(Long alumnoId);
 
+	public void eliminarInscripcionAsignatura(Long asignaturaID) throws  CensException;
+
 }

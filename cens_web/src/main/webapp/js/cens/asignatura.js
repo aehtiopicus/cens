@@ -237,6 +237,14 @@ function calculatePageToLoadAfterDelete(){
 var asignaturaIdToRemove = null;
 function deleteAsignatura_dialog(asignaturaId){
 	asignaturaIdToRemove = asignaturaId;
+	if(forceRemove.forceRemove && forceRemove.id === asignaturaId){
+		$("#remAsignatura .normal").hide();
+		$("#remAsignatura .force").show();
+	}else{
+		$("#remAsignatura .normal").show();
+		$("#remAsignatura .force").hide();
+		forceRemove.forceRemove = false;
+	}
 	$("#remAsignatura").dialog("open");
 }
 
@@ -251,17 +259,20 @@ function deleteAsignatura(){
 	
 	$.ajax({
 		type:"DELETE",
-		url:pagePath+"/api/asignatura/"+asignaturaId,
+		url:pagePath+"/api/asignatura/"+asignaturaId + (forceRemove.forceRemove ? "/forced":""),
 		contentType :'application/json',
 		dataType:"json",
 		success: function(data){
 			gridReload(pageToLoad);
 			$('#message').addClass('msgSuccess');
 			cargarMensaje(data,true);
+			forceRemove.forceRemove = false;
+			forceRemove.id = asignaturaId;
 		},
 		error: function(data){
 			$('#message').addClass('msgError');	
 			cargarMensaje(errorConverter(data));
+			forceRemove.forceRemove = true;
 		}								
 
 		}
@@ -270,3 +281,6 @@ function deleteAsignatura(){
 	
 } 
 
+var forceRemove = {
+		forceRemove : false
+}

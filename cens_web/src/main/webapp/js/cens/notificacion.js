@@ -115,7 +115,9 @@ function loadLs(){
 function setCantNotificacion(){
 	loadLs();
 	var data = ls.getNotificacionData();
-	
+	if(data === null ){
+		data = [{camtodadNotificaciones : 0}];
+	}
 	enableBubble(data[0],"notCant",true)
 	if(data.length == 2){
 		$('#seguimientoOpen').show();

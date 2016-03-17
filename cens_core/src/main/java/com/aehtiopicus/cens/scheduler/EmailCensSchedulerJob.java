@@ -65,7 +65,7 @@ public class EmailCensSchedulerJob  extends QuartzJobBean{
 			try{
 				if(CollectionUtils.isNotEmpty(usernameList)){
 					for(Object[] username : usernameList){
-						Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser =notificacionService.getNotificationForUser(username[0].toString());
+						Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser =notificacionService.getNotificationForUser(username[0].toString(),true);
 						if(!notificationForUser.isEmpty()){
 							notificacionService.sendEmailNotification(notificationForUser,username[1].toString(),username[2].toString()+", "+username[3].toString()+", DNI: "+username[4].toString());
 						}

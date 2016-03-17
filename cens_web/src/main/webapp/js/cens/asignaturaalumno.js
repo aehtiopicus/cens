@@ -176,9 +176,13 @@ function calculatePageToLoadAfterDelete(){
 }
  
 function asignaturaData(asignaturaData){
-	var profesor = typeof asignaturaData.profesorSuplente == "undefined" ? profNombre(asignaturaData.profesor) :  profNombre(asignaturaData.profesorSuplente);
-	var curso = asignaturaData.curso.nombre.toUpperCase()+" ("+asignaturaData.curso.yearCurso+")";
-	$("#projectTable").jqGrid("setCaption","Asignatura "+asignaturaData.nombre+" Curso"+curso+" "+" Profesor: "+profesor);
+	if(typeof asignaturaData.profesor === "undefined" && typeof asignaturaData.profesorSuplente === "undefined"){
+		$("#projectTable").jqGrid("setCaption","Asignatura "+asignaturaData.nombre+" Curso"+curso+" "+" Profesor: No Asignado");
+	}else{
+		var profesor = typeof asignaturaData.profesorSuplente == "undefined" ? profNombre(asignaturaData.profesor) :  profNombre(asignaturaData.profesorSuplente);
+		var curso = asignaturaData.curso.nombre.toUpperCase()+" ("+asignaturaData.curso.yearCurso+")";
+		$("#projectTable").jqGrid("setCaption","Asignatura "+asignaturaData.nombre+" Curso"+curso+" "+" Profesor: "+profesor);
+	}
 }
 
 function profNombre(prof){

@@ -14,7 +14,7 @@ public interface ComentarioCensFeedService {
 
 	public ComentarioCensFeed save(ComentarioCensFeed comentarioFeed);
 
-	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName)
+	public List<NotificacionComentarioFeed> getGeneratedFeeds(String userName,boolean email)
 			throws CensException;
 
 	public void markAllFeedsForUserAsNotified(String username) throws CensException;

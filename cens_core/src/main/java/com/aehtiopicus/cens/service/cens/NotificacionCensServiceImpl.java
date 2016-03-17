@@ -49,17 +49,17 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	private CambioEstadoCensFeedService cambioEstadoCensFeedService;
 	
 	@Override
-	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username) throws CensException{
+	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username,boolean email) throws CensException{
 		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
 		
-		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getGeneratedFeeds(username);
+		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getGeneratedFeeds(username,email);
 		
 		if(CollectionUtils.isNotEmpty(ccfs)){
 			
 			resultNotificationByUser.put(NotificacionType.COMENTARIO, ccfs);
 		}
 		
-		List<NotificacionCambioEstadoFeed> ncefl = cambioEstadoCensFeedService.getGeneratedFeeds(username);
+		List<NotificacionCambioEstadoFeed> ncefl = cambioEstadoCensFeedService.getGeneratedFeeds(username,email);
 		if(CollectionUtils.isNotEmpty(ncefl)){
 			resultNotificationByUser.put(NotificacionType.ACTIVIDAD, ncefl);
 		}
@@ -171,7 +171,7 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		String username = miembroCensService.getMiembroCens(miembroId).getUsuario().getUsername();
 		PerfilRol pr = getMayorRol(username);
 		
-		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationForUser(username);
+		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultMap = getNotificationForUser(username,false);
 		Map<String,Object> data = null;
 		if(!resultMap.isEmpty()){
 			data = generateNotifacionComentario(resultMap);
