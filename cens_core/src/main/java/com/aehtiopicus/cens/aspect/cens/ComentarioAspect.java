@@ -84,10 +84,7 @@ public class ComentarioAspect {
 			ComentarioCensFeed ccf = mapper.convertComentarioToFeed(comentarioCens,
 					originalInitializerId, ptct);
 			ccf.setTipoId(comentarioCens.getTipoId());
-			//self message
-			if(ccf.getActivityFeed().getToId().equals(ccf.getActivityFeed().getFromId())){
-				return;
-			}
+			
 			//broadcast
 			if(ccf.getActivityFeed().getToId()==null){
 				
@@ -106,6 +103,9 @@ public class ComentarioAspect {
 				}else{
 					logger.warn("Descartando feed por ser de un asesor a si mismo");
 				}
+				//self message
+			}else if(ccf.getActivityFeed().getToId().equals(ccf.getActivityFeed().getFromId())){
+					return;
 			}else{
 				censFeedService.save(ccf);
 			}

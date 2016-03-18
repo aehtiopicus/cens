@@ -43,17 +43,19 @@ public class MiembroCensSpecification {
       return pattern.toString();
   }
 	 
-	 public static Specification<MiembroCens> bajaFalse() {
+	 public static Specification<MiembroCens> bajaFalseEnabledTrue() {
 	        
 	        return new Specification<MiembroCens>() {
 				
 				@Override
 				public Predicate toPredicate(Root<MiembroCens> root, CriteriaQuery<?> query,
 						CriteriaBuilder cb) {
-					return cb.isFalse(root.<Boolean>get("baja"));
+					return cb.and(cb.isFalse(root.<Boolean>get("baja")),cb.isTrue(root.join("usuario").<Boolean>get("enabled")));
 					
 				}
 			};
 	    }
+	 
+	
 
 }

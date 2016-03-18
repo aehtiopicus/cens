@@ -129,9 +129,9 @@ public class MiembroCensServiceImpl implements MiembroCensService {
 			 }
 		 }
 		 if(where){
-			 specifications = Specifications.where(MiembroCensSpecification.bajaFalse());
+			 specifications = Specifications.where(MiembroCensSpecification.bajaFalseEnabledTrue());
 		 }else{
-			 specifications = specifications.and(MiembroCensSpecification.bajaFalse());
+			 specifications = specifications.and(MiembroCensSpecification.bajaFalseEnabledTrue());
 		 }
 		return specifications;
 	}
