@@ -48,6 +48,8 @@ public class CacheAspect {
 
 	private static final String COMMENT_SOURCE_CACHE = "#{cacheProperties['comment_source']}";
 	
+	private static final String USERS_CACHE = "#{cacheProperties['users']}";
+	
 	@Value(COMMENT_SOURCE_CACHE)
 	private String comentarioCache;
 	
@@ -70,6 +72,9 @@ public class CacheAspect {
 
 	@Value(PROGRAMA_PROFESOR_CACHE)
 	private String programaProfesor;
+	
+	@Value(USERS_CACHE)
+	private String userCache;
 
 	@Autowired
 	private ComentarioCensService comentarioCensService;
@@ -130,8 +135,22 @@ public class CacheAspect {
 	public void removeMaterialCompletoCacheSave() {
 		cleanProgramaProfesor();
 	}
-
 	
+	@After(value = "execution(* com.aehtiopicus.cens.service.cens.RolCensService.removeRolToMiembro(..))")
+	public void removePerfiles() {
+		cleanPerfiles();
+	}
+
+	@After(value = "execution(* com.aehtiopicus.cens.service.cens.RolCensService.assignRolToMiembro(..))")
+	public void assignPerfiles() {
+		cleanPerfiles();
+	}
+	
+	private void cleanPerfiles() {
+		cacheManager.getCache(userCache).clear();
+		
+	}
+
 	@SuppressWarnings("unchecked")
 	@AfterReturning(pointcut = "execution(* com.aehtiopicus.cens.service.cens.ComentarioCensFeedService.save(..))",returning = "ccf")
 	public void removeComentarioCache(JoinPoint joinPoint, ComentarioCensFeed ccf){
@@ -197,8 +216,7 @@ public class CacheAspect {
 	private void cleanCursoProfesor() {
 		cacheManager.getCache(cursoProfesor).clear();
 		cacheManager.getCache(cursoAsesor).clear();
-		cleanProfesorMapperCache();
-		cleanAsesorMapperCache();
+		cleanProgramaProfesor();
 	}
 	
 	private void cleanProgramaProfesor() {

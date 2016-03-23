@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.controller.cens;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,8 +65,19 @@ public class MiembroCensRestController extends AbstractRestController{
 	public RestResponseDto<MiembroCensDto> listMiembro(@RequestParam(value="requestData",required=false) RestRequestDtoWrapper wrapper) throws Exception{					  
 	   
 		RestRequest rr = getRequestRequest(wrapper);
-		List<MiembroCens> miembroCensList = miembroCensService.listMiembrosCens(rr);
+		List<MiembroCens> miembroCensList = new ArrayList<MiembroCens>(miembroCensService.listMiembrosCens(rr));
 		long cantidad  = miembroCensService.getTotalUsersFilterByProfile(rr);
+		
+		Iterator<MiembroCens> mcIterator = miembroCensList.iterator();
+		MiembroCens loggedMC = miembroCensService.getMiembroCensByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		while(mcIterator.hasNext()){
+			if(mcIterator.next().getId().equals(loggedMC.getId())){
+				mcIterator.remove();
+				cantidad--;
+			}
+		}
+		
+		
 		List<MiembroCensDto> mcDto = miembroCensMapper.convertMiembrCensListToDtoList(miembroCensList);						
 		return convertToResponse(rr, cantidad, mcDto);
 		

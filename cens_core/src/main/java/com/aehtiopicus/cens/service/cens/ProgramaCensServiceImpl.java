@@ -125,7 +125,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	}
 
 	@Override
-	@Cacheable(value = "programaProfesor")
+	@Cacheable(value = "programaProfesor",key="#id")
 	public List<Programa> getProgramasForAsignatura(Long id) {
 		return programaCensRepository.findProgramaByProfesor(id);
 	}
