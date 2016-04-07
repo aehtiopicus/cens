@@ -1662,3 +1662,8 @@ Responsive events capture
   from { clip: rect(1px, auto, auto, auto); }
   to { clip: rect(0px, auto, auto, auto); }
 }
+
+.estadoRevisionClass{ 
+	display: inline-block;
+    margin-left: 52px;
+}

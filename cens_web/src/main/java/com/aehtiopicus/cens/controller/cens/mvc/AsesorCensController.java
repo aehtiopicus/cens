@@ -2,7 +2,6 @@ package com.aehtiopicus.cens.controller.cens.mvc;
 
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,9 +48,8 @@ public class AsesorCensController extends AbstractController{
 		mav.addObject("estado",estado);
 		mav.addObject("asignaturaId",asignaturaId);
 		mav.addObject("programaId",programaId);
-		List<EstadoRevisionType> type = Arrays.asList(EstadoRevisionType.LISTO,EstadoRevisionType.ASIGNADO,EstadoRevisionType.CAMBIOS,EstadoRevisionType.ACEPTADO,EstadoRevisionType.RECHAZADO);
-	
-		mav.addObject("estadosPosibles",type);
+
+		mav.addObject("estadosPosibles",Arrays.asList(EstadoRevisionType.ASIGNADO,EstadoRevisionType.CAMBIOS,EstadoRevisionType.ACEPTADO,EstadoRevisionType.RECHAZADO));
 		return mav;
 	}
 	
@@ -72,9 +70,8 @@ public class AsesorCensController extends AbstractController{
 		mav.addObject("materialId",materialId);
 		mav.addObject("nro",nro);
 		mav.addObject("division",materialDidacticoCensMapper.convertToDto(materialDidacticoCensService.listDivisionPeriodo()));
-		List<EstadoRevisionType> type = Arrays.asList(EstadoRevisionType.LISTO,EstadoRevisionType.ASIGNADO,EstadoRevisionType.CAMBIOS,EstadoRevisionType.ACEPTADO,EstadoRevisionType.RECHAZADO);
 	
-		mav.addObject("estadosPosibles",type);
+		mav.addObject("estadosPosibles",Arrays.asList(EstadoRevisionType.ASIGNADO,EstadoRevisionType.CAMBIOS,EstadoRevisionType.ACEPTADO,EstadoRevisionType.RECHAZADO));
 		return mav;
 	}
 }

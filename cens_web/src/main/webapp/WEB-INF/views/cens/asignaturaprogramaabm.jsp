@@ -17,16 +17,12 @@ var asignaturaId = ${asignaturaId};
 </script>
 
 <fieldset>
+<div class="programaDiv">
 	<div class="tituloForm">
-	<c:choose>
-		<c:when test="${disabled!=null && disabled == 'true'}">
-			<h3 ><span style="color: rgb(218, 77, 44);"> PROGAMA NO EDITABLE</span></h3>
+
+			<h3 id="editable" style="display:none;"><span style="color: rgb(218, 77, 44);"> PROGAMA NO EDITABLE</span></h3>
 			<h3 id="titulo">Planificaci&oacute;n de Programa <span class="cursoFont"> ${asignatura}</span></h3>
-		</c:when>
-		<c:otherwise>
-			<h3 id="titulo">Planificaci&oacute;n de Programa <span class="cursoFont"> ${asignatura}</span></h3>
-		</c:otherwise>
-	</c:choose>	
+
 	</div>
 	<c:choose>
 		<c:when test="${disabled!=null && disabled == 'true'}">
@@ -118,7 +114,7 @@ var asignaturaId = ${asignaturaId};
 			</c:if>
 		</c:otherwise>
 	</c:choose>
-	
+</div>	
 	<h3 class="subtitulo" id="comentariosTitulo" style="display: none;">Comentarios</h3>
 	
 			<div id="accordion" style="height: 100%;">

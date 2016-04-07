@@ -20,6 +20,8 @@ jQuery(document).ready(function () {
 				$('#nombre').val(result.nombre);
 				$('#descripcion').val(result.descripcion);
 				$('#divisionPeriodoType').val(result.divisionPeriodoType);
+				$("#materialEstadoRevision").html(result.estadoRevisionType);
+				$("#estado option[value='"+result.estadoRevisionType+"']").remove()
 				if(result.cartillaAdjunta!=null){
 					$('#cartillaAdjuntado').toggle();
 					$('#fileUp').toggle();

@@ -21,7 +21,7 @@ var nro = ${nro};
 
 <fieldset>
 	<div class="tituloForm">
-			<h3 id="titulo">Planificaci&oacute;n del Material Didactico para <span class="cursoFont"> ${asignatura}</span></h3>
+			<h3 id="titulo">Planificaci&oacute;n del Material Didactico para <span class="cursoFont" id="asignatura"> ${asignatura}</span></h3>
 	</div>
 			
 			<div>
@@ -50,22 +50,15 @@ var nro = ${nro};
 			</div>
 			
 			
-		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
+		<h3 class="subtitulo">Estado de Revisi&oacute;n<span id="materialEstadoRevision" class="estadoRevisionClass"></span></h3>
 		
 			<div>
-				<label for="estado">Estado:</label>
-				 <select id="estado">			   
-		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >
-		         	<c:choose>
-		         		<c:when test="${estado.equals(estadoRevision) }">
-		         		<option value="${estadoRevision}" selected> ${estadoRevision} </option>
-		         		</c:when>
-		         		<c:otherwise>
+				<label for="estado">Nuevo Estado:</label>
+				 <select id="estado">			
+				  	<option disabled selected value>SELECCIONE ESTADO </option>   
+		         	<c:forEach items="${estadosPosibles}" var="estadoRevision" >		         	
 		         		<option value="${estadoRevision}"> ${estadoRevision} </option>
-		         		</c:otherwise>
-		         	</c:choose>		         	
-		           
-		        </c:forEach>
+		        	</c:forEach>
 	        </select>
 			</div>
 

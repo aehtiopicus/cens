@@ -34,7 +34,7 @@
 		<script src="<%=request.getContextPath() %>/js/jquery.jqGrid.min.js" type="text/javascript"></script>     
 		<script src="<%=request.getContextPath() %>/js/jquery.ui.datepicker-es.js"></script>     
     	<script src="<%=request.getContextPath() %>/js/grid.locale-en.js" type="text/javascript"></script>	    
-	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script>
+<%-- 	    <script src="<%=request.getContextPath() %>/js/grid.locale-es.js" type="text/javascript"></script> --%>
 	    <script type="text/javascript" src="<%=request.getContextPath() %>/js/slick.min.js"></script>	    
 	    <script src="<%=request.getContextPath() %>/js/chosen.jquery.js"></script>
         <script src="<%=request.getContextPath() %>/js/cookies.js" type="text/javascript"></script>

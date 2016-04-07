@@ -45,21 +45,14 @@ var profesorId;
 					<a id="downloadPrograma" class="comments-link bold"></a>					
 				</div>
 			</div>
-		<h3 class="subtitulo">Estado de Revisi&oacute;n</h3>
+		<h3 class="subtitulo">Estado de Revisi&oacute;n <span id="programaEstadoRevision" class="estadoRevisionClass"></span></h3>
 		
 			<div>
-				<label for="estado">Estado:</label>
-				 <select id="estado">			   
-		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >
-		         	<c:choose>
-		         		<c:when test="${estado.equals(estadoRevision) }">
-		         		<option value="${estadoRevision}" selected> ${estadoRevision} </option>
-		         		</c:when>
-		         		<c:otherwise>
-		         		<option value="${estadoRevision}"> ${estadoRevision} </option>
-		         		</c:otherwise>
-		         	</c:choose>		         	
-		           
+				<label for="estado">Nuevo Estado:</label>
+				 <select id="estado">
+				 <option disabled selected value>SELECCIONE ESTADO </option>	   
+		         <c:forEach items="${estadosPosibles}" var="estadoRevision" >		         	         		
+		         	<option value="${estadoRevision}"> ${estadoRevision} </option>		         				         			         			           
 		        </c:forEach>
 	        </select>
 			</div>

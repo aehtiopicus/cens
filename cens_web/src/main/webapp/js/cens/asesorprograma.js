@@ -22,7 +22,8 @@ jQuery(document).ready(function () {
 				$('#cantCartillas').val(result.cantCartillas);
 				$('#profesor').val(result.profesorData);
 				profesorId = result.profesorId;
-									
+				$("#programaEstadoRevision").html(result.estadoRevisionType);
+				$("#estado option[value='"+result.estadoRevisionType+"']").remove()
 				$('#downloadPrograma').prop("download",result.programaAdjunto);
 				$('#downloadPrograma').prop("href",pagePath+"/api/asignatura/"+asignaturaId+"/programa/"+result.id+"/archivo");
 				$('#downloadPrograma').html("Descargar el programa \""+result.programaAdjunto+"\"");

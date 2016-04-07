@@ -1,4 +1,6 @@
-
+var asignaturaMaterial={
+	 estadoMap :{"LISTO":true,"NUEVO":true,"ASIGNADO":false,"RECHAZADO":false,"APROBADO":false,"CAMBIOS":false} 	
+};
 jQuery(document).ready(function () {
 	if(!isNaN(pageId())){
 		startSpinner();
@@ -12,6 +14,13 @@ jQuery(document).ready(function () {
 				$('#nombre').val(result.nombre);
 				$('#descripcion').val(result.descripcion);
 				$('#divisionPeriodoType').val(result.divisionPeriodoType);
+				if(!asignaturaMaterial.estadoMap[result.estadoRevisionType]){
+					$("#editable").show();
+					$("#cantCartillas").spinner("destroy");
+					$(".materialDiv input[type='text'],.materialDiv textarea, .materialDiv select,.materialDiv ui-spinner-button").attr("disabled",true);
+					$($(".footerForm >button").children()[0]).attr("disabled",true).addClass("ui-state-disabled");
+					
+				}
 				if(result.cartillaAdjunta!=null){
 					$('#cartillaAdjuntado').toggle();
 					$('#fileUp').toggle();

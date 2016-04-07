@@ -118,11 +118,7 @@ function datosMaterial(value,asignatura){
 function datosPrograma(value,asignatura){
 	var itemPrograma='<li><a href="'+pagePath+'/mvc/asignatura/{id}/programa{existente}{nombreAsignatura}">Programa <div style="display:iniline-block; float:right;"><span class="estadoMaterial {subClass}">({estado})</span></div></a></li>';
 	if(asignatura.programa!=undefined && asignatura.programa!==null){
-		if(asignatura.programa.estadoRevisionType === "NUEVO" || asignatura.programa.estadoRevisionType ==="LISTO" || asignatura.programa.estadoRevisionType ==="CAMBIOS" || asignatura.programa.estadoRevisionType ==="RECHAZADO"){
-			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");
-		}else{
-			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")&disabled=true");
-		}
+			return itemPrograma.replace("{existente}","/"+asignatura.programa.id).replace("{estado}",asignatura.programa.estadoRevisionType).replace("{subClass}",asignatura.programa.estadoRevisionType.toLowerCase()).replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre+" - "+value.yearCurso+")");		
 	}else{
 		return itemPrograma.replace("{existente}","").replace("{estado}","No Existe").replace("{subClass}","inexistente").replace("{nombreAsignatura}","?asignatura="+asignatura.nombre.toUpperCase()+" ("+value.nombre.toLowerCase()+" - "+value.yearCurso+")");
 	}
