@@ -30,4 +30,6 @@ public interface ProgramaCensService {
 
 	public void fullRemovePrograma(Programa p) throws CensException;
 
+	public void removeSocialShare(String path, Long programaId)throws CensException;
+
 }

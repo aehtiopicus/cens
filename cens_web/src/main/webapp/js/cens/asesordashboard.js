@@ -108,19 +108,24 @@ asesorSocialDashboard.social.publish.prototype.init = function(){
 		$.ajax({
 			
 			type:"POST",
-			url:pagePath+"/api/social/oauth2?provider=FACEBOOK&comentarioTypeId="+socialPublish.socialPublishData.programaId+"&publishString="+$("#publishMessage").val(),
+			url:pagePath+"/api/social/oauth2?provider=FACEBOOK&comentarioTypeId="+socialPublish.socialPublishData.programaId,
 			contentType :'application/json',
+			data: this.socialPostData($("#publishMessage").val()),
 			dataType:"json",
 			success: function(data,xhr){			
 				 $("#publishDialog").dialog("close");
-				 alert($('<div/>').html("Publicaci&oacute;n realizada :"+data.publishEventId).text(),"success");
+				 alert($('<div/>').html("Publicaci&oacute;n realizada correctamente").text(),"success");
 			},
 			error: function(data,status){						
 				alert("Error al intentar autenticar");
 			}								
 	
 	});
-	}
+	};
+	this.socialPostData = function(value){
+		var postMessage = {value};
+		return JSON.stringify(postMessage);
+	};
 	this.unPublishData = function(){
 		$.ajax({
 			

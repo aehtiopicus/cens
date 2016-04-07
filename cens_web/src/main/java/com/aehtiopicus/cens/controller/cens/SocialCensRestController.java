@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -146,9 +147,11 @@ public class SocialCensRestController extends AbstractRestController{
 	@Secured("ROLE_ASESOR")
 	@ResponseStatus(value=HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.SOCIAL_CENS_REST_OAUTH_2, method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<? extends Object> postData(HttpServletRequest request,@RequestParam("provider") SocialType st,@RequestParam("comentarioTypeId")Long ctId,@RequestParam(value="publishString",required=false) String publishString) throws Exception{
+	public @ResponseBody ResponseEntity<? extends Object> postData(HttpServletRequest request,@RequestParam("provider") SocialType st,
+			@RequestParam("comentarioTypeId")Long ctId,
+			@RequestBody Map<String,String> messages) throws Exception{
 		ResponseEntity<SocialPostDto> re = null;
-		
+		String publishString = messages.get("value");
 		Programa p = spcService.findProgramaById(ctId);
 		
 		SocialPost old = spcService.findByPrograma(p);

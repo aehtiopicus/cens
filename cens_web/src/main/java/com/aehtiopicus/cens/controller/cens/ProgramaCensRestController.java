@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.controller.cens;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +138,7 @@ public class ProgramaCensRestController extends AbstractRestController{
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = UrlConstant.PROGRAMA_CENS_REST+"/{programaId}/estado", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody RestSingleResponseDto updateProgramaEstado(@PathVariable(value="id")Long asignaturaId,@PathVariable(value="programaId")Long programaId,@RequestBody  ProgramaDto programaDto) throws Exception{		
+	public @ResponseBody RestSingleResponseDto updateProgramaEstado(@PathVariable(value="id")Long asignaturaId,@PathVariable(value="programaId")Long programaId,@RequestBody  ProgramaDto programaDto, HttpServletRequest request) throws Exception{		
 
 		programaCensValidator.validateCambioEstado(programaDto.getEstadoRevisionType());
 		Programa p = programaCensService.findById(programaId);
@@ -148,6 +149,7 @@ public class ProgramaCensRestController extends AbstractRestController{
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(programaId);
 		dto.setMessage("Estado actualizado correctamente");
+		programaCensService.removeSocialShare(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(),programaId);
 		
 		return dto;
 	}
