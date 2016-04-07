@@ -8,10 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name = "CENS_MATERIAL_DIDACTICO_EVALUADO")
 public class MaterialDidacticoEvaluado implements Serializable{
 
 	/**

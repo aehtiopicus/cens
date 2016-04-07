@@ -1,0 +1,194 @@
+ <html>
+<body>
+<table width="100%" height="100%" bgcolor="#ffffff" style="background-color:#ffffff">
+	<tbody>
+    	<tr>
+        	<td>
+            	<table align="center" border="0" cellpadding="0" cellspacing="0" width="510" height="auto">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>                          
+                            <td align="left">
+                            	<img src="cid:logo" alt="Cens"/>
+                            </td>
+							<td align="right">
+                           	<span style="color: rgb(0, 85, 119);display: block;font-family: cursive;font-size: 18px;font-style: italic;font-weight: bold;">Seguimiento de Notificaci&oacute;nes </span>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#fafafa">
+                                    <tbody>
+									<tr>
+                                        <td colspan="4" height="5" style="background-color:rgb(0, 85, 119);"></td>
+                                    </tr>
+									<tr>
+                                        <td colspan="4" height="5"></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="10" width="20">&nbsp;</td>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274;font-weight:bold"><span style="text-transform:uppercase">$nombre</span>,</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#727274">Se le informa que las siguientes notificaciones no han sido leidas en m&aacute;s de $dias d&iacute;as :</td><td><br>
+                                    </td></tr>
+                                    <tr>
+                                        <td style="font-size:7px">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb">
+                                                <tbody>
+                                                	<tr>
+                                                    	<td style="font-size:5px">&nbsp;</td>
+                                                    </tr>
+                                                     #if ($ACTIVIDAD)
+                                                     <tr>                                                    
+                                                    		<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
+                                                        		Estado de Actividad no Leidas: 
+																	<table>
+																		<tbody>
+																			#foreach( $key in $ACTIVIDAD.keySet() )	
+																																			
+																				#if ($key == 'PROGRAMA')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Programas:
+																							<table>
+																								<tbody>																									
+																									#foreach( $programa in $ACTIVIDAD.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span>,<br/>Cambios de Estado Realizado: <span style="font-weight: 600; text-transform: uppercase;">$programa.Cantidad</span>, Estado Actual: <span style="font-weight: 600; text-transform: uppercase;">$programa.EstadoRevision</span>, Fecha: #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																				#if ($key == 'MATERIAL')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Materi&aacute;l Did&aacute;ctico:
+																							<table>
+																								<tbody>																									
+																									#foreach( $material in $ACTIVIDAD.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/> Cambios de Estado Realizado: <span style="font-weight: 600; text-transform: uppercase;">$material.Cantidad</span>, Estado Actual: <span style="font-weight: 600; text-transform: uppercase;">$material.EstadoRevision</span>, Fecha: #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																			#end
+																		</tbody>
+																	</table>
+                                                        	</td>
+                                                    	</tr>
+                                                    #end
+                                                     #if ( $COMENTARIO)
+                                                    	<tr>                                                    
+                                                    		<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
+                                                        		Comentarios No Leidos: 
+																	<table>
+																		<tbody>
+																			#foreach( $key in $COMENTARIO.keySet() )	
+																																			
+																				#if ($key == 'PROGRAMA')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Programas:
+																							<table>
+																								<tbody>																									
+																									#foreach( $programa in $COMENTARIO.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span>,<br/>Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$programa.Cantidad</span>, Fecha: #if($programa.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $programa.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																				#if ($key == 'MATERIAL')
+																					<tr>
+																						<td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+																							Materi&aacute;l Did&aacute;ctico:
+																							<table>
+																								<tbody>																									
+																									#foreach( $material in $COMENTARIO.get($key) )													
+																									<tr>
+																									<ul>
+																										<li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/>Nro de Mensajes: <span style="font-weight: 600; text-transform: uppercase;">$material.Cantidad</span>, Fecha: #if($material.Notificado == 'true')<span style="color: red;">#else <span style="color: rgb(0,85,119);"> #end $material.Fecha</span></td></li>
+																									</ul>
+																									</tr>																									
+																									#end																									
+																								</tbody>																							
+																							</table>
+																						</td>
+																					</tr>
+																				#end
+																			#end
+																		</tbody>
+																	</table>
+                                                        	</td>
+                                                    	</tr>
+                                                    #end
+													
+                                                    <tr>
+                                                    	<td style="font-size:5px">&nbsp;</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                   
+                                </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+							<td colspan="4" height="5" style="background-color:rgb(0, 85, 119);"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                	<tbody><tr>
+                                    	<td style="font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666666;margin:0">Por favor no responda este mensaje ya que ha sido enviado desde una casilla autom&aacute;tica. Si usted NO desea recibir esta informaci&oacute;n en el futuro, por favor elimine su direcci&oacute;n de Email desde las opciones de 'Mi Perfil' del Sistema de <span style="font-weight: bold;">Gesti&oacute;n de Material Did&aacute;ctico</span> Para mayor informaci&oacute;n comun&iacute;quese comuniquese con el &aacute;rea de asesoria del CENS </td>
+                                    </tr>
+                                    <tr>
+                                    	<td>&nbsp;</td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" height="30">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

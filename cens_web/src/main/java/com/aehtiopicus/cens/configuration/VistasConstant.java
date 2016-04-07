@@ -68,7 +68,42 @@ public class VistasConstant {
 	
 	
 	/**********/
+	/*MAIN*/
+	public static final String MAIN ="cens/main";
+	/*40x*/
+	public static final String NOT_FOUND = "cens/404";
+	public static final String UNAUTHORIZED = "cens/401";
+	public static final String FORBIDDEN = "cens/403";
 	
-	public final static String ASESORES_LIST_VIEW = "asesoreslist";
+	/*Miembro*/
+	public final static String MIEMBRO_LIST_VIEW = "cens/miembrocens";
+	public static final String MIEMBRO_ABM_VIEW = "cens/miembrocensabm";
+	/*Curso*/
+	public static final String CURSO_LIST_VIEW ="cens/cursos";
+	public static final String CURSO_LIST_ABM_VIEW ="cens/cursoabm";
+	/*Asignatura*/
+	public static final String ASIGNATURA_LIST_VIEW ="cens/asignaturas";
+	public static final String ASIGNATURA_LIST_ABM_VIEW ="cens/asignaturaabm";
+	public static final String ASIGNATURA_PROGRAMA_ABM_VIEW ="cens/asignaturaprogramaabm";
+	public static final String ASIGNATURA_ALUMNO_VIEW ="cens/asignaturaalumno";
+	public static final String ASIGNATURA_INSCRIPCION_VIEW ="cens/asignaturainscripcion";
+	/*Profesor*/
+	public static final String PROFESOR_ASIGNATURA_LIST_VIEW ="cens/profesorasignaturas";
+	/*Asesor*/
+	public static final String ASESOR_DASHBOARD_LIST_VIEW ="cens/asesordashboard";
+	public static final String ASESOR_ASIGNATURA_VIEW ="cens/asesorprograma";
+	public static final String ASESOR_MATERIAL_VIEW ="cens/asesormaterial";
+	/*Material*/
+	public final static String MATERIAL_LIST_VIEW = "cens/material";
+	public static final String MATERIAL_ABM_VIEW = "cens/materialabm";
+	/*Perfil*/
+	public static final String PERFIL_VIEW = "cens/perfilabm";
+	public static final String CONTACTO_VIEW = "cens/contactoabm";
+	/*Alumno*/
+	public static final String ALUMNO_DASHBOARD_LIST_VIEW ="cens/alumnodashboard";
+	/*Administracion*/
+	public static final String ADMINISTRACION_MAIN = "cens/administracion";
+	
+
 	
 }

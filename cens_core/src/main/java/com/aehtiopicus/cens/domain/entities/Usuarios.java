@@ -4,32 +4,50 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.jasypt.hibernate4.type.EncryptedStringType;
 
 @Entity
+@Table(name="CENS_USUARIOS")
+@TypeDefs(
+		@TypeDef(name = "encryptedString", typeClass = EncryptedStringType.class, parameters = { @Parameter(name = "encryptorRegisteredName", value = "hibernateStringEncryptor") }))
 public class Usuarios implements Serializable {
 
 	private static final long serialVersionUID = -2593132666510879385L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected long id;
+	protected Long id;
 
 	protected String username;
+	@Type(type = "encryptedString")
 	protected String password;
-	protected Boolean enabled;
+	protected Boolean enabled = true;
+	@OneToOne(optional=true)
+	private FileCensInfo fileInfo;
 	
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Perfil> perfil;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -63,6 +81,14 @@ public class Usuarios implements Serializable {
 
 	public void setPerfil(List<Perfil> perfil) {
 		this.perfil = perfil;
+	}
+
+	public FileCensInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(FileCensInfo fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 	
 	

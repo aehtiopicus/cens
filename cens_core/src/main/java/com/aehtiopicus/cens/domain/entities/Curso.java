@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Agrupacion logica de alumnos. Los cursos en un semi presencial no son exactamente como en otros lados
@@ -16,6 +21,7 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
+@Table(name = "CENS_CURSO")
 public class Curso implements Serializable {
 
 	/**
@@ -29,12 +35,10 @@ public class Curso implements Serializable {
 
 	private String nombre;
 
-	private int yearCurso;
+	private int yearCurso;	
 
-	@OneToMany
-	private List<Profesor> profesores;
-
-	@OneToMany(mappedBy = "curso")
+	@OneToMany(mappedBy = "curso",fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<Asignatura> asignaturas;
 
 	public Long getId() {
@@ -61,13 +65,6 @@ public class Curso implements Serializable {
 		this.yearCurso = yearCurso;
 	}
 
-	public List<Profesor> getProfesores() {
-		return profesores;
-	}
-
-	public void setProfesores(List<Profesor> profesores) {
-		this.profesores = profesores;
-	}
 
 	public List<Asignatura> getAsignaturas() {
 		return asignaturas;

@@ -1,7 +1,7 @@
 package com.aehtiopicus.cens.configuration;
 
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.hibernate3.encryptor.HibernatePBEStringEncryptor;
+import org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

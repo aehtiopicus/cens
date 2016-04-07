@@ -1,23 +1,20 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import com.aehtiopicus.cens.enumeration.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 
-@Entity(name="perfil_usuario_cens")
+@Entity
+@Table(name="CENS_PERFIL_USUARIO_CENS")
 public class Perfil implements Serializable{
 
 	/**
@@ -29,8 +26,8 @@ public class Perfil implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 		
-    @Enumerated(EnumType.STRING)     	
-	private PerfilTrabajadorCensType perfilType;
+    @Column(name="perfiltype") 	
+	private String perfilType;
 	
 	@OneToOne	
 	@JoinColumn(name="usuario_id")
@@ -53,11 +50,11 @@ public class Perfil implements Serializable{
 	}
 
 	public PerfilTrabajadorCensType getPerfilType() {
-		return perfilType;
+		return PerfilTrabajadorCensType.getPrefilByNombre(perfilType);		
 	}
 
 	public void setPerfilType(PerfilTrabajadorCensType perfilType) {
-		this.perfilType = perfilType;
+		this.perfilType = perfilType.getNombre();
 	}
 	
 	

@@ -1,0 +1,426 @@
+@CHARSET "UTF-8";
+
+#aplicacionesYReemplazos{
+	height:470px !important;
+}
+
+.x-form-label span{
+	font-size:14px !important;
+}
+body.x-desktop {
+font-size: 14px !important;
+}
+
+div.detalleFiltro{
+font-size: 14px !important;
+}
+
+div.tituloCampos {
+	text-align: center;
+}
+
+div.filtroHeader {
+	height: 30px;
+}
+
+div.filtroHeader ul a {
+	height: 30px;
+	color: white;
+	text-align: center;
+}
+
+div.filtroHeader2 {
+	height: 100%;
+}
+
+div.filtroHeader2 ul a {
+	height: 35px;
+	color: white;
+	text-align: center;
+}
+
+.filtro ul a {
+	background-size: 1px 30px;
+	background-image: url(../images/navi_bg_divider.png);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left: 1%;
+	padding-right: 1%;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	float: left;
+	font-size:12px;
+	overflow-x: visible;
+	overflow-y: hidden;
+}
+.filtro ul li {
+	display: inline
+}
+.filtro ul a.first {
+	background-image: none;
+}
+
+.filtro ul a.codigo_corto {
+	width: 10%;
+}
+
+.filtro ul a.codigo_marca {
+	width: 100%;
+}
+
+.filtro ul a.codigo_corto2 {
+	width: 50%;
+}
+
+.filtro ul a.marca2 {
+	width: 50%;
+}
+
+.filtro ul a.codigo_largo {
+	width: 10%;
+}
+
+.filtro ul a.marca {
+	width: 15%;
+}
+
+.filtro ul a.marcaOEM {
+	width: 15%;
+}
+
+.filtro ul a.descripcion {
+	width: 38%;
+}
+
+.filtro ul a.tipo {
+	width: 15%;
+}
+
+.filtro ul a.subtipo {
+	width: 15%;
+}
+
+.filtro ul a.precio {
+	width: 10%;
+}
+
+.filtro ul {
+	clear: left;
+}
+
+.imagenFiltro {
+	float: right;
+	max-width: 50%;
+	max-height: 90%;
+	padding: 0% 1% 0% 1%;
+}
+
+.agregarFiltro {
+	padding: 0% 0% 0% 200px;
+}
+
+.detalleFiltro {
+	max-width: 50%;
+}
+
+.detalleFiltro ul li {
+	list-style-type: none !important;
+}
+
+.detalleFiltro ul li span:first-child {
+	font-weight: bold;
+	float: left;
+	width: 150px;
+}
+
+.detalleFiltro ul li span:last-child {
+	padding-left: 30px;
+}
+
+div.reemplazoHeader {
+	height: 30px;
+}
+
+div.reemplazoHeader ul a {
+	height: 25px;
+	color: white;
+	text-align: center;
+}
+
+.reemplazo ul a {
+	background-image: url(../images/navi_bg_divider.png);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left: 1%;
+	padding-right: 1%;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	float: left;
+	font-size:12px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	font-size: 12px;
+}
+
+.reemplazo ul a.first {
+	background-image: none;
+}
+
+.reemplazo ul a.codigo_corto {
+	width: 20%;
+}
+
+.reemplazo ul a.codigo_largo {
+	width: 13%;
+}
+
+.reemplazo ul a.marca {
+	width: 35%;
+}
+
+.reemplazo ul a.descripcion {
+	width: 40%;
+}
+
+.reemplazo ul a.tipo {
+	width: 11%;
+}
+
+.reemplazo ul {
+	clear: left;
+}
+
+div.vehiculoHeader {
+	height: 30px;
+}
+
+div.vehiculoHeader ul a {
+	height: 25px;
+	color: white;
+	text-align: center;
+}
+
+.vehiculo ul a {
+	background-image: url(../images/navi_bg_divider.png);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left: 1%;
+	padding-right: 1%;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	float: left;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	font-size: 12px;
+}
+
+.vehiculo ul a.first {
+	background-image: none;
+}
+
+.vehiculo ul a.marca {
+	width: 38%;
+}
+
+.vehiculo ul a.modelo {
+	width: 58%;
+}
+
+.vehiculo ul {
+	clear: left;
+}
+
+.detalleVehiculo ul li {
+	list-style-type: none !important;
+}
+
+.detalleVehiculo ul li span:first-child {
+	font-weight: bold;
+	float: left;
+	width: 105px;
+}
+
+.detalleVehiculo ul li span:last-child {
+	padding-left: 30px;
+}
+
+.x-list .x-list-disclosure:before {
+	content: '4' !important;
+	font-size: 24px !important;
+	color: gray !important;
+	border-radius: 32px !important;
+	background-color: white !important;
+}
+
+.x-container.x-unsized.x-list-normal.x-list.x-has-width.x-list-ungrouped
+	{
+	background-color: white;
+}
+
+.custom-dirty .x-grid-dirty-cell {
+	background-color: #ffa;
+	background-image: url(../images/bullet_red.png);
+	background-position: right center;
+	color: #090;
+}
+
+.icon-home {
+	background-image: url(../images/home.png) !important;
+}
+
+.x-tab .x-button-icon.shop:before,.x-button .x-button-icon.shop:before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	content: "$"
+}
+
+.x-tab .x-button-icon.shop:before,.x-button .x-button-icon.porcentaje:before
+	{
+	background-size: 22px;
+	position: absolute;
+	top: 1px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	content: "";
+	background-image: url(../images/check1.png);
+	background-repeat: no-repeat;
+}
+
+.x-tab .x-button-icon.update:before,.x-button .x-button-icon.update:before
+	{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	content: "0";
+}
+
+/* .x-tab .x-button-icon.update:before,.x-button .x-button-icon.update:before{ */
+/* 	position: absolute; */
+/* 	top: 0; */
+/* 	right: 0; */
+/* 	bottom: 0; */
+/* 	left: 0; */
+/* 	text-align: center; */
+/* 	content: "";	 */
+/* 	background-image:url(../images/download2.png); */
+/* 	background-repeat: no-repeat; */
+/* } */
+.x-field-custom .x-input-checkbox:checked+.x-field-mask:after {
+	content: "";
+	height: 35px;
+	width: 35px;
+	position: absolute;
+	top: 0;
+	right: 1em;
+	background-image: url(../images/ic_select.png);
+	background-size: contain;
+	display: block;
+}
+
+.x-field-custom .x-input-checkbox+.x-field-mask:after {
+	content: "";
+	height: 45px;
+	width: 45px;
+	position: absolute;
+	top: 0;
+	right: 1em;
+	background-image: url(../images/ic_un_select.png);
+	background-size: contain;
+	display: block;
+}
+
+.x-custome-form-label {
+	display: block !important;
+	padding: 100px;
+}
+
+.porcentajeField input { /*     color: #2e4bc5; */
+	/*     background-color: rgb(231, 230, 231); */
+	box-shadow: rgba(0, 0, 0, 0.5) 0 0.1em 0 inset, rgba(0, 0, 0, 0.5) 0
+		-0.1em 0 inset, rgba(0, 0, 0, 0.5) 0.1em 0 0 inset, rgba(0, 0, 0, 0.5)
+		-0.1em 0 0 inset, rgba(0, 0, 0, 0.5) 0 0.15em 0.4em inset;
+}
+
+.x-field-clearable.clear-icon-hidden .x-field-input .x-clear-icon {
+	display: none;
+}
+
+.x-field-clearable.clear-movement {
+	background-color: red;
+}
+
+.labelSpace {
+	margin-left: 25px !important;
+}
+
+.x-tab .x-button-icon.edit:before,.x-button .x-button-icon.edit:before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	content: "p"
+}
+
+.x-tab .x-button-icon.delete:before,.x-button .x-button-icon.delete:before
+	{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	content: "x";
+}
+
+.mascara_carga {
+	width: 100% !important;
+	height: 100% !important;
+	opacity: 1 !important;
+}
+
+.mascara_carga_mensaje {
+	width: 150px !important;
+	margin: 0px auto !important;
+}
+
+@media screen and (max-width:1025px) {
+	.imagenFiltro {
+		max-height: 50% !important;
+	}
+	.filtro ul a.codigo_corto {
+		width: 15%;
+		overflow-x: visible;
+	}
+	.filtro ul a.codigo_largo {
+		width: 15%;
+		overflow-x: visible;
+	}
+	.filtro ul a.marca {
+		width: 22%;
+		overflow-x: hidden;
+	}
+	.filtro ul a.tipo {
+		width: 25%;
+		overflow-x: hidden;
+	}
+	.filtro ul a.subtipo {
+		width: 20%;
+		overflow-x: hidden;
+	}
+	#aplicacionesYReemplazos{
+		height:285px !important;	
+	}
+
+	
+}

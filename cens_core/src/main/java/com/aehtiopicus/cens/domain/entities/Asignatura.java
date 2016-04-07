@@ -1,17 +1,17 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "CENS_ASIGNATURA")
 public class Asignatura implements Serializable {
 
 	/**
@@ -21,9 +21,7 @@ public class Asignatura implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
-	private int yearDictado;
+	private Long id;	
 
 	private String nombre;
 
@@ -32,17 +30,16 @@ public class Asignatura implements Serializable {
 	@Column(length=1000)
 	private String horarios;
 
-	@OneToMany(mappedBy = "asignatura")
-	private List<MaterialDidactico> materialesDidacticos;
-	
-	@OneToMany(mappedBy = "asignaturas")
-	private List<Alumno> alumnos;
-
-	@OneToOne
+	@OneToOne(optional=false)
 	private Curso curso;
 
-	@OneToOne
+	@OneToOne(optional=true)	
 	private Profesor profesor;
+	
+	@OneToOne(optional=true)
+	private Profesor profesorSuplente;
+	
+	private boolean vigente = false;
 
 	public Long getId() {
 		return id;
@@ -50,14 +47,6 @@ public class Asignatura implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public int getYearDictado() {
-		return yearDictado;
-	}
-
-	public void setYearDictado(int yearDictado) {
-		this.yearDictado = yearDictado;
 	}
 
 	public String getNombre() {
@@ -74,22 +63,6 @@ public class Asignatura implements Serializable {
 
 	public void setModalidad(String modalidad) {
 		this.modalidad = modalidad;
-	}
-
-	public List<MaterialDidactico> getMaterialesDidacticos() {
-		return materialesDidacticos;
-	}
-
-	public void setMaterialesDidacticos(List<MaterialDidactico> materialesDidacticos) {
-		this.materialesDidacticos = materialesDidacticos;
-	}
-
-	public List<Alumno> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<Alumno> alumnos) {
-		this.alumnos = alumnos;
 	}
 
 	public Curso getCurso() {
@@ -114,6 +87,22 @@ public class Asignatura implements Serializable {
 
 	public void setHorarios(String horarios) {
 		this.horarios = horarios;
+	}
+
+	public Profesor getProfesorSuplente() {
+		return profesorSuplente;
+	}
+
+	public void setProfesorSuplente(Profesor profesorSuplente) {
+		this.profesorSuplente = profesorSuplente;
+	}
+
+	public boolean isVigente() {
+		return vigente;
+	}
+
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
 	}
 	
 	

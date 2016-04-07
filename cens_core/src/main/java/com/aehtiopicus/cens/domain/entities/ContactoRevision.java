@@ -9,10 +9,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.aehtiopicus.cens.enumeration.ContactoType;
+import com.aehtiopicus.cens.enumeration.cens.ContactoType;
 
 @Entity
+@Table( name = "CENS_CONTACTO_REVISION")
 public class ContactoRevision implements Serializable{
 
 	/**
@@ -24,7 +26,7 @@ public class ContactoRevision implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private boolean profesorContactado;
+	private boolean contactoRealizado;
 	
 	@Enumerated(EnumType.STRING)
 	private ContactoType tipoContacto;
@@ -43,12 +45,14 @@ public class ContactoRevision implements Serializable{
 		this.id = id;
 	}
 
-	public boolean isProfesorContactado() {
-		return profesorContactado;
+	
+
+	public boolean isContactoRealizado() {
+		return contactoRealizado;
 	}
 
-	public void setProfesorContactado(boolean profesorContactado) {
-		this.profesorContactado = profesorContactado;
+	public void setContactoRealizado(boolean contactoRealizado) {
+		this.contactoRealizado = contactoRealizado;
 	}
 
 	public ContactoType getTipoContacto() {

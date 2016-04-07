@@ -1,22 +1,37 @@
 package com.aehtiopicus.cens.util;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 public class Utils {
 	
 	public final static String DD_MM_YYYY = "dd/MM/yyyy";
 	
+	private static final Mapper mapper =new DozerBeanMapper ();
+	
 	public static SimpleDateFormat sdf = new SimpleDateFormat(DD_MM_YYYY);
+	private static final String EMAIL_PATTERN = 
+			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
 	 
 	    public static int getNumberOfPages(int numberPerPage, Integer cant){
@@ -96,4 +111,30 @@ public class Utils {
 		return bigDecimalRedondeado.doubleValue();
 	}
 	
+	public static Gson getSon() {
+		GsonBuilder builder = new GsonBuilder();
+
+		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+			public Date deserialize(JsonElement json, Type typeOfT,
+					JsonDeserializationContext context)
+					throws JsonParseException {
+				try {
+					return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(json.getAsJsonPrimitive().getAsString());
+				} catch (ParseException e) {
+					throw new JsonParseException(e);					
+				}
+			}
+		});		
+		builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+		return builder.create();
+	}
+	
+	public static Mapper getMapper(){
+		return mapper;
+	}
+	
+	public static boolean emailValido(String email){
+		return email.matches(EMAIL_PATTERN);
+			
+	}
 }

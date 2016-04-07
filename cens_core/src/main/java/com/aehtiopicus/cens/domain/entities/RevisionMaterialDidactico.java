@@ -10,10 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table( name = "CENS_REVISION_MATERIAL_DIDACTICO")
 public class RevisionMaterialDidactico implements Serializable{
 	/**
 	 * 

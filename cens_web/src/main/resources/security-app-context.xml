@@ -1,0 +1,60 @@
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http auto-config="true" access-denied-page="/errors/401">
+		<intercept-url pattern="/inicializar/**" access="ROLE_ANONYMOUS"  />
+		<intercept-url pattern="/login/**" access="ROLE_ANONYMOUS"  />
+		<intercept-url pattern="/loginfailed/**" access="ROLE_ANONYMOUS"  />											
+		
+				
+<!-- 		<intercept-url pattern="/mvc/asesor/**" access="ROLE_ASESOR" /> -->
+<!-- 		<intercept-url pattern="/asesor/**" access="ROLE_ASESOR" /> -->
+		
+<!-- 		<intercept-url pattern="/mvc/curso**" access="ROLE_PRECEPTOR" /> -->
+<!-- 		<intercept-url pattern="/curso/**" access="ROLE_PRECEPTOR" /> -->
+		
+<!-- 		<intercept-url pattern="/asignatura/**" access="ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR" /> -->
+<!-- 		<intercept-url pattern="/programa/**" access="ROLE_ASESOR, ROLE_PROFESOR" /> -->
+		
+<!-- 		<intercept-url pattern="/css/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  /> -->
+<!-- 		<intercept-url pattern="/js/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  /> -->
+<!-- 		<intercept-url pattern="/comentario/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  />		 -->
+<!-- 		<intercept-url pattern="/css/midasUI-theme/images/**" access="ROLE_ANONYMOUS, ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  /> -->
+<!-- 		<intercept-url pattern="/mvc/main" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO"  /> -->
+		
+		<intercept-url pattern="/**" access="ROLE_ADMINISTRADOR, ROLE_ASESOR, ROLE_PROFESOR, ROLE_PRECEPTOR, ROLE_ALUMNO" />
+
+		
+		<form-login 
+			login-page="/login" 
+			default-target-url="/mvc/main"
+			authentication-failure-url="/loginfailed" />
+		 <logout logout-success-url="/login" />
+		
+	</http>
+
+
+	<authentication-manager>
+		<authentication-provider>
+		
+<!-- 			<password-encoder hash="md5"></password-encoder> -->
+			<jdbc-user-service data-source-ref="dataSource"
+
+				users-by-username-query="
+ 		      	select username,password, enabled  
+ 		      	from cens_usuarios where username=?" 
+
+				authorities-by-username-query="
+			  	select u.username as username, pusc.perfilType as authority from  
+				cens_usuarios u inner join cens_perfil_usuario_cens pusc on u.id = pusc.usuario_id				
+				where u.username =? " />
+
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

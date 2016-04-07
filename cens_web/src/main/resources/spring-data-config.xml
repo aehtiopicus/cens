@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+      http://www.springframework.org/schema/data/jpa 
+      http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+      http://www.springframework.org/schema/aop 
+      http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<aop:aspectj-autoproxy />
+	
+    <jpa:repositories base-package="com.aehtiopicus.cens.repository" />
+	
+	<!-- Aspect -->
+	<bean id="cacheAspect" class="com.aehtiopicus.cens.aspect.cens.CacheAspect" />
+	<bean id="comentarioAspect" class="com.aehtiopicus.cens.aspect.cens.ComentarioAspect" />
+	<bean id="informeMensualAspect" class="com.aehtiopicus.cens.aspect.InformeMensualAspect" />
+	<bean id="informeConsolidadoAspect" class="com.aehtiopicus.cens.aspect.InformeConsolidadoAspect" />
+	
+</beans>
