@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
@@ -148,8 +149,10 @@ public class ProgramaCensRestController extends AbstractRestController{
 		
 		RestSingleResponseDto dto = new RestSingleResponseDto();
 		dto.setId(programaId);
-		dto.setMessage("Estado actualizado correctamente");
-		programaCensService.removeSocialShare(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(),programaId);
+		dto.setMessage("Estado actualizado correctamente");	
+		if(!p.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO) && e.equals(EstadoRevisionType.ACEPTADO) ){
+			programaCensService.removeSocialShare(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(),programaId,RequestContextHolder.currentRequestAttributes().getSessionId());
+		}
 		
 		return dto;
 	}

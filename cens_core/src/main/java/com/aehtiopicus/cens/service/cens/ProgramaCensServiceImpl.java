@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.service.cens;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -209,16 +212,26 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		return programaCensRepository.findByAsignatura(asignatura);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	@Override
-	public void removeSocialShare(String asignaturaId, Long programaId) throws CensException {
+	public void removeSocialShare(String path, Long programaId, String sessionId) throws CensException {
 		try {
-			RestTemplate rs = new RestTemplate();
+			RestTemplate rs = new RestTemplate();			
+			    
 			for (SocialType st : SocialType.values()) {
-				UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl( UriComponentsBuilder.fromUriString(asignaturaId+"/api/social/oauth2").toUriString())
+				UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl( UriComponentsBuilder.fromUriString(path+"/api/social/oauth2").toUriString())
 						.queryParam("provider", st).queryParam("comentarioTypeId", programaId);
-				ClientHttpRequest chr = rs.getRequestFactory().createRequest(builder.build().encode().toUri(),
-						HttpMethod.DELETE);
-				chr.execute();
+				
+				HttpHeaders requestHeaders = new HttpHeaders();
+				requestHeaders.add("Cookie", "JSESSIONID="+sessionId);
+				
+				
+				ResponseEntity<Map> rssResponse = rs.exchange(
+						builder.build().encode().toUri(),
+					    HttpMethod.DELETE,
+					    new HttpEntity(null, requestHeaders),
+					    Map.class);
+				Map result = rssResponse.getBody();				
 			}
 		} catch (Exception e) {
 			throw new CensException("Error al eliminar public", e);
@@ -227,3 +240,33 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	}
 
 }
+
+
+/*
+ * String authURL = asignaturaId+"/j_spring_security_check";
+			MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+			    map.add("j_username", "censadmin");
+			    map.add("j_password", "1234Qwer");
+
+			    FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+		         
+		        HttpMessageConverter stringHttpMessageConverternew = new StringHttpMessageConverter();
+		         
+		        List<HttpMessageConverter<?>> messageConverters = new LinkedList<HttpMessageConverter<?>>();
+		         
+		        messageConverters.add(formHttpMessageConverter);
+		        messageConverters.add(stringHttpMessageConverternew);
+		        rs.setMessageConverters(messageConverters);
+			    HttpHeaders requestHeaders = new HttpHeaders();
+			    requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			    
+			    HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(map,
+			            requestHeaders);
+			     
+			    ResponseEntity result = rs.exchange(authURL, HttpMethod.POST, entity, String.class);
+			    HttpHeaders respHeaders = result.getHeaders();      
+			    System.out.println(respHeaders.toString());
+			     
+			    System.out.println(result.getStatusCode());
+			     
+			    String cookies = respHeaders.getFirst("Set-Cookie");*/
