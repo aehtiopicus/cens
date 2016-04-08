@@ -215,58 +215,59 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	@Override
 	public void removeSocialShare(String path, Long programaId, String sessionId) throws CensException {
-		try {
-			RestTemplate rs = new RestTemplate();			
-			    
-			for (SocialType st : SocialType.values()) {
-				UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl( UriComponentsBuilder.fromUriString(path+"/api/social/oauth2").toUriString())
-						.queryParam("provider", st).queryParam("comentarioTypeId", programaId);
-				
-				HttpHeaders requestHeaders = new HttpHeaders();
-				requestHeaders.add("Cookie", "JSESSIONID="+sessionId);
-				
-				
-				ResponseEntity<Map> rssResponse = rs.exchange(
-						builder.build().encode().toUri(),
-					    HttpMethod.DELETE,
-					    new HttpEntity(null, requestHeaders),
-					    Map.class);
-				Map result = rssResponse.getBody();				
+
+		RestTemplate rs = new RestTemplate();
+
+		for (SocialType st : SocialType.values()) {
+			UriComponentsBuilder builder = UriComponentsBuilder
+					.fromHttpUrl(UriComponentsBuilder.fromUriString(path + "/api/social/oauth2").toUriString())
+					.queryParam("provider", st).queryParam("comentarioTypeId", programaId);
+
+			HttpHeaders requestHeaders = new HttpHeaders();
+			requestHeaders.add("Cookie", "JSESSIONID=" + sessionId);
+
+			try {
+				ResponseEntity<Map> rssResponse = rs.exchange(builder.build().encode().toUri(), HttpMethod.DELETE,
+						new HttpEntity(null, requestHeaders), Map.class);
+				Map result = rssResponse.getBody();
+			} catch (Exception e) {
+				logger.info(((org.springframework.web.client.HttpClientErrorException)e).getResponseBodyAsString(),e);
 			}
-		} catch (Exception e) {
-			throw new CensException("Error al eliminar public", e);
 		}
 
 	}
 
 }
 
-
 /*
  * String authURL = asignaturaId+"/j_spring_security_check";
-			MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-			    map.add("j_username", "censadmin");
-			    map.add("j_password", "1234Qwer");
-
-			    FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-		         
-		        HttpMessageConverter stringHttpMessageConverternew = new StringHttpMessageConverter();
-		         
-		        List<HttpMessageConverter<?>> messageConverters = new LinkedList<HttpMessageConverter<?>>();
-		         
-		        messageConverters.add(formHttpMessageConverter);
-		        messageConverters.add(stringHttpMessageConverternew);
-		        rs.setMessageConverters(messageConverters);
-			    HttpHeaders requestHeaders = new HttpHeaders();
-			    requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			    
-			    HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(map,
-			            requestHeaders);
-			     
-			    ResponseEntity result = rs.exchange(authURL, HttpMethod.POST, entity, String.class);
-			    HttpHeaders respHeaders = result.getHeaders();      
-			    System.out.println(respHeaders.toString());
-			     
-			    System.out.println(result.getStatusCode());
-			     
-			    String cookies = respHeaders.getFirst("Set-Cookie");*/
+ * MultiValueMap<String, String> map = new LinkedMultiValueMap<String,
+ * String>(); map.add("j_username", "censadmin"); map.add("j_password",
+ * "1234Qwer");
+ * 
+ * FormHttpMessageConverter formHttpMessageConverter = new
+ * FormHttpMessageConverter();
+ * 
+ * HttpMessageConverter stringHttpMessageConverternew = new
+ * StringHttpMessageConverter();
+ * 
+ * List<HttpMessageConverter<?>> messageConverters = new
+ * LinkedList<HttpMessageConverter<?>>();
+ * 
+ * messageConverters.add(formHttpMessageConverter);
+ * messageConverters.add(stringHttpMessageConverternew);
+ * rs.setMessageConverters(messageConverters); HttpHeaders requestHeaders = new
+ * HttpHeaders();
+ * requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+ * 
+ * HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(map,
+ * requestHeaders);
+ * 
+ * ResponseEntity result = rs.exchange(authURL, HttpMethod.POST, entity,
+ * String.class); HttpHeaders respHeaders = result.getHeaders();
+ * System.out.println(respHeaders.toString());
+ * 
+ * System.out.println(result.getStatusCode());
+ * 
+ * String cookies = respHeaders.getFirst("Set-Cookie");
+ */
