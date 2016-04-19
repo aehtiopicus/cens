@@ -1,48 +1,49 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <parent>
-    <groupId>com.aehtiopicus</groupId>
-    <artifactId>cens</artifactId>
-    <version>1.0</version>
-    <relativePath>../cens/pom.xml</relativePath>
-  </parent>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-  <artifactId>cens_core</artifactId>
-  <packaging>jar</packaging>
-  <name>cens_core</name>
-  <url>http://maven.apache.org</url>
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
-    <poi-version>3.7</poi-version>
-	<posgresql-version>9.1-901.jdbc4</posgresql-version>
-  </properties>
-  
-  <dependencies>
-		
+	<parent>
+		<groupId>com.aehtiopicus</groupId>
+		<artifactId>cens</artifactId>
+		<version>1.0</version>
+		<relativePath>../cens/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>cens_core</artifactId>
+	<packaging>jar</packaging>
+	<name>cens_core</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<poi-version>3.7</poi-version>
+		<posgresql-version>9.1-901.jdbc4</posgresql-version>
+	</properties>
+
+	<dependencies>
+
 		<dependency>
-	    	<groupId>org.apache.poi</groupId>
-	    	<artifactId>poi</artifactId>
-	    	<version>${poi-version}</version>
-	    	<type>jar</type>
-<!-- 	    	<scope>compile</scope> -->
-    	</dependency>
-    	
-    	<dependency>
-		      <groupId>org.apache.poi</groupId>
-		      <artifactId>poi-ooxml</artifactId>
-		      <version>${poi-version}</version>
-    	</dependency>
-    	
-    	<dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
-        </dependency> 
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi-version}</version>
+			<type>jar</type>
+			<!-- <scope>compile</scope> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>postgresql</groupId>
@@ -50,10 +51,16 @@
 			<version>${posgresql-version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.imgscalr</groupId>
-    		<artifactId>imgscalr-lib</artifactId>
-    		<version>4.2</version>
-  		</dependency>
-		
-  </dependencies>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+
+
+	</dependencies>
 </project>

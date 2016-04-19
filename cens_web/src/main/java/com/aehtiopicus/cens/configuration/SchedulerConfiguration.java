@@ -47,7 +47,7 @@ public class SchedulerConfiguration {
 	private ApplicationContext applicationContext;
 		
 	
-	@Bean
+	@Bean(name="token_fb")
 	public CronTriggerFactoryBean getFBTokenRefreshed(){
 		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
 		ct.setCronExpression(fbTokenRefreshExpression);
@@ -59,7 +59,7 @@ public class SchedulerConfiguration {
 	
 	
 	
-	@Bean
+	@Bean(name="un_read_job")
 	public CronTriggerFactoryBean getUnReadNotification(){
 		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
 		ct.setCronExpression(unRead);
@@ -71,7 +71,7 @@ public class SchedulerConfiguration {
 	
 
 	
-	@Bean
+	@Bean(name="general_notification_job")
 	public CronTriggerFactoryBean getNightModification(){
 		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
 		ct.setCronExpression(generalNotification);

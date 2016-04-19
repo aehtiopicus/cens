@@ -11,3 +11,11 @@ insert into cens_asesor (id,baja,miembrocens_id) values(-1,false,-1);
 insert into cens_profesor (id,baja,miembrocens_id) values(-1,false,-1);
 insert into cens_preceptor (id,baja,miembrocens_id) values(-1,false,-1);
 
+insert into cens_scheduler_jobs (id,job_name,job_sec,job_min,job_hour,job_day,job_month,job_enabled) 
+values(1,'un_read_job','*','10','*','*','*',false);
+insert into cens_scheduler_jobs (id,job_name,job_sec,job_min,job_hour,job_day,job_month,job_enabled) 
+values(2,'general_notification_job','10','*','*','*','*',false);
+insert into cens_scheduler_jobs (id,job_name,job_sec,job_min,job_hour,job_day,job_month,job_enabled) 
+values(3,'token_fb','10','*','*','*','*',false);
+insert into cens_scheduler_jobs (id,job_name,job_sec,job_min,job_hour,job_day,job_month,job_enabled) 
+values(4,'tiempo_edicion','10','*','*','*','*',false);
