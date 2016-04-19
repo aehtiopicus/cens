@@ -116,7 +116,7 @@ public class SchedulerConfiguration {
 	@Bean
 	public SchedulerFactoryBean getScheduler(){
 		
-			SchedulerFactoryBean sfb =new SchedulerFactoryBean();
+			SchedulerFactoryBean sfb = new SchedulerFactoryBean();
 			if(enabled){
 				sfb.setTriggers(
 					getNightModification().getObject(),
