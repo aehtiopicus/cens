@@ -15,7 +15,11 @@ public interface SchedulerService {
 
 	public void reScheduleJobs() throws CensException;
 
-	public String findCronExpressionForCronJob(String jobName);
+	public String findCronExpressionForCronJob(String jobName)throws CensException;
+
+	public void unScheduleJob(String jobName) throws CensException;
+
+	public void scheduleJobs(SchedulerJobs job) throws CensException;
 
 
 }

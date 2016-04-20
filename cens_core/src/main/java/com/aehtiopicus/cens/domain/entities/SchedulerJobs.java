@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table(name="cens_scheduler_jobs")
 @NamedQueries({
 	@NamedQuery(name=SchedulerJobs.ALL_SCHEDULERS, query="SELECT s FROM SchedulerJobs s"),
-	@NamedQuery(name=SchedulerJobs.ACTIVE_SCHEDULERS, query="SELECT s FROM SchedulerJobs s WHERE s.enabled = true"),
-	@NamedQuery(name=SchedulerJobs.ONE_SCHEDULER, query = "SELECT s FROM SchedulerJobs s WHERE s.jobName = :jobName AND s.enabled = true")
+	@NamedQuery(name=SchedulerJobs.ACTIVE_SCHEDULERS, query="SELECT s FROM SchedulerJobs s WHERE s.jobModify = true"),
+	@NamedQuery(name=SchedulerJobs.ONE_SCHEDULER, query = "SELECT s FROM SchedulerJobs s WHERE s.jobName = :jobName")
 })
 
 public class SchedulerJobs implements Serializable{
@@ -55,6 +55,9 @@ public class SchedulerJobs implements Serializable{
 	
 	@Column(name="job_enabled")
 	private boolean enabled;
+	
+	@Column (name="job_modify")
+	private boolean jobModify;
 
 	public Long getId() {
 		return id;
@@ -120,6 +123,14 @@ public class SchedulerJobs implements Serializable{
 		this.enabled = enabled;
 	}
 	
+	public boolean isJobModify() {
+		return jobModify;
+	}
+
+	public void setJobModify(boolean jobModify) {
+		this.jobModify = jobModify;
+	}
+
 	@Override
 	public String toString(){
 		return this.sec+" "+this.min+" "+this.hour+" "+this.day+" "+this.month+" ?";
