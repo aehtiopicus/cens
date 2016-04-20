@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.service.cens;
 
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,13 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +36,16 @@ import com.google.common.collect.ImmutableMap;
 public class SchedulerServiceImpl implements SchedulerService {
 
 	private static final String SCHEDULER_UN_READ_JOB = "#{schedulerProperties['un_read_job']}";
-	private static final String SCHEDULER_UN_READ_JOB_NAME = "un_read_job";
+
 	private static final String SCHEDULER_GENERAL_NOTIFICATION_JOB = "#{schedulerProperties['general_notification_job']}";
-	private static final String SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME = "general_notification_job";
+
 	private static final String SCHEDULER_TOKEN_FB = "#{schedulerProperties['token_fb']}";
-	private static final String SCHEDULER_TOKEN_FB_NAME = "token_fb";
+
 	private static final String SCHEDULER_EDITION_TIME = "#{schedulerProperties['tiempo_edicion']}";
+
+	private static final String SCHEDULER_UN_READ_JOB_NAME = "un_read_job";
+	private static final String SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME = "general_notification_job";
+	private static final String SCHEDULER_TOKEN_FB_NAME = "token_fb";
 	private static final String SCHEDULER_EDITION_TIME_NAME = "tiempo_edicion";
 
 	private static final Logger log = LoggerFactory.getLogger(SchedulerServiceImpl.class);
@@ -53,21 +63,64 @@ public class SchedulerServiceImpl implements SchedulerService {
 	private String editionTime;
 
 	@Autowired
-	private SchedulerFactoryBean schedulerFactoryBean;
+	@Qualifier(SCHEDULER_UN_READ_JOB_NAME)
+	private CronTriggerFactoryBean unreadNotificationCron;
+
+	@Autowired
+	@Qualifier(SCHEDULER_TOKEN_FB_NAME)
+	private CronTriggerFactoryBean facebookTokenCron;
+
+	@Autowired
+	@Qualifier(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME)
+	private CronTriggerFactoryBean generalNotificationCron;
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	private Map<String, String> defaultJobs;
 
+	@Autowired
+	private ApplicationContext appContext;
+
+	private SchedulerFactoryBean schedulerFactory;
+
 	@PostConstruct
 	public void postConstruct() {
 		defaultJobs = ImmutableMap.of(SCHEDULER_UN_READ_JOB_NAME, unRead, SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME,
 				generalNotification, SCHEDULER_TOKEN_FB_NAME, fbTokenRefreshExpression, SCHEDULER_EDITION_TIME_NAME,
 				editionTime);
+		schedulerFactory = new SchedulerFactoryBean();
+
+		updateCronBeans(SCHEDULER_UN_READ_JOB_NAME);
+		updateCronBeans(SCHEDULER_TOKEN_FB_NAME);
+		updateCronBeans(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME);
+
+		schedulerFactory.setTriggers(generalNotificationCron.getObject(), unreadNotificationCron.getObject(),
+				facebookTokenCron.getObject());
+		AutowireCapableBeanFactory bf = this.appContext.getAutowireCapableBeanFactory();
+		bf.initializeBean(schedulerFactory, "schedulerFactory");
+	}
+
+	private void updateCronBeans(String beanName) {
 		try {
-			reScheduleJobs();
-		} catch (CensException e) {
+			((CronTriggerImpl) appContext.getBean(beanName)).setCronExpression(findCronExpressionForCronJob(beanName));
+		} catch (BeansException e) {
+			log.error("bean error",e);
+		} catch (ParseException e) {
+			log.error("bean parse error",e);
+
+		}
+	}
+
+	@Override
+	public String findCronExpressionForCronJob(String jobName) {
+		try {
+			SchedulerJobs job = entityManager.createNamedQuery(SchedulerJobs.ONE_SCHEDULER, SchedulerJobs.class)
+					.setParameter(SchedulerJobs.ONE_SCHEDULER_FIRST_PARAM, jobName).getSingleResult();
+			return job.toString();
+		} catch (Exception e) {
+			log.info("error loading schedule job", e);
+			return defaultJobs.get(jobName);
 		}
 	}
 
@@ -89,7 +142,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 	public void reScheduleJob(SchedulerJobs job) throws CensException {
 		try {
 			if (job.isEnabled()) {
-				Scheduler scheduler = schedulerFactoryBean.getScheduler();
+				Scheduler scheduler = schedulerFactory.getScheduler();
 				TriggerKey triggerKey = new TriggerKey(job.getJobName());
 				CronTriggerImpl trigger = (CronTriggerImpl) scheduler.getTrigger(triggerKey);
 				trigger.setCronExpression(new CronExpression(job.toString()));

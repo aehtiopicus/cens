@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.aehtiopicus.cens.scheduler.EmailCensSchedulerJob;
 import com.aehtiopicus.cens.scheduler.EmailNoLeidoCensSchedulerJob;
@@ -45,7 +44,7 @@ public class SchedulerConfiguration {
 	
 	@Autowired
 	private ApplicationContext applicationContext;
-		
+			
 	
 	@Bean(name="token_fb")
 	public CronTriggerFactoryBean getFBTokenRefreshed(){
@@ -113,19 +112,5 @@ public class SchedulerConfiguration {
 		return jdfb;
 	}
 	
-	@Bean
-	public SchedulerFactoryBean getScheduler(){
-		
-			SchedulerFactoryBean sfb = new SchedulerFactoryBean();
-			if(enabled){
-				sfb.setTriggers(
-					getNightModification().getObject(),
-					getUnReadNotification().getObject(),
-					getFBTokenRefreshed().getObject()
-					);
-			}
-			return sfb;
-		
-	}
 }
 

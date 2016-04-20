@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -15,8 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="cens_scheduler_jobs")
 @NamedQueries({
-	@NamedQuery(name="find.schedulers", query="SELECT s FROM SchedulerJobs s"),
-	@NamedQuery(name="find.active.schedulers", query="SELECT s FROM SchedulerJobs s WHERE s.enabled = true")
+	@NamedQuery(name=SchedulerJobs.ALL_SCHEDULERS, query="SELECT s FROM SchedulerJobs s"),
+	@NamedQuery(name=SchedulerJobs.ACTIVE_SCHEDULERS, query="SELECT s FROM SchedulerJobs s WHERE s.enabled = true"),
+	@NamedQuery(name=SchedulerJobs.ONE_SCHEDULER, query = "SELECT s FROM SchedulerJobs s WHERE s.jobName = :jobName AND s.enabled = true")
 })
 
 public class SchedulerJobs implements Serializable{
@@ -28,6 +28,8 @@ public class SchedulerJobs implements Serializable{
 	
 	public static final String ACTIVE_SCHEDULERS = "find.schedulers";
 	public static final String ALL_SCHEDULERS = "find.active.schedulers";
+	public static final String ONE_SCHEDULER = "find.one.schedulers";
+	public static final String ONE_SCHEDULER_FIRST_PARAM = "jobName";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
