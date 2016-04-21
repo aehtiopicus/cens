@@ -96,5 +96,9 @@ public class UrlConstant {
 	public static final String SOCIAL_CENS_REST_OAUTH_2_CALLBACK_ACCESS_TOKEN=API+"social/oauth2/{provider}/callback/token";
 	/*Adminitracion*/
 	public static final String ADMINISTRACION_MVC=MVC+"administracion";
+	/*Scheduler*/
+	public static final String SCHEDULER = API+"scheduler";
+	public static final String SCHEDULER_PUT = "/{id}";
+	public static final String SCHEDULER_PUT_TOGGLE = "/{id}/update";
 }
 

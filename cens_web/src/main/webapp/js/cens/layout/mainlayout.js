@@ -2,7 +2,6 @@ var marginWidthGrid = 20;
 var marginHeightGrid = 370;
 var marginHeightGridFull = 345;
 var responsiveMenu = new responsiveheader.rh.responsive();
-
  	    $(document).ready(function() {
 				$( ".button" ).button();
 				

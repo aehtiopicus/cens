@@ -53,11 +53,11 @@ public class SchedulerJobs implements Serializable{
 	@Column(name="job_month")
 	private String month = "*";
 	
-	@Column(name="job_enabled")
-	private boolean enabled;
+	@Column(name="job_enabled",columnDefinition="boolean default false")
+	private boolean enabled = false;
 	
-	@Column (name="job_modify")
-	private boolean jobModify;
+	@Column (name="job_modify",columnDefinition="boolean default false")
+	private boolean jobModify = false;
 
 	public Long getId() {
 		return id;

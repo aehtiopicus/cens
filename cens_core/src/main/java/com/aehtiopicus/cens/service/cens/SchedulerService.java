@@ -21,5 +21,11 @@ public interface SchedulerService {
 
 	public void scheduleJobs(SchedulerJobs job) throws CensException;
 
+	public List<SchedulerJobs> listAllSchedulers();
+
+	public SchedulerJobs updateAndScheduleJob(SchedulerJobs jobs) throws CensException;
+
+	public SchedulerJobs updateAndToggleScheduleJob(Long id, Boolean enabled) throws CensException;
+
 
 }

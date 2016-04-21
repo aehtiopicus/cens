@@ -184,14 +184,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 		try {
 			SchedulerJobs job = entityManager.createNamedQuery(SchedulerJobs.ONE_SCHEDULER, SchedulerJobs.class)
 					.setParameter(SchedulerJobs.ONE_SCHEDULER_FIRST_PARAM, jobName).getSingleResult();
-			if(job.isJobModify() && !job.isEnabled()){
+			if (job.isJobModify() && !job.isEnabled()) {
 				throw new CensException();
 			}
-			if(!job.isEnabled()){
+			if (!job.isEnabled()) {
 				throw new Exception();
 			}
 			return job.toString();
-		}catch (CensException e){
+		} catch (CensException e) {
 			throw e;
 		} catch (Exception e) {
 			log.info("error loading schedule job");
@@ -235,6 +235,20 @@ public class SchedulerServiceImpl implements SchedulerService {
 	}
 
 	@Override
+	@Transactional(rollbackOn = CensException.class)
+	public SchedulerJobs updateAndScheduleJob(SchedulerJobs jobs) throws CensException {
+		try {
+			jobs.setJobModify(true);
+			entityManager.merge(jobs);
+			reScheduleJob(jobs);
+			return jobs;
+		} catch (Exception e) {
+			log.error("unable to save", e);
+			throw new CensException("No se pudo actualiar el job");
+		}
+	}
+
+	@Override
 	public void scheduleJobs(SchedulerJobs job) throws CensException {
 		if (job.isEnabled()) {
 			SchedulerFactoryBean schedulerFactory = getSchedulerFactory();
@@ -242,7 +256,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 				schedulerFactory.stop();
 				Scheduler scheduler = schedulerFactory.getScheduler();
-				TriggerKey triggerKey = new TriggerKey(job.getJobName());				
+				TriggerKey triggerKey = new TriggerKey(job.getJobName());
 				if (scheduler.getTrigger(triggerKey) != null) {
 					this.reScheduleJob(job);
 				} else {
@@ -274,6 +288,18 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 	@Override
 	@Transactional
+	public List<SchedulerJobs> listAllSchedulers() {
+		List<SchedulerJobs> schedulerJobs = listSchedulers(true);
+		if (schedulerJobs.size() < defaultJobs.size()) {
+			loadDefaultValues();
+			schedulerJobs = listSchedulers(true);
+		}
+		return schedulerJobs;
+
+	}
+
+	@Override
+	@Transactional
 	public void loadDefaultValues() {
 		Collection<SchedulerJobs> jobs = listSchedulers(false);
 		if (CollectionUtils.isNotEmpty(jobs)) {
@@ -282,7 +308,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 				for (SchedulerJobs job : jobs) {
 					if (job.getJobName().equals(entry.getKey())) {
 						found = true;
-						updateEntry(job, entry.getValue());
+						updateEntry(job, entry.getValue(), defaultJobsActive.get(job.getJobName()));
 						break;
 					}
 				}
@@ -297,8 +323,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 		}
 	}
 
-	private void createNewEntry(String jobName, String cron) {
-		SchedulerJobs job = new SchedulerJobs();
+	private SchedulerJobs generateSchedulerJobsFromFromCronExpression(SchedulerJobs jobs, String jobName, String cron) {
+		SchedulerJobs job = jobs == null ? new SchedulerJobs() : jobs;
 		job.setJobName(jobName);
 		String cronArray[] = cron.split(" ");
 		job.setSec(cronArray[0]);
@@ -307,20 +333,48 @@ public class SchedulerServiceImpl implements SchedulerService {
 		job.setDay(cronArray[3]);
 		job.setMonth(cronArray[4]);
 		job.setJobModify(true);
+		return job;
+	}
+
+	private SchedulerJobs generateSchedulerJobsFromFromCronExpression(String jobName, String cron) {
+		return generateSchedulerJobsFromFromCronExpression(null, jobName, cron);
+	}
+
+	private void createNewEntry(String jobName, String cron) {
+		SchedulerJobs job = generateSchedulerJobsFromFromCronExpression(jobName, cron);
 		entityManager.persist(job);
 	}
 
-	private void updateEntry(SchedulerJobs job, String cron) {
-		job.setEnabled(false);
-		String cronArray[] = cron.split(" ");
-		job.setSec(cronArray[0]);
-		job.setMin(cronArray[1]);
-		job.setHour(cronArray[2]);
-		job.setDay(cronArray[3]);
-		job.setMonth(cronArray[4]);
-		job.setJobModify(true);
+	private void updateEntry(SchedulerJobs job, String cron, boolean enabled) {
+		job.setEnabled(enabled);
+		job = generateSchedulerJobsFromFromCronExpression(job, job.getJobName(), cron);
 		entityManager.merge(job);
 
+	}
+
+	@Override
+	@Transactional(rollbackOn = CensException.class)
+	public SchedulerJobs updateAndToggleScheduleJob(Long id, Boolean enabled) throws CensException {
+		try {
+			SchedulerJobs job = entityManager.find(SchedulerJobs.class, id);
+			if (job == null) {
+				throw new CensException("Job no encontrado " + id);
+			}
+			job.setJobModify(true);
+			job.setEnabled(enabled);
+			entityManager.merge(job);
+			if(enabled){
+				scheduleJobs(job);
+			}else{
+				unScheduleJob(job.getJobName());
+			}			
+			return job;
+		} catch (CensException e) {
+			throw e;
+		} catch (Exception e) {
+			log.error("unable to update scheduler " + id, e);
+			throw new CensException("Nose puede activar/desactivar el job");
+		}
 	}
 
 }

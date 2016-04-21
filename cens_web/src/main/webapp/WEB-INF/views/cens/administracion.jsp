@@ -9,6 +9,7 @@
 		var oauth2;
 	</script>	
     <script src="<%=request.getContextPath() %>/js/cens/admin.js"></script>
+    <script src="<%=request.getContextPath() %>/js/cens/adminScheduler.js"></script>
     <script>
     var oauthCompletedData ={
     		oauth_status :"${oauth != null ?oauth : undefined}",
@@ -25,6 +26,36 @@
   				<div class="portlet-header ui-widget-header ui-corner-all" id="portletHeader"><div>
   					<label class="fbIcon-blue"></label>
   					<label class ="fbHeaderLabel">Facebook</label>
+  					</div> 
+  				</div>
+  				<div>  			
+  					<div class="estadoAutenticacion">
+						<h3 class="subtitulo" style="text-align: -webkit-left;">Estado de Autenticaci&oacute;n > Token: <span class="estadoToken inexistente" id="tokenFacebook">Activo</span></h3>
+					
+						<div>
+							<label>Clave de cliente</label>
+							<input type="text" id="key">
+						</div>  	  						
+						<div>
+							<label>Identificaci&oacute;n de cliente</label>
+							<input type="text" id="secret">
+						</div>
+						<div style="text-align: center;">
+							
+							<button class="button" type="button" id="fbAutenticar">Autenticar</button>
+							<button class="button" type="button" id="fbRemover">Remover Token</button>
+						</div>
+  					</div> 					
+  				</div>
+  			</div>
+  		</div>
+  		<div id="socialPortlet" class="censaccordion curso">
+  			
+  			<h3 class="subtitulo" style="text-align: -webkit-left;">Programador de Servicios</h3>
+  			<div id="schedulerDiv" class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+  				<div class="portlet-header ui-widget-header ui-corner-all" id="portletHeader"><div>
+  					
+  					<label >Servicios del sistema</label>
   					</div> 
   				</div>
   				<div>  			

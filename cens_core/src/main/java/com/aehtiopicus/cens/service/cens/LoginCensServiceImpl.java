@@ -12,32 +12,18 @@ import org.springframework.stereotype.Service;
 
 import com.aehtiopicus.cens.domain.entities.MiembroCens;
 import com.aehtiopicus.cens.domain.entities.Perfil;
-import com.aehtiopicus.cens.domain.entities.SchedulerJobs;
 import com.aehtiopicus.cens.repository.cens.MiembroCensRepository;
-import com.aehtiopicus.cens.utils.CensException;
 
 @Service
 public class LoginCensServiceImpl implements LoginCensService{
 	
 	@Autowired
 	private MiembroCensRepository repository;
-	@Autowired
-	private SchedulerService scheduler;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		MiembroCens mc = repository.findByUsername(username);
-		SchedulerJobs job = new SchedulerJobs();
-		job.setJobName("token_fb");
-		job.setEnabled(true);		
-		try {
-			scheduler.scheduleJobs(job);
-			scheduler.unScheduleJob(job.getJobName());
-		} catch (CensException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if( mc == null || mc.getBaja()){
 			throw new UsernameNotFoundException( "No existe el usuario" );
 		}
