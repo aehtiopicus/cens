@@ -187,6 +187,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 			if(job.isJobModify() && !job.isEnabled()){
 				throw new CensException();
 			}
+			if(!job.isEnabled()){
+				throw new Exception();
+			}
 			return job.toString();
 		}catch (CensException e){
 			throw e;
@@ -239,9 +242,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 				schedulerFactory.stop();
 				Scheduler scheduler = schedulerFactory.getScheduler();
-				TriggerKey triggerKey = new TriggerKey(job.getJobName());
-				CronTriggerImpl trigger = (CronTriggerImpl) scheduler.getTrigger(triggerKey);
-				if (trigger != null) {
+				TriggerKey triggerKey = new TriggerKey(job.getJobName());				
+				if (scheduler.getTrigger(triggerKey) != null) {
 					this.reScheduleJob(job);
 				} else {
 					updateCronBeans(job.getJobName());
@@ -304,6 +306,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		job.setHour(cronArray[2]);
 		job.setDay(cronArray[3]);
 		job.setMonth(cronArray[4]);
+		job.setJobModify(true);
 		entityManager.persist(job);
 	}
 
@@ -315,6 +318,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		job.setHour(cronArray[2]);
 		job.setDay(cronArray[3]);
 		job.setMonth(cronArray[4]);
+		job.setJobModify(true);
 		entityManager.merge(job);
 
 	}
