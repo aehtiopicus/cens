@@ -17,6 +17,10 @@ public class SchedulerJobsDto {
 	private String month;
 
 	private boolean enabled;
+	
+	private String realName;
+	
+	private String description;
 
 	public Long getId() {
 		return id;
@@ -80,6 +84,22 @@ public class SchedulerJobsDto {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

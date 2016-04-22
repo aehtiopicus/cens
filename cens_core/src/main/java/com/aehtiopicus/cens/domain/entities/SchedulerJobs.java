@@ -58,6 +58,12 @@ public class SchedulerJobs implements Serializable{
 	
 	@Column (name="job_modify",columnDefinition="boolean default false")
 	private boolean jobModify = false;
+	
+	@Column(name="job_real_name")
+	private String realName;
+	
+	@Column(name="job_description")
+	private String description;
 
 	public Long getId() {
 		return id;
@@ -129,6 +135,22 @@ public class SchedulerJobs implements Serializable{
 
 	public void setJobModify(boolean jobModify) {
 		this.jobModify = jobModify;
+	}
+	
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
