@@ -1777,27 +1777,39 @@ select.ui-pg-selbox, input.ui-pg-input {
 /**
 Responsive events capture
 */
-@
--webkit-keyframes width-1 {from { clip:rect(1px, auto, auto, auto);
+@-webkit-keyframes width-1 {
 	
-}
+	from { 
+		clip:rect(1px, auto, auto, auto);
+	}
 
-to {
-	clip: rect(0px, auto, auto, auto);
-}
+	to {
+		clip: rect(0px, auto, auto, auto);
+	}
 
 }
-@
--webkit-keyframes width-4 {from { clip:rect(1px, auto, auto, auto);
-	
-}
-
-to {
-	clip: rect(0px, auto, auto, auto);
-}
+@-webkit-keyframes width-4 {
+	from { 
+		clip:rect(1px, auto, auto, auto);
+	}
+	to {
+		clip: rect(0px, auto, auto, auto);
+	}
 
 }
 .estadoRevisionClass {
 	display: inline-block;
 	margin-left: 52px;
+}
+
+.schedulers input[type=text] {
+	width: 30px;
+}
+.right{
+	float : right;
+}
+.subtitulo.chico{
+	margin-bottom: 1px;
+	margin-top: 1px;
+	margin-left: 0px;
 }

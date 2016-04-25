@@ -79,3 +79,14 @@ var responsiveMenu = new responsiveheader.rh.responsive();
 	    	$('#closeButton').hide();
 	    }
 	    
+	    cens.namespace("xhrResponse");
+	    cens.xhrResponse = cens.makeClass();
+	    cens.xhrResponse.prototype.init = function(failure,body,textStatus,message){
+	    	this.response = {
+	    			fail : failure,
+	    			body : body,
+	    			message : message,
+	    			textStatus : textStatus
+	    		};
+	    };
+	    

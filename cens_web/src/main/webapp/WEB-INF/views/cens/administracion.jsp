@@ -59,22 +59,23 @@
   					</div> 
   				</div>
   				<div>  			
-  					<div class="estadoAutenticacion">
-						<h3 class="subtitulo" style="text-align: -webkit-left;">Estado de Autenticaci&oacute;n > Token: <span class="estadoToken inexistente" id="tokenFacebook">Activo</span></h3>
+  					<div class="schedulers">
+						<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo">Activo</span></h3>
 					
 						<div>
-							<label>Clave de cliente</label>
-							<input type="text" id="key">
-						</div>  	  						
+							<label>Expresi&oacute;n de tiempo de ejecuci&oacute;n</label>
+							<input type="text" id="sec"/>
+							<input type="text" id="min"/>
+							<input type="text" id="hour"/>
+							<input type="text" id="day"/>
+							<input type="text" id="mont"/>
+							<button class="button right" type="button" id="fbAutenticar">Actualizar</button>
+							<button class="button right" type="button" id="fbAutenticar">Activar</button>
+						</div>
 						<div>
-							<label>Identificaci&oacute;n de cliente</label>
-							<input type="text" id="secret">
+							<label class="estadoToken activo">bla bla bla bla bla</label>
 						</div>
-						<div style="text-align: center;">
-							
-							<button class="button" type="button" id="fbAutenticar">Autenticar</button>
-							<button class="button" type="button" id="fbRemover">Remover Token</button>
-						</div>
+				
   					</div> 					
   				</div>
   			</div>

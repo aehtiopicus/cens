@@ -1,13 +1,3 @@
-cens.namespace("xhrResponse");
-cens.xhrResponse = cens.makeClass();
-cens.xhrResponse.prototype.init = function(failure,body,textStatus,message){
-	this.response = {
-			fail : failure,
-			body : body,
-			message : message,
-			textStatus : textStatus
-		};
-};
 (function () {
 	'use strict';
 	cens.namespace("scheduler");	
@@ -141,3 +131,51 @@ cens.xhrResponse.prototype.init = function(failure,body,textStatus,message){
 		};
 	})();
 }());
+
+cens.namespace("schedulerPanel");
+cens.schedulerPanel = cens.makeClass();
+
+cens.schedulerPanel.prototype.init = function(){
+	this.schedulerAccess = cens.scheduler.getInstance();	
+	this.schedulerElements = [];
+	
+};
+
+cens.schedulerPanel.prototype.getInfo = function(){
+	this.schedulerAccess.getData(this.loadInfo.bind(this));
+} 
+
+cens.schedulerPanel.prototype.loadInfo = function(xhrResponse){
+	if(xhrResponse.fail){
+		alert(xhrResponse.fail.body,messageType.error);
+	}else{
+		xhrResponse.body.forEach((function(value,index){
+			this.schedulerElements.push(new cens.schedulerDiv(value));
+		}).bind(this));
+	}
+}
+
+cens.namespace("schedulerDiv");
+cens.schedulerDiv = cens.makeClass();
+cens.schedulerDiv.prototype.init = function(scheduler){
+	
+	this.schedulerStructure = {
+			layout: '<div class="schedulers">'+
+			'<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo" id="">Activo</span></h3>'+		
+			'<div>'+
+				'<label>Expresi&oacute;n de tiempo de ejecuci&oacute;n</label>'+
+				'<input type="text" id="sec"/>'+
+				'<input type="text" id="min"/>'+
+				'<input type="text" id="hour"/>'+
+				'<input type="text" id="day"/>'+
+				'<input type="text" id="mont"/>'+
+				'<button class="button right" type="button" id="actualizar">Actualizar</button>'+
+				'<button class="button right" type="button" id="activar">Activar</button>'+
+			'</div>'+
+			'<div>'+
+				'<label class="estadoToken activo">bla bla bla bla bla</label>'+
+			'</div>'+	
+			'</div>',
+			
+	}
+}
