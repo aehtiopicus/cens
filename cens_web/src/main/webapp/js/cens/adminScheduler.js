@@ -150,7 +150,10 @@ cens.schedulerPanel.prototype.loadInfo = function(xhrResponse){
 		alert(xhrResponse.fail.body,messageType.error);
 	}else{
 		xhrResponse.body.forEach((function(value,index){
-			this.schedulerElements.push(new cens.schedulerDiv(value));
+			var schJob = new cens.schedulerDiv(value);
+			$("#schedulerDiv").append(schJob.schedulerStructure.layout);
+			$("#scheduler_"+schJob.scheduler.id+" button").button();
+			this.schedulerElements.push(schJob);
 		}).bind(this));
 	}
 }
@@ -161,21 +164,22 @@ cens.schedulerDiv.prototype.init = function(scheduler){
 	
 	this.schedulerStructure = {
 			layout: '<div class="schedulers">'+
-			'<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo" id="">Activo</span></h3>'+		
-			'<div>'+
+			'<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo">'+scheduler.realName+'</span></h3>'+		
+			'<div id="scheduler_'+scheduler.id+'">'+
 				'<label>Expresi&oacute;n de tiempo de ejecuci&oacute;n</label>'+
-				'<input type="text" id="sec"/>'+
-				'<input type="text" id="min"/>'+
-				'<input type="text" id="hour"/>'+
-				'<input type="text" id="day"/>'+
-				'<input type="text" id="mont"/>'+
-				'<button class="button right" type="button" id="actualizar">Actualizar</button>'+
-				'<button class="button right" type="button" id="activar">Activar</button>'+
+				'<input type="text" id="sec_'+scheduler.id+'" value="'+scheduler.sec+'"/>'+
+				'<input type="text" id="min_'+scheduler.id+'" value="'+scheduler.min+'"/>'+
+				'<input type="text" id="hour_'+scheduler.id+'"value="'+scheduler.hour+'"/>'+
+				'<input type="text" id="day_'+scheduler.id+'"value="'+scheduler.day+'"/>'+
+				'<input type="text" id="mont_'+scheduler.id+'"value="'+scheduler.month+'"/>'+
+				'<button class="button right" type="button" id="actualizar_'+scheduler.id+'" onclick="">Actualizar</button>'+
+				'<button class="button right" type="button" id="activar_'+scheduler.id+'">Activar</button>'+
 			'</div>'+
 			'<div>'+
-				'<label class="estadoToken activo">bla bla bla bla bla</label>'+
+				'<label class="estadoToken activo">'+scheduler.description+'</label>'+
 			'</div>'+	
 			'</div>',
 			
-	}
+	},
+	this.scheduler = scheduler;
 }
