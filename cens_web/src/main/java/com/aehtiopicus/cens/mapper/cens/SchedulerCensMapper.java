@@ -1,6 +1,8 @@
 package com.aehtiopicus.cens.mapper.cens;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -31,6 +33,14 @@ public class SchedulerCensMapper {
 		for(SchedulerJobs job : schedulerJobList){
 			shcedulerJobDtoList.add(convertSchedulerJobsToDto(job));
 		}
+		Collections.sort(shcedulerJobDtoList, new Comparator<SchedulerJobsDto>() {
+
+			@Override
+			public int compare(SchedulerJobsDto o1, SchedulerJobsDto o2) {
+				return(int) (o1.getId() - o2.getId());
+				
+			}
+		});
 		return shcedulerJobDtoList;
 	}
 	

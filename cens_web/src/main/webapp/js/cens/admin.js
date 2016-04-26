@@ -216,12 +216,3 @@ this.revokeFacebookOauth = function(){
 }
 }
 
-$(document).ready(function(){
-			
-	oauth2 = new admindashboard.admin.oauth();
-	oauth2.initDialog();
-	oauth2.checkFacebookOauth();
-	oauth2.oauthCompleted(oauthCompletedData);
-	cens.schedulerPanelObject = new cens.schedulerPanel();
-	cens.schedulerPanelObject.getInfo();
-});

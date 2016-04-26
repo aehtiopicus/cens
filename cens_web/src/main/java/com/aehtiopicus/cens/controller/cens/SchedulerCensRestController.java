@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aehtiopicus.cens.configuration.UrlConstant;
+import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.dto.cens.SchedulerJobsDto;
 import com.aehtiopicus.cens.mapper.cens.SchedulerCensMapper;
 import com.aehtiopicus.cens.service.cens.SchedulerService;
@@ -42,5 +43,14 @@ public class SchedulerCensRestController extends AbstractRestController{
 	@RequestMapping(value=UrlConstant.SCHEDULER_PUT_TOGGLE, method=RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<?> toggleScheduler(@PathVariable("id") Long id,@RequestBody(required=true) Boolean enabled)throws CensException{				
 		return new ResponseEntity<>(schedulerService.updateAndToggleScheduleJob(id,enabled),HttpStatus.OK);
+	}
+	
+	@RequestMapping(method=RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<?> restoreDefault()throws CensException{
+		schedulerService.loadDefaultValues();
+		RestSingleResponseDto rsDto = new RestSingleResponseDto();
+		rsDto.setMessage("Restore completed");
+		rsDto.setId(-1l);
+		return new ResponseEntity<>(rsDto,HttpStatus.OK);
 	}
 }

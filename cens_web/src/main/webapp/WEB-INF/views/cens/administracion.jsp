@@ -59,6 +59,9 @@
   					</div> 
   				</div>  				
   			</div>
+  			<div>
+  				<button class="button" type="button" id="schedulerDefault" style="margin: 0 auto;display: block;">Valores por Defecto</button>
+  			</div>
   		</div>
   	</div>
   <div id="loginDialog" class="dialog" title="Autenticaci&oacute;n">
@@ -75,3 +78,15 @@
   		<label class ="fbHeaderLabel">Facebook</label>			
 	</div>
 </div>
+
+<script>
+$(document).ready(function(){
+	
+	oauth2 = new admindashboard.admin.oauth();
+	oauth2.initDialog();
+	oauth2.checkFacebookOauth();
+	oauth2.oauthCompleted(oauthCompletedData);
+	cens.schedulerPanelObject = new cens.schedulerPanel({restoreButtonId : "schedulerDefault"});
+	cens.schedulerPanelObject.getInfo();
+});
+</script>

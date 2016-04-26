@@ -92,6 +92,25 @@
 			
 		};
 		
+		var _restoreData = function(callBack){
+			var promise = $.ajax({
+				type:"PATCH",
+				url:_config.url,
+				dataType:"json",
+				beforeSend: function(xhr){
+					startSpinner();
+				}
+			});
+			
+			promise.always(function () {
+				stopSpinner();
+			}).done(function (data, textStatus, jqXHR) {				
+				callBack(new cens.xhrResponse(false,data,textStatus,"success").response);
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				callBack(new cens.xhrResponse(true,jqXHR.responseJSON,textStatus,"").response);
+			});
+		}
+		
 
 
 		var publicAttribs =  {
@@ -109,6 +128,10 @@
 			},
 			toggleActivated : function(jobId,enabled,callBack){
 				_toggleScheduler(jobId,enabled,callBack);
+			},
+			
+			restoreDefault : function(callBack){
+				_restoreData(callBack);
 			}
 
 		};
@@ -135,9 +158,9 @@
 cens.namespace("schedulerPanel");
 cens.schedulerPanel = cens.makeClass();
 
-cens.schedulerPanel.prototype.init = function(){
-	this.schedulerAccess = cens.scheduler.getInstance();	
-	this.schedulerElements = [];
+cens.schedulerPanel.prototype.init = function(params){
+	this.schedulerAccess = cens.scheduler.getInstance();
+	$("#"+params.restoreButtonId).on("click",this.restoreDefault.bind(this));
 };
 
 cens.schedulerPanel.prototype.getInfo = function(){
@@ -146,17 +169,32 @@ cens.schedulerPanel.prototype.getInfo = function(){
 			alert(xhrResponse.body.message,messageType.error);
 		}else{
 			xhrResponse.body.forEach((function(value,index){
-				var schJob = new cens.schedulerDiv(value,this.schedulerAccess );			
-				this.schedulerElements.push(schJob);
+				new cens.schedulerDiv(value,this.schedulerAccess );			
+				
 			}).bind(this));
+			$("div[id^='scheduler_'] button[id^='actualizar_']").button("option", "disabled", true );
 		}
 	}).bind(this));
 } 
 
+cens.schedulerPanel.prototype.restoreDefault = function(){
+	this.schedulerAccess.restoreDefault((function(data){
+		if(data.fail){
+			alert(xhrResponse.body.message,messageType.error);
+		}else{
+			$("#schedulerDiv div.schedulers").remove();
+			this.getInfo();
+		}
+	}).bind(this));
+}
+
 cens.namespace("schedulerDiv");
 cens.schedulerDiv = cens.makeClass();
 cens.schedulerDiv.prototype.init = function(scheduler,schedulerAccess ){
-	var schedulerAccess = schedulerAccess;
+	var schedulerAccess = schedulerAccess;	
+	var assembleCron = function(){
+		return scheduler.sec +" "+scheduler.min+" "+scheduler.hour+" "+scheduler.day+" "+scheduler.month+"";
+	}
 	this.schedulerStructure = {
 			layout: '<div class="schedulers">'+
 			'<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo">'+scheduler.realName+'</span></h3>'+		
@@ -179,28 +217,96 @@ cens.schedulerDiv.prototype.init = function(scheduler,schedulerAccess ){
 	this.scheduler = scheduler;
 	$("#schedulerDiv").append(this.schedulerStructure.layout);
 	$("#scheduler_"+this.scheduler.id+" button").button();
-	$("#sec_"+scheduler.id).on('input',(function(e,a,b,c){
+	$("#sec_"+scheduler.id).on('blur',(function(e,a,b,c){
+		if(e.target.value == this.scheduler.sec){
+			return;
+		}
+		var oldExp = this.scheduler.sec;
 		this.scheduler.sec = e.target.value;
+		if(!checkCronExp(assembleCron())){
+			this.scheduler.sec = oldExp;
+			$("#actualizar_"+scheduler.id).button("option", "disabled", true );
+			$("#sec_"+scheduler.id).val(oldExp);
+			e.preventDefault();
+			e.stopPropagation();
+		}else{
+			$("#actualizar_"+scheduler.id).button("option", "disabled", false );
+		}
+				
 	}).bind(this));
-	$("#min_"+scheduler.id).on('input',(function(e){
+	$("#min_"+scheduler.id).on('blur',(function(e){
+		if(e.target.value == this.scheduler.min){
+			return;
+		}
+		var oldExp = this.scheduler.min;
 		this.scheduler.min = e.target.value;
+		if(!checkCronExp(assembleCron())){
+			this.scheduler.min = oldExp;
+			$("#actualizar_"+scheduler.id).button("option", "disabled", true );
+			$("#min_"+scheduler.id).val(oldExp);
+			e.preventDefault();
+			e.stopPropagation();
+		}else{
+			$("#actualizar_"+scheduler.id).button("option", "disabled", false );
+		}
 	}).bind(this));
-	$("#hour_"+scheduler.id).on('input',(function(e){
+	$("#hour_"+scheduler.id).on('blur',(function(e){
+		if(e.target.value == this.scheduler.hour){
+			return;
+		}
+		var oldExp = this.scheduler.hour;
 		this.scheduler.hour = e.target.value;
+		if(!checkCronExp(assembleCron())){
+			this.scheduler.hour = oldExp;
+			$("#actualizar_"+scheduler.id).button("option", "disabled", true );
+			$("#hour_"+scheduler.id).val(oldExp);
+			e.preventDefault();
+			e.stopPropagation();
+		}else{
+			$("#actualizar_"+scheduler.id).button("option", "disabled", false );
+		}
 	}).bind(this));
-	$("#day_"+scheduler.id).on('input',(function(e){
-		this.scheduler.day =e .target.value;
+	$("#day_"+scheduler.id).on('blur',(function(e){
+		if(e.target.value == this.scheduler.day){
+			return;
+		}
+		var oldExp = this.scheduler.day;
+		this.scheduler.day = e.target.value;
+		if(!checkCronExp(assembleCron())){
+			this.scheduler.day = oldExp;
+			$("#actualizar_"+scheduler.id).button("option", "disabled", true );
+			$("#day_"+scheduler.id).val(oldExp);
+			e.preventDefault();
+			e.stopPropagation();
+		}else{
+			$("#actualizar_"+scheduler.id).button("option", "disabled", false );
+		}
 	}).bind(this));
-	$("#month_"+scheduler.id).on('input',(function(e){
-		this.scheduler.month =e .target.value;
+	$("#month_"+scheduler.id).on('blur',(function(e){
+		if(e.target.value == this.scheduler.month){
+			return;
+		}
+		var oldExp = this.scheduler.month;
+		this.scheduler.month = e.target.value;
+		if(!checkCronExp(assembleCron())){
+			this.scheduler.month = oldExp;
+			$("#actualizar_"+scheduler.id).button("option", "disabled", true );
+			$("#month_"+scheduler.id).val(oldExp);
+			e.preventDefault();
+			e.stopPropagation();
+		}else{
+			$("#actualizar_"+scheduler.id).button("option", "disabled", false );
+		}
 	}).bind(this));
 	
-	$("#actualizar_"+scheduler.id).on('click',(function(e){
-		schedulerAccess.putSchedulerData(this.scheduler,function(e){
-			if(e.fail){
-				alert(e.body.message,messageType.error);
-			}
-		});
+	$("#actualizar_"+scheduler.id).on('click',(function(e){		
+		if(checkCronExp(assembleCron())){
+			schedulerAccess.putSchedulerData(this.scheduler,function(e){
+				if(e.fail){
+					alert(e.body.message,messageType.error);
+				}
+			});
+		}
 	}).bind(this));
 	
 	$("#activar_"+scheduler.id).on('click',(function(e){

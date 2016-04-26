@@ -90,6 +90,16 @@ function checkEmail(dataValue){
 		  return true;
 }
 
+function checkCronExp (cron_str){
+	var valid_cron = /^((\d{1,2}|\*|\*\/\d{1,2})\s){4}(\d{1,2}|\*)$/;
+	if (typeof cron_str != "string" || !valid_cron.test(cron_str)) {	 		
+		alert($('<div/>').html("Expresi&oacute;n de tiempo inv&aacute;lida "+cron_str).text());
+	    return false;
+	}
+	return true;
+
+}
+
 function cargarMensaje(data,ok){
 	//cargo mensaje en pantalla
 	if(ok){
