@@ -138,30 +138,25 @@ cens.schedulerPanel = cens.makeClass();
 cens.schedulerPanel.prototype.init = function(){
 	this.schedulerAccess = cens.scheduler.getInstance();	
 	this.schedulerElements = [];
-	
 };
 
 cens.schedulerPanel.prototype.getInfo = function(){
-	this.schedulerAccess.getData(this.loadInfo.bind(this));
+	this.schedulerAccess.getData((function(xhrResponse){
+		if(xhrResponse.fail){
+			alert(xhrResponse.body.message,messageType.error);
+		}else{
+			xhrResponse.body.forEach((function(value,index){
+				var schJob = new cens.schedulerDiv(value,this.schedulerAccess );			
+				this.schedulerElements.push(schJob);
+			}).bind(this));
+		}
+	}).bind(this));
 } 
-
-cens.schedulerPanel.prototype.loadInfo = function(xhrResponse){
-	if(xhrResponse.fail){
-		alert(xhrResponse.fail.body,messageType.error);
-	}else{
-		xhrResponse.body.forEach((function(value,index){
-			var schJob = new cens.schedulerDiv(value);
-			$("#schedulerDiv").append(schJob.schedulerStructure.layout);
-			$("#scheduler_"+schJob.scheduler.id+" button").button();
-			this.schedulerElements.push(schJob);
-		}).bind(this));
-	}
-}
 
 cens.namespace("schedulerDiv");
 cens.schedulerDiv = cens.makeClass();
-cens.schedulerDiv.prototype.init = function(scheduler){
-	
+cens.schedulerDiv.prototype.init = function(scheduler,schedulerAccess ){
+	var schedulerAccess = schedulerAccess;
 	this.schedulerStructure = {
 			layout: '<div class="schedulers">'+
 			'<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo">'+scheduler.realName+'</span></h3>'+		
@@ -171,9 +166,9 @@ cens.schedulerDiv.prototype.init = function(scheduler){
 				'<input type="text" id="min_'+scheduler.id+'" value="'+scheduler.min+'"/>'+
 				'<input type="text" id="hour_'+scheduler.id+'"value="'+scheduler.hour+'"/>'+
 				'<input type="text" id="day_'+scheduler.id+'"value="'+scheduler.day+'"/>'+
-				'<input type="text" id="mont_'+scheduler.id+'"value="'+scheduler.month+'"/>'+
-				'<button class="button right" type="button" id="actualizar_'+scheduler.id+'" onclick="">Actualizar</button>'+
-				'<button class="button right" type="button" id="activar_'+scheduler.id+'">Activar</button>'+
+				'<input type="text" id="month_'+scheduler.id+'"value="'+scheduler.month+'"/>'+
+				'<button class="button right" type="button" id="activar_'+scheduler.id+'">'+(scheduler.enabled ? "Desactivar" : "Activar")+'</button>'+
+				'<button class="button right" type="button" id="actualizar_'+scheduler.id+'">Actualizar</button>'+
 			'</div>'+
 			'<div>'+
 				'<label class="estadoToken activo">'+scheduler.description+'</label>'+
@@ -182,4 +177,41 @@ cens.schedulerDiv.prototype.init = function(scheduler){
 			
 	},
 	this.scheduler = scheduler;
+	$("#schedulerDiv").append(this.schedulerStructure.layout);
+	$("#scheduler_"+this.scheduler.id+" button").button();
+	$("#sec_"+scheduler.id).on('input',(function(e,a,b,c){
+		this.scheduler.sec = e.target.value;
+	}).bind(this));
+	$("#min_"+scheduler.id).on('input',(function(e){
+		this.scheduler.min = e.target.value;
+	}).bind(this));
+	$("#hour_"+scheduler.id).on('input',(function(e){
+		this.scheduler.hour = e.target.value;
+	}).bind(this));
+	$("#day_"+scheduler.id).on('input',(function(e){
+		this.scheduler.day =e .target.value;
+	}).bind(this));
+	$("#month_"+scheduler.id).on('input',(function(e){
+		this.scheduler.month =e .target.value;
+	}).bind(this));
+	
+	$("#actualizar_"+scheduler.id).on('click',(function(e){
+		schedulerAccess.putSchedulerData(this.scheduler,function(e){
+			if(e.fail){
+				alert(e.body.message,messageType.error);
+			}
+		});
+	}).bind(this));
+	
+	$("#activar_"+scheduler.id).on('click',(function(e){
+		schedulerAccess.toggleActivated(this.scheduler.id,!this.scheduler.enabled,(function(e){
+			if(e.fail){
+				alert(e.body.message,messageType.error);
+			}else{
+				this.scheduler.enabled = !this.scheduler.enabled;
+				$("#activar_"+this.scheduler.id).button("option", "label",((this.scheduler.enabled ? "Desactivar" : "Activar")));
+			}
+		}).bind(this));
+	}).bind(this));
+
 }

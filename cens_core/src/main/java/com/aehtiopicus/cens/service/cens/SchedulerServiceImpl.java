@@ -79,16 +79,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 		defaultProperties.get(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME).setCronTrigger(generalNotificationCron);
 
 		List<CronTrigger> cronTriggers = new ArrayList<>();
-
-		if (updateCronBeans(SCHEDULER_UN_READ_JOB_NAME)) {
-			cronTriggers.add(defaultProperties.get(SCHEDULER_UN_READ_JOB_NAME).getCronTrigger().getObject());
-		}
-		if (updateCronBeans(SCHEDULER_TOKEN_FB_NAME)) {
-			cronTriggers.add(defaultProperties.get(SCHEDULER_TOKEN_FB_NAME).getCronTrigger().getObject());
-		}
-		if (updateCronBeans(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME)) {
-			cronTriggers.add(defaultProperties.get(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME).getCronTrigger().getObject());
-		}
+		
+		scheduleIniti(SCHEDULER_UN_READ_JOB_NAME,cronTriggers);
+		scheduleIniti(SCHEDULER_TOKEN_FB_NAME,cronTriggers);
+		scheduleIniti(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME,cronTriggers);
 
 		schedulerFactory.setTriggers(cronTriggers.toArray(new CronTrigger[cronTriggers.size()]));
 
@@ -97,26 +91,35 @@ public class SchedulerServiceImpl implements SchedulerService {
 		ConfigurableListableBeanFactory beanFactory = ((ConfigurableApplicationContext) appContext).getBeanFactory();
 		beanFactory.registerSingleton(schedulerFactory.getClass().getCanonicalName(), schedulerFactory);
 	}
+	
+	private void scheduleIniti(String scheduleJobName,List<CronTrigger> cronTriggers){
+		try{
+			updateCronBeans(scheduleJobName);
+			cronTriggers.add(defaultProperties.get(scheduleJobName).getCronTrigger().getObject());
+		}catch(Exception e){	
+		}
+	}
 
 	private SchedulerFactoryBean getSchedulerFactory() {
 		return appContext.getBean(SchedulerFactoryBean.class);
 	}
 
-	private boolean updateCronBeans(String beanName) {
+	private void updateCronBeans(String beanName) throws CensException {
 		try {
 			String cronExp = findCronExpressionForCronJob(beanName);
 			((CronTriggerImpl) appContext.getBean(beanName)).setCronExpression(cronExp);
 
 			defaultProperties.get(beanName).getCronTrigger().setCronExpression(cronExp);
-			defaultProperties.get(beanName).getCronTrigger().afterPropertiesSet();
-			return true;
+			defaultProperties.get(beanName).getCronTrigger().afterPropertiesSet();			
 		} catch (BeansException e) {
 			log.error("bean error", e);
+			throw new CensException("No se puede encontrar el job",e);
 		} catch (ParseException e) {
 			log.error("bean parse error", e);
+			throw new CensException("No se puede convertir el valor del cron",e);
 		} catch (CensException e) {
-		}
-		return false;
+			throw e;
+		}		
 	}
 
 	@Override

@@ -1802,8 +1802,12 @@ Responsive events capture
 	margin-left: 52px;
 }
 
+.schedulers label,
 .schedulers input[type=text] {
 	width: 30px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 4px;
 }
 .right{
 	float : right;
@@ -1812,4 +1816,11 @@ Responsive events capture
 	margin-bottom: 1px;
 	margin-top: 1px;
 	margin-left: 0px;
+}
+.schedulers {
+	    margin-bottom: 20px;
+}
+.schedulers button{
+	width : 100px;
+	margin-right : 10px;
 }

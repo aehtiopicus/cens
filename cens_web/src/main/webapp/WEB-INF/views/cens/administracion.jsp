@@ -8,8 +8,8 @@
 	var pagePath="<%=request.getContextPath() %>";
 		var oauth2;
 	</script>	
-    <script src="<%=request.getContextPath() %>/js/cens/admin.js"></script>
     <script src="<%=request.getContextPath() %>/js/cens/adminScheduler.js"></script>
+    <script src="<%=request.getContextPath() %>/js/cens/admin.js"></script>
     <script>
     var oauthCompletedData ={
     		oauth_status :"${oauth != null ?oauth : undefined}",
@@ -57,27 +57,7 @@
   					
   					<label >Servicios del sistema</label>
   					</div> 
-  				</div>
-  				<div>  			
-  					<div class="schedulers">
-						<h3 class="subtitulo chico" style="text-align: -webkit-left;">Tarea: <span class="estadoToken activo">Activo</span></h3>
-					
-						<div>
-							<label>Expresi&oacute;n de tiempo de ejecuci&oacute;n</label>
-							<input type="text" id="sec"/>
-							<input type="text" id="min"/>
-							<input type="text" id="hour"/>
-							<input type="text" id="day"/>
-							<input type="text" id="mont"/>
-							<button class="button right" type="button" id="fbAutenticar">Actualizar</button>
-							<button class="button right" type="button" id="fbAutenticar">Activar</button>
-						</div>
-						<div>
-							<label class="estadoToken activo">bla bla bla bla bla</label>
-						</div>
-				
-  					</div> 					
-  				</div>
+  				</div>  				
   			</div>
   		</div>
   	</div>

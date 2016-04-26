@@ -222,4 +222,6 @@ $(document).ready(function(){
 	oauth2.initDialog();
 	oauth2.checkFacebookOauth();
 	oauth2.oauthCompleted(oauthCompletedData);
+	cens.schedulerPanelObject = new cens.schedulerPanel();
+	cens.schedulerPanelObject.getInfo();
 });
