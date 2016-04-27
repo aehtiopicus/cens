@@ -17,7 +17,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -76,6 +75,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		if (file != null) {
 			p.setFileInfo(handleFtp(file, p));
 			p.setEstadoRevisionType(EstadoRevisionType.LISTO);
+			p.setFechaCambioEstado(new Date());
 			return programaCensRepository.save(p);
 		} else {
 			return p;
@@ -118,6 +118,9 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			programa.setFileInfo(p.getFileInfo());
 			programa.setEstadoRevisionType(p.getEstadoRevisionType());
 		}
+		if(p == null){
+			programa.setFechaCambioEstado(new Date());
+		}
 		return programa;
 	}
 
@@ -143,7 +146,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	public void removePrograma(Programa p) throws CensException {
 		if (!p.getEstadoRevisionType().equals(EstadoRevisionType.ACEPTADO)) {
 			fileCensService.deleteFileCensInfo(p.getFileInfo());
-			programaCensRepository.removeFileInfo(p, EstadoRevisionType.NUEVO);
+			programaCensRepository.removeFileInfo(p, EstadoRevisionType.NUEVO,new Date());
 		} else {
 			throw new CensException(
 					"No se puede eliminar el Programa did&aacute;ctico ya que fue ACEPTADO por asesor&iacute;a");
@@ -204,7 +207,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 	@Override
 	@Transactional
 	public void updateProgramaStatus(Programa programa, EstadoRevisionType type) {
-		programaCensRepository.updateProgramaStatus(programa.getId(), type);
+		programaCensRepository.updateProgramaStatus(programa.getId(), type,new Date());
 
 	}
 

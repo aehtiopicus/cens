@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.repository.cens;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,14 +22,14 @@ public interface ProgramaCensRepository extends JpaRepository<Programa,Long>{
 	public List<Programa> findProgramaByProfesor(@Param("profesorId")Long profesorId);
 
 	@Modifying
-	@Query("UPDATE Programa p SET p.fileInfo = null, estadoRevisionType = :nuevo WHERE p = :programa")
-	public int removeFileInfo(@Param("programa")Programa p, @Param("nuevo")EstadoRevisionType nuevo);
+	@Query("UPDATE Programa p SET p.fileInfo = null, estadoRevisionType = :nuevo, fechaCambioEstado = :fecha WHERE p = :programa")
+	public int removeFileInfo(@Param("programa")Programa p, @Param("nuevo")EstadoRevisionType nuevo, @Param("fecha") Date fecha);
 
 	@Query("SELECT p FROM Programa p INNER JOIN p.asignatura a WHERE a.vigente = true")
 	public List<Programa> findProgramaByAsignaturaVigente();
 
 	@Modifying
-	@Query("UPDATE Programa p SET p.estadoRevisionType = :nuevo WHERE p.id = :programaId")
-	public void updateProgramaStatus(@Param("programaId")Long programaId,@Param("nuevo") EstadoRevisionType type);
+	@Query("UPDATE Programa p SET p.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha WHERE p.id = :programaId")
+	public void updateProgramaStatus(@Param("programaId")Long programaId,@Param("nuevo") EstadoRevisionType type, @Param("fecha") Date fecha);
 
 }

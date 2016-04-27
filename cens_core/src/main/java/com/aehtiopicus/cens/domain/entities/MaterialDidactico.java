@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.aehtiopicus.cens.enumeration.cens.DivisionPeriodoType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
@@ -50,6 +53,10 @@ public class MaterialDidactico implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
+	
+	@Column(name="fecha_cambio_estado",nullable=false,columnDefinition="DATE DEFAULT CURRENT_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date fechaCambioEstado;
 
 	public Long getId() {
 		return id;
@@ -122,6 +129,14 @@ public class MaterialDidactico implements Serializable{
 
 	public void setDivisionPeriodoType(DivisionPeriodoType divisionPeriodoType) {
 		this.divisionPeriodoType = divisionPeriodoType;
+	}
+
+	public Date getFechaCambioEstado() {
+		return fechaCambioEstado;
+	}
+
+	public void setFechaCambioEstado(Date fechaCambioEstado) {
+		this.fechaCambioEstado = fechaCambioEstado;
 	} 
 
 	

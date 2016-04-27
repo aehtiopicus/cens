@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -57,8 +57,6 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Autowired
 	private FileCensService fileCensService;
 	
-	@Autowired
-	private CacheManager cacheManager;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -109,12 +107,16 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		
 		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
 			asignatura.setProfesor(profesorCensRepository.findOne(asignatura.getProfesor().getId()));
+			asignatura.setProfAsignDate(new Date());
 		}else{
+			asignatura.setProfAsignDate(null);
 			asignatura.setProfesor(null);
 		}
 		if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
 			asignatura.setProfesorSuplente(profesorCensRepository.findOne(asignatura.getProfesorSuplente().getId()));
+			asignatura.setProfAsignDate(new Date());
 		}else{
+			asignatura.setProfAsignDate(null);
 			asignatura.setProfesorSuplente(null);
 		}
 		if(asignatura.getCurso()!=null && asignatura.getCurso().getId()!=null){
@@ -299,5 +301,15 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Override
 	public Programa getProgramasForAsignaturas(Asignatura asignatura) {
 		return programaCensService.getProgramasForAsignatura(asignatura);
+	}
+	
+	public Map<Asignatura,Programa> findAsignaturasWithPrograma(){
+		List<Object[]> asignaturaList = asignaturaCensRepository.obtainAsignaturaAndProgramas();
+		if(CollectionUtils.isNotEmpty(asignaturaList)){
+			for(Object[] obj : asignaturaList){
+				
+			}
+		}
+		return null;
 	}
 }

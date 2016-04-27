@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "CENS_ASIGNATURA")
@@ -40,6 +43,10 @@ public class Asignatura implements Serializable {
 	private Profesor profesorSuplente;
 	
 	private boolean vigente = false;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="asignacion_profesor_date")
+	private Date profAsignDate;
 
 	public Long getId() {
 		return id;
@@ -103,6 +110,14 @@ public class Asignatura implements Serializable {
 
 	public void setVigente(boolean vigente) {
 		this.vigente = vigente;
+	}
+
+	public Date getProfAsignDate() {
+		return profAsignDate;
+	}
+
+	public void setProfAsignDate(Date profAsignDate) {
+		this.profAsignDate = profAsignDate;
 	}
 	
 	

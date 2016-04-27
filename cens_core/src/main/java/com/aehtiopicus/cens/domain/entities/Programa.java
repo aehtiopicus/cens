@@ -1,6 +1,7 @@
 package com.aehtiopicus.cens.domain.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -58,6 +61,9 @@ public class Programa implements Serializable{
 	@Fetch(FetchMode.SUBSELECT)
 	private List <MaterialDidactico> materialDidactico;
 	
+	@Column(name="fecha_cambio_estado",nullable=false,columnDefinition="DATE DEFAULT CURRENT_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date fechaCambioEstado;
 	
 
 	public Long getId() {
@@ -132,8 +138,12 @@ public class Programa implements Serializable{
 		this.materialDidactico = materialDidactico;
 	}
 
-	
-	
-	
-	
+	public Date getFechaCambioEstado() {
+		return fechaCambioEstado;
+	}
+
+	public void setFechaCambioEstado(Date fechaCambioEstado) {
+		this.fechaCambioEstado = fechaCambioEstado;
+	}
+		
 }

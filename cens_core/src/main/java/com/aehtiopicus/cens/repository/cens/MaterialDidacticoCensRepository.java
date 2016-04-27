@@ -1,5 +1,7 @@
 package com.aehtiopicus.cens.repository.cens;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,11 +21,11 @@ public interface MaterialDidacticoCensRepository extends JpaRepository<MaterialD
 			String nombre);
 
 	@Modifying
-	@Query("UPDATE MaterialDidactico md SET md.fileInfo = null, md.estadoRevisionType = :nuevo WHERE md = :material")
-	public int removeFileInfo(@Param("material")MaterialDidactico p, @Param("nuevo")EstadoRevisionType nuevo);
+	@Query("UPDATE MaterialDidactico md SET md.fileInfo = null, md.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha WHERE md = :material")
+	public int removeFileInfo(@Param("material")MaterialDidactico p, @Param("nuevo")EstadoRevisionType nuevo, @Param("fecha") Date fecha);
 
 	@Modifying
-	@Query("UPDATE MaterialDidactico md SET md.estadoRevisionType = :nuevo WHERE md.id = :materialId")
-	public void updateMaterialDidacticoStatus(@Param("materialId")Long materialId,@Param("nuevo")EstadoRevisionType estadoRevisionType);
+	@Query("UPDATE MaterialDidactico md SET md.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha WHERE md.id = :materialId")
+	public void updateMaterialDidacticoStatus(@Param("materialId")Long materialId,@Param("nuevo")EstadoRevisionType estadoRevisionType, @Param("fecha") Date fecha);
 
 }

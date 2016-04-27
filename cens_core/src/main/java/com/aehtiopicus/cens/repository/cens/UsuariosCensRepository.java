@@ -30,6 +30,11 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 			+ "AND c.tipocontacto = 'MAIL' ",nativeQuery=true)
 	public List<Object[]> findUsernameActivos();
 	
+	@Query(value="SELECT u.username, c.datocontacto, mc.apellido, mc.nombre, mc.dni FROM cens_usuarios u "
+			+ "INNER JOIN cens_miembros_cens mc ON u.id = mc.usuario_id "
+			+ "WHERE u.enabled = true ",nativeQuery=true)
+	public List<Object[]> findUsernameActivosWithoutEnamil();
+	
 	
 	@Query(value="SELECT u.username, c.datocontacto, mc.apellido, mc.nombre, mc.dni FROM cens_usuarios u "
 			+ "INNER JOIN cens_miembros_cens mc ON u.id = mc.usuario_id "

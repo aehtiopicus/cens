@@ -120,6 +120,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 		if(file!=null){
 			md.setFileInfo(handleFtp(file, md));	
 			md.setEstadoRevisionType(EstadoRevisionType.LISTO);
+			md.setFechaCambioEstado(new Date());
 			return materialDidacticoCensRepository.save(md);
 		}else{
 			return md;
@@ -159,6 +160,10 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 		if(materialDidactico.getId()==null && cantidad == materialDidactico.getPrograma().getCantCartillas()){
 			throw new CensException("Cantidad de m&aacute;xima de cartillas superada");
 		}
+		
+		if(md == null){
+			materialDidactico.setFechaCambioEstado(new Date());
+		}
 		return materialDidactico;
 	}
 
@@ -180,7 +185,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 	@Transactional
 	public void removeMaterialDidactico(MaterialDidactico material) {
 		fileCensService.deleteFileCensInfo(material.getFileInfo());
-		materialDidacticoCensRepository.removeFileInfo(material,EstadoRevisionType.NUEVO);
+		materialDidacticoCensRepository.removeFileInfo(material,EstadoRevisionType.NUEVO,new Date());
 		
 	}
 
@@ -189,7 +194,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 	@Transactional
 	public void updateMaterialDidacticoStatus(MaterialDidactico material,
 			EstadoRevisionType estadoRevisionType) {
-		materialDidacticoCensRepository.updateMaterialDidacticoStatus(material.getId(),estadoRevisionType);
+		materialDidacticoCensRepository.updateMaterialDidacticoStatus(material.getId(),estadoRevisionType,new Date());
 		
 	}
 
