@@ -3,6 +3,7 @@ package com.aehtiopicus.cens.service.cens;
 import java.util.List;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.AsignaturaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;

@@ -87,7 +87,7 @@
 			}).done(function (data, textStatus, jqXHR) {				
 				callBack(new cens.xhrResponse(false,data,textStatus,"success").response);
 			}).fail(function (jqXHR, textStatus, errorThrown) {
-				callBack(new cens.xhrResponse(true,jqXHR.responseJSON,textStatus,"").response);
+				callBack(new cens.xhrResponse(true,jqXHR.responseJSON,textStatus,errorThrown).response);
 			});
 			
 		};
@@ -107,7 +107,7 @@
 			}).done(function (data, textStatus, jqXHR) {				
 				callBack(new cens.xhrResponse(false,data,textStatus,"success").response);
 			}).fail(function (jqXHR, textStatus, errorThrown) {
-				callBack(new cens.xhrResponse(true,jqXHR.responseJSON,textStatus,"").response);
+				callBack(new cens.xhrResponse(true,jqXHR.responseJSON,textStatus,errorThrown).response);
 			});
 		}
 		
@@ -303,7 +303,11 @@ cens.schedulerDiv.prototype.init = function(scheduler,schedulerAccess ){
 		if(checkCronExp(assembleCron())){
 			schedulerAccess.putSchedulerData(this.scheduler,function(e){
 				if(e.fail){
-					alert(e.body.message,messageType.error);
+					if(typeof e.body === "undefined"){
+						alert("Error del servidor");
+					}else{
+						alert(e.body.message,messageType.error);
+					}
 				}
 			});
 		}
@@ -312,7 +316,11 @@ cens.schedulerDiv.prototype.init = function(scheduler,schedulerAccess ){
 	$("#activar_"+scheduler.id).on('click',(function(e){
 		schedulerAccess.toggleActivated(this.scheduler.id,!this.scheduler.enabled,(function(e){
 			if(e.fail){
-				alert(e.body.message,messageType.error);
+				if(typeof e.body === "undefined"){
+					alert("Error del servidor");
+				}else{
+					alert(e.body.message,messageType.error);
+				}
 			}else{
 				this.scheduler.enabled = !this.scheduler.enabled;
 				$("#activar_"+this.scheduler.id).button("option", "label",((this.scheduler.enabled ? "Desactivar" : "Activar")));

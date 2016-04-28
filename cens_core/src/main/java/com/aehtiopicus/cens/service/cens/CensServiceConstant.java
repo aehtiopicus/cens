@@ -2,6 +2,10 @@ package com.aehtiopicus.cens.service.cens;
 
 public class CensServiceConstant {
 
+	public static final String TIEMPO_EDICION_CENS_SERVICE ="tiempoEdicionCensService";
+	
+	public static final String ASIGNATURA_CENS_SERVICE ="asignaturaCensService";
+	
 	public static final String SOCIAL_FACEBOOK_OAUTH_SERVICE ="socialFacebookOauthService";
 		
 	public static final String NOTIFICACION_CENS_SERVICE = "notificacionCensService";

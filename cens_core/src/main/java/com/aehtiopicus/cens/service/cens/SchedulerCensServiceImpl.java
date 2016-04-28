@@ -35,9 +35,9 @@ import com.aehtiopicus.cens.scheduler.SchedulerDefaultBean;
 import com.aehtiopicus.cens.utils.CensException;
 
 
-public class SchedulerServiceImpl implements SchedulerService {
+public class SchedulerCensServiceImpl implements SchedulerCensService {
 
-	private static final Logger log = LoggerFactory.getLogger(SchedulerServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(SchedulerCensServiceImpl.class);
 
 
 	@PersistenceContext
@@ -60,6 +60,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Qualifier(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME)
 	private CronTriggerFactoryBean generalNotificationCron;
 	
+	@Autowired
+	@Qualifier(SCHEDULER_EDITION_TIME_NAME)
+	private CronTriggerFactoryBean tiempoEdicion;
+	
 
 	@Autowired
 	private ApplicationContext appContext;
@@ -77,12 +81,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 		defaultProperties.get(SCHEDULER_UN_READ_JOB_NAME).setCronTrigger(unreadNotificationCron);
 		defaultProperties.get(SCHEDULER_TOKEN_FB_NAME).setCronTrigger(facebookTokenCron);
 		defaultProperties.get(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME).setCronTrigger(generalNotificationCron);
+		defaultProperties.get(SCHEDULER_EDITION_TIME_NAME).setCronTrigger(tiempoEdicion);
 
 		List<CronTrigger> cronTriggers = new ArrayList<>();
 		
 		scheduleIniti(SCHEDULER_UN_READ_JOB_NAME,cronTriggers);
 		scheduleIniti(SCHEDULER_TOKEN_FB_NAME,cronTriggers);
 		scheduleIniti(SCHEDULER_GENERAL_NOTIFICATION_JOB_NAME,cronTriggers);
+		scheduleIniti(SCHEDULER_EDITION_TIME_NAME,cronTriggers);
 
 		schedulerFactory.setTriggers(cronTriggers.toArray(new CronTrigger[cronTriggers.size()]));
 

@@ -35,7 +35,4 @@ public interface AsignaturCensRepository extends JpaRepository<Asignatura, Long>
 	@Query("SELECT a FROM Asignatura a WHERE (a.profesor.id = :profesorId OR a.profesorSuplente.id = :profesorId) AND a.vigente = true ORDER BY a.nombre ASC")		
 	public List<Asignatura> findByProfesorId(@Param("profesorId")Long id);
 
-	@Query(value="SELECT DISTINCT(ca.id)asignatura_id,(ca.profesor_id),(ca.profesorsuplente_id),(ca.asignacion_profesor_date)asignacion_date, (cp.id)programa_id,(cp.estadorevisiontype)estado_type,(cp.cantcartillas)cantCartillas,(cp.fecha_cambio_estado)update_date FROM cens_asignatura AS ca LEFT OUTER JOIN cens_programa AS cp ON cp.asignatura_id = ca.id WHERE (ca.profesor_id IS NOT NULL OR ca.profesorsuplente_id IS NOT NULL) AND vigente = true ORDER BY ca.id DESC",nativeQuery=true)
-	public List<Object[]> obtainAsignaturaAndProgramas();
-
 }

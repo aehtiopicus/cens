@@ -5,7 +5,7 @@ import java.util.List;
 import com.aehtiopicus.cens.domain.entities.SchedulerJobs;
 import com.aehtiopicus.cens.utils.CensException;
 
-public interface SchedulerService {
+public interface SchedulerCensService {
 
 	public List<SchedulerJobs> listSchedulers(boolean enabled);
 

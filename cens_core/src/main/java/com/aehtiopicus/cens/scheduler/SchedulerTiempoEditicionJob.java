@@ -1,25 +1,22 @@
 package com.aehtiopicus.cens.scheduler;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.aehtiopicus.cens.service.cens.UsuarioCensService;
+import com.aehtiopicus.cens.service.cens.CensServiceConstant;
+import com.aehtiopicus.cens.service.cens.TiempoEdicionCensService;
 
 public class SchedulerTiempoEditicionJob extends QuartzJobBean{
 
-	private UsuarioCensService usuarioCensService;
+	
+	private TiempoEdicionCensService tiempoEdicionCensService;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 
-		List<Object[]> usernameList = usuarioCensService.getUsuarioActivoByUserName();
-		if(CollectionUtils.isNotEmpty(usernameList)){
-			
-		}
+		tiempoEdicionCensService = (TiempoEdicionCensService) context.getJobDetail().getJobDataMap().get(CensServiceConstant.TIEMPO_EDICION_CENS_SERVICE);
+		tiempoEdicionCensService.generarEntradas();
 	}
 
 }

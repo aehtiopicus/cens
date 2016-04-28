@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -54,9 +55,8 @@ public class MaterialDidactico implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private EstadoRevisionType estadoRevisionType = EstadoRevisionType.NUEVO;
 	
-	@Column(name="fecha_cambio_estado",nullable=false,columnDefinition="DATE DEFAULT CURRENT_DATE")
-	@Temporal(TemporalType.DATE)
-	private Date fechaCambioEstado;
+	@Embedded
+	private DocumentoModificado documentoModificado = new DocumentoModificado();
 
 	public Long getId() {
 		return id;
@@ -131,13 +131,15 @@ public class MaterialDidactico implements Serializable{
 		this.divisionPeriodoType = divisionPeriodoType;
 	}
 
-	public Date getFechaCambioEstado() {
-		return fechaCambioEstado;
+	public DocumentoModificado getDocumentoModificado() {
+		return documentoModificado;
 	}
 
-	public void setFechaCambioEstado(Date fechaCambioEstado) {
-		this.fechaCambioEstado = fechaCambioEstado;
-	} 
+	public void setDocumentoModificado(DocumentoModificado documentoModificado) {
+		this.documentoModificado = documentoModificado;
+	}
+
+	
 
 	
 }

@@ -75,7 +75,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		if (file != null) {
 			p.setFileInfo(handleFtp(file, p));
 			p.setEstadoRevisionType(EstadoRevisionType.LISTO);
-			p.setFechaCambioEstado(new Date());
+			p.getDocumentoModificado().setFechaCambioEstado(new Date());
 			return programaCensRepository.save(p);
 		} else {
 			return p;
@@ -119,7 +119,7 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			programa.setEstadoRevisionType(p.getEstadoRevisionType());
 		}
 		if(p == null){
-			programa.setFechaCambioEstado(new Date());
+			programa.getDocumentoModificado().setFechaCambioEstado(new Date());
 		}
 		return programa;
 	}

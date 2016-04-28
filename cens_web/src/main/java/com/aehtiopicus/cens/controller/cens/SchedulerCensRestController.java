@@ -16,7 +16,7 @@ import com.aehtiopicus.cens.configuration.UrlConstant;
 import com.aehtiopicus.cens.dto.cens.RestSingleResponseDto;
 import com.aehtiopicus.cens.dto.cens.SchedulerJobsDto;
 import com.aehtiopicus.cens.mapper.cens.SchedulerCensMapper;
-import com.aehtiopicus.cens.service.cens.SchedulerService;
+import com.aehtiopicus.cens.service.cens.SchedulerCensService;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Controller
@@ -25,7 +25,7 @@ import com.aehtiopicus.cens.utils.CensException;
 public class SchedulerCensRestController extends AbstractRestController{
 
 	@Autowired
-	private SchedulerService schedulerService;
+	private SchedulerCensService schedulerService;
 	
 	@Autowired
 	private SchedulerCensMapper mapper;

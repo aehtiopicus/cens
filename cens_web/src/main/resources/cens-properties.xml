@@ -20,6 +20,7 @@
 	<util:properties id="cacheProperties" location="classpath:/cache.properties"/>
 	<util:properties id="notificacionProperties" location="classpath:/notificacion.${spring.profiles.active}.properties"/>
 	<util:properties id="socialProperties" location="classpath:/social.${spring.profiles.active}.properties"/>
+	<util:properties id="tiempoEdicionProperties" location="classpath:/tiempoEdicion.${spring.profiles.active}.properties"/>
 
 	
 </beans:beans>

@@ -20,11 +20,14 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import com.aehtiopicus.cens.scheduler.EmailCensSchedulerJob;
 import com.aehtiopicus.cens.scheduler.EmailNoLeidoCensSchedulerJob;
 import com.aehtiopicus.cens.scheduler.SchedulerDefaultBean;
+import com.aehtiopicus.cens.scheduler.SchedulerTiempoEditicionJob;
 import com.aehtiopicus.cens.scheduler.SocialFacebookOauthCensSchedulerJob;
+import com.aehtiopicus.cens.service.cens.AsignaturaCensService;
 import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 import com.aehtiopicus.cens.service.cens.NotificacionCensService;
-import com.aehtiopicus.cens.service.cens.SchedulerService;
-import com.aehtiopicus.cens.service.cens.SchedulerServiceImpl;
+import com.aehtiopicus.cens.service.cens.SchedulerCensService;
+import com.aehtiopicus.cens.service.cens.SchedulerCensServiceImpl;
+import com.aehtiopicus.cens.service.cens.TiempoEdicionCensService;
 import com.aehtiopicus.cens.service.cens.UsuarioCensService;
 import com.aehtiopicus.cens.social.service.SocialFacebookOauthService;
 import com.google.common.collect.ImmutableMap;
@@ -116,6 +119,16 @@ public class SchedulerConfiguration {
 	private ApplicationContext applicationContext;
 			
 	
+	@Bean(name=SCHEDULER_EDITION_TIME_NAME)
+	public CronTriggerFactoryBean getTiempoEdicion(){
+		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
+		ct.setCronExpression(editionTimeExpression);
+		ct.setDescription("tiempo edicion");
+		ct.setJobDetail(getTiempoEdicionTokenJob().getObject());
+		return ct;
+		
+	}
+	
 	@Bean(name=SCHEDULER_TOKEN_FB_NAME)
 	public CronTriggerFactoryBean getFBTokenRefreshed(){
 		CronTriggerFactoryBean ct = new CronTriggerFactoryBean();
@@ -148,6 +161,16 @@ public class SchedulerConfiguration {
 		ct.setJobDetail(getEmailNotificationJob().getObject());
 		return ct;
 		
+	}
+	
+	@Bean
+	public JobDetailFactoryBean getTiempoEdicionTokenJob(){
+		JobDetailFactoryBean jdfb = new JobDetailFactoryBean();
+		jdfb.setJobClass(SchedulerTiempoEditicionJob.class);		
+		JobDataMap jdm = new JobDataMap();
+		jdm.put(CensServiceConstant.TIEMPO_EDICION_CENS_SERVICE, applicationContext.getBean(TiempoEdicionCensService.class));				
+		jdfb.setJobDataMap(jdm);
+		return jdfb;
 	}
 	
 	@Bean
@@ -194,9 +217,9 @@ public class SchedulerConfiguration {
 				));
 	}
 	
-	@Bean(name="schedulerService",autowire=Autowire.BY_TYPE,initMethod="postConstruct")
-	public SchedulerService createSchedulerService(){
-		SchedulerServiceImpl impl = new SchedulerServiceImpl();
+	@Bean(name="schedulerCensService",autowire=Autowire.BY_TYPE,initMethod="postConstruct")
+	public SchedulerCensService createSchedulerService(){
+		SchedulerCensServiceImpl impl = new SchedulerCensServiceImpl();
 		impl.setDefaultProperties(assembleDefaultProperties());		
 		return impl;
 	}

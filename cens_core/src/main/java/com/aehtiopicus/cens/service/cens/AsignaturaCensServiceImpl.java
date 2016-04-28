@@ -23,10 +23,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
+import com.aehtiopicus.cens.domain.entities.AsignaturaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
+import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
 import com.aehtiopicus.cens.repository.cens.ProfesorCensRepository;
 import com.aehtiopicus.cens.service.cens.ftp.FtpAsignaturaCensService;
@@ -301,15 +303,5 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 	@Override
 	public Programa getProgramasForAsignaturas(Asignatura asignatura) {
 		return programaCensService.getProgramasForAsignatura(asignatura);
-	}
-	
-	public Map<Asignatura,Programa> findAsignaturasWithPrograma(){
-		List<Object[]> asignaturaList = asignaturaCensRepository.obtainAsignaturaAndProgramas();
-		if(CollectionUtils.isNotEmpty(asignaturaList)){
-			for(Object[] obj : asignaturaList){
-				
-			}
-		}
-		return null;
 	}
 }
