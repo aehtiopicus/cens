@@ -53,4 +53,8 @@ public class Utils {
     public static int dateDiff(Date bigger, Date smaller){
     	return Days.daysBetween(new DateTime(bigger), new DateTime(smaller)).getDays();
     }
+    
+    public static Date plusDate(Date theDate, int days){
+    	return new DateTime(theDate).plusDays(days).toDate();    	
+    }
 }

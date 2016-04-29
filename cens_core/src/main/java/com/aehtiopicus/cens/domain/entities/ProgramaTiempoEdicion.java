@@ -1,5 +1,6 @@
 package com.aehtiopicus.cens.domain.entities;
 
+import java.util.Date;
 import java.util.List;
 
 public class ProgramaTiempoEdicion {
@@ -7,7 +8,9 @@ public class ProgramaTiempoEdicion {
 	private Long programaId;
 	private Long cartillas;
 	private Long asignaturaId;
+	private Long miembroId;
 	private List<MaterialDidacticoTiempoEdicion> material;
+	private Date fechaCambioEstado;
 	public Long getProgramaId() {
 		return programaId;
 	}
@@ -45,6 +48,18 @@ public class ProgramaTiempoEdicion {
 		int result = 1;
 		result = prime * result + ((programaId == null) ? 0 : programaId.hashCode());
 		return result;
+	}
+	public Date getFechaCambioEstado() {
+		return fechaCambioEstado;
+	}
+	public void setFechaCambioEstado(Date fechaCambioEstado) {
+		this.fechaCambioEstado = fechaCambioEstado;
+	}
+	public Long getMiembroId() {
+		return miembroId;
+	}
+	public void setMiembroId(Long miembroId) {
+		this.miembroId = miembroId;
 	}
 	
 	
