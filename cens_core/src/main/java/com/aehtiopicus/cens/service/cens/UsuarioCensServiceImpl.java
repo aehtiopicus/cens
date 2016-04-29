@@ -1,10 +1,12 @@
 package com.aehtiopicus.cens.service.cens;
 
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.UsuariosCensRepository;
 import com.aehtiopicus.cens.service.cens.ftp.FTPUsuarioCensService;
 import com.aehtiopicus.cens.utils.CensException;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 @Service
 public class UsuarioCensServiceImpl implements UsuarioCensService{
@@ -151,6 +155,23 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 			throw new CensException(e);
 		}
 		
+	}
+	
+	@Override
+	public List<Long> asesoresId(){
+		String allAsesores = usuariosCensRepository.findAllAsesorIds();
+		List<Long> asesoresIdList = null;
+		if(StringUtils.isNotEmpty(allAsesores)){
+			asesoresIdList = Lists.transform(Arrays.asList(allAsesores.split(",")), new Function<String,Long>() {				
+				@Override
+				public Long apply(String id) {
+					// TODO Auto-generated method stub
+					return Long.valueOf(id);
+				}
+			});
+			
+		}
+		return asesoresIdList;
 	}
 	
 

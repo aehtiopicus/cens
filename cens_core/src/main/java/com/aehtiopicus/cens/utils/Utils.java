@@ -2,9 +2,12 @@ package com.aehtiopicus.cens.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,5 +50,7 @@ public class Utils {
         return pageSpecification;
     }
         
-    
+    public static int dateDiff(Date bigger, Date smaller){
+    	return Days.daysBetween(new DateTime(bigger), new DateTime(smaller)).getDays();
+    }
 }

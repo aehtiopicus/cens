@@ -31,4 +31,6 @@ public interface UsuarioCensService {
 	public void getDefaultAvatar(OutputStream baos) throws CensException ;
 
 	public List<Object[]> getUsuarioActivoByUserNameWithoutEmail();
+
+	public List<Long> asesoresId();
 }

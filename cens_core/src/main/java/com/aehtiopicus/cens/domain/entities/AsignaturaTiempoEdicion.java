@@ -7,7 +7,7 @@ import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 public class AsignaturaTiempoEdicion {
 
 	private Long asignaturaId;
-	private Long profesorId;
+	private Long miembroId;
 	private Date fechaAsignacion;
 	private Long programaId;
 	private EstadoRevisionType estadoRevision;
@@ -19,11 +19,12 @@ public class AsignaturaTiempoEdicion {
 	public void setAsignaturaId(Long asignaturaId) {
 		this.asignaturaId = asignaturaId;
 	}
-	public Long getProfesorId() {
-		return profesorId;
+	
+	public Long getMiembroId() {
+		return miembroId;
 	}
-	public void setProfesorId(Long profesorId) {
-		this.profesorId = profesorId;
+	public void setMiembroId(Long miembroId) {
+		this.miembroId = miembroId;
 	}
 	public Date getFechaAsignacion() {
 		return fechaAsignacion;

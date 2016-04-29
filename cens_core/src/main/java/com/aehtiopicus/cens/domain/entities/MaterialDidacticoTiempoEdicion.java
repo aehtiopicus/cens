@@ -7,7 +7,7 @@ import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 public class MaterialDidacticoTiempoEdicion {
 
 	private Long id;
-	private Long profesorId;
+	private Long miembroId;
 	private EstadoRevisionType estadoRevision;
 	private Long nroCartilla;
 	private Date fechaCambioEstado;
@@ -17,11 +17,12 @@ public class MaterialDidacticoTiempoEdicion {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getProfesorId() {
-		return profesorId;
+	
+	public Long getMiembroId() {
+		return miembroId;
 	}
-	public void setProfesorId(Long profesorId) {
-		this.profesorId = profesorId;
+	public void setMiembroId(Long miembroId) {
+		this.miembroId = miembroId;
 	}
 	public EstadoRevisionType getEstadoRevision() {
 		return estadoRevision;

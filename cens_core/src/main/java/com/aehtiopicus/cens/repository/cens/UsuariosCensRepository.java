@@ -44,5 +44,8 @@ public interface UsuariosCensRepository extends JpaRepository<Usuarios, Long> {
 			+ "AND cpuc.perfiltype ='ROLE_ASESOR' "
 			+ "AND c.tipocontacto = 'MAIL' ",nativeQuery=true)
 	public List<Object[]> findAsesorActivos();
+	
+	@Query(value="select ids.asesor_ids from (select 'ids' as id,string_agg(CAST(miembrocens_id as TEXT),',' ) as asesor_ids from cens_asesor where id <> -1 group by 1) ids", nativeQuery=true)
+	public String findAllAsesorIds();
 
 }
