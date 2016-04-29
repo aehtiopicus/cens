@@ -133,7 +133,7 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService{
 			}
 		}
 
-		return new ArrayList<>(programaTiempoEdicionList);
+		return programaTiempoEdicionList != null ? new ArrayList<ProgramaTiempoEdicion>(programaTiempoEdicionList) : new ArrayList<ProgramaTiempoEdicion>();
 	}
 	
 	private <T,K> T  getObject(Class<T> data, K obj){
