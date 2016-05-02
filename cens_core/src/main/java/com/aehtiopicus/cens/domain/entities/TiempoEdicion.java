@@ -57,10 +57,10 @@ public class TiempoEdicion implements Serializable{
 	private Long cartillasMissing;
 	
 	@Column(name="resulto",nullable=false,columnDefinition="BOOLEAN DEFAULT FALSE")
-	private Boolean resuelto;
+	private Boolean resuelto = false;
 	
 	@Column(name="cancelado",nullable=false,columnDefinition="BOOLEAN DEFAULT FALSE")
-	private Boolean cancelado;
+	private Boolean cancelado = false;
 	
 	@Column(name="asignatura_id")
 	private Long asignaturaId;

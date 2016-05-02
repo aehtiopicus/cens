@@ -6,6 +6,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 import com.aehtiopicus.cens.service.cens.TiempoEdicionCensService;
+import com.aehtiopicus.cens.utils.CensException;
 
 public class SchedulerTiempoEditicionJob extends QuartzJobBean{
 
@@ -16,7 +17,13 @@ public class SchedulerTiempoEditicionJob extends QuartzJobBean{
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 
 		tiempoEdicionCensService = (TiempoEdicionCensService) context.getJobDetail().getJobDataMap().get(CensServiceConstant.TIEMPO_EDICION_CENS_SERVICE);
-		tiempoEdicionCensService.generarEntradas();
+		try {
+			tiempoEdicionCensService.guardarEntradasTiempoEdicion(tiempoEdicionCensService.ensamblarEntradasTiempoEdicion());
+		} catch (CensException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
