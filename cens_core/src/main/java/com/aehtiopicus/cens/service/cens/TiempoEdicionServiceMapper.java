@@ -132,7 +132,7 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion.setEstadoRevisionType(EstadoRevisionType.INEXISTENTE);
 						for (Long asesorId : asesorIdList) {
 							TiempoEdicion tiempoEdicionCloned = SerializationUtils.clone(tiempoEdicion);
-							tiempoEdicionCloned.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -1l : asesorId);
+							tiempoEdicionCloned.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -2l : asesorId);
 							tiempoEdicionList.add(tiempoEdicionCloned);
 						}
 						asignaturaIterator.remove();
@@ -165,7 +165,7 @@ public class TiempoEdicionServiceMapper {
 						for (Long asesorId : asesorIdList) {
 							TiempoEdicion tiempoEdicionCloned = SerializationUtils.clone(tiempoEdicion);
 							tiempoEdicionCloned
-									.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -1l : asesorId);
+									.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -2l : asesorId);
 							tiempoEdicionList.add(tiempoEdicionCloned);
 						}
 						asignaturaIterator.remove();
@@ -197,7 +197,7 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion.setEstadoRevisionType(EstadoRevisionType.INEXISTENTE);
 						for (Long asesorId : asesorIdList) {
 							TiempoEdicion cloned = SerializationUtils.clone(tiempoEdicion);
-							cloned.setToId(cloned.getFromId().equals(asesorId) ? -1l : asesorId);
+							cloned.setToId(cloned.getFromId().equals(asesorId) ? -2l : asesorId);
 							tiempoEdicionList.add(cloned);
 						}
 
@@ -244,7 +244,7 @@ public class TiempoEdicionServiceMapper {
 							for (Long asesorId : asesorIdList) {
 								TiempoEdicion tiempoClonedForToId = SerializationUtils.clone(tiempoCloned);
 								tiempoClonedForToId
-										.setToId(tiempoClonedForToId.getFromId().equals(asesorId) ? -1l : asesorId);
+										.setToId(tiempoClonedForToId.getFromId().equals(asesorId) ? -2l : asesorId);
 								tiempoEdicionList.add(tiempoClonedForToId);
 							}
 						}
@@ -268,7 +268,7 @@ public class TiempoEdicionServiceMapper {
 								.setFechaVencido(Utils.plusDate(fechaAceptadaUltimaCartilla, materialMismoEstado + 1));
 						for (Long asesorId : asesorIdList) {
 							TiempoEdicion tiempoClonedForToId = SerializationUtils.clone(tiempoEdicion);
-							tiempoClonedForToId.setToId(tiempoEdicion.getFromId().equals(asesorId) ? -1l : asesorId);
+							tiempoClonedForToId.setToId(tiempoEdicion.getFromId().equals(asesorId) ? -2l : asesorId);
 							tiempoEdicionList.add(tiempoEdicion);
 						}						
 					}

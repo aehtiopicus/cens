@@ -47,6 +47,9 @@ public class Asignatura implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="asignacion_profesor_date")
 	private Date profAsignDate;
+	
+	@Column(name="notificado",nullable=false,columnDefinition="BOOLEAN DEFAULT FALSE")
+	private Boolean notificado;
 
 	public Long getId() {
 		return id;
@@ -118,6 +121,14 @@ public class Asignatura implements Serializable {
 
 	public void setProfAsignDate(Date profAsignDate) {
 		this.profAsignDate = profAsignDate;
+	}
+
+	public Boolean getNotificado() {
+		return notificado;
+	}
+
+	public void setNotificado(Boolean notificado) {
+		this.notificado = notificado;
 	}
 	
 	

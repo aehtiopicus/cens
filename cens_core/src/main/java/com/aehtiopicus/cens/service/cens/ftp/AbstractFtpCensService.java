@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -47,8 +45,8 @@ public abstract class AbstractFtpCensService {
 		try {
 			ftp = new FTPClient();
 
-			ftp.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(System.out)));
+//			ftp.addProtocolCommandListener(new PrintCommandListener(
+//					new PrintWriter(System.out),true));
 			int reply;
 
 			ftp.connect(url, port);

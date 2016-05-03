@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,6 @@ import com.aehtiopicus.cens.domain.entities.ProgramaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
 import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 import com.aehtiopicus.cens.utils.CensException;
-import com.google.common.collect.ImmutableList;
 
 @Service
 public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
@@ -33,14 +34,21 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 	 * programa este en estado aprobado Paso 4 buscar asignaturas con programas
 	 */
 
-	private final String ASIGNATURA_PROGRAMA_SQL = "SELECT DISTINCT(ca.id)asignatura_id,(cpr.miembrocens_id)miembro_id,(ca.asignacion_profesor_date)asignacion_date, (cp.id)programa_id,(cp.estadorevisiontype)estado_type,(cp.cantcartillas)cantCartillas,(cp.fecha_cambio_estado)update_date FROM cens_asignatura AS ca LEFT OUTER JOIN cens_programa AS cp ON cp.asignatura_id = ca.id inner join cens_profesor as cpr on (cpr.id = ca.profesor_id or cpr.id = ca.profesorsuplente_id) WHERE (ca.profesor_id IS NOT NULL OR ca.profesorsuplente_id IS NOT NULL) AND ca.vigente = true  AND (cp.notificado is null or cp.notificado = false) AND (cp.notificado = false or cp.notificado is null) and ( cp.estadorevisiontype = 'NUEVO' or cp.estadorevisiontype = 'LISTO' or  cp.estadorevisiontype = 'CAMBIOS' or cp.estadorevisiontype = 'RECHAZADO' or cp.estadorevisiontype = 'ASIGNADO' or cp.estadorevisiontype is null) ORDER BY ca.id DESC";
-	private final String PROGRAMA_MATERIAL_SQL = "SELECT (cp.id)as programa_id, (cp.cantcartillas),cp.asignatura_id,cmd.id as material_id,cpc.miembrocens_id,cmd.estadorevisiontype,cmd.nro as cartilla_nro,cmd.fecha_cambio_estado,cp.fecha_cambio_estado as fecha_cambio_esado_programa,cpc2.miembrocens_id as profesor_miembro_id FROM cens_programa as cp LEFT OUTER JOIN cens_material_didactico as cmd ON cmd.programa_id = cp.id INNER JOIN cens_profesor AS cpc ON cpc.id = cmd.profesor_id INNER JOIN cens_profesor AS cpc2 ON cpc2.id = cp.profesor_id WHERE cp.estadorevisiontype = 'ACEPTADO' AND cp.notificado = false AND (cmd.notificado = false OR cmd.notificado is null)  ORDER BY cp.id DESC";
+	private static final String ASIGNATURA_PROGRAMA_SQL = "SELECT DISTINCT(ca.id)asignatura_id,(cpr.miembrocens_id)miembro_id,(ca.asignacion_profesor_date)asignacion_date, (cp.id)programa_id,(cp.estadorevisiontype)estado_type,(cp.cantcartillas)cantCartillas,(cp.fecha_cambio_estado)update_date FROM cens_asignatura AS ca LEFT OUTER JOIN cens_programa AS cp ON cp.asignatura_id = ca.id inner join cens_profesor as cpr on (cpr.id = ca.profesor_id or cpr.id = ca.profesorsuplente_id) WHERE (ca.profesor_id IS NOT NULL OR ca.profesorsuplente_id IS NOT NULL) AND ca.vigente = true  AND (cp.notificado is null or cp.notificado = false) AND (cp.notificado = false or cp.notificado is null) and ( cp.estadorevisiontype = 'NUEVO' or cp.estadorevisiontype = 'LISTO' or  cp.estadorevisiontype = 'CAMBIOS' or cp.estadorevisiontype = 'RECHAZADO' or cp.estadorevisiontype = 'ASIGNADO' or cp.estadorevisiontype is null) AND ca.notificado = false ORDER BY ca.id DESC";
+	private static final String PROGRAMA_MATERIAL_SQL = "SELECT (cp.id)as programa_id, (cp.cantcartillas),cp.asignatura_id,cmd.id as material_id,cpc.miembrocens_id,cmd.estadorevisiontype,cmd.nro as cartilla_nro,cmd.fecha_cambio_estado,cp.fecha_cambio_estado as fecha_cambio_esado_programa,cpc2.miembrocens_id as profesor_miembro_id FROM cens_programa as cp LEFT OUTER JOIN cens_material_didactico as cmd ON cmd.programa_id = cp.id INNER JOIN cens_profesor AS cpc ON cpc.id = cmd.profesor_id INNER JOIN cens_profesor AS cpc2 ON cpc2.id = cp.profesor_id WHERE cp.estadorevisiontype = 'ACEPTADO' AND cp.notificado = false AND (cmd.notificado = false OR cmd.notificado is null)  ORDER BY cp.id DESC";
+	private static final String ASIGNATURA_NOTIFICADO = "UPDATE cens_asignatura SET notificado = true WHERE id = :id";
+	private static final String PROGRAMA_NOTIFICADO = "UPDATE cens_programa SET notificado = true WHERE id = :id";
+	private static final String MATERIAL_NOTIFICADO = "UPDATE cens_material_didactico SET notificado = true WHERE id = :id";
+	
+	private static final String TIEMPO_EDICION_INVALIDO = "UPDATE cens_tiempo_edicion_vencido SET cancelado = true WHERE tipo_id = :id";
 
 	private static final String TIEMPO_EDICION_PROGRAMA_INICIO = "#{tiempoEdicionProperties['tiempo_edicion_programa_inicio']}";
 	private static final String TIEMPO_EDICION_PROGRAMA_MISMO_ESTADO = "#{tiempoEdicionProperties['tiempo_edicion_programa_mismo_estado']}";
 
 	private static final String TIEMPO_EDICION_MATERIAL_INICIO = "#{tiempoEdicionProperties['tiempo_edicion_material_didactico_inicio']}";
 	private static final String TIEMPO_EDICION_MATERIAL_MISMO_ESTADO = "#{tiempoEdicionProperties['tiempo_edicion_material_didactico_mismo_estado']}";
+	
+	private static final Logger logger = LoggerFactory.getLogger(TiempoEdicionCensServiceImpl.class);
 
 	@Value(TIEMPO_EDICION_PROGRAMA_INICIO)
 	private Integer programaInicio;
@@ -120,6 +128,19 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 							registryMaps.put(tiempoEdicion.getTiempoEdicionReporteType(), new HashSet<Long>());							
 						}
 						registryMaps.get(tiempoEdicion.getTiempoEdicionReporteType()).add(tiempoEdicion.getTipoId());
+						String sql = null;
+						switch(tiempoEdicion.getTiempoEdicionReporteType()){
+						case ASIGNATURA:
+							sql = ASIGNATURA_NOTIFICADO;
+							break;
+						case MATERIAL:
+							sql = MATERIAL_NOTIFICADO;
+							break;
+						case PROGRAMA:
+							sql = PROGRAMA_NOTIFICADO;
+							break;						
+						}
+						entityManager.createNativeQuery(sql).setParameter("id", tiempoEdicion.getTipoId()).executeUpdate();
 					}
 				}
 			}
@@ -128,5 +149,19 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 		}
 
 	}
+
+	@Override
+	@Transactional
+	public void invalidateEntries(Long id) throws CensException {
+		try{
+			entityManager.createNativeQuery(TIEMPO_EDICION_INVALIDO).setParameter("id", id).executeUpdate();
+		}catch(Exception e){
+			logger.error("Error when updating tiempoEdicion rows",e);
+			throw new CensException("No se puede cancelar la entrada",e);
+		}
+		
+	}
+	
+	
 
 }

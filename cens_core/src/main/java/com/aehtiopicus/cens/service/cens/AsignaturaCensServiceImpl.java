@@ -23,12 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.Asignatura;
-import com.aehtiopicus.cens.domain.entities.AsignaturaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.Curso;
 import com.aehtiopicus.cens.domain.entities.Profesor;
 import com.aehtiopicus.cens.domain.entities.Programa;
 import com.aehtiopicus.cens.domain.entities.RestRequest;
-import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.repository.cens.AsignaturCensRepository;
 import com.aehtiopicus.cens.repository.cens.ProfesorCensRepository;
 import com.aehtiopicus.cens.service.cens.ftp.FtpAsignaturaCensService;
@@ -74,7 +72,7 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 			throw new CensException("Debe existir datos para guardar asignaturas");
 		}
 		logger.info("Guardando asignatura ");
-		List<Asignatura> resultList = new ArrayList<Asignatura>();
+		List<Asignatura> resultList = new ArrayList<>();
 		Long oldCursoId = null;
 		for(Asignatura asignatura : asignaturaList){
 			asignatura = validateAsignatura(asignatura);
@@ -110,15 +108,19 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		if(asignatura.getProfesor()!=null && asignatura.getProfesor().getId()!=null){
 			asignatura.setProfesor(profesorCensRepository.findOne(asignatura.getProfesor().getId()));
 			asignatura.setProfAsignDate(new Date());
+			asignatura.setNotificado(false);
 		}else{
 			asignatura.setProfAsignDate(null);
+			asignatura.setNotificado(false);
 			asignatura.setProfesor(null);
 		}
 		if(asignatura.getProfesorSuplente()!=null && asignatura.getProfesorSuplente().getId()!=null){
 			asignatura.setProfesorSuplente(profesorCensRepository.findOne(asignatura.getProfesorSuplente().getId()));
 			asignatura.setProfAsignDate(new Date());
+			asignatura.setNotificado(false);
 		}else{
 			asignatura.setProfAsignDate(null);
+			asignatura.setNotificado(false);
 			asignatura.setProfesorSuplente(null);
 		}
 		if(asignatura.getCurso()!=null && asignatura.getCurso().getId()!=null){

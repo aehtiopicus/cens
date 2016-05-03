@@ -165,7 +165,6 @@ public class UsuarioCensServiceImpl implements UsuarioCensService{
 			asesoresIdList = Lists.transform(Arrays.asList(allAsesores.split(",")), new Function<String,Long>() {				
 				@Override
 				public Long apply(String id) {
-					// TODO Auto-generated method stub
 					return Long.valueOf(id);
 				}
 			});

@@ -11,4 +11,6 @@ public interface TiempoEdicionCensService {
 	
 	public void guardarEntradasTiempoEdicion(List<TiempoEdicion> tiempoEdicionList) throws CensException;
 
+	public void invalidateEntries(Long id) throws CensException;
+
 }

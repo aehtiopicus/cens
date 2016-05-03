@@ -121,6 +121,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 			md.setFileInfo(handleFtp(file, md));	
 			md.setEstadoRevisionType(EstadoRevisionType.LISTO);
 			md.getDocumentoModificado().setFechaCambioEstado(new Date());
+			md.getDocumentoModificado().setNotificado(false);
 			return materialDidacticoCensRepository.save(md);
 		}else{
 			return md;
@@ -163,6 +164,7 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 		
 		if(md == null){
 			materialDidactico.getDocumentoModificado().setFechaCambioEstado(new Date());
+			materialDidactico.getDocumentoModificado().setNotificado(false);
 		}
 		return materialDidactico;
 	}
