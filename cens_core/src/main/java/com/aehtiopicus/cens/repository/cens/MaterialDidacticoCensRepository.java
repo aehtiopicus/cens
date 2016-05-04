@@ -21,11 +21,11 @@ public interface MaterialDidacticoCensRepository extends JpaRepository<MaterialD
 			String nombre);
 
 	@Modifying
-	@Query("UPDATE MaterialDidactico md SET md.fileInfo = null, md.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha, notificado = false WHERE md = :material")
+	@Query("UPDATE MaterialDidactico md SET md.fileInfo = null, md.estadoRevisionType = :nuevo, md.documentoModificado.fechaCambioEstado = :fecha, md.documentoModificado.notificado = false WHERE md = :material")
 	public int removeFileInfo(@Param("material")MaterialDidactico p, @Param("nuevo")EstadoRevisionType nuevo, @Param("fecha") Date fecha);
 
 	@Modifying
-	@Query("UPDATE MaterialDidactico md SET md.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha, notificado = false WHERE md.id = :materialId")
+	@Query("UPDATE MaterialDidactico md SET md.estadoRevisionType = :nuevo, md.documentoModificado.fechaCambioEstado = :fecha, md.documentoModificado.notificado = false WHERE md.id = :materialId")
 	public void updateMaterialDidacticoStatus(@Param("materialId")Long materialId,@Param("nuevo")EstadoRevisionType estadoRevisionType, @Param("fecha") Date fecha);
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
+import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 
 public abstract class AbstractNotificacionFeed {
 
@@ -42,6 +43,9 @@ public abstract class AbstractNotificacionFeed {
 	private Long tipoId;
 	
 	private EstadoRevisionType estadoRevisionType;
+	
+	@Enumerated(EnumType.STRING)
+	private TiempoEdicionReporteType tiempoEdicionType;
 	
 
 	public EstadoRevisionType getEstadoRevisionType() {
@@ -140,6 +144,14 @@ public abstract class AbstractNotificacionFeed {
 
 	public void setTipoId(Long tipoId) {
 		this.tipoId = tipoId;
+	}
+
+	public TiempoEdicionReporteType getTiempoEdicionType() {
+		return tiempoEdicionType;
+	}
+
+	public void setTiempoEdicionType(TiempoEdicionReporteType tiempoEdicionType) {
+		this.tiempoEdicionType = tiempoEdicionType;
 	}
 	
 	

@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aehtiopicus.cens.domain.entities.ComentarioCens;
 import com.aehtiopicus.cens.domain.entities.ComentarioCensFeed;
-import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
+import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.repository.cens.ComentarioCensFeedRepository;
@@ -40,9 +40,6 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	@Autowired
-	private MiembroCensService miembroCensService;
 	
 	private static final String MAX_DAYS_NOT_SEEN = "#{notificacionProperties['max_no_notificado']}";
 	

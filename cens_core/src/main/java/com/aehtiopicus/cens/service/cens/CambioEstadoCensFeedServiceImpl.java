@@ -177,7 +177,7 @@ public class CambioEstadoCensFeedServiceImpl implements CambioEstadoCensFeedServ
 
 	@Override
 	@Transactional
-	public int markCommetnsAsIgnored(Long tipoId, ComentarioType tipoType)
+	public int markCommentsAsIgnored(Long tipoId, ComentarioType tipoType)
 			throws CensException {
 		try{
 			return entityManager.createNativeQuery("update cens_cambio_estado_feed  SET ignorado = true WHERE tipoid  = :tipoid AND comentariotype = :tipotype").

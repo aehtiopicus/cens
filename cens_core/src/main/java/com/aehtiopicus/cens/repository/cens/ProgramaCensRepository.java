@@ -22,14 +22,14 @@ public interface ProgramaCensRepository extends JpaRepository<Programa,Long>{
 	public List<Programa> findProgramaByProfesor(@Param("profesorId")Long profesorId);
 
 	@Modifying
-	@Query("UPDATE Programa p SET p.fileInfo = null, estadoRevisionType = :nuevo, fechaCambioEstado = :fecha, notificado = false WHERE p = :programa")
+	@Query("UPDATE Programa p SET p.fileInfo = null, estadoRevisionType = :nuevo, p.documentoModificado.fechaCambioEstado = :fecha, p.documentoModificado.notificado = false WHERE p = :programa")
 	public int removeFileInfo(@Param("programa")Programa p, @Param("nuevo")EstadoRevisionType nuevo, @Param("fecha") Date fecha);
 
 	@Query("SELECT p FROM Programa p INNER JOIN p.asignatura a WHERE a.vigente = true")
 	public List<Programa> findProgramaByAsignaturaVigente();
 
 	@Modifying
-	@Query("UPDATE Programa p SET p.estadoRevisionType = :nuevo, fechaCambioEstado = :fecha, notificado = false WHERE p.id = :programaId")
+	@Query("UPDATE Programa p SET p.estadoRevisionType = :nuevo, p.documentoModificado.fechaCambioEstado = :fecha, p.documentoModificado.notificado = false WHERE p.id = :programaId")
 	public void updateProgramaStatus(@Param("programaId")Long programaId,@Param("nuevo") EstadoRevisionType type, @Param("fecha") Date fecha);
 
 }

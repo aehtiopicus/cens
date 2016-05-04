@@ -7,21 +7,13 @@ import com.aehtiopicus.cens.domain.entities.NotificacionCambioEstadoFeed;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.utils.CensException;
 
-public interface CambioEstadoCensFeedService {
+public interface CambioEstadoCensFeedService extends CensFeedService<NotificacionCambioEstadoFeed,CambioEstadoCensFeed>{
+		
 
-	public CambioEstadoCensFeed save(CambioEstadoCensFeed aux) throws CensException;
+	public void markCambioEstadoFeedAsRead(Long programaId, Long miembroId, ComentarioType programa)
+			throws CensException;
 
-	public List<NotificacionCambioEstadoFeed> getGeneratedFeeds(String username,boolean email)throws CensException;
-
-	public void markAllFeedsForUserAsNotified(String username) throws CensException;
-
-	public List<NotificacionCambioEstadoFeed> getUnReadFeeds() throws CensException;
-
-	public void markCambioEstadoFeedAsRead(Long programaId, Long miembroId, ComentarioType programa) throws CensException;
-
-	public List<String> getAllKeys(Long tipoId, Long miembroId,
-			ComentarioType ct);
-
-	public int markCommetnsAsIgnored(Long tipoId, ComentarioType tipoType)throws CensException;
+	public List<String> getAllKeys(Long tipoId, Long miembroId, ComentarioType ct);			   
+	
 
 }

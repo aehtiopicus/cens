@@ -48,22 +48,24 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	@Autowired
 	private CambioEstadoCensFeedService cambioEstadoCensFeedService;
 	
+	@Autowired
+	private TiempoEdicionCensFeedService tiempoEdicionCensFeedService;
+	
 	@Override
 	public Map<NotificacionType,List<? extends AbstractNotificacionFeed>> getNotificationForUser(String username,boolean email) throws CensException{
-		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<NotificacionType, List<? extends AbstractNotificacionFeed>>();
+		Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser = new HashMap<>();
 		
-		List<NotificacionComentarioFeed> ccfs = comentarioCensFeedService.getGeneratedFeeds(username,email);
-		
-		if(CollectionUtils.isNotEmpty(ccfs)){
-			
-			resultNotificationByUser.put(NotificacionType.COMENTARIO, ccfs);
-		}
-		
-		List<NotificacionCambioEstadoFeed> ncefl = cambioEstadoCensFeedService.getGeneratedFeeds(username,email);
-		if(CollectionUtils.isNotEmpty(ncefl)){
-			resultNotificationByUser.put(NotificacionType.ACTIVIDAD, ncefl);
-		}
+		addNotification(username,email,comentarioCensFeedService,NotificacionType.COMENTARIO,resultNotificationByUser);
+		addNotification(username,email,cambioEstadoCensFeedService,NotificacionType.ACTIVIDAD,resultNotificationByUser);
+		addNotification(username, email, tiempoEdicionCensFeedService, NotificacionType.TIEMPO_EDICION, resultNotificationByUser);
 		return resultNotificationByUser;
+	}
+	
+	private <K extends AbstractNotificacionFeed,M> void addNotification(String username, boolean email,CensFeedService<K, M> feedService,NotificacionType nt,Map<NotificacionType,List<? extends AbstractNotificacionFeed>> resultNotificationByUser) throws CensException{
+		List<K> ncefl = feedService.getGeneratedFeeds(username,email);
+		if(CollectionUtils.isNotEmpty(ncefl)){
+			resultNotificationByUser.put(nt, ncefl);
+		}
 	}
 		
 
@@ -232,11 +234,11 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		case COMENTARIO:
 			return comentarioCensFeedService.markCommentsAsIgnored(tipoId,tipoType);
 		case ACTIVIDAD:
-			return cambioEstadoCensFeedService.markCommetnsAsIgnored(tipoId,tipoType);
-		
+			return cambioEstadoCensFeedService.markCommentsAsIgnored(tipoId,tipoType);
+		default:
+			throw new CensException("No se indic&oacute; el tipo de feed");		
 		
 		}	
-	throw new CensException("No se indic&oacute; el tipo de feed");
 		
 	}
 }
