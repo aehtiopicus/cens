@@ -15,6 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 
 @Entity
@@ -67,6 +68,10 @@ public class TiempoEdicion implements Serializable{
 	
 	@Column(name="programa_id")
 	private Long programaId;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="prefil_dirigido")
+	private PerfilTrabajadorCensType perfilDirigido;
 
 	public Long getId() {
 		return id;
@@ -171,5 +176,15 @@ public class TiempoEdicion implements Serializable{
 	public void setProgramaId(Long programaId) {
 		this.programaId = programaId;
 	}
+
+	public PerfilTrabajadorCensType getPerfilDirigido() {
+		return perfilDirigido;
+	}
+
+	public void setPerfilDirigido(PerfilTrabajadorCensType perfilDirigido) {
+		this.perfilDirigido = perfilDirigido;
+	}
+	
+	
 	
 }

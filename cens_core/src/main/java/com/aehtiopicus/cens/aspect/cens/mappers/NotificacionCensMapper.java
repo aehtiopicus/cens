@@ -22,27 +22,13 @@ import com.aehtiopicus.cens.service.cens.CensServiceConstant;
 
 @Component
 public class NotificacionCensMapper {
-
-	@SuppressWarnings("unchecked")
-	public Map<ComentarioType,List<NotificacionComentarioFeed>> comentarioMapper(List<NotificacionComentarioFeed> notificationList){
-		
-		Map<ComentarioType,List<NotificacionComentarioFeed>> resultMap  = new HashMap<ComentarioType, List<NotificacionComentarioFeed>>();
-		
-		
-		for(Map.Entry<ComentarioType, List <? extends AbstractNotificacionFeed>> dataMap : genericMapper(notificationList).entrySet()){
-					resultMap.put(dataMap.getKey(), (List <NotificacionComentarioFeed>)dataMap.getValue());
-		}
-		
-		return resultMap;
-		
-	}
 	
 	private Map<ComentarioType,List<? extends AbstractNotificacionFeed>> genericMapper(List<? extends AbstractNotificacionFeed> notificationList){
 		
-		List<AbstractNotificacionFeed> ncfPrograma = new ArrayList<AbstractNotificacionFeed>();
-		List<AbstractNotificacionFeed> ncfMaterial = new ArrayList<AbstractNotificacionFeed>();
+		List<AbstractNotificacionFeed> ncfPrograma = new ArrayList<>();
+		List<AbstractNotificacionFeed> ncfMaterial = new ArrayList<>();
 		Map<ComentarioType,List<? extends AbstractNotificacionFeed>> resultMap  = new HashMap<ComentarioType, List<? extends AbstractNotificacionFeed>>();
-		
+		cambiar aca
 		for(AbstractNotificacionFeed ncf : notificationList){
 			switch(ncf.getComentarioType()){
 			case MATERIAL:
@@ -98,27 +84,8 @@ public class NotificacionCensMapper {
 		
 
 	}
-
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void convertToComentarioNotificacion(
-			Map<ComentarioType, List<NotificacionComentarioFeed>> sortedComentarios,
-			Map<NotificacionTypeComentarioIdKey, Map<String,String>> informationToRetrieve) {
-		for(Map.Entry<ComentarioType, List<NotificacionComentarioFeed>> sortedComentario : sortedComentarios.entrySet()){			
-					
-			
-			Map<NotificacionTypeComentarioIdKey,Integer> count = countRepeatedValues((Entry)sortedComentario, NotificacionType.COMENTARIO);
-			for(NotificacionComentarioFeed ncf : sortedComentario.getValue()){
-				NotificacionTypeComentarioIdKey ctcik = new NotificacionTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion(),NotificacionType.COMENTARIO,ncf.getToId());
-				if(informationToRetrieve.containsKey(ctcik)){
-					ncf.setCantidad(count.get(ctcik));	
-					assembleMessageData(ncf, informationToRetrieve.get(ctcik));
-//					ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
-				}
-			}					
-		}
-		
-	}
+	
 	
 	private Map<NotificacionTypeComentarioIdKey,Integer> countRepeatedValues(Entry<ComentarioType,List<? extends AbstractNotificacionFeed>> sortedComentario,NotificacionType nt){
 		Iterator<? extends AbstractNotificacionFeed> ncfIterator  = sortedComentario.getValue().iterator();
@@ -174,32 +141,48 @@ public class NotificacionCensMapper {
 
 
 	@SuppressWarnings("unchecked")
-	public Map<ComentarioType, List<NotificacionCambioEstadoFeed>> actividadMapper(
-			List<NotificacionCambioEstadoFeed> list) {
-		Map<ComentarioType,List<NotificacionCambioEstadoFeed>> resultMap  = new HashMap<ComentarioType, List<NotificacionCambioEstadoFeed>>();
+	public Map<ComentarioType, List<AbstractNotificacionFeed>> generalNotificationMapper(
+			List<AbstractNotificacionFeed> list) {
+		Map<ComentarioType,List<AbstractNotificacionFeed>> resultMap  = new HashMap<ComentarioType, List<AbstractNotificacionFeed>>();
 		
 		
 		for(Map.Entry<ComentarioType, List <? extends AbstractNotificacionFeed>> dataMap : genericMapper(list).entrySet()){
-					resultMap.put(dataMap.getKey(), (List <NotificacionCambioEstadoFeed>)dataMap.getValue());
+					resultMap.put(dataMap.getKey(), (List <AbstractNotificacionFeed>)dataMap.getValue());
 		}
 		
 		return resultMap;
 	}
 
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void convertToActividadNotificacion(
-			Map<ComentarioType, List<NotificacionCambioEstadoFeed>> sortedActividad,
-			Map<NotificacionTypeComentarioIdKey, Map<String, String>> informationToRetrieve) {
-		for(Map.Entry<ComentarioType, List<NotificacionCambioEstadoFeed>> sortedComentario : sortedActividad.entrySet()){			
+	public void convertToNotificacion(
+			Map<ComentarioType, List<AbstractNotificacionFeed>> sortedActividad,
+			Map<NotificacionTypeComentarioIdKey, Map<String, String>> informationToRetrieve,NotificacionType notificacion) {
+		for(Map.Entry<ComentarioType, List<AbstractNotificacionFeed>> sortedComentario : sortedActividad.entrySet()){			
 					
 			
-			Map<NotificacionTypeComentarioIdKey,Integer> count = countRepeatedValues((Entry)sortedComentario, NotificacionType.ACTIVIDAD);
-			for(NotificacionCambioEstadoFeed ncf : sortedComentario.getValue()){
+			Map<NotificacionTypeComentarioIdKey,Integer> count = countRepeatedValues((Entry)sortedComentario, notificacion);
+			for(AbstractNotificacionFeed ncf : sortedComentario.getValue()){
 				NotificacionTypeComentarioIdKey ctcik = new NotificacionTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion(),NotificacionType.ACTIVIDAD,ncf.getToId());
 				if(informationToRetrieve.containsKey(ctcik)){
 					ncf.setCantidad(count.get(ctcik));	
-					assembleMessageData(ncf, informationToRetrieve.get(ctcik));
-					ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
+					assembleMessageData(ncf, informationToRetrieve.get(ctcik));					
+					switch(notificacion){
+					case ACTIVIDAD:
+						ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
+						break;					
+					case COMENTARIO:
+						ncf.getDisplayTextMap().put(CensServiceConstant.COMENTARIO, ncf.getEstadoRevisionType().toString());
+						break;
+					case TIEMPO_EDICION:
+						ncf.getDisplayTextMap().put(CensServiceConstant.TIEMPO_EDICION, ncf.getEstadoRevisionType().toString());
+						break;
+					case ACTIVIDAD_CREACION:
+					default:
+						break;
+					
+					}
+					
 				}
 			}					
 		}

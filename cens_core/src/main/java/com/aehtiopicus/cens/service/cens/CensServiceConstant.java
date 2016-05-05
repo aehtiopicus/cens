@@ -60,5 +60,8 @@ public class CensServiceConstant {
 	
 	public static final String DEFAULT_IMG ="/css/midasUI-theme/images/user_blank_picture.png";
 	
+	public static final String COMENTARIO = "Comentario";
+	
+	public static final String TIEMPO_EDICION = "TiempoEdicion";
 	
 }

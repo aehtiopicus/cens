@@ -128,31 +128,28 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 		}
 		
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+		
 	private Map<String,Object> generateNotifacionComentario(Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser) throws CensException{
 		
 		Map<String,Object> data = new HashMap<>();
-		if(notificationForUser.containsKey(NotificacionType.COMENTARIO)){			
-			Map<ComentarioType,List<NotificacionComentarioFeed>>  sortedComentarios = notificacionCensMapper.comentarioMapper((List<NotificacionComentarioFeed>) notificationForUser.get(NotificacionType.COMENTARIO));
-			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedComentarios,NotificacionType.COMENTARIO);
-
-			setInformationData(informationToRetrieve);		
-			notificacionCensMapper.convertToComentarioNotificacion(sortedComentarios,informationToRetrieve);
-			
-			data.put(NotificacionType.COMENTARIO.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedComentarios));
-		}
-		if(notificationForUser.containsKey(NotificacionType.ACTIVIDAD)){
-			Map<ComentarioType,List<NotificacionCambioEstadoFeed>>  sortedActividad =notificacionCensMapper.actividadMapper( (List<NotificacionCambioEstadoFeed>) notificationForUser.get(NotificacionType.ACTIVIDAD));
-			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedActividad,NotificacionType.ACTIVIDAD);
+		assembleNotis(NotificacionType.COMENTARIO, data, notificationForUser);
+		assembleNotis(NotificacionType.ACTIVIDAD, data, notificationForUser);
+		assembleNotis(NotificacionType.TIEMPO_EDICION, data, notificationForUser);	
+		return data;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void assembleNotis(NotificacionType notificacionType,Map<String,Object> data,Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser) throws CensException{
+		if(notificationForUser.containsKey(notificacionType)){
+			Map<ComentarioType,List<AbstractNotificacionFeed>>  sortedActividad =notificacionCensMapper.generalNotificationMapper( (List<AbstractNotificacionFeed>) notificationForUser.get(notificacionType));
+			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedActividad,notificacionType);
 
 			setInformationData(informationToRetrieve);			
-			notificacionCensMapper.convertToActividadNotificacion(sortedActividad,informationToRetrieve);
+			notificacionCensMapper.convertToNotificacion(sortedActividad,informationToRetrieve,notificacionType);
 			
-			data.put(NotificacionType.ACTIVIDAD.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedActividad));
+			data.put(notificacionType.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedActividad));
 			
 		}
-		return data;
 	}
 
 	private void setInformationData(Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve) throws CensException{

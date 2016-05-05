@@ -16,6 +16,7 @@ import com.aehtiopicus.cens.domain.entities.MaterialDidacticoTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.ProgramaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
+import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
 import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 import com.aehtiopicus.cens.utils.Utils;
 
@@ -130,10 +131,19 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion
 								.setFechaVencido(Utils.plusDate(asignatura.getFechaAsignacion(), programaInicio + 1));
 						tiempoEdicion.setEstadoRevisionType(EstadoRevisionType.INEXISTENTE);
+						//agregar primero una entrada para el profesor
+						tiempoEdicion.setToId(asignatura.getMiembroId());
+						tiempoEdicion.setPerfilDirigido(PerfilTrabajadorCensType.PROFESOR);
+						tiempoEdicionList.add(tiempoEdicion);	
+						
 						for (Long asesorId : asesorIdList) {
 							TiempoEdicion tiempoEdicionCloned = SerializationUtils.clone(tiempoEdicion);
-							tiempoEdicionCloned.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -2l : asesorId);
-							tiempoEdicionList.add(tiempoEdicionCloned);
+							if(tiempoEdicionCloned.getFromId().equals(asesorId)){
+								continue;
+							}
+							tiempoEdicionCloned.setToId(asesorId);
+							tiempoEdicionCloned.setPerfilDirigido(PerfilTrabajadorCensType.ASESOR);
+							tiempoEdicionList.add(tiempoEdicionCloned);							
 						}
 						asignaturaIterator.remove();
 					}
@@ -156,18 +166,20 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion = new TiempoEdicion();
 						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.PROGRAMA);
 						tiempoEdicion.setFromId(asignatura.getMiembroId());
-						tiempoEdicion.setTipoId(asignatura.getAsignaturaId());
+						tiempoEdicion.setTipoId(asignatura.getProgramaId());
 						tiempoEdicion.setAsignaturaId(asignatura.getAsignaturaId());
+						tiempoEdicion.setProgramaId(asignatura.getProgramaId());
 						tiempoEdicion.setFechaVencido(
 								Utils.plusDate(asignatura.getProgramaFechaUpdate(), programaMismoEstado + 1));
 						tiempoEdicion.setEstadoRevisionType(asignatura.getEstadoRevision());
 						tiempoEdicion.setCantidadCartillas(asignatura.getCantidadCartillas());
-						for (Long asesorId : asesorIdList) {
-							TiempoEdicion tiempoEdicionCloned = SerializationUtils.clone(tiempoEdicion);
-							tiempoEdicionCloned
-									.setToId(tiempoEdicionCloned.getFromId().equals(asesorId) ? -2l : asesorId);
-							tiempoEdicionList.add(tiempoEdicionCloned);
-						}
+						
+						//agregar primero una entrada para el profesor
+						tiempoEdicion.setToId(asignatura.getMiembroId());
+						tiempoEdicion.setPerfilDirigido(PerfilTrabajadorCensType.PROFESOR);
+						tiempoEdicionList.add(tiempoEdicion);	
+						
+						addEntriesForAsesores(asesorIdList, tiempoEdicion, tiempoEdicionList);						
 						asignaturaIterator.remove();
 					}
 				}
@@ -195,11 +207,14 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion
 								.setFechaVencido(Utils.plusDate(programa.getFechaCambioEstado(), materialInicio + 1));
 						tiempoEdicion.setEstadoRevisionType(EstadoRevisionType.INEXISTENTE);
-						for (Long asesorId : asesorIdList) {
-							TiempoEdicion cloned = SerializationUtils.clone(tiempoEdicion);
-							cloned.setToId(cloned.getFromId().equals(asesorId) ? -2l : asesorId);
-							tiempoEdicionList.add(cloned);
-						}
+						
+						//agregar primero una entrada para el profesor
+						tiempoEdicion.setToId(programa.getMiembroId());
+						tiempoEdicion.setPerfilDirigido(PerfilTrabajadorCensType.PROFESOR);
+						tiempoEdicionList.add(tiempoEdicion);	
+						
+						addEntriesForAsesores(asesorIdList, tiempoEdicion, tiempoEdicionList);
+						
 
 					}
 					programaIterator.remove();
@@ -241,12 +256,14 @@ public class TiempoEdicionServiceMapper {
 							tiempoCloned.setEstadoRevisionType(material.getEstadoRevision());
 							tiempoCloned.setFechaVencido(
 									Utils.plusDate(material.getFechaCambioEstado(), materialMismoEstado + 1));
-							for (Long asesorId : asesorIdList) {
-								TiempoEdicion tiempoClonedForToId = SerializationUtils.clone(tiempoCloned);
-								tiempoClonedForToId
-										.setToId(tiempoClonedForToId.getFromId().equals(asesorId) ? -2l : asesorId);
-								tiempoEdicionList.add(tiempoClonedForToId);
-							}
+							
+							//agregar primero una entrada para el profesor
+							tiempoCloned.setToId(material.getMiembroId());
+							tiempoCloned.setPerfilDirigido(PerfilTrabajadorCensType.PROFESOR);
+							tiempoEdicionList.add(tiempoCloned);	
+							
+							addEntriesForAsesores(asesorIdList, tiempoCloned, tiempoEdicionList);
+				
 						}
 						if (material.getEstadoRevision().equals(EstadoRevisionType.ACEPTADO)) {
 							aceptado = true;
@@ -266,11 +283,13 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.PROGRAMA);
 						tiempoEdicion
 								.setFechaVencido(Utils.plusDate(fechaAceptadaUltimaCartilla, materialMismoEstado + 1));
-						for (Long asesorId : asesorIdList) {
-							TiempoEdicion tiempoClonedForToId = SerializationUtils.clone(tiempoEdicion);
-							tiempoClonedForToId.setToId(tiempoEdicion.getFromId().equals(asesorId) ? -2l : asesorId);
-							tiempoEdicionList.add(tiempoEdicion);
-						}						
+						
+						//agregar primero una entrada para el profesor
+						tiempoEdicion.setToId(programa.getMiembroId());
+						tiempoEdicion.setPerfilDirigido(PerfilTrabajadorCensType.PROFESOR);
+						tiempoEdicionList.add(tiempoEdicion);	
+						
+						addEntriesForAsesores(asesorIdList, tiempoEdicion, tiempoEdicionList);														
 					}
 
 				}
@@ -278,5 +297,17 @@ public class TiempoEdicionServiceMapper {
 
 		}
 
+	}
+	
+	private void addEntriesForAsesores(List<Long> asesorIdList, TiempoEdicion tiempoEdicion, List<TiempoEdicion> tiempoEdicionList){
+		for (Long asesorId : asesorIdList) {
+			TiempoEdicion tiempoClonedForToId = SerializationUtils.clone(tiempoEdicion);
+			if(tiempoClonedForToId.getFromId().equals(asesorId)){
+				continue;
+			}
+			tiempoClonedForToId.setToId(asesorId);
+			tiempoClonedForToId.setPerfilDirigido(PerfilTrabajadorCensType.ASESOR);
+			tiempoEdicionList.add(tiempoClonedForToId);
+		}		
 	}
 }

@@ -116,7 +116,7 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 				int registered = 0;
 				for (TiempoEdicion tiempoEdicion : tiempoEdicionList) {
 					tiempoEdicion.getTipoId();
-					if (registered == 10) {
+					if (registered == 11) {
 						entityManager.flush();
 						entityManager.clear();
 						registered = 0;
@@ -138,7 +138,8 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 							break;
 						case PROGRAMA:
 							sql = PROGRAMA_NOTIFICADO;
-							break;						
+							break;							
+						
 						}
 						entityManager.createNativeQuery(sql).setParameter("id", tiempoEdicion.getTipoId()).executeUpdate();
 					}
