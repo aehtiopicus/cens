@@ -55,6 +55,8 @@ public class CensServiceConstant {
 	public static final String TO_PERFIL ="perfil_to";
 
 	public static final String ESTADO_REVISION = "EstadoRevision";
+	
+	public static final String FECHA_CAMBIO_ESTADO = "FechaCambioEstado";
 
 	public static final String COMENTARIO_MATERIAL_NRO = "Nro";		
 	

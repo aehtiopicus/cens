@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
@@ -146,9 +148,13 @@ public class NotificacionCensMapper {
 		for(Map.Entry<ComentarioType, List<? extends AbstractNotificacionFeed>> entry : sortedComentarios.entrySet()){
 			dataTextMaps = new ArrayList<>();
 			for(AbstractNotificacionFeed ncf : entry.getValue()){
-				dataTextMaps.add(ncf.getDisplayTextMap());
+				if(MapUtils.isNotEmpty(ncf.getDisplayTextMap())){
+					dataTextMaps.add(ncf.getDisplayTextMap());
+				}
 			}
-			result.put(entry.getKey(), dataTextMaps);
+			if(CollectionUtils.isNotEmpty(dataTextMaps)){
+				result.put(entry.getKey(), dataTextMaps);
+			}
 		}
 		return result;
 		
