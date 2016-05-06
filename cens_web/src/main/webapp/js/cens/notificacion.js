@@ -143,9 +143,9 @@ function enableBubble(data,bubble,noti){
 	}
 }
 
-function notificacionLoader(callback){
+function notificacionLoader(callback,errorCount){
 	
-	
+	var errorCount = typeof errorCount === "undefined" ? 2 : errorCount;
 	$.ajax({
 		url: pagePath+"/api/notificacion/miembro/"+callback.miembroId,
 		type: "GET",	    	    
@@ -160,15 +160,23 @@ function notificacionLoader(callback){
 				notificacionDisabled(true);
 			}else{
 				notificacionDisabled(false);
-				callback.setNotificacion(result);
+				callback.setNotificacion(result);				
 			}
 		},
 		error: function(value,xhr){
 			if(xhr === "error"){
-				location.href = location.href;
-			}
-			alert("Se produjo un error el servidor");
+				if(errorCount == 0){
+					alert("Notificaciones no disponibles");
+					$("#notCant1").remove();
+					$(".user >div").show();
+					$(".user").on("mouseover",function(){alert("Notificaciones no disponibles")})
+				
+				}else{
+					notificacionLoader(callback,--errorCount);
+				}
 			return "error";
+			}			
+			
 
 		}
 	});
