@@ -141,13 +141,13 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void assembleNotis(NotificacionType notificacionType,Map<String,Object> data,Map<NotificacionType, List<? extends AbstractNotificacionFeed>> notificationForUser) throws CensException{
 		if(notificationForUser.containsKey(notificacionType)){
-			Map<ComentarioType,List<AbstractNotificacionFeed>>  sortedActividad =notificacionCensMapper.generalNotificationMapper( (List<AbstractNotificacionFeed>) notificationForUser.get(notificacionType));
-			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedActividad,notificacionType);
+			Map<ComentarioType,List<AbstractNotificacionFeed>>  sortedAbstractNotificacionFeed = notificacionCensMapper.generalNotificationMapper( (List<AbstractNotificacionFeed>) notificationForUser.get(notificacionType));
+			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedAbstractNotificacionFeed,notificacionType);
 
 			setInformationData(informationToRetrieve);			
-			notificacionCensMapper.convertToNotificacion(sortedActividad,informationToRetrieve,notificacionType);
+			notificacionCensMapper.convertToNotificacion(sortedAbstractNotificacionFeed,informationToRetrieve,notificacionType);
 			
-			data.put(notificacionType.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedActividad));
+			data.put(notificacionType.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedAbstractNotificacionFeed));
 			
 		}
 	}
@@ -155,8 +155,7 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 	private void setInformationData(Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve) throws CensException{
 		
 		if(!informationToRetrieve.isEmpty()) {
-			
-			
+						
 			for(Entry<NotificacionTypeComentarioIdKey,Map<String,String>> value : informationToRetrieve.entrySet()){								
 				informationToRetrieve.put(value.getKey(), comentarioCensFeedService.getCommentSource(value.getKey()));				
 				

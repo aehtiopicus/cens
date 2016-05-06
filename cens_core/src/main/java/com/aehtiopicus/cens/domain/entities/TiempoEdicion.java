@@ -14,9 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
-import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 
 @Entity
 @Table(name="cens_tiempo_edicion_vencido")
@@ -34,9 +34,9 @@ public class TiempoEdicion implements Serializable{
 	@Column(name="tipo_id")
 	private Long tipoId;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name="reporte_type")
-	private TiempoEdicionReporteType tiempoEdicionReporteType;
+	@Enumerated(EnumType.STRING)	
+	@Column(name="comentario_type")
+	private ComentarioType comentarioType;
 	
 	@Column(name="from_id")
 	private Long fromId;
@@ -89,12 +89,12 @@ public class TiempoEdicion implements Serializable{
 		this.tipoId = tipoId;
 	}
 
-	public TiempoEdicionReporteType getTiempoEdicionReporteType() {
-		return tiempoEdicionReporteType;
+	public ComentarioType getComentarioType() {
+		return comentarioType;
 	}
 
-	public void setTiempoEdicionReporteType(TiempoEdicionReporteType tiempoEdicionReporteType) {
-		this.tiempoEdicionReporteType = tiempoEdicionReporteType;
+	public void setComentarioType(ComentarioType comentarioType) {
+		this.comentarioType = comentarioType;
 	}
 
 	public Long getFromId() {

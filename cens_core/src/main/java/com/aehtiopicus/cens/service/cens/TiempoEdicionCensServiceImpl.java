@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import com.aehtiopicus.cens.domain.entities.AsignaturaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.ProgramaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
-import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
@@ -112,7 +112,7 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 	public void guardarEntradasTiempoEdicion(List<TiempoEdicion> tiempoEdicionList) throws CensException {
 		try {
 			if (CollectionUtils.isNotEmpty(tiempoEdicionList)) {
-				Map<TiempoEdicionReporteType,Set<Long>> registryMaps = new HashMap<>();
+				Map<ComentarioType,Set<Long>> registryMaps = new HashMap<>();
 				int registered = 0;
 				for (TiempoEdicion tiempoEdicion : tiempoEdicionList) {
 					tiempoEdicion.getTipoId();
@@ -123,21 +123,23 @@ public class TiempoEdicionCensServiceImpl implements TiempoEdicionCensService {
 					}
 					registered++;
 					entityManager.persist(tiempoEdicion);
-					if(registryMaps.get(tiempoEdicion.getTiempoEdicionReporteType()) == null || !registryMaps.get(tiempoEdicion.getTiempoEdicionReporteType()).contains(tiempoEdicion.getTipoId()) ){
-						if(registryMaps.get(tiempoEdicion.getTiempoEdicionReporteType()) == null){
-							registryMaps.put(tiempoEdicion.getTiempoEdicionReporteType(), new HashSet<Long>());							
+					if(registryMaps.get(tiempoEdicion.getComentarioType()) == null || !registryMaps.get(tiempoEdicion.getComentarioType()).contains(tiempoEdicion.getTipoId()) ){
+						if(registryMaps.get(tiempoEdicion.getComentarioType()) == null){
+							registryMaps.put(tiempoEdicion.getComentarioType(), new HashSet<Long>());							
 						}
-						registryMaps.get(tiempoEdicion.getTiempoEdicionReporteType()).add(tiempoEdicion.getTipoId());
+						registryMaps.get(tiempoEdicion.getComentarioType()).add(tiempoEdicion.getTipoId());
 						String sql = null;
-						switch(tiempoEdicion.getTiempoEdicionReporteType()){
-						case ASIGNATURA:
+						switch(tiempoEdicion.getComentarioType()){
+						case TE_ASIGNATURA:
 							sql = ASIGNATURA_NOTIFICADO;
 							break;
-						case MATERIAL:
+						case TE_MATERIAL:
 							sql = MATERIAL_NOTIFICADO;
 							break;
-						case PROGRAMA:
+						case TE_PROGRAMA:
 							sql = PROGRAMA_NOTIFICADO;
+							break;
+						default:
 							break;							
 						
 						}

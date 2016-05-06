@@ -10,12 +10,11 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import com.aehtiopicus.cens.domain.entities.NotificacionCambioEstadoFeed;
 import com.aehtiopicus.cens.domain.entities.NotificacionTiempoEdicionFeed;
+import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
-import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 import com.aehtiopicus.cens.utils.CensException;
 
 @Service
@@ -24,7 +23,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	private static final String FEEDS_EMAIL = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.reporte_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
+	private static final String FEEDS_EMAIL = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.comentario_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
 		+" FROM cens_tiempo_edicion_vencido as ctev  INNER JOIN "  
 		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.from_id) "
 		+" INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id "  
@@ -32,7 +31,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 		+" AND ctev.cancelado = false "
 		+" AND ctev.resulto = false";
 	
-	private static final String FEEDS_APP = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.reporte_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
+	private static final String FEEDS_APP = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.comentario_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
 		+" FROM cens_tiempo_edicion_vencido as ctev  INNER JOIN "  
 		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.from_id) "
 		+" INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id "  
@@ -53,7 +52,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 					ncf.setFechaCreacion((Date)data[0]);
 					ncf.setToId(((java.math.BigInteger)data[1]).longValue());
 					ncf.setPerfilDirigido(PerfilTrabajadorCensType.getPrefilByName(data[2].toString()));
-					ncf.setTiempoEdicionType(TiempoEdicionReporteType.valueOf(data[3].toString()));
+					ncf.setComentarioType(ComentarioType.valueOf(data[3].toString()));
 					ncf.setNotificado(Boolean.valueOf(data[4].toString()));
 					ncf.setFeedId(((java.math.BigInteger)data[5]).longValue());
 					ncf.setTipoId(((java.math.BigInteger)data[6]).longValue());
@@ -80,7 +79,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 	}
 
 	@Override
-	public TiempoEdicionReporteType save(TiempoEdicionReporteType mValue) throws CensException {
+	public TiempoEdicion save(TiempoEdicion mValue) throws CensException {
 		// TODO Auto-generated method stub
 		return null;
 	}

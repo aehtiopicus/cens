@@ -1,8 +1,8 @@
 package com.aehtiopicus.cens.service.cens;
 
 import com.aehtiopicus.cens.domain.entities.NotificacionTiempoEdicionFeed;
-import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
+import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
 
-public interface TiempoEdicionCensFeedService extends CensFeedService<NotificacionTiempoEdicionFeed, TiempoEdicionReporteType>{
+public interface TiempoEdicionCensFeedService extends CensFeedService<NotificacionTiempoEdicionFeed, TiempoEdicion>{
 
 }

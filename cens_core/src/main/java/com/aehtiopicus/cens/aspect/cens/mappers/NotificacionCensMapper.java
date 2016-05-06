@@ -13,8 +13,6 @@ import java.util.Map.Entry;
 import org.springframework.stereotype.Component;
 
 import com.aehtiopicus.cens.domain.entities.AbstractNotificacionFeed;
-import com.aehtiopicus.cens.domain.entities.NotificacionCambioEstadoFeed;
-import com.aehtiopicus.cens.domain.entities.NotificacionComentarioFeed;
 import com.aehtiopicus.cens.domain.entities.NotificacionTypeComentarioIdKey;
 import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.NotificacionType;
@@ -27,31 +25,48 @@ public class NotificacionCensMapper {
 		
 		List<AbstractNotificacionFeed> ncfPrograma = new ArrayList<>();
 		List<AbstractNotificacionFeed> ncfMaterial = new ArrayList<>();
-		Map<ComentarioType,List<? extends AbstractNotificacionFeed>> resultMap  = new HashMap<ComentarioType, List<? extends AbstractNotificacionFeed>>();
-		cambiar aca
-		for(AbstractNotificacionFeed ncf : notificationList){
-			switch(ncf.getComentarioType()){
+		List<AbstractNotificacionFeed> ncfTEMaterial = new ArrayList<>();
+		List<AbstractNotificacionFeed> ncfTEPrograma = new ArrayList<>();
+		List<AbstractNotificacionFeed> ncfTEAsignatura = new ArrayList<>();
+		
+		
+		for(AbstractNotificacionFeed ncf : notificationList){			
+			switch(ncf.getComentarioType() ){
 			case MATERIAL:
 				ncfMaterial.add(ncf);
 				break;
 			case PROGRAMA:
 				ncfPrograma.add(ncf);
 				break;		
-			
+			case TE_ASIGNATURA:
+				ncfTEAsignatura.add(ncf);
+				break;
+			case TE_MATERIAL:
+				ncfTEMaterial.add(ncf);
+				break;
+			case TE_PROGRAMA:
+				ncfTEPrograma.add(ncf);
+				break;
 			}
 		}
-		if(!ncfMaterial.isEmpty()){
-			Collections.sort(ncfMaterial, new SortComentarioCollectionByDate());
-			resultMap.put(ComentarioType.MATERIAL, ncfMaterial);
-		}
+		Map<ComentarioType,List<? extends AbstractNotificacionFeed>> resultMap  = new HashMap<ComentarioType, List<? extends AbstractNotificacionFeed>>();
 		
-		if(!ncfPrograma.isEmpty()){
-			Collections.sort(ncfPrograma, new SortComentarioCollectionByDate());
-			resultMap.put(ComentarioType.PROGRAMA, ncfPrograma);
-		}
+		putDataToCollection(ncfMaterial, ComentarioType.MATERIAL, resultMap);
+		putDataToCollection(ncfPrograma, ComentarioType.PROGRAMA, resultMap);
+		putDataToCollection(ncfTEAsignatura, ComentarioType.TE_ASIGNATURA, resultMap);
+		putDataToCollection(ncfTEMaterial, ComentarioType.TE_MATERIAL, resultMap);
+		putDataToCollection(ncfTEPrograma, ComentarioType.TE_PROGRAMA, resultMap);
+				
 		
 		return resultMap;
 		
+	}
+	
+	private void putDataToCollection(List<AbstractNotificacionFeed> listFeed,ComentarioType comentarioType,Map<ComentarioType,List<? extends AbstractNotificacionFeed>> map){
+		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(listFeed)){
+			Collections.sort(listFeed, new SortComentarioCollectionByDate());
+			map.put(comentarioType, listFeed);
+		}
 	}
 	
 	class SortComentarioCollectionByDate implements Comparator<AbstractNotificacionFeed>{

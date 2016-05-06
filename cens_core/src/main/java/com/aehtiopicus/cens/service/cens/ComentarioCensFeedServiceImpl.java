@@ -101,56 +101,83 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService{
 	@Override
 	@Cacheable(value="commentSource", key="#ctik.toString()")
 	public Map<String,String> getCommentSource(NotificacionTypeComentarioIdKey ctik) throws CensException {
-		try{
-			Query q = null;
-			switch(ctik.getComentarioType()){		
+		try{			
+			Map<String,String> resultMap = null;
+			switch(ctik.getComentarioType()){	
+			case TE_MATERIAL:
 			case MATERIAL:
-				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
+				resultMap = getMaterialResult(entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
 						+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
 						+ ",cmm.nombre as cmmnombre, cmm.id as cmmid, cmm.nro as nro "
 						+ "FROM cens_material_didactico cmm  "
 						+ "INNER JOIN cens_programa cp ON cmm.programa_id = cp.id "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
-						+ "WHERE cmm.id = :id").setParameter("id", ctik.getTipoId());
+						+ "WHERE cmm.id = :id").setParameter("id", ctik.getTipoId()));
 				break;
+			case TE_PROGRAMA:
 			case PROGRAMA:
-				q = entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
+				resultMap = getProgramaResult(entityManager.createNativeQuery("SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
 						+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
 						+ "FROM cens_programa cp "
 						+ "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 						+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id "
-						+ "WHERE cp.id = :id").setParameter("id", ctik.getTipoId());
-				break;				
+						+ "WHERE cp.id = :id").setParameter("id", ctik.getTipoId()));
+				break;	
+			case TE_ASIGNATURA:
+				FALTA ESTE CASO
+				break;
 		
-			}
-			Object[] result = (Object[]) q.getSingleResult();
-		
-			Map<String,String> resultMap = new HashMap<>();
-			resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA, result[0].toString());
-			resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA_ID, result[4].toString());
-			
-			resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA, result[1].toString());
-			resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA_ID, result[5].toString());
-			
-			resultMap.put(CensServiceConstant.COMENTARIO_CURSO, result[2].toString());
-			resultMap.put(CensServiceConstant.COMENTARIO_CURSO_ID, result[6].toString());
-			
-			resultMap.put(CensServiceConstant.COMENTARIO_CURSO_YEAR, result[3].toString());
-			
-			resultMap.put(CensServiceConstant.ESTADO_REVISION, result[7].toString());
-			
-														
-			if(result.length==11){	
-				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[8].toString());
-				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[9].toString());
-				resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_NRO, result[10].toString());
-			}
+			}			
 			return resultMap;
 		}catch(Exception e){
 				logger.error("Error ",e);
 				throw new CensException ("No se puede extraer la información de notificaci&oacute;n de comentarios");
 		}
+	}
+	
+	private Map<String,String> getProgramaResult(Query q){
+		Object[] result = (Object[]) q.getSingleResult();
+		
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA, result[0].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA_ID, result[4].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA, result[1].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA_ID, result[5].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO, result[2].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO_ID, result[6].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO_YEAR, result[3].toString());
+		
+		resultMap.put(CensServiceConstant.ESTADO_REVISION, result[7].toString());
+		
+		return resultMap;
+	}
+	
+	private Map<String,String> getMaterialResult(Query q){
+		Object[] result = (Object[]) q.getSingleResult();
+		
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA, result[0].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_PROGRAMA_ID, result[4].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA, result[1].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_ASIGNATURA_ID, result[5].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO, result[2].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO_ID, result[6].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_CURSO_YEAR, result[3].toString());
+		
+		resultMap.put(CensServiceConstant.ESTADO_REVISION, result[7].toString());
+		
+		resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL, result[8].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_ID, result[9].toString());
+		resultMap.put(CensServiceConstant.COMENTARIO_MATERIAL_NRO, result[10].toString());
+		
+		return resultMap;
 	}
 
 	@Override

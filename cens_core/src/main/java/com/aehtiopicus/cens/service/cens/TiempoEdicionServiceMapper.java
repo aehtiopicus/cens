@@ -15,9 +15,9 @@ import com.aehtiopicus.cens.domain.entities.AsignaturaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.MaterialDidacticoTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.ProgramaTiempoEdicion;
 import com.aehtiopicus.cens.domain.entities.TiempoEdicion;
+import com.aehtiopicus.cens.enumeration.cens.ComentarioType;
 import com.aehtiopicus.cens.enumeration.cens.EstadoRevisionType;
 import com.aehtiopicus.cens.enumeration.cens.PerfilTrabajadorCensType;
-import com.aehtiopicus.cens.enumeration.cens.TiempoEdicionReporteType;
 import com.aehtiopicus.cens.utils.Utils;
 
 @Component
@@ -124,7 +124,7 @@ public class TiempoEdicionServiceMapper {
 
 					if (Utils.dateDiff(new Date(), asignatura.getFechaAsignacion()) > programaInicio) {
 						tiempoEdicion = new TiempoEdicion();
-						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.ASIGNATURA);
+						tiempoEdicion.setComentarioType(ComentarioType.TE_ASIGNATURA);
 						tiempoEdicion.setFromId(asignatura.getMiembroId());
 						tiempoEdicion.setTipoId(asignatura.getAsignaturaId());
 						tiempoEdicion.setAsignaturaId(asignatura.getAsignaturaId());
@@ -164,7 +164,7 @@ public class TiempoEdicionServiceMapper {
 
 					if (Utils.dateDiff(new Date(), asignatura.getProgramaFechaUpdate()) > programaMismoEstado) {
 						tiempoEdicion = new TiempoEdicion();
-						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.PROGRAMA);
+						tiempoEdicion.setComentarioType(ComentarioType.TE_PROGRAMA);
 						tiempoEdicion.setFromId(asignatura.getMiembroId());
 						tiempoEdicion.setTipoId(asignatura.getProgramaId());
 						tiempoEdicion.setAsignaturaId(asignatura.getAsignaturaId());
@@ -200,7 +200,7 @@ public class TiempoEdicionServiceMapper {
 					if (Utils.dateDiff(new Date(), programa.getFechaCambioEstado()) > materialInicio) {
 
 						tiempoEdicion = new TiempoEdicion();
-						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.PROGRAMA);
+						tiempoEdicion.setComentarioType(ComentarioType.TE_PROGRAMA);
 						tiempoEdicion.setFromId(programa.getMiembroId());
 						tiempoEdicion.setTipoId(programa.getProgramaId());
 						tiempoEdicion.setAsignaturaId(programa.getAsignaturaId());
@@ -238,7 +238,7 @@ public class TiempoEdicionServiceMapper {
 					tiempoEdicion.setAsignaturaId(programa.getAsignaturaId());
 					tiempoEdicion.setCantidadCartillas(programa.getCartillas());
 					tiempoEdicion.setProgramaId(programa.getProgramaId());
-					tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.MATERIAL);
+					tiempoEdicion.setComentarioType(ComentarioType.TE_MATERIAL);
 
 					int cantidad = 0;
 					boolean aceptado = false;
@@ -280,7 +280,7 @@ public class TiempoEdicionServiceMapper {
 						tiempoEdicion.setFromId(programa.getMiembroId());
 						tiempoEdicion.setEstadoRevisionType(EstadoRevisionType.INEXISTENTE);
 						tiempoEdicion.setTipoId(programa.getProgramaId());
-						tiempoEdicion.setTiempoEdicionReporteType(TiempoEdicionReporteType.PROGRAMA);
+						tiempoEdicion.setComentarioType(ComentarioType.TE_PROGRAMA);
 						tiempoEdicion
 								.setFechaVencido(Utils.plusDate(fechaAceptadaUltimaCartilla, materialMismoEstado + 1));
 						
