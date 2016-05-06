@@ -178,13 +178,13 @@ public class NotificacionCensMapper {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void convertToNotificacion(
 			Map<ComentarioType, List<AbstractNotificacionFeed>> sortedActividad,
-			Map<NotificacionTypeComentarioIdKey, Map<String, String>> informationToRetrieve,NotificacionType notificacion) {
+			Map<NotificacionTypeComentarioIdKey, Map<String, String>> informationToRetrieve,NotificacionType notificacion,NotificacionType notificacionType) {
 		for(Map.Entry<ComentarioType, List<AbstractNotificacionFeed>> sortedComentario : sortedActividad.entrySet()){			
 					
 			
 			Map<NotificacionTypeComentarioIdKey,Integer> count = countRepeatedValues((Entry)sortedComentario, notificacion);
 			for(AbstractNotificacionFeed ncf : sortedComentario.getValue()){
-				NotificacionTypeComentarioIdKey ctcik = new NotificacionTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion(),NotificacionType.ACTIVIDAD,ncf.getToId());
+				NotificacionTypeComentarioIdKey ctcik = new NotificacionTypeComentarioIdKey(sortedComentario.getKey(), ncf.getTipoId(),ncf.getFechaCreacion(),notificacionType,ncf.getToId());
 				if(informationToRetrieve.containsKey(ctcik)){
 					ncf.setCantidad(count.get(ctcik));	
 					assembleMessageData(ncf, informationToRetrieve.get(ctcik));					
@@ -192,12 +192,10 @@ public class NotificacionCensMapper {
 					case ACTIVIDAD:
 						ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
 						break;					
-					case COMENTARIO:
-						ncf.getDisplayTextMap().put(CensServiceConstant.COMENTARIO, ncf.getEstadoRevisionType().toString());
-						break;
 					case TIEMPO_EDICION:
 						ncf.getDisplayTextMap().put(CensServiceConstant.TIEMPO_EDICION, ncf.getEstadoRevisionType().toString());
 						break;
+					case COMENTARIO:
 					case ACTIVIDAD_CREACION:
 					default:
 						break;

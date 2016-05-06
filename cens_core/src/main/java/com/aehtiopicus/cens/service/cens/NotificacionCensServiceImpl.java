@@ -145,7 +145,7 @@ public class NotificacionCensServiceImpl implements NotificacionCensService{
 			Map<NotificacionTypeComentarioIdKey,Map<String,String>> informationToRetrieve = notificacionCensMapper.mapNotificationSorted((Map)sortedAbstractNotificacionFeed,notificacionType);
 
 			setInformationData(informationToRetrieve);			
-			notificacionCensMapper.convertToNotificacion(sortedAbstractNotificacionFeed,informationToRetrieve,notificacionType);
+			notificacionCensMapper.convertToNotificacion(sortedAbstractNotificacionFeed,informationToRetrieve,notificacionType,notificacionType);
 			
 			data.put(notificacionType.name(), notificacionCensMapper.convertToNotificacionData((Map)sortedAbstractNotificacionFeed));
 			
