@@ -193,7 +193,7 @@ public class NotificacionCensMapper {
 						ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
 						break;					
 					case TIEMPO_EDICION:
-						ncf.getDisplayTextMap().put(CensServiceConstant.TIEMPO_EDICION, ncf.getEstadoRevisionType().toString());
+						ncf.getDisplayTextMap().put(CensServiceConstant.ESTADO_REVISION, ncf.getEstadoRevisionType().toString());
 						break;
 					case COMENTARIO:
 					case ACTIVIDAD_CREACION:

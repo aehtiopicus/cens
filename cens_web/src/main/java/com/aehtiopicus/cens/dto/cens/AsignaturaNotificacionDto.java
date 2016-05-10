@@ -5,28 +5,18 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 
-public class AsignaturaNotificacionDto {
+public class AsignaturaNotificacionDto extends AbstractNotificacionItemDto{
 
-	private String nombre;
-	private Long id;
-	
 	private Set<ProgramaNotificacionDto> programa =  null;
 	
-
-	public String getNombre() {
-		return nombre;
+	private boolean isTEAsignatura = false;
+	
+	public boolean isTEAsignatura() {
+		return isTEAsignatura;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setTEAsignatura(boolean isTEAsignatura) {
+		this.isTEAsignatura = isTEAsignatura;
 	}
 
 	public Set<ProgramaNotificacionDto> getPrograma() {
@@ -46,7 +36,7 @@ public class AsignaturaNotificacionDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((this.getId() == null) ? 0 : this.getId().hashCode());
 		return result;
 	}
 
@@ -59,10 +49,10 @@ public class AsignaturaNotificacionDto {
 		if (getClass() != obj.getClass())
 			return false;
 		AsignaturaNotificacionDto other = (AsignaturaNotificacionDto) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (this.getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!this.getId().equals(other.getId()))
 			return false;
 		return true;
 	}
@@ -70,11 +60,15 @@ public class AsignaturaNotificacionDto {
 	public int getCantidadNotificaciones() {
 		
 		int cantidad = 0;
-		for(ProgramaNotificacionDto pn: programa){
-			cantidad = cantidad +pn.getCantidadComnetarios();
-			if(CollectionUtils.isNotEmpty(pn.getMaterial())){
-				for(MaterialNotificacionDto mnDto : pn.getMaterial()){
-					cantidad = cantidad +mnDto.getCantidadComnetarios();
+		if(CollectionUtils.isEmpty(programa) && isTEAsignatura){
+			cantidad = 1;
+		}else{
+			for(ProgramaNotificacionDto pn: programa){
+				cantidad = cantidad +pn.getCantidadComnetarios();
+				if(CollectionUtils.isNotEmpty(pn.getMaterial())){
+					for(MaterialNotificacionDto mnDto : pn.getMaterial()){
+						cantidad = cantidad +mnDto.getCantidadComnetarios();
+					}
 				}
 			}
 		}

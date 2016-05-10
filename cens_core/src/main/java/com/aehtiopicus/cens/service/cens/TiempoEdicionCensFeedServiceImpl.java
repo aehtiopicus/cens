@@ -25,7 +25,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 	
 	private static final String FEEDS_EMAIL = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.comentario_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
 		+" FROM cens_tiempo_edicion_vencido as ctev  INNER JOIN "  
-		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.from_id) "
+		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.to_id) "
 		+" INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id "  
 		+" WHERE cu.username = :username "
 		+" AND ctev.cancelado = false "
@@ -33,7 +33,7 @@ public class TiempoEdicionCensFeedServiceImpl implements TiempoEdicionCensFeedSe
 	
 	private static final String FEEDS_APP = "SELECT ctev.fecha_vencido, ctev.to_id, ctev.prefil_dirigido,ctev.comentario_type, ctev.resulto, ctev.id, ctev.tipo_id, ctev.estado_revision_type " 
 		+" FROM cens_tiempo_edicion_vencido as ctev  INNER JOIN "  
-		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.from_id) "
+		+" cens_miembros_cens as  cmc ON (cmc.id = ctev.to_id) "
 		+" INNER JOIN cens_usuarios as cu ON cu.id = cmc.usuario_id "  
 		+" WHERE cu.username = :username "
 		+" AND ctev.cancelado = false ";

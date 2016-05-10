@@ -39,7 +39,7 @@ public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService 
 			+ " ca.id as cpid, ca.id as caid, cc.id as ccid, ca.asignacion_profesor_date as afechaasignacion "
 			+ " FROM cens_asignatura ca " + " INNER JOIN cens_curso cc on cc.id = ca.curso_id " + " WHERE ca.id = :id";
 	private static final String PROGRAMA_SQL = "SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
-			+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado "
+			+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado, cp.fecha_cambio_estado as fechaCambio "
 			+ "FROM cens_programa cp " + "INNER JOIN cens_asignatura ca ON cp.asignatura_id = ca.id "
 			+ "INNER JOIN cens_curso cc on cc.id = ca.curso_id " + "WHERE cp.id = :id";
 	private static final String MATERIAL_SQL = "SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso, "
