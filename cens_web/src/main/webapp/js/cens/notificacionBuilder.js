@@ -27,7 +27,7 @@ function processNotificacionData(datas,noti){
 }
 function processNotificacionReal(data){
 	var notificaciones = $('<div class="notificacion"></div>');
-	if(data.actividad || data.comentario){
+	if(data.actividad || data.comentario || data.tiempoEdicion){
 				
 		var notificacion = new Object();
 		notificacion.notificacion = true;
@@ -41,6 +41,10 @@ function processNotificacionReal(data){
 		
 		if(data.comentario){
 			notificaciones.append(cnNotificacion.comentario(data.comentario,data.perfilRol));
+		}
+		
+		if(data.tiempoEdicion){
+			notificaciones.append(cnNotificacion.tiempoEdicion(data.tiempoEdicion,data.perfilRol));
 		}
 	
 	}else{
@@ -155,6 +159,16 @@ this.comentario = function(comentario,perfil){
 	return comentarios;
 }
 
+this.tiempoEdicion = function(comentario,perfil){
+	var title = $('<h3 class="header"></h3>');	
+	title.html("Tiempo de Edici&oacute;n Vencido");
+	var comentarios = $('<div></div>');
+	comentarios.append(title);
+	
+	comentarios.append(this.crearCurso(comentario.curso,perfil,false));
+	return comentarios;
+}
+
 this.crearCurso = function(cursos,perfil,actividad){
 
 		
@@ -183,22 +197,21 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	
 	var linksPrograma = [];
 	var linksMaterial = [];
-	$.each(asiganturas.programa, function(index,p){
-		var pLink = self.crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
-		if(pLink){
-			if(typeof pLink.cantidadComnetarios !== "undefined"){
-				linksPrograma.push(pLink);
+	if(!asiganturas.isOnlyAsignatura){
+		$.each(asiganturas.programa, function(index,p){
+			var pLink = self.crearPrograma(p,curso,asiganturas,asesor,perfilId,actividad);
+			if(pLink){
+				if(typeof pLink.cantidadComnetarios !== "undefined"){
+					linksPrograma.push(pLink);
+				}
 			}
-		}
-		if(typeof p.material !== "undefined"){
-			$.each(p.material,function(index,m){
-				linksMaterial.push(self.crearMaterial(m,p,curso,asiganturas,asesor,perfilId,actividad));
-			})
-		}
-			
-		
-	})
-	
+			if(typeof p.material !== "undefined"){
+				$.each(p.material,function(index,m){
+					linksMaterial.push(self.crearMaterial(m,p,curso,asiganturas,asesor,perfilId,actividad));
+				})
+			}
+		});
+	}
 	itemAsignaturaDiv=$('<div></div>');
 	itemHr= $('<hr/>')
 	itemHr.css("width","100%");
@@ -213,6 +226,9 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	if(linksMaterial.length>0){
 		itemAsignaturaDiv.append(self.resourceItem(linksMaterial,false,actividad));
 	}
+	if(asiganturas.isOnlyAsignatura){
+		itemAsignaturaDiv.append(self.resourceItem([this.crearAsignaturaTiempoEdicion(curso,asiganturas,asesor)],false,actividad,true));
+	}
 	itemAsignaturaDiv.append(itemHr);
 
 
@@ -220,11 +236,11 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 return itemAsignaturaDiv;
 
 }
-this.resourceItem = function(linksPrograma,programa,actividad){
+this.resourceItem = function(linksPrograma,programa,actividad,asignatura){
 	var self = this;
 	itemAsignaturaProgramaDiv=$('<div></div>');
 	itemAsignaturaProgramaHeaderDiv = $('<div style="min-height: 36px;"></div>');		
-	itemAsignaturaProgramaHeaderDiv.append(this.resourceTitleCreator(programa, linksPrograma));
+	itemAsignaturaProgramaHeaderDiv.append(this.resourceTitleCreator(programa, linksPrograma,asignatura));
 	
 	var randomBubbleId = randomId();
 	var bubble = $("<h3>?</h3>");
@@ -240,6 +256,9 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 	
 	
 	var resourceType = programa ? "Programa: " : "Material: ";
+	if(asignatura){
+		resourceType = "Asignatura: ";
+	}
 	
 	$.each(linksPrograma,function(index,link){
 		itemProgramaLi = $('<li></li>');
@@ -252,13 +271,18 @@ this.resourceItem = function(linksPrograma,programa,actividad){
 		
 		if(link.seguimiento){
 			var dias = link.diasNotificado > 1 ? "d&iacute;as" : "d&iactue;a";
-			itemNotificado = $('<span style="color:red;"></span>')
+			var itemNotificado = $('<span style="color:red;"></span>')
 			itemNotificado.html(link.fechaNotificado+" ("+link.diasNotificado+" "+dias+" sin ser visto)");
 			itemProgramaName.html("Fecha de Notificaci&oacute;n: ");
 			itemProgramaName.append(itemNotificado);		
 			
-		}else{
+		}else if(!link.tiempoEdicion){
 			itemProgramaName.html("Fecha: "+link.fechaCreado+" Nro: "+link.cantidadComnetarios+ estado);
+		}else{
+			var itemNotificado = $('<span style="color:red;"></span>')
+			itemNotificado.html(link.estadoTiempoEdicionFecha+" Estado: "+ link.estadoTiempoEdicion);
+			itemProgramaName.html("&Uacute;ltima Fecha de Cambio de Estado: ");
+			itemProgramaName.append(itemNotificado);
 		}
 		itemPrograma.append(itemProgramaName);
 		
@@ -376,7 +400,7 @@ this.visualizarItemCreator = function(programa,linksPrograma){
 }
 
 
-this.resourceTitleCreator = function(programa,linksPrograma){
+this.resourceTitleCreator = function(programa,linksPrograma,asignatura){
 	
 	var itemAsignaturaProrgamaTitle = $('<h3></h3>');
 	itemAsignaturaProrgamaTitle.addClass("subtitulo");
@@ -384,6 +408,9 @@ this.resourceTitleCreator = function(programa,linksPrograma){
 	itemAsignaturaProrgamaTitle.addClass((programa ? 'programa' : 'material'));
 	itemAsignaturaProrgamaTitle.css("display","inline-block");
 	var resourceType = programa ? "Programa: " : "Material: ";
+	if(asignatura){
+		resourceType= "Asignatura: ";
+	}
 	itemAsignaturaProrgamaTitle.html(resourceType + linksPrograma[0].nombre.toUpperCase());
 	
 
@@ -403,6 +430,11 @@ this.crearPrograma = function(programa,curso,asignatura,asesor,perfilId,activida
 			p.diasNotificado = programa.diasNotificado;
 			p.seguimiento = true;
 		}
+		if(programa.isTiempoEdicion){
+			p.estadoTiempoEdicion = programa.estadoRevision;
+			p.estadoTiempoEdicionFecha = programa.fechaCreado;
+			p.tiempoEdicion = true;
+		}
 		if(actividad){
 			p.actividad=programa.estadoRevision;
 		}
@@ -413,6 +445,28 @@ this.crearPrograma = function(programa,curso,asignatura,asesor,perfilId,activida
 			if(programa.estadoRevision === "NUEVO" || programa.estadoRevision ==="LISTO" || programa.estadoRevision ==="CAMBIOS" || programa.estadoRevision ==="RECHAZADO"){
 				p.url = p.url+"&disabled=true";
 			}
+		}
+		return p;
+	}
+	return null;
+}
+
+this.crearAsignaturaTiempoEdicion = function(curso,asignatura,asesor){
+	if(typeof asignatura.fechaCreado !== "undefined"){
+		var p = {};
+		p.fechaCreado = asignatura.fechaCreado;
+		p.cantidadComnetarios = asignatura.cantidadComnetarios;
+		p.nombre = asignatura.nombre;
+		p.programaId = asignatura.id;
+
+		p.estadoTiempoEdicion = asignatura.estadoRevision;
+		p.estadoTiempoEdicionFecha = asignatura.fechaCreado;
+		p.tiempoEdicion = true;
+		
+		if(!asesor){			
+			p.url = pagePath+"/mvc/profesor/asignaturaList";			
+		}else{
+			p.url = pagePath+"/mvc/asesor/dashboard";
 		}
 		return p;
 	}
@@ -432,6 +486,11 @@ this.crearMaterial = function(material,programa,curso,asignatura,asesor,perfilId
 		p.fechaNotificado= material.fechaNotificado;
 		p.diasNotificado = material.diasNotificado;
 		p.seguimiento = true;
+	}
+	if(programa.isTiempoEdicion){
+		p.estadoTiempoEdicion = material.estadoRevision;
+		p.estadoTiempoEdicionFecha = material.fechaCreado;		
+		p.tiempoEdicion = true;
 	}
 	if(actividad){
 		p.actividad=material.estadoRevision;

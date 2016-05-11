@@ -8,6 +8,7 @@ public class CursoNotificacionDto {
 	private String nombre;
 	private Long id;
 	private Set<AsignaturaNotificacionDto> asignatura =  null;
+	private boolean isTiempoEdicion = false;
 	
 	public String getNombre() {
 		return nombre;
@@ -61,6 +62,15 @@ public class CursoNotificacionDto {
 		
 		return cantidad;
 		
+	}
+	public boolean isTiempoEdicion() {
+		return isTiempoEdicion;
+	}
+	public void setTiempoEdicion(boolean isTiempoEdicion) {
+		this.isTiempoEdicion = isTiempoEdicion;
+		for(AsignaturaNotificacionDto anDto : asignatura){
+			anDto.setTiempoEdicion(true);			
+		}
 	}
 	
 	

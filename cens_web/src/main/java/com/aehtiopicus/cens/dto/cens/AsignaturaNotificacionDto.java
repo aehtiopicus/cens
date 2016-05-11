@@ -9,16 +9,6 @@ public class AsignaturaNotificacionDto extends AbstractNotificacionItemDto{
 
 	private Set<ProgramaNotificacionDto> programa =  null;
 	
-	private boolean isTEAsignatura = false;
-	
-	public boolean isTEAsignatura() {
-		return isTEAsignatura;
-	}
-
-	public void setTEAsignatura(boolean isTEAsignatura) {
-		this.isTEAsignatura = isTEAsignatura;
-	}
-
 	public Set<ProgramaNotificacionDto> getPrograma() {
 		if(programa == null){
 			programa = new HashSet<>();
@@ -29,8 +19,17 @@ public class AsignaturaNotificacionDto extends AbstractNotificacionItemDto{
 	public void setPrograma(Set<ProgramaNotificacionDto> programa) {
 		this.programa = programa;
 	}
+	
+	private boolean isOnlyAsignatura = false;
 
 
+	public boolean isOnlyAsignatura() {
+		return isOnlyAsignatura;
+	}
+
+	public void setOnlyAsignatura(boolean isOnlyAsignatura) {
+		this.isOnlyAsignatura = isOnlyAsignatura;
+	}
 
 	@Override
 	public int hashCode() {
@@ -60,9 +59,7 @@ public class AsignaturaNotificacionDto extends AbstractNotificacionItemDto{
 	public int getCantidadNotificaciones() {
 		
 		int cantidad = 0;
-		if(CollectionUtils.isEmpty(programa) && isTEAsignatura){
-			cantidad = 1;
-		}else{
+		if(!isOnlyAsignatura){
 			for(ProgramaNotificacionDto pn: programa){
 				cantidad = cantidad +pn.getCantidadComnetarios();
 				if(CollectionUtils.isNotEmpty(pn.getMaterial())){
@@ -71,8 +68,23 @@ public class AsignaturaNotificacionDto extends AbstractNotificacionItemDto{
 					}
 				}
 			}
+		}else{
+			cantidad ++;
 		}
 		return cantidad;
+	}
+
+	@Override
+	public void setTiempoEdicion(boolean isTiempoEdicion) {
+		super.setTiempoEdicion(isTiempoEdicion);
+		if(!CollectionUtils.isEmpty(programa)){
+			for(ProgramaNotificacionDto pnDto: programa){
+				pnDto.setTiempoEdicion(isTiempoEdicion);
+			}
+		}else{
+			this.setCantidadComnetarios(1);
+			this.setOnlyAsignatura(true);
+		}
 	}
 	
 	

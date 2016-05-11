@@ -57,6 +57,9 @@ public class NotificacionCensControllerMapper {
 							(Map) notificacionesForUser.getData().get(NotificacionType.TIEMPO_EDICION.name()));
 
 					if (CollectionUtils.isNotEmpty(cnDtoSet)) {
+						for(CursoNotificacionDto cnDto : cnDtoSet){
+							cnDto.setTiempoEdicion(true);	
+						}
 						GeneralNotificacionDto teDto = new GeneralNotificacionDto();
 						teDto.setCurso(cnDtoSet);
 						nDto.setTiempoEdicion(teDto);
@@ -102,8 +105,7 @@ public class NotificacionCensControllerMapper {
 
 					aDto = new AsignaturaNotificacionDto();
 					aDto.setId(Long.valueOf(comentarioData.get(CensServiceConstant.COMENTARIO_ASIGNATURA_ID)));
-					aDto.setNombre(comentarioData.get(CensServiceConstant.COMENTARIO_ASIGNATURA));
-					aDto.setTEAsignatura(comentarioListDataMap.getKey().equals(ComentarioType.TE_ASIGNATURA));
+					aDto.setNombre(comentarioData.get(CensServiceConstant.COMENTARIO_ASIGNATURA));					
 
 					if (!cnDto.getAsignatura().contains(aDto)) {
 						cnDto.getAsignatura().add(aDto);

@@ -17,6 +17,8 @@ public abstract class AbstractNotificacionItemDto {
 	private Integer diasNotificado;
 	
 	private String estadoRevision;
+	
+	private boolean isTiempoEdicion = false;
 
 	public String getNombre() {
 		return nombre;
@@ -138,9 +140,14 @@ public abstract class AbstractNotificacionItemDto {
 		return true;
 	}
 
+	public boolean isTiempoEdicion() {
+		return isTiempoEdicion;
+	}
 
+	public void setTiempoEdicion(boolean isTiempoEdicion) {
+		this.isTiempoEdicion = isTiempoEdicion;
+	}
 
-	
 
 
 }
