@@ -139,6 +139,11 @@ textarea, select, button, input:HOVER, input {
 	border-radius: 0px !important;
 }
 
+ul.menu li a{
+	border : initial !important;
+	margin : initial !important;
+}
+
 .ui-menu .ui-menu {
 	overflow: visible !important;
 	border-radius: 0px !important;
