@@ -145,6 +145,74 @@
                                                         	</td>
                                                     	</tr>
                                                     #end
+                                                    #if ( $TIEMPO_EDICION)
+                                                        <tr>                                                    
+                                                            <td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;">
+                                                                Tiempo de edici&oacute;n de documentos vencidos: 
+                                                                    <table>
+                                                                        <tbody>
+                                                                            #foreach( $key in $TIEMPO_EDICION.keySet() )    
+                                                                                
+                                                                                 #if ($key == 'TE_ASIGNATURA')
+                                                                                    <tr>
+                                                                                        <td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+                                                                                            Asignatura sin Programa:
+                                                                                            <table>
+                                                                                                <tbody>                                                                                                 
+                                                                                                    #foreach( $programa in $TIEMPO_EDICION.get($key) )                                                  
+                                                                                                    <tr>
+                                                                                                    <ul>
+                                                                                                        <li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/>Fecha de &uacute;ltima actualizaci&oacute;n: <span style="color: red;">$programa.FechaCambioEstado</span>,<br/>Estado : <span style="color: red;">$programa.EstadoRevision</span></td></li>
+                                                                                                    </ul>
+                                                                                                    </tr>                                                                                                   
+                                                                                                    #end                                                                                                    
+                                                                                                </tbody>                                                                                            
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                #end                                                            
+                                                                                #if ($key == 'TE_PROGRAMA')
+                                                                                    <tr>
+                                                                                        <td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+                                                                                            Programas:
+                                                                                            <table>
+                                                                                                <tbody>                                                                                                 
+                                                                                                    #foreach( $programa in $TIEMPO_EDICION.get($key) )                                                  
+                                                                                                    <tr>
+                                                                                                    <ul>
+                                                                                                        <li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$programa.Curso ($programa.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$programa.Asignatura</span>, <br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$programa.Programa</span>,<br/>Fecha de &uacute;ltima actualizaci&oacute;n: <span style="color: red;">$programa.FechaCambioEstado</span>,<br/>Estado : <span style="color: red;">$programa.EstadoRevision</span></td></li>
+                                                                                                    </ul>
+                                                                                                    </tr>                                                                                                   
+                                                                                                    #end                                                                                                    
+                                                                                                </tbody>                                                                                            
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                #end
+                                                                                #if ($key == 'TE_MATERIAL')
+                                                                                    <tr>
+                                                                                        <td style="color: rgb(0, 85, 119);font-family: 'Helvetica Narrow', sans-serif;font-size: 13px;">
+                                                                                            Materi&aacute;l Did&aacute;ctico:
+                                                                                            <table>
+                                                                                                <tbody>                                                                                                 
+                                                                                                    #foreach( $material in $TIEMPO_EDICION.get($key) )                                                  
+                                                                                                    <tr>
+                                                                                                    <ul>
+                                                                                                        <li><td style="font-family: Arial,Helvetica,sans-serif;font-size: 11px;color: #727274;">Curso: <span style="font-weight: 600; text-transform: uppercase;">$material.Curso ($material.Year)</span>,<br/>Asignatura: <span style="font-weight: 600; text-transform: uppercase;">$material.Asignatura</span>,<br/> Programa: <span style="font-weight: 600; text-transform: uppercase;">$material.Programa</span>,<br/> Cartilla: <span style="font-weight: 600; text-transform: uppercase;">$material.Material</span>,<br/> Fecha de &uacute;ltima actualizaci&oacute;n: <span style="color: red;">$material.FechaCambioEstado</span>,<br/>Estado : <span style="color: red;">$programa.EstadoRevision</span></td></li>
+                                                                                                    </ul>
+                                                                                                    </tr>                                                                                                   
+                                                                                                    #end                                                                                                    
+                                                                                                </tbody>                                                                                            
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                #end
+                                                                            #end
+                                                                        </tbody>
+                                                                    </table>
+                                                            </td>
+                                                        </tr>
+                                                    #end
 													
                                                     <tr>
                                                     	<td style="font-size:5px">&nbsp;</td>

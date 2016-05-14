@@ -36,7 +36,7 @@ import com.aehtiopicus.cens.utils.CensException;
 public class ComentarioCensFeedServiceImpl implements ComentarioCensFeedService {
 
 	private static final String ASIGNATURA_SQL = "SELECT ca.nombre as anombre, cc.nombre as ccnombre, cc.yearcurso,"
-			+ " ca.id as cpid, ca.id as caid, cc.id as ccid, ca.asignacion_profesor_date as afechaasignacion "
+			+ " ca.id as cpid, cc.id as ccid, ca.asignacion_profesor_date as afechaasignacion "
 			+ " FROM cens_asignatura ca " + " INNER JOIN cens_curso cc on cc.id = ca.curso_id " + " WHERE ca.id = :id";
 	private static final String PROGRAMA_SQL = "SELECT cp.nombre as pnombre, ca.nombre as canombre, cc.nombre as ccnombre, cc.yearcurso,  "
 			+ "cp.id as cpid, ca.id as caid, cc.id as ccid, cp.estadorevisiontype as cpestado, cp.fecha_cambio_estado as fechaCambio "
