@@ -60,7 +60,7 @@ public class Programa implements Serializable{
 	private List <MaterialDidactico> materialDidactico;
 	
 	@Embedded
-	private DocumentoModificado documentoModificado;
+	private DocumentoModificado documentoModificado = new DocumentoModificado();
 	
 
 	public Long getId() {
