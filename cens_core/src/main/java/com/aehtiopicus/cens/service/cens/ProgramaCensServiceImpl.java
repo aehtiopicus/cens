@@ -122,6 +122,9 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 		if(p == null){
 			programa.getDocumentoModificado().setFechaCambioEstado(new Date());
 			programa.getDocumentoModificado().setNotificado(false);
+		}else{
+			programa.getDocumentoModificado().setFechaCambioEstado(p.getDocumentoModificado().getFechaCambioEstado());
+			programa.getDocumentoModificado().setNotificado(p.getDocumentoModificado().getNotificado());
 		}
 		return programa;
 	}
@@ -195,10 +198,10 @@ public class ProgramaCensServiceImpl implements ProgramaCensService {
 			em.createNativeQuery("delete from cens_programa as cp  " + "where cp.id = :cpID ")
 					.setParameter("cpID", p.getId()).executeUpdate();
 			
-			em.createNativeQuery("delete from cens_tiempo_edicion_vencido as ctev WHERE ctev.tipo_id.id = :cpID OR ctev.programa_id = :cpID")
+			em.createNativeQuery("delete from cens_tiempo_edicion_vencido as ctev WHERE ctev.tipo_id = :cpID OR ctev.programa_id = :cpID")
 					.setParameter("cpID", p.getId()).executeUpdate();
 			
-			em.createNativeQuery("delete from cens_tiempo_edicion_vencido as ctev WHERE ctev.tipo_id.id = :cpID OR ctev.asignatura_id = :cpID")
+			em.createNativeQuery("delete from cens_tiempo_edicion_vencido as ctev WHERE ctev.tipo_id = :cpID OR ctev.asignatura_id = :cpID")
 			.setParameter("cpID", p.getAsignatura().getId()).executeUpdate();
 
 		} catch (Exception e) {

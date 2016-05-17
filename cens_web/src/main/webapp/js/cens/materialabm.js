@@ -1,5 +1,5 @@
 var asignaturaMaterial={
-	 estadoMap :{"LISTO":true,"NUEVO":true,"ASIGNADO":false,"RECHAZADO":false,"APROBADO":false,"CAMBIOS":false} 	
+	 estadoMap :{"LISTO":true,"NUEVO":true,"ASIGNADO":false,"RECHAZADO":true,"APROBADO":false,"CAMBIOS":true} 	
 };
 jQuery(document).ready(function () {
 	if(!isNaN(pageId())){

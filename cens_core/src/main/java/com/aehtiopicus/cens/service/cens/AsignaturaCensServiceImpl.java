@@ -218,7 +218,8 @@ public class AsignaturaCensServiceImpl implements AsignaturaCensService{
 		try{
 			asignaturaCensRepository.delete(asignaturaID);
 		}catch(Exception e){
-			throw new CensException("Error borrando Asignatura. Es posible que este en uso");
+			deleteAsignaturaForced(asignaturaID);
+			logger.error("Error borrando Asignatura. Es posible que este en uso");
 		}
 		
 	}

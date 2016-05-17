@@ -165,6 +165,9 @@ public class MaterialDidacticoCensServiceImpl implements MaterialDidacticoCensSe
 		if(md == null){
 			materialDidactico.getDocumentoModificado().setFechaCambioEstado(new Date());
 			materialDidactico.getDocumentoModificado().setNotificado(false);
+		}else{
+			materialDidactico.getDocumentoModificado().setFechaCambioEstado(md.getDocumentoModificado().getFechaCambioEstado());
+			materialDidactico.getDocumentoModificado().setNotificado(md.getDocumentoModificado().getNotificado());
 		}
 		return materialDidactico;
 	}

@@ -11,9 +11,9 @@ $.jgrid = $.jgrid || {};
 $.extend($.jgrid,{
 	defaults : {
 		recordtext: "View {0} - {1} of {2}",
-		emptyrecords: "No records to view",
-		loadtext: "Loading...",
-		pgtext : "Page {0} of {1}"
+		emptyrecords: "Sin registros que mostrar",
+		loadtext: "Cargando...",
+		pgtext : "P&aacute;gina {0} de {1}"
 	},
 	search : {
 		caption: "Search...",
@@ -82,7 +82,7 @@ $.extend($.jgrid,{
 	errors : {
 		errcap : "Error",
 		nourl : "No url is set",
-		norecords: "No records to process",
+		norecords: "Sin registros que procesar",
 		model : "Length of colNames <> colModel!"
 	},
 	formatter : {

@@ -20,6 +20,8 @@ public class MiembroCensMapper {
 	public MiembroCensDto convertMiembroCensToDto(MiembroCens miembroCens){
 		MiembroCensDto mcDto = Utils.getMapper().map(miembroCens, MiembroCensDto.class);
 		if(miembroCens.getUsuario().getFileInfo()!=null){
+
+			mcDto.getUsuario().setPassword(null);
 			mcDto.getUsuario().setAvatarImg(miembroCens.getUsuario().getFileInfo().getRealFileName());
 		}
 		return mcDto;
@@ -36,6 +38,7 @@ public class MiembroCensMapper {
 		List<MiembroCensDto> miembroCensDtoList = new ArrayList<>();
 		if(CollectionUtils.isNotEmpty(miembroCensList))
 		for(MiembroCens mc : miembroCensList){
+			mc.getUsuario().setPassword(null);
 			miembroCensDtoList.add(convertMiembroCensToDto(mc));
 		}
 		return miembroCensDtoList;
