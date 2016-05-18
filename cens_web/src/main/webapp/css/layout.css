@@ -1830,3 +1830,56 @@ Responsive events capture
 	width : 100px;
 	margin-right : 10px;
 }
+
+.bubble{
+	top: initial;
+    left: initial;
+    display: inline-block;
+    position: relative;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    box-shadow: rgba(0, 0, 0, 0.168627) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+    color: white !important;
+    font-size: 9px !important;
+    font-weight: bold;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0px;
+    transition-delay: 0s;
+    transition-duration: 0.1s;
+    transition-property: all;
+    transition-timing-function: ease;
+    width: 18px;
+    font-family: initial;
+    cursor: pointer;
+
+}
+
+.bubble.inexistente{
+	background-color: rgb(6, 6, 6);
+}
+.bubble.listo{
+	background-color:rgb(37, 60, 152);
+}
+.bubble.nuevo{
+	background-color:rgb(76, 131, 33);
+}
+.bubble.aprobado{
+	background-color: rgb(0, 72, 155);
+}
+.bubble.asignado{
+	background-color: rgb(194, 167, 32);
+}
+.bubble.rechazado{
+	background-color:rgb(232, 36, 73);
+}	
+.bubble.cambios{
+	background-color:rgb(76, 131, 33);
+}

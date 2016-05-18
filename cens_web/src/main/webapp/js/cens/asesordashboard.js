@@ -292,7 +292,7 @@ function datosMaterial(value,asignatura){
 				if(estadoRevision(md)){
 					itemCartillaNumeroLink = $('<a></a>');
 					itemMaterialInterno = $('<span></span>');
-					itemMaterialInterno.addClass("estadoMaterial");
+					itemMaterialInterno.addClass("estadoMaterial bubble");
 					itemMaterialInterno.html(md.nro+" ");
 					itemMaterialInterno.addClass(md.estadoRevisionType.toLowerCase());
 					

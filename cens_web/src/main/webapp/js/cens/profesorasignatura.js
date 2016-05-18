@@ -87,7 +87,7 @@ function datosMaterial(value,asignatura){
 			for (i = 0; i < asignatura.programa.cantCartillas; i++) {
 				itemCartillaNumeroLink = $('<a></a>')			
 				itemCartillaNumero=$('<span></span>');
-				itemCartillaNumero.addClass("estadoMaterial");
+				itemCartillaNumero.addClass("estadoMaterial bubble");
 				itemCartillaNumero.html(i+1+" ");
 				used=false;
 				$.each(asignatura.programa.materialDidactico,function(index,mdValue){
