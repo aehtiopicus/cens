@@ -224,7 +224,9 @@ this.crearAsignatura = function(curso,asiganturas,asesor,perfilId,actividad){
 	}
 	
 	if(linksMaterial.length>0){
-		itemAsignaturaDiv.append(self.resourceItem(linksMaterial,false,actividad));
+		for(var aa = 0 ; aa < linksMaterial.length; aa++){
+			itemAsignaturaDiv.append(self.resourceItem([linksMaterial[aa]],false,actividad));
+		}
 	}
 	if(asiganturas.isOnlyAsignatura){
 		itemAsignaturaDiv.append(self.resourceItem([this.crearAsignaturaTiempoEdicion(curso,asiganturas,asesor)],false,actividad,true));

@@ -1074,6 +1074,7 @@ archivos .progress-label {
 	font-weight: 800;
 	text-align: justify;
 	display: inline-block;
+	margin-right: 2px;
 }
 
 .estadoMaterial.nuevo {
